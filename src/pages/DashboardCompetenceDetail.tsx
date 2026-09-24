@@ -75,8 +75,10 @@ export default function DashboardCompetenceDetail() {
         tone="flat"
         trailing={
           /* Aller voir ailleurs, comme « Voir tout » : `ghost` (arbitrage
-             n°19). L'aplat de l'écran est « Continuer ma progression ». */
-          <Button emphasis="ghost" size="md" leadingIcon={<Target size={16} />}>
+             n°19). L'aplat de l'écran est « Continuer ma progression ».
+             Posé sous le titre, il se cale sur son bord : `-ml-stack-md`
+             rattrape le padding d'une boîte qu'il n'affiche plus. */
+          <Button emphasis="ghost" size="md" leadingIcon={<Target size={16} />} className="-ml-stack-md">
             Voir le passeport complet
           </Button>
         }

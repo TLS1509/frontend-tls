@@ -179,12 +179,16 @@ export const Positionnement: React.FC = () => {
             {/* « Commencer le parcours » est l'aplat de l'écran (arbitrage
                 n°19). « Refaire » efface les réponses : un `ghost` neutre,
                 comme « Réinitialiser » — il était en `outline`, réservé à
-                Annuler dans une paire. */}
+                Annuler dans une paire. Côte à côte (dès 640 px), le ghost
+                ouvre la rangée et se cale sur le bord du texte
+                (`sm:-ml-stack-md`) ; empilés, les deux boutons prennent la
+                largeur. */}
             <div className="flex flex-col-reverse sm:flex-row gap-stack sm:justify-between">
               <Button
                 emphasis="ghost"
                 tone="neutral"
                 size="md"
+                className="sm:-ml-stack-md"
                 onClick={() => {
                   setCurrentIndex(0);
                   setIsFinished(false);
@@ -271,11 +275,13 @@ export const Positionnement: React.FC = () => {
                 raison dessous : côte à côte, « Compétence suivante » sortait de
                 l'écran de 30 px à 375. Avancer est l'aplat de l'écran,
                 « Précédent » un `ghost` neutre, comme dans les lecteurs
-                (arbitrage n°19) : les deux étaient en `soft`, de deux tons. */}
+                (arbitrage n°19) : les deux étaient en `soft`, de deux tons.
+                Côte à côte, il se cale sur le bord du texte (`sm:-ml-stack-md`). */}
             <div className="mt-stack-xs flex flex-col-reverse gap-stack-sm sm:flex-row sm:items-start sm:justify-between">
               <Button
                 emphasis="ghost" tone="neutral"
                 size="md"
+                className="sm:-ml-stack-md"
                 leadingIcon={<ArrowLeft size={14} />}
                 onClick={handlePrev}
                 disabled={isFirst}

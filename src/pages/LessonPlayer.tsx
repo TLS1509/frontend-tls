@@ -1482,14 +1482,16 @@ export const LessonPlayer: React.FC = () => {
               {/* Prev / Next — un pas à pas DANS la section : il laisse l'aplat
                   à l'écran, la flèche « Section suivante » (arbitrage n°19,
                   comme la confirmation dépliée d'AIOverrideButton). « Suivant »
-                  en `soft`, « Précédent » en `ghost` neutre. Les deux étaient
-                  faits main : un aplat primary-700 que la sonde ne voyait pas,
-                  et un filet ink-200 à 1,2:1. */}
+                  en `soft`, « Précédent » en `ghost` neutre, calé sur le bord
+                  de « Étape n / N » (`-ml-stack` rattrape son padding). Les
+                  deux étaient faits main : un aplat primary-700 que la sonde
+                  ne voyait pas, et un filet ink-200 à 1,2:1. */}
               <div className="flex items-center justify-between px-stack py-3 border-t border-ink-100">
                 <Button
                   emphasis="ghost"
                   tone="neutral"
                   size="sm"
+                  className="-ml-stack"
                   leadingIcon={<ChevronLeft />}
                   onClick={() => setDecouvrirStep((s) => Math.max(0, s - 1))}
                   disabled={decouvrirStep === 0}
