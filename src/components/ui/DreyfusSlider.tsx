@@ -185,9 +185,18 @@ export const DreyfusSlider: React.FC<DreyfusSliderProps> = ({
         </div>
       </div>
 
-      {/* Labels under each tick */}
+      {/* Labels under each tick.
+          Sous 24rem de rangée, les mots cèdent la place à leur code D1…D5
+          (2026-09-24) : à 375 px, la colonne d'un niveau fait 54 px (34 dans
+          la vitrine) et « Compétent » en demande 65 — « Apprenant » et
+          « Compétent » se chevauchaient de 11 px. Le code est l'abréviation
+          que l'app emploie partout (« Niveau D4 »), et la ligne de
+          description, sous le curseur, redonne le nom du niveau choisi. Le
+          mot reste lu par les lecteurs d'écran dans les deux cas.
+          La rangée est le conteneur mesuré (deux boîtes : les libellés
+          répondent à SA largeur, doctrine « Requêtes de conteneur »). */}
       {showLabels && (
-        <div className="flex justify-between px-3">
+        <div className="@container flex justify-between px-3">
           {levels.map((lv) => {
             const isActive = isSet && current === lv.v;
             return (
@@ -204,7 +213,14 @@ export const DreyfusSlider: React.FC<DreyfusSliderProps> = ({
                 {lv.icon && <span aria-hidden="true" className="inline-flex items-center justify-center">{lv.icon}</span>}
                 {/* 13 px à toutes les largeurs : le `micro` (11) de l'écran étroit
                     est le pas des étiquettes en capitales, pas d'un libellé. */}
-                <span className="text-caption font-semibold break-words">{lv.label}</span>
+                {/* Le mot, toujours lu ; les deux formes visibles, masquées aux
+                    lecteurs d'écran. Pas de `sr-only @sm:not-sr-only` : le
+                    `.sr-only` hors couche d'index.css bat `not-sr-only`. */}
+                <span className="text-caption font-semibold break-words">
+                  <span className="sr-only">{lv.label}</span>
+                  <span aria-hidden="true" className="@sm:hidden">D{lv.v}</span>
+                  <span aria-hidden="true" className="hidden @sm:inline">{lv.label}</span>
+                </span>
               </div>
             );
           })}
