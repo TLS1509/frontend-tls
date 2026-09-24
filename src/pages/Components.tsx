@@ -4909,7 +4909,9 @@ const COMPONENTS: ComponentEntry[] = [
             <article className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-600 h-[280px]">
               <div className="absolute inset-0 flex items-center justify-center opacity-90"><FolderOpen size={84} strokeWidth={1} className="text-white" /></div>
               {/* Gradient overlay bottom for readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+              {/* Voile ink-950, pas un noir hors palette (arbitrage n°17), et assez dense
+                  sous le texte : à black/30, la méta blanche tombait à 3,64:1 à 375 px. */}
+              <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-950/70 to-transparent" />
               <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
               <div className="absolute inset-x-0 bottom-0 p-stack-md text-white flex flex-col gap-tight">
                 <span className="font-body text-caption font-semibold text-white">{item.category} · {item.publishedAt}</span>
