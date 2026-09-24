@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Map, Sparkles, CheckCircle2, Circle, Clock, Target, ChevronRight } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
@@ -7,6 +7,9 @@ import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
 import { StatCard } from '../components/ui/StatCard';
 import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
+import { AIOverrideButton } from '../components/ui/AIOverrideButton';
+import { usePrivacyStore } from '../stores/persistence';
+import { MOCK_USER_ID } from '../data/passeport';
 import { PageShell } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
@@ -102,7 +105,9 @@ const AI_SUGGESTIONS: AISuggestion[] = [
     conseil: 'Consolide ton analyse avant de viser le D4',
     competence: 'Analyse',
     detail:
-      'Tu es à 62 % du jalon Analyse D3. Deux exercices supplémentaires cette semaine suffiraient pour déclencher la validation.',
+      // La validation d'un jalon est une décision humaine (coach ou manager) :
+      // aucune quantité d'exercices ne la « déclenche ».
+      'Tu es à 62 % du jalon Analyse D3. Deux exercices de plus cette semaine te donneraient de quoi présenter ce jalon à ton coach, qui décide de sa validation.',
   },
   {
     id: 's2',
@@ -155,6 +160,26 @@ const JALON_BADGE_LABEL: Record<JalonStatus, string> = {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function PasseportRoadmap() {
+  // Rejet d'une suggestion IA (PRODUCT.md : chaque recommandation d'IA se
+  // rejette). Même motif que la fiche apprenant du coach : on masque la
+  // suggestion et on trace la décision humaine dans le journal IA persisté.
+  const [dismissed, setDismissed] = useState<Set<string>>(new Set());
+  const logAIDecision = usePrivacyStore((st) => st.logAIDecision);
+  const ignorer = (s: AISuggestion, reason?: string) => {
+    setDismissed((prev) => new Set([...prev, s.id]));
+    logAIDecision({
+      id: `aidec-${s.id}-${Date.now()}`,
+      userId: MOCK_USER_ID,
+      actorId: MOCK_USER_ID,
+      type: 'ai_override',
+      recId: s.id,
+      recLabel: s.conseil,
+      reason,
+      timestamp: new Date().toISOString(),
+    });
+  };
+  const suggestions = AI_SUGGESTIONS.filter((s) => !dismissed.has(s.id));
+
   return (
     <PageShell width="wide" noPadTop={false}>
       {/* Hero */}
@@ -265,14 +290,20 @@ export default function PasseportRoadmap() {
           headerAction={<AITransparencyLabel variant="recommended" size="sm" />}
         >
           <div className="flex flex-col gap-stack">
-            {AI_SUGGESTIONS.map((s) => (
+            {suggestions.length === 0 && (
+              <p className="m-0 text-body-sm text-ink-500">
+                Tu as ignoré toutes les suggestions de cette page.
+              </p>
+            )}
+            {suggestions.map((s) => (
               <Card key={s.id} variant="tinted" tone="primary" className="p-stack-md flex flex-col gap-tight">
                 <div className="flex items-start justify-between gap-stack-xs flex-wrap">
                   <p className="m-0 font-semibold text-body-sm text-ink-900 flex-1">{s.conseil}</p>
                   <Badge variant="brand" size="compact">{s.competence}</Badge>
                 </div>
                 <p className="m-0 text-body-sm text-ink-500">{s.detail}</p>
-                <div className="flex justify-end">
+                <div className="flex justify-end gap-stack-xs flex-wrap">
+                  <AIOverrideButton label="Ignorer" onOverride={(reason) => ignorer(s, reason)} size="sm" />
                   <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}>
                     Explorer
                   </Button>
