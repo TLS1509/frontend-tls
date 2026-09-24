@@ -120,6 +120,9 @@ import { JournalChatCompose } from '../components/ui/JournalChatCompose';
 import { StructuredQuestionAccordion } from '../components/ui/StructuredQuestionAccordion';
 import { WritingPromptsAside } from '../components/patterns/WritingPromptsAside';
 import { JournalBubbleCard } from '../components/cards/JournalBubbleCard';
+import { NotificationCard } from '../components/cards/NotificationCard';
+import { ActionCardGrid } from '../components/patterns/ActionCardGrid';
+import { StepCard } from '../components/learning/StepCard';
 import type { JournalBubbleType } from '../components/cards/JournalBubbleCard';
 import { RankingCard } from '../components/learning/RankingCard';
 import { TlsLogo, TlsLogoLockup } from '../components/ui/TlsLogo';
@@ -3168,6 +3171,25 @@ const COMPONENTS: ComponentEntry[] = [
     ),
   },
   {
+    // Fiche ajoutée le 2026-09-24 : le composant était classé au registre sans fiche.
+    name: 'ActionCardGrid',
+    codeName: 'patterns/ActionCardGrid.tsx',
+    showcaseOnly: true,
+    description: "Grille de tuiles d'action centrées : pastille IconChip lg (48 px, brand), titre h3 20, description 16 ink-700 équilibrée (`text-balance`), flèche de 16 en haut à droite. Tuile blanche au filet ink-200, rayon 14, padding 24 ; au survol, le filet fonce et le fond se teinte (CARD_HOVER), la pastille grossit de 10 % — pas en mouvement réduit — et la flèche avance. Chaque tuile est un `div role=\"button\"` qu'Entrée et Espace activent. Dispositions `2-col` · `3-col` (défaut) · `4-col` · `auto-fit` (220 px au moins) ; écarts sm 8 · md 16 · lg 24 ; `onItemClick`. Aucun appel produit.",
+    keywords: ['action', 'grid', 'grille', 'tuiles', 'tiles', 'raccourcis', 'IconChip', 'centré'],
+    render: () => (
+      <ActionCardGrid
+        layout="3-col"
+        items={[
+          { id: 'parcours', icon: <MapIcon />, title: 'Reprendre un parcours', description: 'Là où tu t’étais arrêté.' },
+          { id: 'journal', icon: <PenLine />, title: 'Écrire au journal', description: 'Une pensée, une question.' },
+          { id: 'coaching', icon: <GraduationCap />, title: 'Réserver un coach', description: 'Un créneau cette semaine.' },
+        ]}
+        onItemClick={() => {}}
+      />
+    ),
+  },
+  {
     name: 'InlineProgress',
     codeName: 'patterns/InlineProgress.tsx',
     cssBase: '.inline-progress',
@@ -5332,6 +5354,46 @@ const COMPONENTS: ComponentEntry[] = [
       </div>
     ),
   },
+  {
+    // Fiche ajoutée le 2026-09-24 : le composant était classé au registre sans fiche.
+    name: 'StepCard',
+    codeName: 'learning/StepCard.tsx',
+    showcaseOnly: true,
+    usedBy: ['LearningPathGrid'],
+    description: "Carte d'une étape de parcours : une pastille de 56 px au rayon 24 porte le numéro en 20/700 — une coche une fois l'étape terminée, un cadenas si elle est verrouillée ; à côté, l'état en Badge (À commencer · En cours · Terminée · Verrouillée), le titre h3 20 à 4 px, le nombre de leçons en légende 13. Puis la description 16 ink-700 à la largeur de lecture, une barre de 6 px et son pourcentage en 13/600 tabulaire, enfin « Voir les leçons », qui déplie la liste : rangées au rayon 14, titre 16/600, durée en 13, coche sur fond success une fois vue. Carte blanche au rayon 20, padding 24, filet de 2 px à la couleur de l'état. Verrouillée, un voile blanc flouté et la mention « Étape verrouillée » la recouvrent. Contrôlée (`isExpanded`, `onToggleExpand`) ou autonome. Elle ne vit que dans LearningPathGrid, que seule la vitrine emploie.",
+    keywords: ['step', 'étape', 'parcours', 'card', 'leçons', 'progression', 'statut', 'locked', 'verrouillée'],
+    render: () => (
+      <div className="grid gap-stack [grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))]">
+        <StepCard
+          stepNumber={1}
+          status="completed"
+          title="Poser le cadre"
+          lessonCount={3}
+          progress={100}
+        />
+        <StepCard
+          stepNumber={2}
+          status="in-progress"
+          title="Concevoir une séquence"
+          description="Structurer un parcours qui tient debout, de l’objectif à l’évaluation."
+          lessonCount={4}
+          progress={50}
+          lessonsGrid={[
+            { id: 'l1', title: 'Les objectifs observables', duration: '12 min', completed: true },
+            { id: 'l2', title: 'La progression des activités', duration: '15 min', completed: true },
+            { id: 'l3', title: 'Évaluer la pratique', duration: '10 min' },
+            { id: 'l4', title: 'La séquence complète', duration: '20 min' },
+          ]}
+        />
+        <StepCard
+          stepNumber={3}
+          status="locked"
+          title="Animer une session"
+          lessonCount={5}
+        />
+      </div>
+    ),
+  },
 
   {
     name: 'EditorialCard',
@@ -7155,6 +7217,74 @@ const COMPONENTS: ComponentEntry[] = [
             onContinue={() => {}}
           />
         ))}
+      </div>
+    ),
+  },
+
+  {
+    // Fiche ajoutée le 2026-09-24 : le composant était classé au registre sans fiche.
+    name: 'NotificationCard',
+    codeName: 'cards/NotificationCard.tsx',
+    usedBy: ['Notifications'],
+    description: "Une notification, sous deux formes (`variant`). `row`, celle de la page Notifications : une rangée sans rayon ni filet, posée dans UNE carte qui clippe ses coins et sépare par `divide-y` (arbitrage n°5, une collection se rend en rangées) ; retrait 20 puis 24 dès 640 px. `card`, le défaut : un item isolé qui porte sa coque, rayon 20, padding 12 (16 à l'horizontale dès 640 px). Pastille de 40 px carrée arrondie (`rounded-md`, 10 — elle était ronde ; arbitrage n°3), au cran 100 du ton ; titre 16/600 ink-900 sur une ligne, texte 16 ink-700 sur deux au plus, méta 13 ink-600 (`meta`, puis l'heure), 4 px entre chaque, la première ligne centrée sur la pastille. Non lue : un fond du ton au cran 50 et un point de 6 px, sans changer la graisse. « Marquer comme lu » et « Supprimer » en Button iconOnly sm ghost neutre, qui n'apparaissent qu'au survol ou au focus dès 640 px et restent visibles en dessous. Cinq tons (brand · warm · sun · success · neutral). ⚠️ Avec `onClick`, la notification devient un `div role=\"button\"` focalisable, mais sans gestion du clavier : Entrée et Espace n'y font rien.",
+    keywords: ['notification', 'feed', 'row', 'rangée', 'unread', 'non lu', 'tone', 'actions', 'collection'],
+    render: () => (
+      <div className="flex flex-col gap-section max-w-2xl">
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-semibold text-ink-600">variant="row" · des rangées dans une carte, comme sur la page Notifications</p>
+          <Card className="p-0 overflow-hidden">
+            <ul className="flex flex-col divide-y divide-ink-100">
+              <li>
+                <NotificationCard
+                  variant="row"
+                  tone="warm"
+                  icon={<Calendar size={18} />}
+                  title="Session demain à 14 h"
+                  body="Coaching avec Sophie Martin : prépare tes deux questions."
+                  time="Il y a 3 h"
+                  unread
+                  onMarkRead={() => {}}
+                  onDelete={() => {}}
+                />
+              </li>
+              <li>
+                <NotificationCard
+                  variant="row"
+                  tone="sun"
+                  icon={<Trophy size={18} />}
+                  title="Niveau validé"
+                  body="Ton coach a validé le niveau D3 en Leadership."
+                  meta={<MetaPill text="Leadership" tone="sun" />}
+                  time="Lundi"
+                  onDelete={() => {}}
+                />
+              </li>
+              <li>
+                <NotificationCard
+                  variant="row"
+                  tone="neutral"
+                  icon={<Settings size={18} />}
+                  title="Nouvelles conditions d’utilisation"
+                  time="12 sept."
+                  onDelete={() => {}}
+                />
+              </li>
+            </ul>
+          </Card>
+        </div>
+        <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-semibold text-ink-600">variant="card" · un item isolé, qui porte sa coque</p>
+          <NotificationCard
+            tone="success"
+            icon={<CheckCircle2 size={18} />}
+            title="Leçon terminée"
+            body="Tu as terminé « Prompt engineering avancé »."
+            time="Il y a 2 h"
+            unread
+            onMarkRead={() => {}}
+            onDelete={() => {}}
+          />
+        </div>
       </div>
     ),
   },

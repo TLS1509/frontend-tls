@@ -85,6 +85,18 @@ export const SUBCATEGORY_ORDER: Record<Category, string[]> = {
  * comme absents alors qu'ils sont bien à l'écran.
  */
 export const COVERED_BY: Record<string, string> = {
+  /* Montrés dans la fiche d'un autre (2026-09-24) : ils étaient classés
+     comme s'ils avaient une fiche à leur nom, et n'en avaient pas.
+     (Ne pas écrire ici le nom de la table du classement : le contrôle de
+     couverture la repère par une expression régulière, qui s'arrêterait
+     sur ce commentaire.) */
+  Checkbox: 'Input',
+  Radio: 'Input',
+  Switch: 'Input',
+  AvatarGroup: 'Avatar',
+  Toast: 'Toast + useToast',
+  SidebarUserCard: 'Sidebar',
+  NavItem: 'Sidebar',
   ArticleCard: 'EditorialCard',
   VideoCard: 'EditorialCard',
   StatusBadge: 'Badge',
@@ -217,9 +229,7 @@ export const CATALOG: Record<string, CatalogMeta> = {
   Button:               { category: 'Atoms', subCategory: 'Form fields' },
   QuickActionButton:    { category: 'Atoms', subCategory: 'Form fields' },
   Input:                { category: 'Atoms', subCategory: 'Form fields' },
-  Checkbox:             { category: 'Atoms', subCategory: 'Form fields' },
-  Radio:                { category: 'Atoms', subCategory: 'Form fields' },
-  Switch:               { category: 'Atoms', subCategory: 'Form fields' },
+  // Checkbox, Radio, Switch : montrés dans la fiche Input (COVERED_BY)
   Select:               { category: 'Atoms', subCategory: 'Form fields' },
   Combobox:             { category: 'Search & Filters', subCategory: 'Search' },
   QualitativeRating:    { category: 'Atoms', subCategory: 'Form fields' },
@@ -259,7 +269,7 @@ export const CATALOG: Record<string, CatalogMeta> = {
   // BackgroundBlobs supprimé (Phase 10) — legacy remplacé par AmbientBlobs (patterns/)
 
   // ── COMPOSITES ────────────────────────────────────────────────────────
-  AvatarGroup:          { category: 'Composites', subCategory: 'Group wrappers' },
+  // AvatarGroup : montré dans la fiche Avatar (COVERED_BY)
   MetaPillGroup:        { category: 'Composites', subCategory: 'Group wrappers' },
   // Tabs et Breadcrumb classés en Navigation (cf. ci-dessous)
   Stepper:              { category: 'Composites', subCategory: 'Group wrappers' },
@@ -306,14 +316,13 @@ export const CATALOG: Record<string, CatalogMeta> = {
   // ── FEEDBACK ──────────────────────────────────────────────────────────
   Alert:                { category: 'Feedback', subCategory: 'Status messages' },
   'Toast + useToast':   { category: 'Feedback', subCategory: 'Status messages' },
-  Toast:                { category: 'Feedback', subCategory: 'Status messages' },
   EmptyState:           { category: 'Feedback', subCategory: 'Empty/zero states' },
-  Celebration:          { category: 'Feedback', subCategory: 'Celebrations' },
+  // « Celebration » retiré le 2026-09-24 : aucun composant ne porte ce nom.
+  // `ui/Celebration.tsx` n'exporte qu'InlineWin, qui a sa fiche.
 
   // ── NAVIGATION ────────────────────────────────────────────────────────
   Sidebar:              { category: 'Navigation', subCategory: 'Primary nav (app shell)' },
-  SidebarUserCard:      { category: 'Navigation', subCategory: 'Primary nav (app shell)' },
-  NavItem:              { category: 'Navigation', subCategory: 'Primary nav (app shell)' },
+  // SidebarUserCard, NavItem : montrés dans la fiche Sidebar (COVERED_BY)
   DropdownMenu:         { category: 'Navigation', subCategory: 'Contextual menus' },
   Breadcrumb:           { category: 'Navigation', subCategory: 'Secondary nav' },
   Tabs:                 { category: 'Navigation', subCategory: 'Secondary nav' },
@@ -448,8 +457,8 @@ export const CATALOG: Record<string, CatalogMeta> = {
   VeilleFormatShortcutCards: { category: 'Cards',      subCategory: 'Editorial content' },
   VeilleHeroFilterChips:  { category: 'Search & Filters', subCategory: 'Filter controls' },
 
-  // ── HEADERS & SECTIONS — extras ───────────────────────────────────────
-  'Card subcomponents': { category: 'Atoms', subCategory: 'Surfaces' },
+  // 'Card subcomponents' retiré le 2026-09-24 : une étiquette sans fiche.
+  // CardEyebrow, CardTitle, CardDesc, CardFooter sont décrits dans la fiche Card.
 
   // ── DATA VISUALIZATION — Charts & Analytics (Phase 20+) ──────────────────
   RadarChart:           { category: 'Data Visualization', subCategory: 'Competency charts' },
