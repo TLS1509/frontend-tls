@@ -4083,10 +4083,13 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'CompetencyMatrix',
     codeName: 'CompetencyMatrix.tsx',
     cssBase: 'CompetencyMatrix (table + inline styles)',
-    description: 'Tableau de compétences multi-dimensions. Niveaux 1–5 (Novice → Expert) avec icônes par niveau et code couleur par compétence.',
+    description: "Tableau de compétences sur cinq niveaux : en-têtes 13/600 ink-600 avec une icône par niveau, noms 16/600 ink-900, cellules rondes de 40 px au filet 2 px, pleines au cran 700 une fois le niveau atteint. Couleur par compétence ; `maxLevel`, `labels` (en anglais par défaut, à traduire), `onSkillHover`.",
     keywords: ['competency', 'matrix', 'skills', 'levels', 'table', 'assessment'],
     render: () => (
+      /* Les libellés par défaut sont en anglais (Beginner, Intermediate…) :
+         la démo passe les niveaux canoniques du Passeport. */
       <CompetencyMatrix
+        labels={['', 'Novice', 'Apprenant', 'Compétent', 'Expert', 'Maître']}
         skills={[
           { name: 'Prompt Engineering', level: 4 },
           { name: 'Leadership', level: 3, color: 'warm' },
@@ -5954,7 +5957,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'CompetencyRadar',
     codeName: 'ui/CompetencyRadar.tsx',
     cssBase: 'CompetencyRadar',
-    description: 'Radar SVG 6 axes Dreyfus (1–5). Polygone niveau actuel (bleu) + objectif cible (orange, dashed). Légende intégrée. Clic sur axe → drill-down. 3 tailles. Modules #2 Passeport · #3 Profil · #6 Enterprise · #10 Analytics · #11 Projects.',
+    description: "Radar Dreyfus de 1 à 5, six axes au plus : niveau actuel et objectif. Il mesure sa boîte et réduit son rayon pour que les libellés — 13/400 ink-600 à toutes les tailles — y tiennent, jusqu'à 375 px ; sous 48 px de rayon, les pointes sont numérotées (13/600) et les libellés passent dans une liste en 13 ink-700 sous le dessin. Libellés cliquables au clavier (`onAxisClick`) ; légende en 13 ink-700 et « Échelle Dreyfus 1–5 ». Tailles de 200 · 320 · 480 px.",
     keywords: ['radar', 'compétences', 'dreyfus', 'skills', 'passeport', 'svg', 'chart', 'hso'],
     showcaseOnly: false,
     usedBy: ['Passeport', 'CoachDashboard', 'ManagerCohort', 'PasseportHistorique'],
@@ -5962,7 +5965,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-section items-center">
         <div className="flex flex-wrap gap-section justify-center items-start">
           <div className="flex flex-col items-center gap-stack-xs">
-            <span className="text-caption text-ink-600">sm — sans cible</span>
+            <span className="text-caption text-ink-600">sm — sans objectif</span>
             <CompetencyRadar
               size="sm"
               axes={[
@@ -5977,7 +5980,7 @@ const COMPONENTS: ComponentEntry[] = [
             />
           </div>
           <div className="flex flex-col items-center gap-stack-xs">
-            <span className="text-caption text-ink-600">md — avec objectifs cibles</span>
+            <span className="text-caption text-ink-600">md — avec les objectifs</span>
             <CompetencyRadar
               size="md"
               axes={[
@@ -5992,7 +5995,7 @@ const COMPONENTS: ComponentEntry[] = [
             />
           </div>
         </div>
-        <p className="text-caption text-ink-600 text-center max-w-prose">Clic sur les labels d'axes → drill-down (console.log). Échelle Dreyfus 1–5.</p>
+        <p className="text-caption text-ink-600 text-center max-w-prose">Un clic sur un libellé d'axe ouvre le détail de la compétence (ici, la console). Échelle Dreyfus de 1 à 5.</p>
       </div>
     ),
   },
@@ -6098,7 +6101,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'HeatmapGrid',
     codeName: 'ui/HeatmapGrid.tsx',
     cssBase: 'HeatmapGrid',
-    description: 'Grille compétences × apprenants avec codes couleur Dreyfus 1–5. Sticky header. Responsive overflow-x. Module #2 Passeport / #10 Analytics.',
+    description: "Grille compétences × apprenants aux niveaux Dreyfus : en-têtes 13/600 ink-600 en casse normale, colonne des noms collante (initiales, nom 16/600), cellules de 40 px au rayon 10 en 13/600 tabulaire, de « — » à D1…D5, le niveau 5 en primary-700 à texte blanc ; légende en 13, de « Novice » à « Expert ». Défilement horizontal sur mobile ; clic sur une cellule. Modules 2 (Passeport) et 10 (Analytics).",
     keywords: ['heatmap', 'competence', 'dreyfus', 'grille', 'coach', 'apprenant', 'niveau', 'radar'],
     usedBy: ['CoachHeatmap', 'FicheApprenantAnalytics'],
     render: () => (
@@ -7070,18 +7073,18 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'RadarChart',
     codeName: 'charts/RadarChart.tsx',
     cssBase: 'RadarChart',
-    description: 'Dreyfus competency assessment — radar chart showing current vs. target skill levels across 6 axes. Hover to highlight axis, click axis to drill down. USAGE: Passeport detail, coach profiling, skill assessments. See CHARTS-SYSTEM.md for API.',
-    keywords: ['radar', 'chart', 'competency', 'dreyfus', 'analytics', 'passeport'],
+    description: "Radar des compétences : niveau actuel contre objectif, sur six axes au plus. Libellés d'axe en 13 ink-600, coupés à 14 caractères par ligne et posés au-dessus et au-dessous des pointes ; graduations de 1 à 5 en 13 ; « Niveau actuel » en aplat primary-500 à 35 %, « Objectif cible » en pointillés secondary-500 ; une légende unique en 13 ink-700. Clic sur un axe (`onAxisClick`) ; tailles de 250 · 350 · 450 px. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
+    keywords: ['radar', 'chart', 'graphique', 'competency', 'compétence', 'dreyfus', 'analytics', 'passeport'],
     usedBy: ['Passeport', 'Coach'],
     render: () => (
       <RadarChart
         data={[
           { label: 'Leadership', current: 3, target: 5 },
           { label: 'Communication', current: 4, target: 5 },
-          { label: 'Technical', current: 2, target: 4 },
-          { label: 'Problem Solving', current: 3, target: 5 },
-          { label: 'Collaboration', current: 4, target: 4 },
-          { label: 'Strategic Thinking', current: 2, target: 4 },
+          { label: 'Technique', current: 2, target: 4 },
+          { label: 'Résolution de problèmes', current: 3, target: 5 },
+          { label: 'Coopération', current: 4, target: 4 },
+          { label: 'Vision stratégique', current: 2, target: 4 },
         ]}
         size="md"
         onAxisClick={() => {}}
@@ -7093,17 +7096,17 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'BarChart',
     codeName: 'charts/BarChart.tsx',
     cssBase: 'BarChart',
-    description: 'Vertical or horizontal bar rankings for comparisons. USAGE: Team rankings, cohort comparisons, score distributions. PROPS: layout (vertical/horizontal), dataKey, size (sm/md/lg), onBarClick. See CHARTS-SYSTEM.md.',
+    description: "Barres de comparaison — classement d'équipes, cohortes, distribution de scores. Horizontales par défaut (`layout`), catégories sur l'axe vertical, qui prend 35 % de la largeur (72 à 282 px) et coupe les libellés trop longs. Une série (`dataKey`) ou plusieurs (`series`, avec légende) ; clic sur une barre ; hauteurs de 250 · 350 · 450 px. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
     keywords: ['bar', 'chart', 'rankings', 'comparison', 'analytics', 'dashboard'],
     usedBy: ['Enterprise', 'Analytics'],
     render: () => (
       <BarChart
         data={[
-          { label: 'Team A', score: 82 },
-          { label: 'Team B', score: 76 },
-          { label: 'Team C', score: 89 },
-          { label: 'Team D', score: 71 },
-          { label: 'Team E', score: 85 },
+          { label: 'Équipe Lyon', score: 82 },
+          { label: 'Équipe Nantes', score: 76 },
+          { label: 'Équipe Paris', score: 89 },
+          { label: 'Équipe Lille', score: 71 },
+          { label: 'Équipe Bordeaux', score: 85 },
         ]}
         dataKey="score"
         size="md"
@@ -7116,18 +7119,18 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'LineChart',
     codeName: 'charts/LineChart.tsx',
     cssBase: 'LineChart',
-    description: 'Single or multi-line trend visualization over time. USAGE: Engagement tracking, XP progression, performance trends. PROPS: series, smooth, showDots, size (sm/md/lg), onPointClick. See CHARTS-SYSTEM.md.',
+    description: "Courbe d'une ou plusieurs tendances dans le temps (engagement, progression). Trait de 2 px, point actif de 5 px ; courbe lissée (`smooth`) et points (`showDots`) par défaut ; pas de légende pour une série seule ; clic sur un point. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
     keywords: ['line', 'chart', 'trend', 'progression', 'analytics', 'timeline'],
     usedBy: ['Analytics'],
     render: () => (
       <LineChart
         data={[
-          { label: 'Week 1', xp: 200 },
-          { label: 'Week 2', xp: 350 },
-          { label: 'Week 3', xp: 600 },
-          { label: 'Week 4', xp: 800 },
+          { label: 'Semaine 1', lecons: 2 },
+          { label: 'Semaine 2', lecons: 4 },
+          { label: 'Semaine 3', lecons: 3 },
+          { label: 'Semaine 4', lecons: 6 },
         ]}
-        dataKey="xp"
+        dataKey="lecons"
         size="md"
         smooth
         showDots
@@ -7139,18 +7142,18 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'AreaChart',
     codeName: 'charts/AreaChart.tsx',
     cssBase: 'AreaChart',
-    description: 'Single or stacked area chart with gradient fills. USAGE: Cumulative metrics, time allocation, engagement trends. PROPS: series, stacked, smooth, size. Gradient fills auto-bindés aux tokens TLS. See CHARTS-SYSTEM.md.',
+    description: "Aires simples ou empilées (`stacked`, le défaut) : des cumuls, une répartition du temps, l'engagement. Remplissage en dégradé vertical, de 80 à 10 % d'opacité ; courbes lissées. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
     keywords: ['area', 'chart', 'cumulative', 'stacked', 'analytics', 'allocation'],
     usedBy: ['Analytics', 'Passeport'],
     render: () => (
       <AreaChart
         data={[
-          { label: 'Jan', lessons: 12, coaching: 3 },
-          { label: 'Feb', lessons: 18, coaching: 5 },
-          { label: 'Mar', lessons: 22, coaching: 8 },
+          { label: 'Janv.', lessons: 12, coaching: 3 },
+          { label: 'Févr.', lessons: 18, coaching: 5 },
+          { label: 'Mars', lessons: 22, coaching: 8 },
         ]}
         series={[
-          { key: 'lessons', label: 'Lessons' },
+          { key: 'lessons', label: 'Leçons' },
           { key: 'coaching', label: 'Coaching' },
         ]}
         stacked
@@ -7163,15 +7166,15 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'PieChart',
     codeName: 'charts/PieChart.tsx',
     cssBase: 'PieChart',
-    description: 'Pie or donut chart for composition and breakdown. USAGE: Completion rates, category distribution, training progress. PROPS: mode (pie/donut), showLabels, size (sm/md/lg), onSliceClick. See CHARTS-SYSTEM.md.',
+    description: "Secteurs ou anneau (`donut`) pour une composition : taux d'achèvement, répartition par catégorie. Parts triées de la plus grande à la plus petite ; étiquettes en 13/600 ink-700 (« 37 % »), info-bulle « 1 234 (37,5 %) », légende avec valeur et pourcentage ; rayons de 70 · 100 · 130 px ; clic sur une part. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
     keywords: ['pie', 'donut', 'chart', 'composition', 'distribution', 'analytics'],
     usedBy: ['Formateur'],
     render: () => (
       <PieChart
         data={[
-          { label: 'Completed', value: 45 },
-          { label: 'In Progress', value: 30 },
-          { label: 'Not Started', value: 25 },
+          { label: 'Terminés', value: 45 },
+          { label: 'En cours', value: 30 },
+          { label: 'Pas commencés', value: 25 },
         ]}
         donut
         showLabels
@@ -7184,17 +7187,17 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ScatterChart',
     codeName: 'charts/ScatterChart.tsx',
     cssBase: 'ScatterChart',
-    description: 'Scatter or bubble chart for correlation analysis. USAGE: Learner positioning, performance matrix, skill vs. engagement. PROPS: bubble (true/false), bubbleScale, showQuadrants, size. See CHARTS-SYSTEM.md.',
+    description: "Nuage de points ou bulles, pour une corrélation : positionnement des apprenants, compétence contre engagement. Info-bulle propre — le libellé du point en 13/600, puis « axe : valeur » en 13 ink-700, arrondi à l'entier ; taille des bulles par `z` (`bubbleScale`) ; domaines réglables ; clic sur un point. ⚠️ `xAxisLabel` et `yAxisLabel` ne sont pas encore dessinés sur les axes. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
     keywords: ['scatter', 'bubble', 'chart', 'correlation', 'positioning', 'analytics'],
     usedBy: ['Coach'],
     render: () => (
       <ScatterChart
         data={[
           { label: 'Alice', x: 85, y: 90, z: 50 },
-          { label: 'Bob', x: 72, y: 78, z: 40 },
-          { label: 'Carol', x: 91, y: 88, z: 60 },
+          { label: 'Bruno', x: 72, y: 78, z: 40 },
+          { label: 'Chloé', x: 91, y: 88, z: 60 },
         ]}
-        xAxisLabel="Skill Level"
+        xAxisLabel="Niveau de compétence"
         yAxisLabel="Engagement"
         bubbleScale={2}
         size="md"
@@ -7206,21 +7209,23 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ComposedChart',
     codeName: 'charts/ComposedChart.tsx',
     cssBase: 'ComposedChart',
-    description: 'Composite bar + line chart for dual-metric analysis. USAGE: Activity count + performance score, volume + quality trends. PROPS: series (key, label, type), dualAxis, size (sm/md/lg). See CHARTS-SYSTEM.md.',
+    description: "Barres et courbe sur un même graphique, pour deux mesures liées (nombre d'activités et score moyen, volume et qualité). Barres à 70 % d'opacité, courbes de 2 px ; double axe en option (`dualAxis`), titres d'axe verticaux en 13 ink-600 — à nommer : leurs défauts, « Value » et « Score », sont en anglais. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
     keywords: ['composed', 'bar', 'line', 'hybrid', 'dual-axis', 'analytics'],
     usedBy: ['Analytics'],
     render: () => (
       <ComposedChart
         data={[
-          { label: 'Week 1', count: 15, avgScore: 78 },
-          { label: 'Week 2', count: 22, avgScore: 82 },
-          { label: 'Week 3', count: 18, avgScore: 85 },
+          { label: 'Semaine 1', count: 15, avgScore: 78 },
+          { label: 'Semaine 2', count: 22, avgScore: 82 },
+          { label: 'Semaine 3', count: 18, avgScore: 85 },
         ]}
         series={[
-          { key: 'count', label: 'Activities', type: 'bar' },
-          { key: 'avgScore', label: 'Avg Score', type: 'line' },
+          { key: 'count', label: 'Activités', type: 'bar' },
+          { key: 'avgScore', label: 'Score moyen', type: 'line' },
         ]}
         dualAxis
+        leftAxisLabel="Activités"
+        rightAxisLabel="Score moyen"
         size="md"
       />
     ),
@@ -7230,7 +7235,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'HeatmapChart',
     codeName: 'charts/HeatmapChart.tsx',
     cssBase: 'HeatmapChart',
-    description: 'Custom grid matrix with Red→Yellow→Green gradient scale (danger-base → accent-400 → success-base). USAGE: Team skills matrix, learner progress grid, competency heatmap. PROPS: gridSize, maxValue, showValues, onCellClick. See CHARTS-SYSTEM.md.',
+    description: "Matrice colorée (compétences × équipes, progression d'une cohorte) : cellules de 48 px dont le fond va du corail à la sauge en passant par l'ambre ; valeur en 13/600 ink-900 tabulaire — un niveau « D3 » sur une échelle de 5, un pourcentage au-delà ; libellés de ligne en 13 ink-600, de colonne tournés à −45° ; légende en 13 ink-700. `minValue`, `maxValue`, `showValues`, clic sur une cellule.",
     keywords: ['heatmap', 'grid', 'matrix', 'skills', 'competency', 'analytics'],
     usedBy: ['Enterprise'],
     render: () => (
@@ -7238,8 +7243,8 @@ const COMPONENTS: ComponentEntry[] = [
         data={[
           { x: 'Alice', y: 'Leadership', value: 3 },
           { x: 'Alice', y: 'Communication', value: 4 },
-          { x: 'Bob', y: 'Leadership', value: 2 },
-          { x: 'Bob', y: 'Communication', value: 5 },
+          { x: 'Bruno', y: 'Leadership', value: 2 },
+          { x: 'Bruno', y: 'Communication', value: 5 },
         ]}
         maxValue={5}
         cellSize={50}
@@ -7253,7 +7258,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ChartContainer',
     codeName: 'charts/ChartContainer.tsx',
     cssBase: 'ChartContainer',
-    description: 'Wrapper component for consistent chart styling. Provides shadow-card, rounded corners, padding (p-stack), mobile-first responsive sizing. USAGE: Wrap any chart (RadarChart, BarChart, etc.). Supports title, description, size variants.',
+    description: "L'enveloppe commune des graphiques : un fond blanc, un filet ink-100, le rayon 14, un padding de 16, le contenu centré. Elle n'expose que `children` et `className` — ni titre ni taille : un titre se pose au-dessus, par la page.",
     keywords: ['chart', 'container', 'wrapper', 'consistent', 'styling', 'analytics'],
     usedBy: ['Passeport', 'Enterprise', 'Analytics', 'Coach'],
     // ChartContainer n'expose que children + className (pas de title/size)
@@ -7261,9 +7266,9 @@ const COMPONENTS: ComponentEntry[] = [
       <ChartContainer>
         <LineChart
           data={[
-            { label: 'Q1', value: 2.5 },
-            { label: 'Q2', value: 3.2 },
-            { label: 'Q3', value: 3.8 },
+            { label: 'T1', value: 25 },
+            { label: 'T2', value: 32 },
+            { label: 'T3', value: 38 },
           ]}
           dataKey="value"
           size="sm"
@@ -7276,16 +7281,16 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'TimelineChart',
     codeName: 'charts/TimelineChart.tsx',
     cssBase: 'TimelineChart',
-    description: 'Vertical or horizontal timeline for displaying learner journey events (lessons, sessions, badges, milestones). USAGE: Passeport learner journey, Coach activity log. PROPS: data, layout, maxEvents, onEventClick. Type-aware colors, responsive mobile-first.',
+    description: "Chronologie du parcours d'un apprenant — leçons, sessions, badges, jalons —, du plus récent au plus ancien, dans une liste ordonnée. Dates à la française (« 20 mars 2026 ») en 13/600 ink-600 tabulaire sur une colonne de 96 px ; en vertical, cartes au cran 50 du type (titre 16/600, description 16 ink-700), 24 px entre deux événements ; en horizontal, colonnes de 160 px et description en 13. Le type s'écrit dans une pastille 13/500. `maxEvents`, clic sur un événement.",
     keywords: ['timeline', 'journey', 'events', 'learner', 'progression', 'milestones', 'vertical', 'horizontal'],
     usedBy: ['Passeport', 'Coach', 'Analytics'],
     render: () => (
       <TimelineChart
         data={[
-          { id: '1', date: '2026-06-29', label: 'Lesson 1: Leadership Foundations', type: 'lesson', description: 'Completed in 45 minutes', tone: 'primary' },
-          { id: '2', date: '2026-06-27', label: 'Badge Earned: Leadership D3', type: 'badge', tone: 'sun' },
-          { id: '3', date: '2026-06-25', label: 'Coaching Session', type: 'session', description: '1-on-1 with Sarah', tone: 'warm' },
-          { id: '4', date: '2026-06-20', label: 'Milestone: Week 2 Complete', type: 'milestone', tone: 'success' },
+          { id: '1', date: '2026-06-29', label: 'Leçon 1 : les fondamentaux du leadership', type: 'lesson', description: 'Terminée en 45 minutes', tone: 'primary' },
+          { id: '2', date: '2026-06-27', label: 'Badge obtenu : Leadership D3', type: 'badge', tone: 'sun' },
+          { id: '3', date: '2026-06-25', label: 'Session de coaching', type: 'session', description: 'En tête-à-tête avec Sarah', tone: 'warm' },
+          { id: '4', date: '2026-06-20', label: 'Jalon : deuxième semaine terminée', type: 'milestone', tone: 'success' },
         ]}
         layout="vertical"
         maxEvents={10}
@@ -7297,14 +7302,14 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'GaugeChart',
     codeName: 'charts/GaugeChart.tsx',
     cssBase: 'GaugeChart',
-    description: 'Circular progress indicator (0-100% or 0-5 Dreyfus scale). Variants: arc (default), needle, segment. USAGE: Dashboard KPIs, competency progress, goal tracking. PROPS: current, max, label, tone, variant, size. Tone-aware colors, size variants (sm/md/lg).',
+    description: "Jauge circulaire d'une progression (de 0 à 100 %, ou une échelle Dreyfus de 0 à 5, toujours affichée en pourcentage). La valeur prend le pas des titres — 20, 28 ou 36 px en 700, tabulaire, au cran 800 du ton — selon la taille (SVG de 100 · 140 · 200 px) : au centre de l'anneau en arc, sous le dessin en aiguille et en segments. Le libellé et l'objectif (« Objectif : 90 % ») s'écrivent dessous en 13 ink-600 — sauf en aiguille, qui n'écrit pas l'objectif. Cinq tons ; `target` pour un objectif.",
     keywords: ['gauge', 'progress', 'circular', 'indicator', 'goal', 'achievement', 'needle', 'arc'],
     usedBy: ['Passeport', 'Dashboard', 'Analytics'],
     render: () => (
       <div className="flex gap-stack-lg flex-wrap">
-        <GaugeChart current={68} max={100} label="Passeport Progress" tone="primary" variant="arc" size="md" showPercentage />
-        <GaugeChart current={3.4} max={5} label="Leadership Level" tone="warm" variant="needle" size="md" target={4.5} />
-        <GaugeChart current={75} max={100} label="Weekly Goal" tone="sun" variant="segment" size="sm" target={90} />
+        <GaugeChart current={68} max={100} label="Passeport complété" tone="primary" variant="arc" size="md" showPercentage />
+        <GaugeChart current={3.4} max={5} label="Niveau en leadership" tone="warm" variant="needle" size="md" target={4.5} />
+        <GaugeChart current={75} max={100} label="Objectif de la semaine" tone="sun" variant="segment" size="sm" target={90} />
       </div>
     ),
   },
@@ -7313,21 +7318,21 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ChartExportButton',
     codeName: 'charts/ChartExportButton.tsx',
     cssBase: 'ChartExportButton',
-    description: 'Reusable export button component for charts. Provides PNG (html2canvas), PDF (jsPDF), CSV (papaparse) export options. USAGE: Wrap in any chart dashboard. PROPS: chartId, filename, data, showPdf, showPng, showCsv, variant. Compact or full button layout.',
+    description: "Boutons d'export d'un graphique : PNG, PDF et CSV (ce dernier si `data` est fourni). compact, le défaut : des Button sm soft, un ton par format (PNG brand, PDF warm, CSV sun) ; full : des Button md. Erreur en 13 danger-fg. ⚠️ Ses libellés d'aide (« Export as PNG »…) sont encore en anglais, et la variante full aligne trois `solid` là où l'arbitrage n°19 n'en veut qu'un par écran.",
     keywords: ['export', 'download', 'csv', 'pdf', 'png', 'chart', 'analytics', 'report'],
     usedBy: ['Passeport', 'Enterprise', 'Analytics', 'Coach'],
     render: () => (
       <div className="space-y-4">
         <div>
-          <p className="text-caption text-ink-600 mb-2">Compact (default):</p>
+          <p className="text-caption text-ink-600 mb-2">compact, le défaut</p>
           <ChartExportButton chartId="chart-demo" filename="chart-export" variant="compact" />
         </div>
         <div>
-          <p className="text-caption text-ink-600 mb-2">Full:</p>
+          <p className="text-caption text-ink-600 mb-2">full</p>
           <ChartExportButton
             chartId="chart-demo"
             filename="report-export"
-            data={[{ label: 'Q1', value: 100 }, { label: 'Q2', value: 150 }]}
+            data={[{ label: 'T1', value: 100 }, { label: 'T2', value: 150 }]}
             variant="full"
           />
         </div>
