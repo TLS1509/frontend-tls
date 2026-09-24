@@ -11,7 +11,16 @@
  * 3 icon styles :
  *  - **plain** (default) : icon stroke nu, tone-colored — visuel le plus discret
  *  - **filled** : icon fill="currentColor" — visuel plein/solide, plus présent
- *  - **bubble** : icon dans une bulle tone-tinted — visuel le plus distinctif
+ *  - **bubble** : icon dans une pastille `IconChip` — visuel le plus distinctif.
+ *    ⚠️ Depuis le 2026-09-24, la bulle EST un IconChip (arbitrage n°3) : carré
+ *    au rayon proportionnel, 32 · 40 · 48 px selon `iconSize`, glyphe au cran
+ *    800. Elle était faite main — `rounded-xl` (20) à toutes les tailles, donc
+ *    un cercle à 32 et 40, jusqu'à 64 px, et son glyphe au cran 500 (400 pour
+ *    l'or) mesurait 1,60 à 2,62:1 sur la bulle (sous le 3:1 d'un objet
+ *    graphique) ; il mesure 5,79 à 9,49.
+ *    ⚠️ Une tuile plus étroite que la bulle et son padding (48 + 2 × 12 en
+ *    `md`) ne la contient pas : c'est la grille qu'il faut élargir
+ *    (`CardGrid layout="square-tiles"`, deux colonnes au moins).
  *
  * 5 icon sizes (icône = élément principal) :
  *  - **xs** : 20px (mini tile très dense, navigation tiles)
@@ -44,6 +53,7 @@
 
 import React from 'react';
 import { CARD_HOVER } from '../../lib/tone-classes';
+import { IconChip, type IconChipSize } from './IconChip';
 
 export type IconFeatureCardTone = 'brand' | 'warm' | 'sun';
 export type IconFeatureCardIconStyle = 'plain' | 'filled' | 'bubble';
@@ -95,20 +105,19 @@ const TONE_FILLED: Record<IconFeatureCardTone, string> = {
   sun:   'text-accent-400 [&_svg]:fill-current',
 };
 
-const TONE_BUBBLE: Record<IconFeatureCardTone, string> = {
-  brand: 'bg-primary-50 text-primary-500',
-  warm:  'bg-secondary-50 text-secondary-500',
-  sun:   'bg-accent-50 text-accent-400',
-};
-
-/* Bulle sur surface `tinted` — arbitrage n°10 du 2026-09-23 (option C,
-   « Cran 100 »). La surface est au cran 50 (à 60 % au repos, pleine au
-   survol) : une bulle au 50 s'y fondait, jusqu'à 1,00:1 sous le pointeur.
-   Elle monte au cran 100, comme `IconChip surface="tinted"`. */
-const TONE_BUBBLE_ON_TINTED: Record<IconFeatureCardTone, string> = {
-  brand: 'bg-primary-100 text-primary-500',
-  warm:  'bg-secondary-100 text-secondary-500',
-  sun:   'bg-accent-100 text-accent-400',
+/* La bulle est un `IconChip` (arbitrage n°3, 2026-09-24) : ses tons portent
+   les mêmes noms (brand · warm · sun). Sur la surface `tinted`, elle passe
+   `surface="tinted"` — cran 100, arbitrage n°10 du 2026-09-23 (option C) : la
+   surface est au cran 50 (à 60 % au repos, pleine au survol), une bulle au 50
+   s'y fondait, jusqu'à 1,00:1 sous le pointeur.
+   Taille : le cran d'IconChip égal à l'ancienne bulle jusqu'à 48 px ; `lg` et
+   `xl` (56, 64 — hors de l'échelle de la pastille) s'arrêtent à 48. */
+const BUBBLE_CHIP: Record<IconFeatureCardIconSize, IconChipSize> = {
+  xs: 'sm', // 32
+  sm: 'md', // 40
+  md: 'lg', // 48
+  lg: 'lg', // 48 (était 56)
+  xl: 'lg', // 48 (était 64)
 };
 
 const TONE_FOCUS: Record<IconFeatureCardTone, string> = {
@@ -183,11 +192,11 @@ const SQUARE_ASPECT = 'aspect-square';
    l'iconStyle (plain/filled/bubble). Sans ça : bubble (w-X h-X) > plain (icon size raw)
    et le title se retrouverait à un Y différent. */
 const ICON_ZONE: Record<IconFeatureCardIconSize, string> = {
-  xs: 'min-h-[24px]',  // bubble xs = 32px
-  sm: 'min-h-[32px]',  // bubble sm = 40px
-  md: 'min-h-[40px]',  // bubble md = 48px
-  lg: 'min-h-[48px]',  // bubble lg = 56px
-  xl: 'min-h-[56px]',  // bubble xl = 64px
+  xs: 'min-h-[24px]',  // bulle xs = IconChip sm, 32 px
+  sm: 'min-h-[32px]',  // bulle sm = IconChip md, 40 px
+  md: 'min-h-[40px]',  // bulle md = IconChip lg, 48 px
+  lg: 'min-h-[48px]',  // bulle lg = IconChip lg, 48 px
+  xl: 'min-h-[56px]',  // bulle xl = IconChip lg, 48 px
 };
 
 /* Title size scale — sur l'échelle (passe typographique du 2026-09-24) :
@@ -223,15 +232,6 @@ const PADDING_BY_SIZE: Record<IconFeatureCardIconSize, string> = {
   md: 'px-3 py-stack',      // 12px H · 16px V (75%)
   lg: 'px-4 py-stack-md',      // 16px H · 20px V (80%)
   xl: 'px-stack-md py-stack-lg',      // 20px H · 24px V (83%)
-};
-
-/* Bubble container size par iconSize */
-const BUBBLE_SIZE: Record<IconFeatureCardIconSize, string> = {
-  xs: 'w-8 h-8',    // 32px
-  sm: 'w-10 h-10',  // 40px
-  md: 'w-12 h-12',  // 48px
-  lg: 'w-14 h-14',  // 56px
-  xl: 'w-16 h-16',  // 64px
 };
 
 function getSurfaceClasses(surface: IconFeatureCardSurface, tone: IconFeatureCardTone): string {
@@ -272,16 +272,13 @@ export const IconFeatureCard: React.FC<IconFeatureCardProps> = ({
   // Icon wrapper depending on iconStyle (inner element — visual)
   let iconInner: React.ReactNode;
   if (iconStyle === 'bubble') {
+    /* L'enveloppe porte le survol, comme pour `plain` et `filled` : la
+       `className` d'IconChip est réservée au placement. */
     iconInner = (
-      <span
-        className={[
-          'inline-flex items-center justify-center rounded-xl transition-transform group-hover:scale-110',
-          BUBBLE_SIZE[iconSize],
-          surface === 'tinted' ? TONE_BUBBLE_ON_TINTED[tone] : TONE_BUBBLE[tone],
-        ].join(' ')}
-        aria-hidden="true"
-      >
-        {icon}
+      <span className="inline-flex transition-transform group-hover:scale-110" aria-hidden="true">
+        <IconChip size={BUBBLE_CHIP[iconSize]} tone={tone} surface={surface === 'tinted' ? 'tinted' : 'default'}>
+          {icon}
+        </IconChip>
       </span>
     );
   } else if (iconStyle === 'filled') {
