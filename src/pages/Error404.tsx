@@ -30,8 +30,10 @@ export const Error404: React.FC = () => {
       title="On vous remet sur la bonne route"
       description="Cette page n'existe pas ou a été déplacée. Voici par où repartir."
       suggestions={suggestions}
+      /* Repartir est l'action principale d'une page d'erreur (arbitrage
+         n°19) ; les raccourcis restent des tuiles. */
       primaryAction={
-        <Button size="lg" onClick={() => navigate('/dashboard')} trailingIcon={<ArrowRight size={18} />}>
+        <Button size="lg" emphasis="solid" tone="brand" onClick={() => navigate('/dashboard')} trailingIcon={<ArrowRight size={18} />}>
           Tableau de bord
         </Button>
       }

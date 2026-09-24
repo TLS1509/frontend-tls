@@ -36,10 +36,13 @@ export const Error500: React.FC = () => {
           </p>
         </>
       }
+      /* Arbitrage n°19 : réessayer est l'action principale (solid, au ton
+         neutre de la page) ; le retour au tableau de bord, l'issue de repli
+         (ghost). Les deux étaient au même poids. */
       primaryAction={
         <Button
           size="lg"
-          emphasis="soft"
+          emphasis="solid"
           tone="neutral"
           onClick={() => window.location.reload()}
           leadingIcon={<RefreshCw size={18} />}
@@ -50,7 +53,7 @@ export const Error500: React.FC = () => {
       secondaryAction={
         <Button
           size="lg"
-          emphasis="soft"
+          emphasis="ghost"
           tone="neutral"
           onClick={() => navigate('/dashboard')}
           leadingIcon={<Home size={16} />}
