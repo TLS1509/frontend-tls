@@ -196,9 +196,12 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
     ));
   };
 
+  /* Réinitialiser : un outil tertiaire, en `ghost` neutre (arbitrage n°19).
+     Il était en `soft` warm — une pastille orange au même poids que l'action
+     d'une carte. */
   const resetButton = (
     <Button
-      emphasis="soft" tone="warm"
+      emphasis="ghost" tone="neutral"
       size="sm"
       leadingIcon={<RotateCcw size={14} />}
       onClick={reset}

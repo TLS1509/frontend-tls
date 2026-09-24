@@ -257,11 +257,13 @@ export const AppBreadcrumb: React.FC<AppBreadcrumbProps> = ({
         className,
       ].join(' ')}
     >
-      {/* Back button (mobile-first) — touche 44x44 = WCAG SC 2.5.5, pill light bg, focus-visible */}
+      {/* Back button (mobile-first) — touche 44x44 = WCAG SC 2.5.5, focus-visible.
+          Un outil de navigation : `ghost`, comme l'accueil à côté et le retour
+          des lecteurs (arbitrage n°19 ; il était en `outline`). */}
       {parentHref && (
         <Button
           iconOnly
-          emphasis="outline"
+          emphasis="ghost"
           tone="neutral"
           onClick={() => navigate(parentHref)}
           aria-label={`Retour à ${parentCrumb.label}`}

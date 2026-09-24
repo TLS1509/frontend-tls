@@ -301,9 +301,12 @@ export const DataTable: React.FC<DataTableProps> = ({
       </div>
 
       {totalPages > 1 && (
+        /* Pagination : des outils, en `ghost` neutre (arbitrage n°19 —
+           `outline` est réservé à Annuler). */
         <nav aria-label="Pagination du tableau" className="flex items-center justify-between gap-stack-xs">
           <Button
-            emphasis="outline"
+            emphasis="ghost"
+            tone="neutral"
             size="sm"
             leadingIcon={<ChevronLeft size={14} />}
             onClick={() => goTo(page - 1)}
@@ -317,7 +320,8 @@ export const DataTable: React.FC<DataTableProps> = ({
           </p>
 
           <Button
-            emphasis="outline"
+            emphasis="ghost"
+            tone="neutral"
             size="sm"
             trailingIcon={<ChevronRight size={14} />}
             onClick={() => goTo(page + 1)}

@@ -66,8 +66,11 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({
           </span>
         )}
 
+        {/* Enregistrer, dans la barre : un outil avec contour, `soft` (arbitrage
+            n°19). Écrit sur les deux axes ; il l'était par le `variant`
+            déprécié implicite. */}
         {onSave && (
-          <Button onClick={onSave} disabled={isSaving} size="sm">
+          <Button emphasis="soft" onClick={onSave} disabled={isSaving} size="sm">
             <Save size={14} />
             {isSaving ? 'Enregistrement…' : 'Enregistrer'}
           </Button>

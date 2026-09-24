@@ -95,7 +95,13 @@ export const ChartExportButton: React.FC<ChartExportButtonProps> = ({
      Libellés en français depuis le 2026-09-24 (« Export as PNG »…). Le nom
      accessible reprend le libellé visible de la variante `full` et contient
      celui de la variante `compact` (WCAG 2.5.3, le libellé dans le nom) ; l'info-
-     bulle dit ce qu'on exporte, le graphique ou ses données. */
+     bulle dit ce qu'on exporte, le graphique ou ses données.
+
+     Niveau — arbitrage n°19 : exporter est un OUTIL, jamais l'action
+     principale d'un écran. `compact`, posé dans l'en-tête d'un graphique, est
+     en `ghost` (il était en `soft` : six boutons colorés sur le Passeport pour
+     deux graphiques) ; `full`, un bloc d'export autonome, garde un contour en
+     `soft`. La variante `full` alignait TROIS `solid`. */
   const boutons = [
     { actif: showPng, cle: 'png' as const, tone: 'brand' as const,
       Icone: Download,     court: 'PNG', long: 'Exporter en PNG', action: handleExportPng,
@@ -116,7 +122,7 @@ export const ChartExportButton: React.FC<ChartExportButtonProps> = ({
       <Button
         key={b.cle}
         size={compact ? 'sm' : 'md'}
-        emphasis={compact ? 'soft' : 'solid'}
+        emphasis={compact ? 'ghost' : 'soft'}
         tone={b.tone}
         onClick={b.action}
         disabled={loading !== null}

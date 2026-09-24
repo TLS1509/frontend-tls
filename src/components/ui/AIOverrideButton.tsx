@@ -71,9 +71,14 @@ export const AIOverrideButton: React.FC<AIOverrideButtonProps> = ({
             'resize-none transition-colors duration-base',
           ].join(' ')}
         />
+        {/* La confirmation se déplie DANS la page, qui a son propre `solid` :
+            « Confirmer le rejet » reste une action de contexte (`soft`), et
+            Annuler descend d'un cran, en `ghost` (arbitrage n°19 — la paire
+            outline / solid est celle des modales et des formulaires). */}
         <div className="flex gap-stack-xs justify-end">
           <Button
-            emphasis="outline"
+            emphasis="ghost"
+            tone="neutral"
             size="sm"
             onClick={handleCancel}
             leadingIcon={<X size={14} />}
@@ -94,13 +99,13 @@ export const AIOverrideButton: React.FC<AIOverrideButtonProps> = ({
   }
 
   return (
-    /* Contour neutre, par la grille (`tone="neutral"` : label ink-700, filet
-       ink-500). Il était obtenu en écrasant la couleur du label par `className`
-       — `text-ink-500`, le cran des placeholders, contre le `text-primary-800`
-       du ton : deux classes de même spécificité, c'est l'ordre d'émission qui
-       tranchait (piège n°6). */
+    /* Un outil, jamais l'action principale : `ghost` neutre (arbitrage n°19 ;
+       il était en `outline`, réservé à Annuler). Label ink-700, par la grille
+       — il était obtenu en écrasant la couleur par `className` (`text-ink-500`,
+       le cran des placeholders, contre le `text-primary-800` du ton : deux
+       classes de même spécificité, l'ordre d'émission tranchait, piège n°6). */
     <Button
-      emphasis="outline"
+      emphasis="ghost"
       tone="neutral"
       size={size}
       onClick={handleClick}
