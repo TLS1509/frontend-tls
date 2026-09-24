@@ -150,7 +150,7 @@ const SubscriptionTab: React.FC<{
           <Button emphasis="soft" size="sm" trailingIcon={<ArrowUpRight size={14} />}>
             Changer de formule
           </Button>
-          <Button emphasis="outline" size="sm">
+          <Button emphasis="ghost" tone="brand" size="sm">
             Voir les avantages
           </Button>
         </div>
@@ -210,8 +210,10 @@ const SubscriptionTab: React.FC<{
                   <CheckCircle2 size={14} aria-hidden="true" />
                   Payée
                 </span>
+                {/* Un outil de rangée : ghost (arbitrage n°19). */}
                 <Button
-                  emphasis="outline"
+                  emphasis="ghost"
+                  tone="neutral"
                   size="sm"
                   iconOnly
                   leadingIcon={<Download size={14} />}
@@ -246,7 +248,9 @@ const SubscriptionTab: React.FC<{
             </p>
           </div>
         </div>
-        <Button emphasis="soft" tone="warm" size="sm" className="self-start sm:self-auto shrink-0" onClick={onCancel}>
+        {/* Destructif sur une page : ghost danger (arbitrage n°19). La
+            confirmation, dans la modale, porte le solid danger. */}
+        <Button emphasis="ghost" tone="danger" size="sm" className="self-start sm:self-auto shrink-0" onClick={onCancel}>
           Annuler l'abonnement
         </Button>
       </div>
@@ -286,7 +290,9 @@ const CreditsTab: React.FC<{ credits: { classic: number; special: number } }> = 
           </ul>
 
           <div className="flex flex-col gap-stack-xs md:items-end">
-            <Button emphasis="soft" tone="warm" leadingIcon={<ShoppingBag size={16} />} onClick={() => navigate('/account/billing/credits/buy')}>
+            {/* L'action de l'onglet Crédits (arbitrage n°19). En soft, son fond
+                au cran 50 se confondait avec celui du panneau. */}
+            <Button emphasis="solid" tone="warm" leadingIcon={<ShoppingBag size={16} />} onClick={() => navigate('/account/billing/credits/buy')}>
               Acheter des crédits
             </Button>
             <p className="text-caption text-ink-600">Packs à partir de 9,90 €</p>

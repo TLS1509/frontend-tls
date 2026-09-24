@@ -146,7 +146,7 @@ const PurchaseCredits: React.FC = () => {
             </dl>
 
             <div className="flex flex-col gap-stack-sm">
-              <Button emphasis="soft" fullWidth size="lg" leadingIcon={<Check className="w-4 h-4" />} onClick={handlePurchase} disabled={purchased}>
+              <Button emphasis="solid" tone="brand" fullWidth size="lg" leadingIcon={<Check className="w-4 h-4" />} onClick={handlePurchase} disabled={purchased}>
                 {purchased ? 'Achat confirmé' : `Payer ${euros(pack.price)}`}
               </Button>
               <p className="flex items-center justify-center gap-stack-xs text-caption text-ink-600">

@@ -109,9 +109,12 @@ const GeneralTab: React.FC = () => {
             <Input label="Poste"           id="poste"   defaultValue="Responsable Formation" />
             <Input label="Entreprise"      id="company" defaultValue="TLS Learning Society" />
           </div>
+          {/* Arbitrage n°19 : l'enregistrement est l'action principale de
+              l'onglet (solid) ; Annuler forme la paire (outline neutre). Les
+              deux boutons n'étaient séparés que par leur couleur. */}
           <div className="flex flex-wrap gap-stack-xs">
-            <Button onClick={handleSave} loading={isSaving}>Enregistrer les modifications</Button>
-            <Button emphasis="soft" tone="warm" disabled={isSaving}>Annuler</Button>
+            <Button emphasis="solid" tone="brand" onClick={handleSave} loading={isSaving}>Enregistrer les modifications</Button>
+            <Button emphasis="outline" tone="neutral" disabled={isSaving}>Annuler</Button>
           </div>
         </Card>
       </section>
@@ -144,8 +147,10 @@ const GeneralTab: React.FC = () => {
           </Button>
         </SettingsRow>
         <SettingsRow icon={<Trash2 size={16} />} label="Supprimer mon compte" description="Cette action est irréversible. Toutes vos données seront perdues." danger>
+          {/* Destructif sur une page : ghost danger (arbitrage n°19). Le
+              solid danger est réservé au Confirmer du parcours de suppression. */}
           <Button
-            emphasis="soft" tone="danger"
+            emphasis="ghost" tone="danger"
             size="sm"
             leadingIcon={<Trash2 size={14} />}
             onClick={() => navigate('/profile/privacy/delete-account')}
@@ -235,7 +240,7 @@ const SecurityTab: React.FC = () => {
             bouton : une couleur posée en `className` à côté de celle de la
             variante se jouait à l'ordre d'émission (piège n°6). */}
         <div className="mt-stack-xs">
-          <Button emphasis="outline" tone="danger" size="sm" leadingIcon={<LogOut size={14} />}>
+          <Button emphasis="ghost" tone="danger" size="sm" leadingIcon={<LogOut size={14} />}>
             Déconnecter toutes les autres sessions
           </Button>
         </div>
