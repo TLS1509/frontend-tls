@@ -123,11 +123,16 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
     setHighlightedIdx(null);
   };
 
+  /* Hauteur totale 36 · 44 · 52 (arbitrage n°22) : le champ natif fait la
+     hauteur moins les 8 px de la double lunette — 2 × (filet 1 + retrait 2 +
+     filet 1). Le padding horizontal vit sur le cœur, pas sur le champ : il
+     était compté deux fois. */
   const sizeClasses = {
-    sm: 'h-9 px-3',
-    md: 'h-10 px-4',
-    lg: 'h-12 px-stack-md',
+    sm: 'h-7',
+    md: 'h-9',
+    lg: 'h-11',
   };
+  const iconSize = { sm: 16, md: 18, lg: 20 }[size];
 
   return (
     <div ref={containerRef} className={`relative ${className}`}>
@@ -136,8 +141,8 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
         {/* ===== INNER CORE ===== */}
         <div className="relative flex items-center gap-stack-xs bg-white rounded-lg border border-ink-100 shadow-[inset_0_1px_1px_white/15] overflow-hidden px-4">
           <SearchIcon
-            size={20}
-            className="text-ink-400 pointer-events-none flex-shrink-0"
+            size={iconSize}
+            className="text-ink-500 pointer-events-none flex-shrink-0"
           />
           <input
             ref={inputRef}
@@ -153,7 +158,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
             placeholder={placeholder}
             className={`
               flex-1 bg-transparent border-0
-              text-body font-medium text-ink-900 placeholder-ink-400
+              text-body text-ink-900 placeholder:text-ink-500
               focus:outline-none
               ${sizeClasses[size]}
             `}
@@ -178,7 +183,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
             >
               {/* Header */}
               <div className="px-4 py-3 border-b border-ink-100">
-                <p className="text-micro font-bold uppercase tracking-[0.15em] text-ink-500">
+                <p className="text-caption font-semibold text-ink-600">
                   Suggestions {filteredSuggestions.length > 0 && `(${filteredSuggestions.length})`}
                 </p>
               </div>
@@ -216,12 +221,12 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
                         <p className="text-body font-semibold text-ink-900 truncate">
                           {suggestion.label}
                         </p>
-                        <span className={`text-micro font-bold px-2 py-0.5 rounded-pill whitespace-nowrap ${COLOR_MAP[suggestion.type]}`}>
+                        <span className={`text-micro font-medium px-2 py-0.5 rounded-pill whitespace-nowrap ${COLOR_MAP[suggestion.type]}`}>
                           {LABEL_MAP[suggestion.type]}
                         </span>
                       </div>
                       {suggestion.description && (
-                        <p className="text-micro text-ink-500 mt-0.5 line-clamp-1">
+                        <p className="text-caption text-ink-600 mt-0.5 line-clamp-1">
                           {suggestion.description}
                         </p>
                       )}
@@ -229,7 +234,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
 
                     {/* Keyboard hint */}
                     {highlightedIdx === idx && (
-                      <span className="text-micro text-ink-600 ml-2 flex-shrink-0">⏎</span>
+                      <span className="text-caption text-ink-600 ml-2 flex-shrink-0">⏎</span>
                     )}
                   </button>
                 ))}
@@ -237,7 +242,7 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
 
               {/* Footer — show if suggestions are truncated */}
               {q && suggestions.length > filteredSuggestions.length && (
-                <div className="px-4 py-2.5 border-t border-ink-100 text-micro text-ink-500 text-center">
+                <div className="px-4 py-2.5 border-t border-ink-100 text-caption text-ink-600 text-center">
                   +{suggestions.length - filteredSuggestions.length} résultats supplémentaires
                 </div>
               )}
@@ -262,10 +267,10 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
               `}
             >
               <div className="px-4 py-section text-center">
-                <p className="text-body text-ink-500">
+                <p className="text-body text-ink-700">
                   Aucun résultat pour « <strong>{value}</strong> »
                 </p>
-                <p className="text-micro text-ink-600 mt-1">
+                <p className="text-caption text-ink-600 mt-1">
                   Essayez un autre terme
                 </p>
               </div>

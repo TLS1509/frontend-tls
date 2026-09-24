@@ -55,10 +55,27 @@ const CONTROL_BASE =
    complet dans `core/Input.tsx`. */
 const RAYON = 'rounded-lg';
 
+/* 36 · 44 · 52 (arbitrage n°22), texte saisi à 16 px à toutes les tailles
+   (zoom d'iOS au focus en dessous) ; padding et chevron de la famille champ
+   (`core/Input.tsx`). */
 const SIZE_CLASSES: Record<ComboboxSize, string> = {
-  sm: 'h-9 px-3 text-caption',
-  md: 'h-11 px-3.5 text-body',
-  lg: 'h-13 px-4 text-body',
+  sm: 'h-9 px-stack-sm text-body',
+  md: 'h-touch px-stack text-body',
+  lg: 'h-13 px-stack-md text-body',
+};
+
+const ICON_SIZE: Record<ComboboxSize, string> = {
+  sm: '[&>svg]:size-4',
+  md: '[&>svg]:size-4.5',
+  lg: '[&>svg]:size-5',
+};
+
+/* Les options de la liste reprennent le padding du champ : leur texte part de
+   la même verticale que la saisie. */
+const OPTION_PADDING: Record<ComboboxSize, string> = {
+  sm: 'px-stack-sm',
+  md: 'px-stack',
+  lg: 'px-stack-md',
 };
 
 type StatusVariant = { idle: string; active: string };
@@ -239,7 +256,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
         <label htmlFor={fieldId} className="text-body font-semibold text-ink-900">
           {label}
           {required && (
-            <span className="text-danger-base ml-0.5" aria-hidden="true">
+            <span className="text-danger-fg ml-0.5" aria-hidden="true">
               *
             </span>
           )}
@@ -283,10 +300,9 @@ export const Combobox: React.FC<ComboboxProps> = ({
                 inputRef.current?.focus();
               }
             }}
-            className="inline-flex items-center justify-center shrink-0 text-ink-500 border-0 bg-transparent p-0 cursor-pointer disabled:cursor-not-allowed focus:outline-none"
+            className={`inline-flex items-center justify-center shrink-0 text-ink-500 border-0 bg-transparent p-0 cursor-pointer disabled:cursor-not-allowed focus:outline-none ${ICON_SIZE[size]}`}
           >
             <ChevronDown
-              size={16}
               className={`transition-transform duration-base ${open ? 'rotate-180' : ''}`}
             />
           </button>
@@ -304,7 +320,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
             {filtered.length === 0 ? (
               <li
                 role="presentation"
-                className="px-3.5 py-2.5 text-body text-ink-500 select-none"
+                className={`${OPTION_PADDING[size]} py-2.5 text-body text-ink-600 select-none`}
               >
                 {noResultsLabel}
               </li>
@@ -325,9 +341,12 @@ export const Combobox: React.FC<ComboboxProps> = ({
                     }}
                     onMouseEnter={() => setFocusedIdx(idx)}
                     className={[
-                      'flex items-center justify-between gap-stack-xs px-3.5 py-2.5 text-body',
+                      'flex items-center justify-between gap-stack-xs py-2.5 text-body',
+                      OPTION_PADDING[size],
                       'cursor-pointer select-none transition-colors duration-fast',
-                      isSelected ? 'text-primary-700 font-semibold' : 'text-ink-900',
+                      // Option choisie : 600 et encre de marque au cran 800 (le
+                      // 700 mesurait 4,48 sur le fond primary-50 de l'option active).
+                      isSelected ? 'text-primary-800 font-semibold' : 'text-ink-900',
                       isFocused && !opt.disabled ? 'bg-primary-50' : '',
                       opt.disabled
                         ? 'opacity-disabled cursor-not-allowed text-ink-400'
@@ -339,9 +358,9 @@ export const Combobox: React.FC<ComboboxProps> = ({
                     <span className="flex-1 truncate">{opt.label}</span>
                     {isSelected && (
                       <Check
-                        size={14}
+                        size={16}
                         strokeWidth={2.5}
-                        className="shrink-0 text-primary-600"
+                        className="shrink-0 text-primary-700"
                       />
                     )}
                   </li>
@@ -359,7 +378,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
           className={
             error
               ? 'text-caption text-danger-fg flex items-center gap-tight'
-              : 'text-caption text-ink-500'
+              : 'text-caption text-ink-600'
           }
         >
           {error ?? hint}

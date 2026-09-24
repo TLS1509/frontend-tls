@@ -83,6 +83,17 @@ const isToggle = (a: SearchFilterAxis): a is ToggleFilterAxis => a.kind === 'tog
 /** Search size → FilterChip size (FilterChip has no `lg`). */
 const CHIP_SIZE: Record<SearchSize, FilterChipSize> = { sm: 'sm', md: 'md', lg: 'md' };
 
+/* Le bouton de filtres du mode `panel` est tiré à 4 px du bord du champ, dans
+   les trois tailles : hauteur = champ − 8 (36 → 28, 44 → 36, 52 → 44), retrait
+   droit = padding du champ − 4. Coins imbriqués : 14 − 4 = 10, `rounded-md`.
+   Depuis que `Search` porte sa hauteur dans sa rangée (n°22), le bouton y tient
+   sans marges verticales négatives. */
+const TOGGLE_SIZE: Record<SearchSize, string> = {
+  sm: 'h-7 w-7 -mr-stack-xs',
+  md: 'h-9 w-9 -mr-stack-sm',
+  lg: 'h-11 w-11 -mr-stack',
+};
+
 export const SearchFilters: React.FC<SearchFiltersProps> = ({
   query,
   onQueryChange,
@@ -218,11 +229,8 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
                   activeCount > 0 ? ` (${activeCount} actif${activeCount > 1 ? 's' : ''})` : ''
                 }`}
                 className={[
-                  /* Coins imbriqués : le bouton est tiré à 4 px du bord du champ (marges
-                     négatives sur le padding md de Search : 10 et 16 px). Champ 14,
-                     retrait 4 + 1 de bordure → rayon concentrique 9 ≈ `rounded-md`
-                     (10). Il faisait 44 px à 11 du bord et gonflait le champ à 66 px. */
-                  'relative inline-flex items-center justify-center h-9 w-9 -my-stack-2xs -mr-stack-sm rounded-md border cursor-pointer transition-all',
+                  'relative inline-flex items-center justify-center rounded-md border cursor-pointer transition-all',
+                  TOGGLE_SIZE[size],
                   'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
                   panelOpen || activeCount > 0
                     ? 'bg-primary-700 border-primary-700 text-white hover:bg-primary-800'
@@ -242,8 +250,13 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
 
         {panelOpen && (
           <div
+            /* Groupes espacés de 16 (24 côte à côte), libellé → pastilles 8 :
+               avec 8 partout, « Type d'entrée » était aussi près des pastilles
+               du groupe précédent que des siennes. Padding 20 = rayon 20 : les
+               pastilles des coins passent en « forme fixe » (règle des coins
+               imbriqués) — à 10, le coin pinçait. */
             className={[
-              'flex flex-wrap items-center gap-stack-xs p-2.5 rounded-xl',
+              'flex flex-wrap items-start gap-x-stack-lg gap-y-stack p-stack-md rounded-xl',
               'bg-white/70 backdrop-blur-glass-light border border-white/60',
               'shadow-[0_8px_24px_-8px_rgba(85,161,180,0.18)]',
               'animate-[filterIn_0.18s_ease]',
@@ -252,7 +265,7 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
             {filters.map((axis) => (
               <div key={axis.id} className="flex flex-col gap-stack-xs">
                 {!isDropdownAxis(axis) && (
-                  <span className="font-body text-caption font-medium text-ink-500">{axis.label}</span>
+                  <span className="font-body text-caption font-semibold text-ink-700">{axis.label}</span>
                 )}
                 <div
                   className="flex flex-wrap items-center gap-stack-xs"
@@ -263,7 +276,7 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
                 </div>
               </div>
             ))}
-            {hasActive && <div className="ml-auto">{resetButton}</div>}
+            {hasActive && <div className="ml-auto self-end">{resetButton}</div>}
           </div>
         )}
       </div>

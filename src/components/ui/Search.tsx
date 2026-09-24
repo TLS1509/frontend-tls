@@ -63,28 +63,47 @@ export interface SearchProps
    rayon ne dépend plus de la taille. Raisonnement complet dans `core/Input.tsx`. */
 const RAYON = 'rounded-lg';
 
+/* Hauteurs 36 · 44 · 52 — arbitrage n°22, l'échelle du champ et du bouton.
+
+   Avant, la hauteur n'était écrite nulle part : elle naissait du padding
+   vertical plus l'interligne du texte, et rendait 34 · 48 · 56 px — aucune des
+   trois sur l'échelle, et `md` dépassait de 4 px l'`Input` qu'il côtoie dans
+   les formulaires. Elle est maintenant portée par la RANGÉE de saisie
+   (`min-h-8/10/12`) ; le cadre n'ajoute que 1 px de bordure et 1 px de
+   retrait de chaque côté : 32 + 4 = 36, 40 + 4 = 44, 48 + 4 = 52. Une rangée
+   de filtres ou de suggestions s'ajoute en dessous sans toucher à ces
+   hauteurs, avec son propre padding (`SIZE_BELOW`).
+
+   Padding horizontal et icônes : ceux de la famille champ (`core/Input.tsx`) —
+   12 · 16 · 20 et 16 · 18 · 20. */
 const SIZE_WRAPPER: Record<SearchSize, string> = {
-  sm: 'py-1.5 px-3',
-  md: 'py-2.5 px-4',
-  lg: 'py-3.5 px-stack-md',
+  sm: 'py-px px-stack-sm',
+  md: 'py-px px-stack',
+  lg: 'py-px px-stack-md',
 };
 
-const SIZE_GAP: Record<SearchSize, string> = {
-  sm: 'gap-stack-xs',
-  md: 'gap-stack-xs',
-  lg: 'gap-stack-xs',
+const SIZE_ROW: Record<SearchSize, string> = {
+  sm: 'min-h-8',
+  md: 'min-h-10',
+  lg: 'min-h-12',
 };
 
-const SIZE_INPUT: Record<SearchSize, string> = {
-  sm: 'text-caption',
-  md: 'text-body',
-  lg: 'text-body',
+/* Retrait sous une rangée de filtres ou de suggestions — ce que le padding
+   vertical du cadre donnait avant, rangée de saisie mise à part. */
+const SIZE_BELOW: Record<SearchSize, string> = {
+  sm: 'pt-stack-2xs pb-stack-2xs',
+  md: 'pt-stack-xs pb-stack-xs',
+  lg: 'pt-stack-xs pb-stack-sm',
 };
 
-const SIZE_ICON: Record<SearchSize, number> = {
-  sm: 12,
-  md: 18,
-  lg: 20,
+/* ⚠️ Le texte SAISI est à 16 px aux trois tailles : sous 16, Safari iOS zoome
+   sur la page au focus (l'ancien `sm` était à 13). */
+const SIZE_INPUT = 'text-body';
+
+const SIZE_ICON: Record<SearchSize, string> = {
+  sm: '[&>svg]:size-4',
+  md: '[&>svg]:size-4.5',
+  lg: '[&>svg]:size-5',
 };
 
 /* `glass` — contrat : un hero au cran 700 ou plus sombre.
@@ -184,14 +203,14 @@ export const Search: React.FC<SearchProps> = ({
   ].filter(Boolean).join(' ');
 
   const inputRowClasses = [
-    'flex items-center',
-    SIZE_GAP[size],
+    'flex items-center gap-stack-xs',
+    SIZE_ROW[size],
   ].join(' ');
 
   const inputClasses = [
     'flex-1 bg-transparent border-0 outline-none font-body min-w-0 h-auto p-0',
     'focus:outline-none focus:bg-transparent focus:shadow-none',
-    SIZE_INPUT[size],
+    SIZE_INPUT,
     VARIANT_INPUT[variant],
   ].join(' ');
 
@@ -199,8 +218,8 @@ export const Search: React.FC<SearchProps> = ({
     <div className={wrapperClasses} role="search">
       {/* Input row — plain div, no label wrapping (avoids click-steal on nested buttons) */}
       <div className={inputRowClasses}>
-        <span className={`inline-flex items-center justify-center shrink-0 ${VARIANT_ICON[variant]}`} aria-hidden>
-          {leadingIcon ?? <SearchIcon size={SIZE_ICON[size]} strokeWidth={2} />}
+        <span className={`inline-flex items-center justify-center shrink-0 ${SIZE_ICON[size]} ${VARIANT_ICON[variant]}`} aria-hidden>
+          {leadingIcon ?? <SearchIcon strokeWidth={2} />}
         </span>
 
         <input
@@ -247,10 +266,10 @@ export const Search: React.FC<SearchProps> = ({
 
         {shortcut && !hasValue && !isLoading && (
           <kbd className={[
-            'font-mono text-[11px] py-0.5 px-2 rounded-sm shrink-0 border',
+            'font-mono text-micro py-0.5 px-2 rounded-sm shrink-0 border',
             isGlass
               ? 'bg-ink-900/30 text-white border-white/30'
-              : 'bg-ink-50 text-ink-500 border-ink-200',
+              : 'bg-ink-50 text-ink-600 border-ink-200',
           ].join(' ')}>
             {shortcut}
           </kbd>
@@ -259,7 +278,7 @@ export const Search: React.FC<SearchProps> = ({
 
       {/* Filters slot — rendered BELOW input row, as sibling (not inside a label) */}
       {hasFiltersSlot && (
-        <div className={`flex flex-wrap gap-stack-2xs pt-2 border-t ${isGlass ? 'border-white/20' : 'border-ink-100'}`}>
+        <div className={`flex flex-wrap gap-stack-2xs border-t ${SIZE_BELOW[size]} ${isGlass ? 'border-white/20' : 'border-ink-100'}`}>
           {filtersSlot}
         </div>
       )}
@@ -269,7 +288,7 @@ export const Search: React.FC<SearchProps> = ({
         <div
           id="search-suggestions"
           role="listbox"
-          className={`flex flex-col gap-tight pt-2 border-t ${isGlass ? 'border-white/20' : 'border-ink-100'}`}
+          className={`flex flex-col gap-tight border-t ${SIZE_BELOW[size]} ${isGlass ? 'border-white/20' : 'border-ink-100'}`}
         >
           {suggestions!.map((suggestion) => (
             <button
@@ -286,11 +305,11 @@ export const Search: React.FC<SearchProps> = ({
             >
               {suggestion.icon && <span className="inline-flex shrink-0">{suggestion.icon}</span>}
               <div className="flex-1 min-w-0">
-                <div className={`text-body font-medium truncate ${isGlass ? 'text-white' : 'text-ink-900'}`}>
+                <div className={`text-body truncate ${isGlass ? 'text-white' : 'text-ink-900'}`}>
                   {renderSuggestion ? renderSuggestion(suggestion) : suggestion.label}
                 </div>
                 {suggestion.metadata && (
-                  <div className={`text-caption truncate ${isGlass ? 'text-white/80' : 'text-ink-500'}`}>
+                  <div className={`text-caption truncate ${isGlass ? 'text-white/80' : 'text-ink-600'}`}>
                     {suggestion.metadata}
                   </div>
                 )}

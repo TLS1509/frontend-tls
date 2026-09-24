@@ -96,10 +96,30 @@ const CONTROL_GLASS =
 
 const DISABLED_GLASS = 'bg-white/8 text-white/40 cursor-not-allowed hover:border-white/20';
 
+/* Hauteurs 36 · 44 · 52 — l'échelle commune de l'arbitrage n°22, celle du
+   bouton : un champ et son bouton posés sur une même ligne ont la même taille.
+
+   ⚠️ Le texte SAISI est à 16 px aux trois tailles, `sm` compris. En dessous,
+   Safari sur iOS zoome sur la page au focus et ne la rend pas : l'ancien
+   `sm` en `text-caption` (13) le déclenchait sur la recherche de /veille.
+   La taille se lit donc à la hauteur et au padding, jamais à la police.
+
+   Padding horizontal sur l'échelle d'espacement (12 · 16 · 20), commun à la
+   famille champ — Select, Combobox et Search le reprennent : leurs textes et
+   leurs icônes partent de la même verticale dans un formulaire. */
 const SIZE_CLASSES: Record<InputSize, string> = {
-  sm: 'h-9 px-3 text-caption',
-  md: 'h-touch px-3.5 text-body',
-  lg: 'h-13 px-4 text-body',
+  sm: 'h-9 px-stack-sm text-body',
+  md: 'h-touch px-stack text-body',
+  lg: 'h-13 px-stack-md text-body',
+};
+
+/* Icônes : 16 en `sm`, 18 en `md`, 20 en `lg` — le glyphe direct est plié à
+   sa boîte, quelle que soit la taille passée par l'appelant (même motif que
+   `Button`). Centrées sur la ligne du texte saisi. */
+const ICON_SIZE: Record<InputSize, string> = {
+  sm: '[&>svg]:size-4',
+  md: '[&>svg]:size-4.5',
+  lg: '[&>svg]:size-5',
 };
 
 const TEXTAREA_EXTRA = 'min-h-24 py-3 items-start';
@@ -151,11 +171,15 @@ export const Input: React.FC<InputProps> = ({
 
   const nativeFieldClasses = isGlass ? NATIVE_FIELD_GLASS : NATIVE_FIELD_LIGHT;
 
-  const iconClasses = isGlass
-    ? 'inline-flex items-center justify-center shrink-0 text-white/60 text-base'
-    : 'inline-flex items-center justify-center shrink-0 text-ink-500 text-base';
+  const iconClasses = [
+    'inline-flex items-center justify-center shrink-0',
+    ICON_SIZE[size],
+    isGlass ? 'text-white/60' : 'text-ink-500',
+  ].join(' ');
 
-  const hintClasses = isGlass ? 'text-caption text-white/60' : 'text-caption text-ink-500';
+  // Aide sous le champ : 13 / 400, ink-600 (doctrine, rôle « méta, aide »).
+  // ink-500 est réservé aux placeholders.
+  const hintClasses = isGlass ? 'text-caption text-white/75' : 'text-caption text-ink-600';
   const errorClasses = isGlass
     ? 'text-caption text-danger-base flex items-center gap-tight'
     : 'text-caption text-danger-fg flex items-center gap-tight';
@@ -230,7 +254,7 @@ const CHECKBOX_BOX =
   "peer-indeterminate:bg-primary-700 peer-indeterminate:border-primary-700 " +
   "peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-500 " +
   "peer-disabled:bg-ink-50 peer-disabled:border-ink-200 peer-disabled:cursor-not-allowed " +
-  "after:content-[''] after:text-white after:font-bold after:text-[12px] after:leading-none after:opacity-0 " +
+  "after:content-[''] after:text-white after:font-bold after:text-caption after:leading-none after:opacity-0 " +
   "peer-checked:after:content-['✓'] peer-checked:after:opacity-100 " +
   "peer-indeterminate:after:content-['−'] peer-indeterminate:after:opacity-100";
 

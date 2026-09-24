@@ -44,10 +44,20 @@ const CONTROL_BASE =
    Raisonnement complet dans `core/Input.tsx`. */
 const RAYON = 'rounded-lg';
 
+/* 36 · 44 · 52 (arbitrage n°22) et 16 px de texte à toutes les tailles : la
+   valeur choisie est du texte saisi, et Safari iOS zoome au focus sous 16 px.
+   Padding et icône : ceux de `core/Input.tsx`, dont la famille champ suit
+   l'échelle (12 · 16 · 20 ; chevron 16 · 18 · 20). */
 const SIZE_CLASSES: Record<SelectSize, string> = {
-  sm: 'h-9 px-3 text-caption',
-  md: 'h-11 px-3.5 text-body',
-  lg: 'h-13 px-4 text-body',
+  sm: 'h-9 px-stack-sm text-body',
+  md: 'h-touch px-stack text-body',
+  lg: 'h-13 px-stack-md text-body',
+};
+
+const ICON_SIZE: Record<SelectSize, string> = {
+  sm: '[&>svg]:size-4',
+  md: '[&>svg]:size-4.5',
+  lg: '[&>svg]:size-5',
 };
 
 const STATUS_CLASSES: Record<SelectStatus, string> = {
@@ -135,10 +145,10 @@ export const Select: React.FC<SelectProps> = ({
         </select>
         {showIcon && (
           <span
-            className="inline-flex items-center justify-center shrink-0 text-ink-500 pointer-events-none"
+            className={`inline-flex items-center justify-center shrink-0 text-ink-500 pointer-events-none ${ICON_SIZE[size]}`}
             aria-hidden="true"
           >
-            <ChevronDown size={16} />
+            <ChevronDown />
           </span>
         )}
       </span>
@@ -149,7 +159,7 @@ export const Select: React.FC<SelectProps> = ({
           className={
             error
               ? 'text-caption text-danger-fg flex items-center gap-tight'
-              : 'text-caption text-ink-500'
+              : 'text-caption text-ink-600'
           }
           role={error ? 'alert' : undefined}
         >
