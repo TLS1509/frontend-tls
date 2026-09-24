@@ -129,59 +129,70 @@ export const DreyfusSlider: React.FC<DreyfusSliderProps> = ({
 
   return (
     <div className={['flex flex-col gap-stack-xs', className].filter(Boolean).join(' ')}>
-      {/* Track + thumb */}
-      <div className="relative px-3 py-3">
-        <div className={trackClasses} role="presentation">
-          <div className={filledTrackClasses} style={{ width: `${pct}%` }} aria-hidden="true" />
-          <div className={thumbClasses} style={{ left: `${pct}%` }} aria-hidden="true" />
+      {/* Piste + crans (2026-09-24). La piste va du CENTRE de la première
+          colonne de libellés au centre de la dernière : sa marge vaut une
+          demi-colonne, 50 / n % de la rangée (valeur calculée, `levels` est
+          une prop). Elle occupait toute la rangée, donc ses crans tombaient à
+          0 · 25 · 50 · 75 · 100 % quand les libellés, cinq colonnes égales,
+          sont centrés à 10 · 30 · 50 · 70 · 90 % : jusqu'à 67 px d'écart à
+          1440 (27 à 375) entre un cran et son mot.
+          Les crans vivent sur un calque posé exactement sur la piste, et sont
+          centrés sur son axe : leur calque n'avait pas de hauteur, ils
+          pendaient 10 px sous la piste, quand le curseur, lui, est centré. */}
+      <div className="px-3 py-3">
+        <div className="relative" style={{ marginInline: `${50 / levels.length}%` }}>
+          <div className={trackClasses} role="presentation">
+            <div className={filledTrackClasses} style={{ width: `${pct}%` }} aria-hidden="true" />
+            <div className={thumbClasses} style={{ left: `${pct}%` }} aria-hidden="true" />
 
-          {/* Hidden native range for keyboard a11y */}
-          <input
-            type="range"
-            min={1}
-            max={levels.length}
-            step={1}
-            value={current || 1}
-            onChange={(e) => onChange(Number(e.target.value))}
-            aria-label={ariaLabel}
-            aria-valuemin={1}
-            aria-valuemax={levels.length}
-            aria-valuenow={isSet ? current : undefined}
-            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-pill"
-          />
-        </div>
+            {/* Hidden native range for keyboard a11y */}
+            <input
+              type="range"
+              min={1}
+              max={levels.length}
+              step={1}
+              value={current || 1}
+              onChange={(e) => onChange(Number(e.target.value))}
+              aria-label={ariaLabel}
+              aria-valuemin={1}
+              aria-valuemax={levels.length}
+              aria-valuenow={isSet ? current : undefined}
+              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-500 rounded-pill"
+            />
+          </div>
 
-        {/* Tick buttons (click to set discrete value) */}
-        <div className="absolute inset-x-3 top-1/2 -translate-y-1/2 flex justify-between pointer-events-none">
-          {levels.map((lv, idx) => {
-            const tickPct = (idx / (levels.length - 1)) * 100;
-            const isActive = isSet && current === lv.v;
-            const isPast = isSet && current > lv.v;
-            return (
-              <button
-                key={lv.v}
-                type="button"
-                onClick={() => onChange(lv.v)}
-                style={{ left: `${tickPct}%` }}
-                aria-label={`Niveau ${lv.v} — ${lv.label}`}
-                aria-pressed={isActive}
-                className={[
-                  'absolute -translate-x-1/2 w-5 h-5 rounded-pill pointer-events-auto cursor-pointer',
-                  'flex items-center justify-center transition-all duration-base',
-                  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                  isActive
-                    ? 'opacity-0'
-                    : isPast
-                    ? `${TRACK_FILL[tone]} opacity-60 hover:opacity-100 scale-100 hover:scale-110`
-                    : 'bg-white border border-ink-300 hover:border-primary-400 scale-100 hover:scale-110',
-                ].join(' ')}
-              >
-                {!isPast && !isActive && (
-                  <span className="text-micro font-bold text-ink-600">{lv.v}</span>
-                )}
-              </button>
-            );
-          })}
+          {/* Tick buttons (click to set discrete value) */}
+          <div className="absolute inset-0 pointer-events-none">
+            {levels.map((lv, idx) => {
+              const tickPct = (idx / (levels.length - 1)) * 100;
+              const isActive = isSet && current === lv.v;
+              const isPast = isSet && current > lv.v;
+              return (
+                <button
+                  key={lv.v}
+                  type="button"
+                  onClick={() => onChange(lv.v)}
+                  style={{ left: `${tickPct}%` }}
+                  aria-label={`Niveau ${lv.v} — ${lv.label}`}
+                  aria-pressed={isActive}
+                  className={[
+                    'absolute top-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 rounded-pill pointer-events-auto cursor-pointer',
+                    'flex items-center justify-center transition-all duration-base',
+                    'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                    isActive
+                      ? 'opacity-0'
+                      : isPast
+                      ? `${TRACK_FILL[tone]} opacity-60 hover:opacity-100 scale-100 hover:scale-110`
+                      : 'bg-white border border-ink-300 hover:border-primary-400 scale-100 hover:scale-110',
+                  ].join(' ')}
+                >
+                  {!isPast && !isActive && (
+                    <span className="text-micro font-bold text-ink-600">{lv.v}</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
@@ -203,7 +214,9 @@ export const DreyfusSlider: React.FC<DreyfusSliderProps> = ({
               <div
                 key={lv.v}
                 className={[
-                  'flex flex-col items-center gap-stack-3xs w-1/5 text-center min-w-0',
+                  // Colonnes égales (`flex-1`), quel que soit le nombre de niveaux :
+                  // la marge de la piste en dépend.
+                  'flex flex-col items-center gap-stack-3xs flex-1 text-center min-w-0',
                   'transition-colors duration-base',
                   // Le niveau choisi se dit par l'encre de marque, à graisse égale
                   // (600) : le gras et le `scale-105` faisaient bouger le mot.
