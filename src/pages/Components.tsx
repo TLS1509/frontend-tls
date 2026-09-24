@@ -4510,25 +4510,24 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'SectionHeader',
     codeName: 'patterns/SectionHeader.tsx',
     cssBase: 'SectionHeader (canonical section heading)',
-    usedBy: ['LearningPathDetail', 'Dashboard', 'Journal'],
-    description: "L'en-tête de section canonique : titre, sous-titre, méta, action, pastille d'icône optionnelle. Le niveau se choisit par `as` (h2 par défaut, h3, h4), indépendamment de la taille. Tailles : md, le défaut, et lg → titre h2 28/36 (pastille de 44 ou 56 px) ; sm et xs → titre h3 20/26 (36 ou 32 px). Sous-titre 16 ink-700 à la largeur de lecture et méta en légende 13 ink-600 (`meta`, ajoutée le 24/09), chacun à 4 px ; la première ligne du titre se centre sur la pastille. Quatre variantes (default · solid · minimal · underline) × cinq tons. Aucune marge extérieure : la page pose 48 px au-dessus et 16 en dessous. `compact` est déprécié (= sm) ; la variante `accent`, une barre d'accent à gauche, a été retirée le 24/09.",
+    usedBy: ['Dashboard', 'Journal', 'LearningPathDetail', 'et 94 autres pages (24/09)'],
+    description: "L'en-tête de section canonique : titre, sous-titre, méta, action, pastille d'icône optionnelle. Le niveau se choisit par `as` (h2 par défaut, h3, h4), indépendamment de la taille. Tailles : md, le défaut, et lg → titre h2 28/36 ; sm et xs → titre h3 20/26 ; la pastille suit la taille. Sous-titre 16 ink-700 à la largeur de lecture et méta en légende 13 ink-600 (`meta`, ajoutée le 24/09), chacun à 4 px ; la première ligne du titre se centre sur la pastille. Variantes default · minimal · underline, cinq tons ; `solid` n'a aucun usage produit. Aucune marge extérieure : la page pose 48 px au-dessus et 16 en dessous. `compact` est déprécié (= sm) ; la variante `accent`, une barre d'accent à gauche, a été retirée le 24/09.",
     keywords: ['section', 'header', 'titre', 'title', 'icon', 'h2', 'h3', 'h4', 'as', 'meta', 'subtitle', 'action', 'divider', 'variants', 'sizes', 'solid', 'minimal', 'underline', 'canonical'],
     render: () => (
       <div className="flex flex-col gap-section">
         {/* Tailles : de lg à xs, pour que les niveaux ne sautent pas (h2, h2, h3, h3). */}
         <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-ink-50/50 border border-ink-200">
-          <p className="text-caption font-semibold text-ink-600">Quatre tailles · variante solid · ton warm</p>
-          <SectionHeader size="lg" variant="solid" tone="warm" icon={Calendar} title="lg · h2 28, pastille de 56" />
-          <SectionHeader size="md" variant="solid" tone="warm" icon={Calendar} title="md · h2 28, le défaut" />
-          <SectionHeader size="sm" variant="solid" tone="warm" icon={Calendar} title="sm · h3 20" as="h3" />
-          <SectionHeader size="xs" variant="solid" tone="warm" icon={Calendar} title="xs · h3 20, pastille de 32" as="h3" />
+          <p className="text-caption font-semibold text-ink-600">Quatre tailles · variante default · ton warm</p>
+          <SectionHeader size="lg" tone="warm" icon={Calendar} title="lg · h2 28, titre de groupe" />
+          <SectionHeader size="md" tone="warm" icon={Calendar} title="md · h2 28, le défaut" />
+          <SectionHeader size="sm" tone="warm" icon={Calendar} title="sm · h3 20" as="h3" />
+          <SectionHeader size="xs" tone="warm" icon={Calendar} title="xs · h3 20, serré" as="h3" />
         </div>
 
         {/* Variantes (taille md, ton primary) */}
         <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-ink-50/50 border border-ink-200">
-          <p className="text-caption font-semibold text-ink-600">Quatre variantes · taille md · ton primary</p>
-          <SectionHeader variant="default" icon={Calendar} title="default — pastille teintée" subtitle="Fond du ton au cran 50, icône au cran du ton." />
-          <SectionHeader variant="solid" icon={Calendar} title="solid — pastille pleine" subtitle="Dégradé du ton, icône blanche." />
+          <p className="text-caption font-semibold text-ink-600">Trois variantes · taille md · ton primary</p>
+          <SectionHeader variant="default" icon={Calendar} title="default — pastille teintée" subtitle="Fond du ton au cran 50." />
           <SectionHeader variant="minimal" icon={Calendar} title="minimal — icône seule" subtitle="Sans pastille." />
           <SectionHeader variant="underline" icon={Calendar} title="underline — trait sous le titre" subtitle="Un trait du ton, sous la première ligne." />
         </div>
