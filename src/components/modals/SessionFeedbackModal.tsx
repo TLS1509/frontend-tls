@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Send, Sparkles, Star } from 'lucide-react';
+import { X, Send, CheckCircle2, Star } from 'lucide-react';
 import { useDialog } from '../../hooks/useDialog';
 import { Button } from '../core/Button';
 
@@ -14,6 +14,13 @@ interface SessionFeedbackModalProps {
   onSubmit: (rating: number, comment: string) => void;
   title?: string;
   subtitle?: string;
+  /**
+   * Pictogramme de tête. Par défaut une validation neutre (`CheckCircle2`) :
+   * la modale clôt une leçon ou une session. Elle affichait `Sparkles`, que la
+   * doctrine (DESIGN.md §10.3) réserve aux fonctions d'IA — or aucune IA
+   * n'intervient ici (2026-09-24).
+   */
+  icon?: React.ReactNode;
 }
 
 const RATING_LABELS: Record<number, string> = {
@@ -30,6 +37,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
   onSubmit,
   title = 'Ton avis compte',
   subtitle = 'Comment évalues-tu cette session ?',
+  icon,
 }) => {
   // Comportement de dialogue partagé (APG) : focus entrant, Tab piégé, Échap, focus rendu.
   const dialog = useDialog<HTMLDivElement>(isOpen, onClose);
@@ -84,7 +92,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
           <>
             {/* Icon badge */}
             <div className="relative w-[60px] h-[60px] rounded-lg bg-gradient-to-br from-accent-400/20 to-accent-400/8 border border-accent-400/25 flex items-center justify-center mx-auto mb-stack">
-              <Sparkles size={28} className="text-accent-600" />
+              {icon ?? <CheckCircle2 size={28} className="text-accent-600" />}
             </div>
 
             {/* Title */}
