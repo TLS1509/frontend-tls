@@ -415,7 +415,12 @@ L'app est une SPA réactive : les données du domaine vivent dans des stores Zus
   signature, mesure **2,94** sur blanc : il ne porte ni texte ni contour.
 - **Les variantes douces battent tous les remplissages saturés en contraste de
   texte** : `soft/brand` 6,31 · `soft/warm` 9,49 · `soft/sun` 7,64 — contre 5,02
-  au mieux pour un aplat conforme. C'est l'argument qui a porté la bascule.
+  au mieux pour un aplat conforme. C'est l'argument qui a porté la bascule du
+  17/09 (« `soft` principal »). ⚠️ **Remplacée le 2026-09-24 par l'arbitrage
+  n°19 : un seul `solid` par écran, l'action principale** ; `soft` = contexte,
+  `ghost` = tertiaire, `outline` = Annuler dans une paire. Le contraste de `soft`
+  reste vrai ; c'est sa place dans la hiérarchie qui a changé (`soft` et
+  `outline` se confondaient sur une carte teintée). `npm run check:boutons`.
 
 ### Bouton (`emphasis` × `tone`) · requêtes de conteneur
 
