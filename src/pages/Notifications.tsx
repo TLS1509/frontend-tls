@@ -16,6 +16,7 @@ import { Button } from '../components/core/Button';
 import { Card } from '../components/core/Card';
 import { FilterChip } from '../components/ui/FilterChip';
 import { EmptyState } from '../components/ui/EmptyState';
+import { MetaPill } from '../components/ui/MetaPill';
 import { NotificationCard } from '../components/cards/NotificationCard';
 import type { NotificationTone } from '../components/cards/NotificationCard';
 import {
@@ -181,27 +182,27 @@ export const Notifications: React.FC = () => {
   const hasMore = visible.length > loadCount;
 
   return (
-    <PageShell width="content" gap="stack-lg">
+    /* 32 entre l'en-tête et le contenu (la fourchette de la doctrine : 32 à
+       48) ; il était à 24. */
+    <PageShell width="content" gap="section">
 
-        {/* ── Header épuré ───────────────────────────────────────────── */}
-        <header className="flex flex-wrap items-center justify-between gap-stack">
-          <div className="flex items-center gap-stack-xs">
-            <div className="w-10 h-10 rounded-pill bg-primary-100 text-primary-800 inline-flex items-center justify-center">
-              <Bell size={18} />
-            </div>
-            <div>
-              <h1 className="font-display text-h3 font-bold text-ink-900">
-                Notifications
-              </h1>
-              <p className="m-0 font-body text-caption text-ink-500">
-                {unread > 0
-                  ? `${unread} non lue${unread > 1 ? 's' : ''} · ${items.length} au total`
-                  : `${items.length} notification${items.length > 1 ? 's' : ''}`}
-              </p>
-            </div>
+        {/* ── Header épuré ─────────────────────────────────────────────
+            Le titre de la page au pas d'un h1 (36) : il était à 20, le pas
+            d'un titre de carte, à côté d'une pastille d'icône décorative. Le
+            compte est une méta (13, ink-600 ; ink-500 avant), à 12 du titre. */}
+        <header className="flex flex-wrap items-start justify-between gap-stack">
+          <div className="flex flex-col gap-stack-sm min-w-0">
+            <h1 className="font-display text-h1 text-ink-900">
+              Notifications
+            </h1>
+            <p className="font-body text-caption text-ink-600 tabular-nums">
+              {unread > 0
+                ? `${unread} non lue${unread > 1 ? 's' : ''} · ${items.length} au total`
+                : `${items.length} notification${items.length > 1 ? 's' : ''}`}
+            </p>
           </div>
 
-          <div className="flex items-center gap-stack-xs">
+          <div className="flex items-center gap-stack-xs pt-1">
             {unread > 0 && (
               <Button
                 size="sm"
@@ -212,17 +213,22 @@ export const Notifications: React.FC = () => {
                 Tout marquer comme lu
               </Button>
             )}
+            {/* L'icône est le contenu d'un bouton à icône seule : passée en
+                `leadingIcon`, elle se décalait et le cercle paraissait coupé. */}
             <Button
               size="sm"
               emphasis="outline"
               iconOnly
-              leadingIcon={<Settings2 size={16} />}
               aria-label="Préférences de notifications"
               onClick={() => navigate('/notifications/preferences')}
-            />
+            >
+              <Settings2 size={16} />
+            </Button>
           </div>
         </header>
 
+        {/* Filtres et liste forment un ensemble : 16 entre eux. */}
+        <div className="flex flex-col gap-stack">
         {/* ── Filter chips ───────────────────────────────────────────── */}
         <nav
           aria-label="Filtrer les notifications"
@@ -266,19 +272,16 @@ export const Notifications: React.FC = () => {
                 const cfg = TYPE_CONFIG[item.type];
 
                 // Build meta inline (grade or badge name → tiny chip)
+                // Une note ou un badge sont des données : MetaPill (les
+                // pastilles faites main étaient en 13/600) ; le type, une
+                // légende ink-600 (ink-500 avant).
                 const meta =
                   item.grade ? (
-                    <span className="inline-flex items-center gap-tight px-2 py-0.5 rounded-pill bg-ink-100 text-ink-700 font-semibold">
-                      <Trophy size={14} />
-                      {item.grade}
-                    </span>
+                    <MetaPill icon={<Trophy />} text={String(item.grade)} tone="neutral" />
                   ) : item.badgeName ? (
-                    <span className="inline-flex items-center gap-tight px-2 py-0.5 rounded-pill bg-accent-100 text-accent-800 font-semibold">
-                      <Award size={14} />
-                      {item.badgeName}
-                    </span>
+                    <MetaPill icon={<Award />} text={item.badgeName} tone="sun" />
                   ) : (
-                    <span className="text-ink-500">{cfg.label}</span>
+                    <span className="text-ink-600">{cfg.label}</span>
                   );
 
                 return (
@@ -302,8 +305,9 @@ export const Notifications: React.FC = () => {
             </Card>
           )}
 
+          {/* Sur le bord gauche de la liste qu'il prolonge (il était centré). */}
           {hasMore && (
-            <div className="pt-stack flex justify-center">
+            <div className="pt-stack flex">
               <Button
                 emphasis="soft" tone="warm"
                 size="sm"
@@ -315,6 +319,7 @@ export const Notifications: React.FC = () => {
             </div>
           )}
         </section>
+        </div>
     </PageShell>
   );
 };
