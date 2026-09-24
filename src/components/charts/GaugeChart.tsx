@@ -267,6 +267,16 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
     );
   };
 
+  /* Chaque anneau a SA circonférence — corrigé le 2026-09-24. Les deux anneaux
+   * intérieurs (0,7 et 0,4 × le rayon) reprenaient celle de l'anneau extérieur :
+   * leur trait valait p × 2πR sur un cercle de 0,7 × 2πR, donc tout anneau
+   * au-delà de 70 % (40 % pour l'objectif) se dessinait plein. Mesuré sur la
+   * vitrine, 75 % et un objectif à 90 % rendaient deux cercles complets. */
+  const rayonCourant = config.radius * 0.7;
+  const rayonCible = config.radius * 0.4;
+  const circonferenceCourant = 2 * Math.PI * rayonCourant;
+  const circonferenceCible = 2 * Math.PI * rayonCible;
+
   const renderSegmentVariant = () => (
     <div className="flex flex-col items-center gap-stack-sm">
       <svg width={svgSize} height={svgSize}>
@@ -285,11 +295,11 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
         <circle
           cx={config.center}
           cy={config.center}
-          r={config.radius * 0.7}
+          r={rayonCourant}
           fill="none"
           stroke={colors.arc}
           strokeWidth={6}
-          strokeDasharray={`${(percentage / 100) * circumference} ${(100 - percentage) / 100 * circumference}`}
+          strokeDasharray={`${(percentage / 100) * circonferenceCourant} ${circonferenceCourant}`}
           strokeDashoffset={0}
           strokeLinecap="round"
           style={{
@@ -304,11 +314,11 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
           <circle
             cx={config.center}
             cy={config.center}
-            r={config.radius * 0.4}
+            r={rayonCible}
             fill="none"
             stroke={colors.needle}
             strokeWidth={2}
-            strokeDasharray={`${(targetPercentage / 100) * circumference} ${(100 - targetPercentage) / 100 * circumference}`}
+            strokeDasharray={`${(targetPercentage / 100) * circonferenceCible} ${circonferenceCible}`}
             strokeDashoffset={0}
             opacity={0.6}
             style={{
