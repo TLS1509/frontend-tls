@@ -98,16 +98,19 @@ export default function HelpTicketNew() {
           </FormGroup>
         </div>
 
+        {/* L'envoi d'un formulaire est l'aplat de l'écran, Annuler l'outline
+            neutre qui forme la paire (arbitrage n°19). */}
         <div className="flex flex-wrap gap-stack-xs">
           <Button
-            emphasis="soft"
+            emphasis="solid"
+            tone="brand"
             leadingIcon={<Send size={16} />}
             disabled={!subject.trim() || !description.trim() || !categoryId}
             onClick={handleSubmit}
           >
             Envoyer la demande
           </Button>
-          <Button emphasis="outline" leadingIcon={<X size={16} />} onClick={() => navigate('/help/tickets')}>
+          <Button emphasis="outline" tone="neutral" leadingIcon={<X size={16} />} onClick={() => navigate('/help/tickets')}>
             Annuler
           </Button>
         </div>

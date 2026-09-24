@@ -52,8 +52,10 @@ export default function HelpTicketDetail() {
           summary="Ce ticket n'existe pas ou vous n'y avez pas accès."
           tone="flat"
         />
+        {/* Le ticket manque : le retour est la seule issue, donc l'action
+            principale de l'écran (arbitrage n°19). */}
         <div>
-          <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help/tickets')}>
+          <Button emphasis="solid" tone="brand" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help/tickets')}>
             Retour aux tickets
           </Button>
         </div>
@@ -138,9 +140,12 @@ export default function HelpTicketDetail() {
                 onChange={(e) => setReplyText(e.target.value)}
               />
             </FormGroup>
+            {/* Répondre est l'action principale d'un ticket ouvert (arbitrage
+                n°19) ; un ticket résolu se lit, sans solid. */}
             <div className="flex gap-stack-xs">
               <Button
-                emphasis="soft"
+                emphasis="solid"
+                tone="brand"
                 leadingIcon={<Send size={16} />}
                 disabled={!replyText.trim()}
                 onClick={handleReply}

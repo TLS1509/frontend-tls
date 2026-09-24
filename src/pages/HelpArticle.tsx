@@ -102,8 +102,10 @@ export default function HelpArticle() {
           summary="Cet article n'existe pas ou a été déplacé."
           tone="flat"
         />
+        {/* Arbitrage n°19 : l'article manque, le retour est la seule issue,
+            donc l'action principale de l'écran. */}
         <div>
-          <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help')}>
+          <Button emphasis="solid" tone="brand" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help')}>
             Retour à l'aide
           </Button>
         </div>
@@ -166,8 +168,10 @@ export default function HelpArticle() {
             </div>
           </div>
 
+          {/* Une page de lecture n'a pas d'action principale (arbitrage n°19) :
+              le retour, doublé par le lien au-dessus du titre, est un ghost. */}
           <div className="flex flex-wrap gap-stack-xs">
-            <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help')}>
+            <Button emphasis="ghost" tone="brand" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help')}>
               Retour à l'aide
             </Button>
           </div>

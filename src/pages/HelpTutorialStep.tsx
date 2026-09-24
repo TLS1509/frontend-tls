@@ -38,8 +38,10 @@ export default function HelpTutorialStep() {
           summary="Ce tutoriel n'existe pas ou a été déplacé."
           tone="flat"
         />
+        {/* Le tutoriel manque : le retour à la liste est la seule issue,
+            donc l'action principale de l'écran (arbitrage n°19). */}
         <div>
-          <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help/tutorials')}>
+          <Button emphasis="solid" tone="brand" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help/tutorials')}>
             Tous les tutoriels
           </Button>
         </div>
@@ -95,9 +97,12 @@ export default function HelpTutorialStep() {
           </p>
         </section>
 
+        {/* Un pas à pas : avancer est l'aplat, reculer un ghost neutre — le
+            motif des lecteurs (arbitrage n°19). */}
         <div className="flex flex-wrap items-center justify-between gap-stack">
           <Button
-            emphasis="outline"
+            emphasis="ghost"
+            tone="neutral"
             leadingIcon={<ArrowLeft size={16} />}
             disabled={current === 1}
             onClick={() => goTo(current - 1)}
@@ -105,11 +110,11 @@ export default function HelpTutorialStep() {
             Étape précédente
           </Button>
           {current < total ? (
-            <Button emphasis="soft" trailingIcon={<ArrowRight size={16} />} onClick={() => goTo(current + 1)}>
+            <Button emphasis="solid" tone="brand" trailingIcon={<ArrowRight size={16} />} onClick={() => goTo(current + 1)}>
               Étape suivante
             </Button>
           ) : (
-            <Button emphasis="soft" trailingIcon={<ArrowRight size={16} />} onClick={() => navigate('/help/tutorials')}>
+            <Button emphasis="solid" tone="brand" trailingIcon={<ArrowRight size={16} />} onClick={() => navigate('/help/tutorials')}>
               Terminer le tutoriel
             </Button>
           )}
