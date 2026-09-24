@@ -2,7 +2,8 @@
  * OnboardingUnified — Single chat-driven flow (steps 1 + 2 combined).
  *
  * CDC #03 Variant A: firstName + role + Dreyfus positioning in one conversational thread.
- * Steps: greeting → name → role → transition → questionnaire → done → /onboarding/payment
+ * Steps: greeting → name → role → transition → questionnaire → done
+ *        → /onboarding/payment (compte individuel) ou /onboarding/tutorial (compte invité)
  */
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -16,6 +17,7 @@ import { TlsLogo } from '../components/ui/TlsLogo';
 import { AmbientBlobs } from '../components/patterns/AmbientBlobs';
 import { useUserProfileStore, useOnboardingStore } from '../stores/persistence';
 import { getBehavioralTiles } from '../lib/behavioral-tiles';
+import { getOnboardingMacroSteps } from '../lib/onboarding-steps';
 import type { BehavioralTileSet } from '../lib/behavioral-tiles';
 import { buildAcknowledgment, buildClosing } from '../lib/mistral-questionnaire-stub';
 import type { OnboardingQuestion } from '../lib/onboarding-questionnaire';
@@ -124,6 +126,12 @@ export const OnboardingUnified: React.FC = () => {
   const stateRef = useRef<StreamingState>({ timersRef: [] });
   const profile = useUserProfileStore();
   const onboarding = useOnboardingStore();
+  // Un compte invité (salarié d'une entreprise cliente) ne passe pas par le
+  // paiement : `onboarding-steps.ts` le prévoyait, ce flux l'ignorait et
+  // envoyait tout le monde sur la grille tarifaire (audit du 23/09).
+  const paiementRequis = onboarding.requiresPayment();
+  const suite = paiementRequis ? '/onboarding/payment' : '/onboarding/tutorial';
+  const totalEtapes = getOnboardingMacroSteps(onboarding.accountType).length;
 
   const [questions, setQuestions] = useState<LocalQuestion[]>([]);
 
@@ -269,15 +277,17 @@ export const OnboardingUnified: React.FC = () => {
       stateRef.current = { timersRef: [] };
       streamLine(ackLine, msgCounter, stateRef.current, setMessages, () => {
         setTimeout(() => {
-          const closingLines = buildClosing(firstName, true);
+          const closingLines = buildClosing(firstName, paiementRequis);
           stateRef.current = { timersRef: [] };
           appendAiSequence(closingLines, msgCounter, stateRef.current, setMessages, () => {
             setTimeout(() => {
               setStep('done');
               profile.patch({ firstName, role: selectedRole! });
+              onboarding.patch({ firstName, role: selectedRole });
               onboarding.markStepComplete('profile');
               onboarding.markStepComplete('questionnaire');
-              setTimeout(() => navigate('/onboarding/payment'), 1200);
+              onboarding.goToStep(paiementRequis ? 'payment' : 'tutorial');
+              setTimeout(() => navigate(suite), 1200);
             }, 800);
           });
         }, 600);
@@ -293,7 +303,7 @@ export const OnboardingUnified: React.FC = () => {
       <div className="relative z-10 flex items-center justify-between border-b border-primary-100 bg-white/40 px-6 py-stack backdrop-blur-glass-light">
         <TlsLogo variant="primary" size={32} />
         <div className="text-caption text-ink-500">
-          Étape {step === 'greeting' || step === 'name' || step === 'role' || step === 'transition' ? '1' : '2'} / 5
+          Étape {step === 'greeting' || step === 'name' || step === 'role' || step === 'transition' ? '1' : '2'} / {totalEtapes}
         </div>
       </div>
 
@@ -369,10 +379,12 @@ export const OnboardingUnified: React.FC = () => {
 
         {step === 'done' && (
           <div className="flex flex-col items-center gap-stack">
-            <p className="text-body text-ink-600">Passons à la sélection de ton plan...</p>
+            <p className="text-body text-ink-600">
+              {paiementRequis ? 'Passons à la sélection de ton plan…' : 'Passons à un tour rapide de la plateforme…'}
+            </p>
             <Button
               size="lg"
-              onClick={() => navigate('/onboarding/payment')}
+              onClick={() => navigate(suite)}
               leadingIcon={<ArrowRight size={18} />}
             >
               Continuer

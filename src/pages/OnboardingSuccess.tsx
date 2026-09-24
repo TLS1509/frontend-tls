@@ -10,16 +10,31 @@ import { CongratulationsCard } from '../components/patterns/CongratulationsCard'
 import { NextStepsGrid } from '../components/patterns/NextStepsGrid';
 import type { NextStepItem } from '../components/patterns/NextStepsGrid';
 import { buildOnboardingStepperItems } from '../lib/onboarding-steps';
-import { useOnboardingStore } from '../stores/persistence';
+import { useOnboardingStore, useUserProfileStore } from '../stores/persistence';
 
 export default function OnboardingSuccess() {
   const navigate = useNavigate();
   const onboardingStore = useOnboardingStore();
+  const profileStore = useUserProfileStore();
 
   // Mark final step on mount so subsequent visits know onboarding is fully done.
+  // Pose aussi `isOnboarded` sur le profil : sans lui, le tableau de bord
+  // n'atteignait jamais son démarrage à froid (`EmptyDashboardState`) et
+  // ouvrait sur l'historique fictif d'un autre (audit du 23/09). À la
+  // première fin d'onboarding seulement, le compteur de visites repart de
+  // zéro : c'est ce qui fait de la prochaine visite la première.
   React.useEffect(() => {
     onboardingStore.markStepComplete('success');
     onboardingStore.goToStep('success');
+    const profil = profileStore.get();
+    if (!profil.isOnboarded) {
+      profileStore.patch({
+        isOnboarded: true,
+        dashboardVisitCount: 0,
+        onboardingStep: 'completed',
+        completedAt: new Date().toISOString(),
+      });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -90,7 +105,7 @@ export default function OnboardingSuccess() {
             emphasis="soft"
             size="lg"
             trailingIcon={<ArrowRight size={18} />}
-            onClick={() => navigate('/dashboard?firstTime=1')}
+            onClick={() => navigate('/dashboard')}
             className="w-full sm:w-auto min-w-max"
           >
             Accéder à mon tableau de bord
