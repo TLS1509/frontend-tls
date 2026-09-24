@@ -208,9 +208,12 @@ export const ComplementaryContentViewer: React.FC = () => {
                         </span>
                       </div>
 
+                      {/* L'action de la rangée : `soft` (arbitrage n°19 ; elle
+                          était en `outline`, réservé à Annuler). L'écran, une
+                          liste à consulter, n'a pas d'aplat. */}
                       <div className="mt-stack-md">
                         <Button
-                          emphasis="outline"
+                          emphasis="soft"
                           size="sm"
                           trailingIcon={<ExternalLink size={14} />}
                           onClick={(e) => { e.stopPropagation(); window.open(resource.url, '_blank'); }}

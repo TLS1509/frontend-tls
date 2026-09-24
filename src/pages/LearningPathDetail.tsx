@@ -186,7 +186,9 @@ export const LearningPathDetail: React.FC = () => {
     return (
       <div className="p-12 flex flex-col items-center gap-stack text-center">
         <p className="text-body text-ink-700">Parcours introuvable.</p>
-        <Button onClick={() => navigate('/learning-paths')}>Retour aux parcours</Button>
+        {/* La seule issue de l'écran, donc son action principale (arbitrage
+            n°19) ; elle passait par le `variant` implicite, déprécié. */}
+        <Button emphasis="solid" onClick={() => navigate('/learning-paths')}>Retour aux parcours</Button>
       </div>
     );
   }
@@ -216,6 +218,10 @@ export const LearningPathDetail: React.FC = () => {
   const currentStep = parcours.etapes.find((e: Etape) => e.unlocked && !e.completed);
   const currentLesson = currentStep?.lecons.find((l: Lecon) => !l.completed);
   const hasStarted = completedLessons > 0;
+  /* Le hero porte l'action principale (se positionner, commencer, reprendre)
+     tant qu'il en a une ; un parcours terminé n'en a plus, et c'est alors le
+     projet final qui la prend (arbitrage n°19 : un seul `solid` par écran). */
+  const heroPorteLAction = (progressPct === 0 && !positioned) || Boolean(currentLesson);
 
   const relatedParcours = Object.values(MOCK_PARCOURS_DATA)
     .filter((p) => p.id !== parcours.id)
@@ -794,7 +800,12 @@ export const LearningPathDetail: React.FC = () => {
                     </div>
                   </div>
 
+                  {/* L'action du panneau : `soft` tant que le hero porte
+                      l'aplat de l'écran (arbitrage n°19) ; `solid` une fois
+                      le parcours terminé, quand le projet final devient la
+                      suite. Elle passait par le `variant` implicite. */}
                   <Button
+                    emphasis={heroPorteLAction ? 'soft' : 'solid'}
                     onClick={() => navigate(`/project/${parcours.id}`)}
                     className="min-w-[280px]"
                   >

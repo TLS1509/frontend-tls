@@ -176,9 +176,14 @@ export const Positionnement: React.FC = () => {
               </div>
             </Card>
 
+            {/* « Commencer le parcours » est l'aplat de l'écran (arbitrage
+                n°19). « Refaire » efface les réponses : un `ghost` neutre,
+                comme « Réinitialiser » — il était en `outline`, réservé à
+                Annuler dans une paire. */}
             <div className="flex flex-col-reverse sm:flex-row gap-stack sm:justify-between">
               <Button
-                emphasis="outline"
+                emphasis="ghost"
+                tone="neutral"
                 size="md"
                 onClick={() => {
                   setCurrentIndex(0);
@@ -189,7 +194,7 @@ export const Positionnement: React.FC = () => {
                 Refaire le positionnement
               </Button>
               <Button
-                emphasis="soft"
+                emphasis="solid"
                 size="md"
                 trailingIcon={<ArrowRight size={14} />}
                 onClick={handleStartPath}
@@ -264,10 +269,12 @@ export const Positionnement: React.FC = () => {
             {/* Footer nav — à 24 de la question. Sous 640 px les deux actions
                 s'empilent sur toute la largeur, la suivante d'abord avec sa
                 raison dessous : côte à côte, « Compétence suivante » sortait de
-                l'écran de 30 px à 375. */}
+                l'écran de 30 px à 375. Avancer est l'aplat de l'écran,
+                « Précédent » un `ghost` neutre, comme dans les lecteurs
+                (arbitrage n°19) : les deux étaient en `soft`, de deux tons. */}
             <div className="mt-stack-xs flex flex-col-reverse gap-stack-sm sm:flex-row sm:items-start sm:justify-between">
               <Button
-                emphasis="soft" tone="warm"
+                emphasis="ghost" tone="neutral"
                 size="md"
                 leadingIcon={<ArrowLeft size={14} />}
                 onClick={handlePrev}
@@ -281,7 +288,7 @@ export const Positionnement: React.FC = () => {
                   raison est écrite sous le bouton plutôt que devinée. */}
               <div className="flex flex-col gap-stack-xs sm:items-end">
                 <Button
-                  emphasis="soft"
+                  emphasis="solid"
                   size="md"
                   trailingIcon={<ArrowRight size={14} />}
                   onClick={handleNext}

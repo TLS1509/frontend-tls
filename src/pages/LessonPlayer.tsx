@@ -12,7 +12,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLessonProgressStore, usePasseportStore } from '../stores/persistence';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Button } from '../components/core/Button';
+import { Button, buttonClasses } from '../components/core/Button';
 import { Input } from '../components/core/Input';
 import { Badge } from '../components/ui/Badge';
 import { SessionFeedbackModal } from '../components/modals';
@@ -42,9 +42,16 @@ import {
   AlertTriangle,
 } from 'lucide-react';
 import { resolveLessonContext, getToneFromLevel, getLessonCompetenceIds } from '../data/learningPaths';
+import { PAGE_TONE_TO_BUTTON } from '../lib/tone-classes';
 import { getCompetenceById } from '../data/competencies';
 import { MOCK_USER_ID } from '../data/passeport';
 import { BehavioralTileGrid } from '../components/patterns/BehavioralTileGrid';
+
+/* L'apparence d'un bouton `soft` neutre pour les sélecteurs de fichier des
+   blocs média à brancher : le <label> porte l'interaction, la pastille n'en
+   est que le dessin (`buttonClasses`). Elle imitait à la main un `outline`
+   (filet ink-300 à 1,47:1), niveau réservé à Annuler (arbitrage n°19). */
+const CHOISIR_UN_FICHIER = buttonClasses({ emphasis: 'soft', tone: 'neutral', size: 'sm' });
 
 /* ─── Section definitions (EDRAC model) ─────────────────────────────────── */
 
@@ -1472,22 +1479,32 @@ export const LessonPlayer: React.FC = () => {
               <div className="px-stack-md pb-2">
                 {step.blocks.map((block, i) => renderContentBlock(block, i))}
               </div>
-              {/* Prev / Next */}
+              {/* Prev / Next — un pas à pas DANS la section : il laisse l'aplat
+                  à l'écran, la flèche « Section suivante » (arbitrage n°19,
+                  comme la confirmation dépliée d'AIOverrideButton). « Suivant »
+                  en `soft`, « Précédent » en `ghost` neutre. Les deux étaient
+                  faits main : un aplat primary-700 que la sonde ne voyait pas,
+                  et un filet ink-200 à 1,2:1. */}
               <div className="flex items-center justify-between px-stack py-3 border-t border-ink-100">
-                <button
+                <Button
+                  emphasis="ghost"
+                  tone="neutral"
+                  size="sm"
+                  leadingIcon={<ChevronLeft />}
                   onClick={() => setDecouvrirStep((s) => Math.max(0, s - 1))}
                   disabled={decouvrirStep === 0}
-                  className="inline-flex items-center gap-stack-2xs px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-ink-700 bg-white border border-ink-200 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-ink-50 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 >
-                  <ChevronLeft size={14} /> Précédent
-                </button>
-                <button
+                  Précédent
+                </Button>
+                <Button
+                  emphasis="soft"
+                  size="sm"
+                  trailingIcon={<ChevronRight />}
                   onClick={() => setDecouvrirStep((s) => Math.min(total - 1, s + 1))}
                   disabled={decouvrirStep === total - 1}
-                  className="inline-flex items-center gap-stack-2xs px-3 py-1.5 rounded-lg font-body text-caption font-semibold text-white bg-primary-700 disabled:opacity-disabled disabled:cursor-not-allowed hover:bg-primary-800 transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                 >
-                  Suivant <ChevronRight size={14} />
-                </button>
+                  Suivant
+                </Button>
               </div>
             </div>
           );
@@ -1851,7 +1868,7 @@ export const LessonPlayer: React.FC = () => {
                       if (file) setUploadedSrcs((prev) => ({ ...prev, [index]: URL.createObjectURL(file) }));
                     }}
                   />
-                  <span className="inline-flex items-center gap-stack-2xs bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
+                  <span className={CHOISIR_UN_FICHIER}>
                     <ImageIcon size={14} /> Choisir un fichier
                   </span>
                 </label>
@@ -1889,7 +1906,7 @@ export const LessonPlayer: React.FC = () => {
                       if (file) setUploadedSrcs((prev) => ({ ...prev, [index]: URL.createObjectURL(file) }));
                     }}
                   />
-                  <span className="inline-flex items-center gap-stack-2xs bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
+                  <span className={CHOISIR_UN_FICHIER}>
                     <Play size={14} /> Choisir une vidéo
                   </span>
                 </label>
@@ -1922,7 +1939,7 @@ export const LessonPlayer: React.FC = () => {
                       if (file) setUploadedSrcs((prev) => ({ ...prev, [index]: URL.createObjectURL(file) }));
                     }}
                   />
-                  <span className="inline-flex items-center gap-stack-2xs bg-white border border-ink-300 text-ink-700 hover:bg-ink-50 transition-colors duration-150 px-3 py-1.5 rounded-lg font-body text-caption font-semibold">
+                  <span className={CHOISIR_UN_FICHIER}>
                     <ImageIcon size={14} /> Choisir un GIF
                   </span>
                 </label>
@@ -2239,10 +2256,15 @@ export const LessonPlayer: React.FC = () => {
                   </span>
                   <span className="ml-auto font-body text-caption text-ink-600">YouTube · Vimeo · Loom · Canva · Slides · Figma</span>
                 </div>
+                {/* « Charger » est l'action de ce panneau : `soft`, pas un
+                    second aplat à côté de la flèche « Section suivante »
+                    (arbitrage n°19) ; il était fait main, en primary-700. Le
+                    champ passe à 36 px, la hauteur du bouton `sm` voisin
+                    (échelle commune, arbitrage n°22). */}
                 <div className="flex gap-stack-xs">
                   <input
                     type="url"
-                    className="flex-1 h-10 px-3 font-body text-body text-ink-900 bg-white border border-ink-200 rounded-lg focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100"
+                    className="flex-1 h-9 px-3 font-body text-body text-ink-900 bg-white border border-ink-200 rounded-lg focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100"
                     placeholder="YouTube, Vimeo, Loom, Canva, Google Slides, Figma…"
                     value={embedInputs[index] ?? ''}
                     onChange={(e) => setEmbedInputs((prev) => ({ ...prev, [index]: e.target.value }))}
@@ -2252,16 +2274,19 @@ export const LessonPlayer: React.FC = () => {
                       }
                     }}
                   />
-                  <button
+                  <Button
+                    emphasis="soft"
+                    size="sm"
+                    leadingIcon={<Link2 />}
+                    className="shrink-0"
                     onClick={() => {
                       if (embedInputs[index]) {
                         setEmbeddedUrls((prev) => ({ ...prev, [index]: normalizeEmbedUrl(embedInputs[index]) }));
                       }
                     }}
-                    className="inline-flex items-center gap-stack-2xs px-stack h-10 bg-primary-700 text-white rounded-lg font-body text-caption font-semibold hover:bg-primary-800 transition-colors duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                   >
-                    <Link2 size={14} /> Charger
-                  </button>
+                    Charger
+                  </Button>
                 </div>
                 {resolvedUrl === undefined && embeddedUrls[index] && (
                   <p className="m-0 mt-stack-xs font-body text-caption text-danger-fg">URL invalide ou non supportée</p>
@@ -2525,9 +2550,13 @@ export const LessonPlayer: React.FC = () => {
         {/* `max-md:hidden` et non `hidden md:flex` : le `inline-flex` de Button
             et `hidden` sont deux display de même spécificité, c'est l'ordre
             d'émission qui trancherait. Une variante passe toujours après. */}
+        {/* Avancer est l'action principale du lecteur : la flèche suivante est
+            le `solid` de l'écran, au ton du parcours ; la précédente un `ghost`
+            neutre (arbitrage n°19, comme « Suivant » / « Précédent » de
+            LessonNavigation). Les deux étaient la même pastille givrée. */}
         <Button
           iconOnly
-          emphasis="soft"
+          emphasis="ghost"
           tone="neutral"
           onClick={handlePrev}
           disabled={isFirst}
@@ -2538,8 +2567,8 @@ export const LessonPlayer: React.FC = () => {
         </Button>
         <Button
           iconOnly
-          emphasis="soft"
-          tone="neutral"
+          emphasis="solid"
+          tone={PAGE_TONE_TO_BUTTON[tone]}
           onClick={handleNext}
           className="max-md:hidden fixed right-3 top-1/2 -translate-y-1/2 z-[51]"
           aria-label={isLast ? 'Valider la leçon' : 'Section suivante'}
@@ -2590,8 +2619,8 @@ export const LessonPlayer: React.FC = () => {
           </div>
           <Button
             iconOnly
-            emphasis="ghost"
-            tone="neutral"
+            emphasis="solid"
+            tone={PAGE_TONE_TO_BUTTON[tone]}
             onClick={handleNext}
             className="md:hidden -my-stack-xs -mr-2"
             aria-label={isLast ? 'Valider la leçon' : 'Section suivante'}

@@ -19,6 +19,7 @@ import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { LessonNavigation } from '../components/patterns/LessonNavigation';
 import { ViewerProgressTrail } from '../components/patterns/ViewerProgressTrail';
 import { FlipCard } from '../components/patterns/FlipCard';
+import { Button } from '../components/core/Button';
 import { MetaPill } from '../components/ui/MetaPill';
 import { Breadcrumb } from '../components/ui/Breadcrumb';
 import { CompletionModal } from '../components/modals';
@@ -380,23 +381,29 @@ export const FlashcardsViewer: React.FC = () => {
               ) : (
                 <>
                   <p className="font-body text-body font-semibold text-ink-900">Tu la savais&nbsp;?</p>
+                  {/* Les deux réponses ont le MÊME poids, niveau et ton (`soft`
+                      brand), comme les deux choix du bandeau de consentement :
+                      l'auto-évaluation doit rester honnête, et « À revoir » ne
+                      coûte pas plus à presser que « Je le savais » (PRODUCT.md :
+                      l'erreur n'est jamais punitive). « Je le savais » était un
+                      aplat fait main (success-vivid), un second `solid` à côté
+                      de « Suivant » que la sonde ne voyait pas ; « À revoir »
+                      un filet ink-200 à 1,2:1. Arbitrage n°19. */}
                   <div className="flex items-center gap-stack-sm">
-                    <button
-                      type="button"
+                    <Button
+                      emphasis="soft"
+                      leadingIcon={<RefreshCw />}
                       onClick={() => handleRate('again')}
-                      className="inline-flex items-center gap-stack-xs min-h-touch px-stack-md rounded-lg bg-white text-ink-700 border border-ink-200 font-body text-body font-bold hover:bg-ink-50 hover:border-ink-300 active:scale-95 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                     >
-                      <RefreshCw size={16} aria-hidden="true" />
                       À revoir
-                    </button>
-                    <button
-                      type="button"
+                    </Button>
+                    <Button
+                      emphasis="soft"
+                      leadingIcon={<Check />}
                       onClick={() => handleRate('known')}
-                      className="inline-flex items-center gap-stack-xs min-h-touch px-stack-md rounded-lg bg-success-vivid text-white font-body text-body font-bold shadow-[0_2px_8px_rgba(157,190,186,0.3)] hover:bg-success-fg active:scale-95 transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-success-base"
                     >
-                      <Check size={16} aria-hidden="true" />
                       Je le savais
-                    </button>
+                    </Button>
                   </div>
                 </>
               )}
