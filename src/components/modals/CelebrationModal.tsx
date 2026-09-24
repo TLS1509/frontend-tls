@@ -112,20 +112,25 @@ export const CelebrationModal: React.FC<CelebrationModalProps> = ({
         )}
 
         {/* Icon bubble */}
-        <div className="relative inline-flex items-center justify-center w-20 h-20 rounded-2xl mb-stack-md bg-gradient-to-br from-secondary-600 via-secondary-700 to-accent-700 text-white shadow-warm-md ring-4 ring-white/60">
+        <div className="relative inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-secondary-600 via-secondary-700 to-accent-700 text-white shadow-warm-md ring-4 ring-white/60">
           {icon ?? <Trophy size={32} strokeWidth={2} fill="currentColor" />}
         </div>
 
-        {/* Title — solid color + weight emphasis (anti-pattern: avoid bg-clip-text gradients) */}
+        {/* Titre h2 au pas du bloc (20/26/700), encre ink-900 · 8 · texte
+            16 ink-700 centré et court · 24 · actions. Il était au pas du h1
+            (36 px) en secondary-700 : la page qui l'ouvre a déjà son h1, et
+            une célébration TLS est calme (DESIGN.md § 11 : un badge se
+            débloque sans point d'exclamation et sans confetti). */}
         <h2
           id="celebration-modal-title"
-          className="relative mb-3 font-display text-h1 tracking-display text-secondary-700"
+          /* Écart icône → titre écrit SUR le titre : un `mt-*` bat la marge de base des titres (0,75em), qui sinon s'ajoutait à celle de l'icône (31 px au lieu de 16). */
+          className="relative mt-stack-md font-display text-h3 text-ink-900 text-balance"
         >
           {title}
         </h2>
 
         {description && (
-          <p className="relative m-0 mx-auto mb-stack-lg max-w-[400px] text-body-lg text-ink-700">
+          <p className="relative mt-stack-xs mx-auto mb-stack-lg max-w-prose font-body text-body text-ink-700 text-balance">
             {description}
           </p>
         )}

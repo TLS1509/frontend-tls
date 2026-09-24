@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Send, CheckCircle2, Star } from 'lucide-react';
+import { IconChip } from '../ui/IconChip';
 import { useDialog } from '../../hooks/useDialog';
 import { Button } from '../core/Button';
 
@@ -91,15 +92,17 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
         {!submitted ? (
           <>
             {/* Icon badge */}
-            <div className="relative w-[60px] h-[60px] rounded-lg bg-gradient-to-br from-accent-400/20 to-accent-400/8 border border-accent-400/25 flex items-center justify-center mx-auto mb-stack">
+            <div className="relative w-[60px] h-[60px] rounded-lg bg-gradient-to-br from-accent-400/20 to-accent-400/8 border border-accent-400/25 flex items-center justify-center mx-auto">
               {icon ?? <CheckCircle2 size={28} className="text-accent-600" />}
             </div>
 
             {/* Title */}
-            <h2 id={dialog.titleId} className="text-h3 text-ink-900 text-center mb-2">
+            {/* Titre h2 20/26/700 · 8 · sous-titre 16 ink-700, centré.
+                Écart icône → titre écrit SUR le titre : un `mt-*` bat la marge de base des titres (0,75em), qui sinon s'ajoutait à celle de l'icône (31 px au lieu de 16). */}
+            <h2 id={dialog.titleId} className="mt-stack font-display text-h3 text-ink-900 text-center text-balance">
               {title}
             </h2>
-            <p className="text-body text-ink-600 text-center mb-stack-lg">
+            <p className="mt-stack-xs font-body text-body text-ink-700 text-center text-balance mb-stack-lg">
               {subtitle}
             </p>
 
@@ -137,7 +140,7 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
             {/* Rating label — conditional, compact */}
             {display > 0 && (
               <div className="flex justify-center mb-stack">
-                <div className="px-4 py-1.5 rounded-lg modal-amber-badge text-body font-bold text-accent-800">
+                <div className="px-4 py-1.5 rounded-lg modal-amber-badge text-body font-semibold text-accent-800">
                   {RATING_LABELS[display]}
                 </div>
               </div>
@@ -167,13 +170,17 @@ export const SessionFeedbackModal: React.FC<SessionFeedbackModalProps> = ({
             </button>
           </>
         ) : (
-          /* Submitted confirmation */
-          <div className="text-center py-stack-lg animate-[fbFadeIn_0.4s_ease_both]">
-            <div className="text-[3.5rem] mb-3">🌟</div>
-            <h3 className="text-h3 font-bold text-ink-900 mb-2">
+          /* Submitted confirmation — pastille d'icône au lieu d'un émoji de
+             56 px (`text-[3.5rem]`, hors échelle) ; le titre est le h2 qui
+             nomme désormais le dialogue (il était en h3, sans h2). */
+          <div className="flex flex-col items-center gap-stack-xs text-center py-stack-lg animate-[fbFadeIn_0.4s_ease_both]">
+            <IconChip size="lg" tone="sun">
+              <Star />
+            </IconChip>
+            <h2 id={dialog.titleId} className="mt-stack-xs font-display text-h3 text-ink-900">
               Merci pour ton retour.
-            </h3>
-            <p className="text-body text-ink-600">
+            </h2>
+            <p className="font-body text-body text-ink-700 text-balance">
               Ton avis nous aide à améliorer l'expérience.
             </p>
           </div>

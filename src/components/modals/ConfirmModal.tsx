@@ -59,7 +59,9 @@ const DEFAULT_ICONS: Record<ConfirmVariant, React.ReactNode> = {
   danger:  <AlertTriangle size={24} />,
 };
 
-const ACTION_BTN_BASE = 'flex-1 py-3 px-4 rounded-lg text-body cursor-pointer transition-all font-body';
+// Graisse 700 pour les deux actions : celle de `Button` (doctrine § 2). Le
+// bouton d'annulation était à 600, l'autre à 700.
+const ACTION_BTN_BASE = 'flex-1 py-3 px-4 rounded-lg text-body font-bold cursor-pointer transition-all font-body';
 
 export const ConfirmModal: React.FC<ConfirmModalProps> = ({
   isOpen,
@@ -98,12 +100,14 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
           {displayIcon}
         </div>
 
-        {/* Text */}
-        <div className="text-center mb-stack-lg">
-          <h2 id={dialog.titleId} className="text-h3 font-bold text-ink-900 mb-3">
+        {/* Text — titre h2 20/26/700 · 8 · message 16 ink-700, centré (une
+            confirmation courte, deux lignes au plus : `text-balance`) · 24 ·
+            actions. */}
+        <div className="flex flex-col items-center gap-stack-xs text-center mb-stack-lg">
+          <h2 id={dialog.titleId} className="font-display text-h3 text-ink-900 text-balance">
             {title}
           </h2>
-          <p className="text-body text-ink-600">
+          <p className="font-body text-body text-ink-700 text-balance">
             {message}
           </p>
         </div>
@@ -112,13 +116,13 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
         <div className="flex gap-stack-xs">
           <button
             onClick={onClose}
-            className={`${ACTION_BTN_BASE} font-semibold border-[1.5px] border-ink-200 bg-white text-ink-900 hover:bg-ink-50`}
+            className={`${ACTION_BTN_BASE} border-[1.5px] border-ink-200 bg-white text-ink-900 hover:bg-ink-50`}
           >
             {cancelText}
           </button>
           <button
             onClick={() => { onConfirm(); onClose(); }}
-            className={`${ACTION_BTN_BASE} font-bold border-0 text-white ${VARIANT_CONFIRM_BG[variant]} ${VARIANT_CONFIRM_SHADOW[variant]}`}
+            className={`${ACTION_BTN_BASE} border-0 text-white ${VARIANT_CONFIRM_BG[variant]} ${VARIANT_CONFIRM_SHADOW[variant]}`}
           >
             {confirmText}
           </button>

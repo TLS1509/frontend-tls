@@ -161,14 +161,16 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
             <>
               {/* Header + progress */}
               <div className="mb-stack-lg">
-                <p className="text-caption font-semibold text-primary-700 uppercase tracking-[0.06em] mb-1">
+                {/* Surtitre : le lieu, en légende 13/600 ink-600 — il était en
+                    capitales espacées primary-700. */}
+                <p className="text-caption font-semibold text-ink-600 mb-stack-3xs">
                   {courseTitle}
                 </p>
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-caption text-ink-600">
+                  <span className="text-caption text-ink-600 tabular-nums">
                     Question {currentIndex + 1} / {questions.length}
                   </span>
-                  <span className="text-caption font-bold text-primary-700">
+                  <span className="text-caption font-semibold text-primary-800 tabular-nums">
                     {Math.round(progress)}%
                   </span>
                 </div>
@@ -182,10 +184,10 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
 
               {/* Question card */}
               <div className="bg-white rounded-xl p-stack-lg shadow-md mb-stack-lg border border-ink-200">
-                <h2 id={dialog.titleId} className="text-h3 text-ink-900 leading-snug mb-2">
+                <h2 id={dialog.titleId} className="font-display text-h3 text-ink-900 text-balance">
                   {currentQuestion.title}
                 </h2>
-                <p className="text-body text-ink-600">
+                <p className="mt-stack-xs font-body text-body text-ink-700">
                   {currentQuestion.description}
                 </p>
               </div>
@@ -218,11 +220,11 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                     >
                       <span className="inline-flex items-center justify-center">{level.icon}</span>
                       <span
-                        className={`text-caption font-bold text-center ${isSelected ? level.textClass : 'text-ink-900'}`}
+                        className={`text-caption font-semibold text-center ${isSelected ? level.textClass : 'text-ink-900'}`}
                       >
                         {level.label}
                       </span>
-                      <span className="text-micro text-ink-600 text-center">
+                      <span className="text-caption text-ink-600 text-center">
                         {level.description}
                       </span>
                     </button>
@@ -247,15 +249,17 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
             /* Success screen */
             <div className="flex flex-col gap-stack animate-modal-in">
               <div className="bg-white rounded-xl p-stack-lg border border-primary-500/20 shadow-lg text-center">
-                <div className="inline-flex gap-stack-xs mb-stack-md p-3 rounded-xl bg-ink-50">
+                <div className="inline-flex gap-stack-xs p-3 rounded-xl bg-ink-50">
                   {([<Target size={20} strokeWidth={1.75} />, <Star size={20} strokeWidth={1.75} />, <Rocket size={20} strokeWidth={1.75} />] as React.ReactNode[]).map((icon, i) => (
                     <IconChip key={i} size="lg" tone="brand">
                       {icon}
                     </IconChip>
                   ))}
                 </div>
-                <h3 className="text-h3 text-ink-900 mb-2">Ton profil est prêt.</h3>
-                <p className="text-body text-ink-600 mb-stack-lg">
+                {/* h2 et id du dialogue : c'est lui qui le nomme une fois les
+                    questions passées (il était en h3, sans h2 au-dessus). */}
+                <h2 id={dialog.titleId} className="mt-stack-md font-display text-h3 text-ink-900">Ton profil est prêt.</h2>
+                <p className="mt-stack-xs font-body text-body text-ink-700 mb-stack-lg">
                   Le parcours va maintenant s'adapter à ton niveau.
                 </p>
 
@@ -263,7 +267,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                   {SUCCESS_FEATURES.map((f, i) => (
                     <div key={i} className={`p-4 rounded-lg bg-ink-50 border ${f.borderClass}`}>
                       <div className="inline-flex items-center justify-center mb-2 text-ink-700">{f.icon}</div>
-                      <p className="text-caption font-semibold text-ink-900 leading-snug">{f.label}</p>
+                      <p className="text-caption font-semibold text-ink-900">{f.label}</p>
                     </div>
                   ))}
                 </div>
@@ -273,7 +277,7 @@ export const PositionnementModal: React.FC<PositionnementModalProps> = ({
                     <Sparkles size={18} className="text-white" />
                   </div>
                   <div>
-                    <p className="text-caption font-bold text-primary-800 mb-1">🔮 Prochainement : Adaptive Learning</p>
+                    <p className="text-caption font-semibold text-primary-800 mb-stack-3xs">🔮 Prochainement : Adaptive Learning</p>
                     <p className="text-caption text-ink-600">
                       Ton <strong>Passport de Compétences</strong> personnalisera le contenu en fonction de ta progression.
                     </p>

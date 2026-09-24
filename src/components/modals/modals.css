@@ -43,16 +43,16 @@
 }
 
 @layer components {
-  /* SuccessModal heading — solid color + weight emphasis (anti-pattern: avoid bg-clip-text gradients) */
-  .modal-gradient-text {
-    color: var(--color-primary-600);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-  }
+  /* `.modal-gradient-text` retiré le 2026-09-24 : graisse 800 (réservée au
+     site) et primary-600 en texte (3,66:1). Son seul usage, le titre de
+     SuccessModal, prend le style des titres de modale. */
 
-  /* Primary gradient CTA — SuccessModal "Continuer" button */
+  /* Primary gradient CTA — SuccessModal "Continuer" button.
+     700 → 800 (2026-09-24) : le dégradé partait du 500 vers le 300, sous un
+     label BLANC — 2,94 puis ~1,8:1. Au 700 → 800, le blanc tient 5,02 → 7,08
+     (même correction que les heros, arbitrage n°8). */
   .modal-success-cta {
-    background: linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-primary-300) 100%);
+    background: linear-gradient(135deg, var(--color-primary-700) 0%, var(--color-primary-800) 100%);
     box-shadow: 0 6px 20px rgba(85, 161, 180, 0.35);
   }
   .modal-success-cta:hover {
@@ -66,24 +66,19 @@
     box-shadow: 0 4px 16px rgba(248, 176, 68, 0.12);
   }
 
-  /* Amber submit btn — SessionFeedbackModal */
+  /* Amber submit btn — SessionFeedbackModal.
+     Or 700 → 800 (2026-09-24) : le dégradé #F8B044 → #e89a30 portait un label
+     BLANC à ~2:1. L'or au cran 700 tient le blanc à 4,88. */
   .modal-submit-enabled {
-    background: linear-gradient(135deg, #F8B044 0%, #e89a30 100%);
+    background: linear-gradient(135deg, var(--color-accent-700) 0%, var(--color-accent-800) 100%);
     box-shadow: 0 6px 20px rgba(248, 176, 68, 0.3);
   }
   .modal-submit-enabled:hover {
     box-shadow: 0 10px 28px rgba(248, 176, 68, 0.4);
   }
 
-  /* Cancel session secondary btn (off-brand semi-transparent orange border) */
-  .modal-cancel-secondary {
-    background: transparent;
-    border: 1.5px solid rgba(237, 132, 58, 0.3);
-    color: var(--color-secondary-600);
-  }
-  .modal-cancel-secondary:hover {
-    background: rgba(237, 132, 58, 0.06);
-  }
+  /* `.modal-cancel-secondary` retiré le 2026-09-24 : aucun usage, et un label
+     secondary-600 qui ne passait pas l'AA en texte. */
 }
 
 /* ============================================

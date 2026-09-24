@@ -42,10 +42,15 @@ export const Modal: React.FC<ModalProps> = ({
 
   if (!open) return null;
 
+  /* Anatomie (passe typographique du 2026-09-24) : titre h2 au pas du titre
+     de bloc (20/26/700 — une modale est un bloc posé sur la page, pas une
+     page) · 8 · description 16 ink-700 · 16 · corps 16 · 24 · actions.
+     Le titre était au pas de la section (28 px), avec un interligne réécrit
+     à 1,15 ; les actions à 28 px du corps (16 + 12). */
   const dialogClasses = [
     // Mobile-first: 16px gutter via parent p-4 (scrim) + full width; desktop: 480px cap
     'relative bg-white rounded-2xl shadow-xl w-full sm:max-w-[480px]',
-    'p-6 sm:p-8 flex flex-col gap-stack max-h-[90vh] overflow-y-auto',
+    'p-stack-lg sm:p-section flex flex-col gap-stack max-h-[90vh] overflow-y-auto',
     'animate-[modal-scale-in-flat_0.25s_cubic-bezier(0.34,1.56,0.64,1)_both]',
     className,
   ].filter(Boolean).join(' ');
@@ -66,17 +71,17 @@ export const Modal: React.FC<ModalProps> = ({
       >
         {(title || description || showClose) && (
           <div className="grid grid-cols-[1fr_auto] gap-stack-xs items-start">
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 flex flex-col gap-stack-xs">
               {title && (
                 /* Un vrai titre (h2) à id unique : l'ancien `p#modal-title`
                    n'était pas un titre et son id fixe collisionnait dès que
                    deux modales coexistaient. */
-                <h2 id={dialog.titleId} className="font-display text-h2 tracking-headline leading-[1.15] text-ink-900 mb-2">
+                <h2 id={dialog.titleId} className="font-display text-h3 text-ink-900 text-balance">
                   {title}
                 </h2>
               )}
               {description && (
-                <p className="text-body text-ink-600 m-0">{description}</p>
+                <p className="font-body text-body text-ink-700 max-w-prose">{description}</p>
               )}
             </div>
             {showClose && (
@@ -100,7 +105,7 @@ export const Modal: React.FC<ModalProps> = ({
         )}
 
         {actions && (
-          <div className="flex justify-end gap-stack-xs mt-3">{actions}</div>
+          <div className="flex justify-end gap-stack-xs mt-stack-xs">{actions}</div>
         )}
       </div>
     </div>

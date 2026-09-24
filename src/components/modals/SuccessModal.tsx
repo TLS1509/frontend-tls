@@ -53,12 +53,15 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
           </div>
         </div>
 
-        {/* Content */}
-        <div className="text-center mb-section relative z-10 animate-sm-fade-up-1">
-          <h2 id={dialog.titleId} className="text-h3 mb-3 modal-gradient-text">
+        {/* Content — titre h2 20/26/700 ink-900 · 8 · message 16 ink-700 ·
+            24 · action. Le titre portait `.modal-gradient-text` : graisse 800
+            (réservée au site) et primary-600, une couleur de marque qui ne
+            passe pas l'AA en texte (3,66:1) et qui « faisait joli ». */}
+        <div className="flex flex-col items-center gap-stack-xs text-center mb-stack-lg relative z-10 animate-sm-fade-up-1">
+          <h2 id={dialog.titleId} className="font-display text-h3 text-ink-900 text-balance">
             {title}
           </h2>
-          <p className="text-body text-ink-600">
+          <p className="font-body text-body text-ink-700 text-balance">
             {message}
           </p>
         </div>

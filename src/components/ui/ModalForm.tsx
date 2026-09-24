@@ -85,12 +85,13 @@ export const ModalForm: React.FC<ModalFormProps> = ({
         noValidate
         className="flex flex-col"
       >
-        {/* Header */}
-        <div className="flex items-start justify-between gap-stack-xs px-6 pt-stack-md pb-stack border-b border-ink-100">
-          <div>
-            <h2 className="text-h3 font-display font-bold text-ink-900">{title}</h2>
+        {/* Header — titre h2 au pas du bloc (20/26/700) · 8 · description
+            16 ink-700 (elle était en ink-500, la couleur des placeholders). */}
+        <div className="flex items-start justify-between gap-stack-xs px-stack-lg pt-stack-md pb-stack border-b border-ink-100">
+          <div className="flex flex-col gap-stack-xs min-w-0">
+            <h2 className="font-display text-h3 text-ink-900 text-balance">{title}</h2>
             {description && (
-              <p className="text-body text-ink-500 m-0 mt-1">{description}</p>
+              <p className="font-body text-body text-ink-700 max-w-prose">{description}</p>
             )}
           </div>
           <button
@@ -105,12 +106,12 @@ export const ModalForm: React.FC<ModalFormProps> = ({
         </div>
 
         {/* Body */}
-        <div className="px-6 py-stack-md flex flex-col gap-stack">
+        <div className="px-stack-lg py-stack-md flex flex-col gap-stack">
           {children}
         </div>
 
-        {/* Footer */}
-        <div className="flex items-center justify-between gap-stack-xs px-6 pb-stack-md pt-2">
+        {/* Footer — les actions à 24 px du contenu (20 du corps + 4). */}
+        <div className="flex items-center justify-between gap-stack-xs px-stack-lg pb-stack-md pt-stack-3xs">
           <div>
             {destructiveLabel && onDestructive && (
               <Button

@@ -123,7 +123,9 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
                   : <Play size={32} className="ml-1" />
                 }
               </div>
-              <p className="text-white/40 text-caption relative z-10">
+              {/* Blanc à 70 % : à 40 %, l'indication tombait sous l'AA sur
+                  ink-950 (≈ 3,9:1). */}
+              <p className="text-white/70 text-caption relative z-10">
                 {isPlaying ? '▶ Lecture en cours…' : 'Cliquez pour lancer la vidéo'}
               </p>
             </div>
@@ -160,7 +162,9 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
             <button onClick={toggleMute} className={CONTROL_BTN_CLASS}>
               {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
             </button>
-            <span className="text-[12px] text-white/50 flex items-center gap-tight">
+            {/* Minutage : légende 13 (il était à 12 px, hors échelle),
+                chiffres tabulaires pour qu'il ne danse pas pendant la lecture. */}
+            <span className="text-caption text-white/80 tabular-nums flex items-center gap-stack-3xs">
               <Clock size={14} /> {currentTime} / {duration}
             </span>
             <div className="flex-1" />
@@ -181,14 +185,18 @@ export const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({
         {/* Info panel */}
         <div className="p-stack-md bg-white border-t border-ink-200">
           <div className="flex items-start justify-between gap-stack">
-            <div className="flex-1 min-w-0">
-              <h3 id={dialog.titleId} className="text-body font-bold text-ink-900 mb-1">
+            {/* Le titre nomme le dialogue : un h2 au pas du bloc (20/26/700),
+                pas un h3 au corps du texte · 4 · méta en légende · 8 ·
+                description en texte courant 16 ink-700 (elle était en
+                légende, comme la méta). */}
+            <div className="flex-1 min-w-0 flex flex-col">
+              <h2 id={dialog.titleId} className="font-display text-h3 text-ink-900">
                 {title}
-              </h3>
-              <p className="text-caption text-ink-600 mb-2">
+              </h2>
+              <p className="mt-stack-3xs font-body text-caption text-ink-600">
                 Par {instructor} · {duration}
               </p>
-              <p className="text-caption text-ink-600">
+              <p className="mt-stack-xs font-body text-body text-ink-700 max-w-prose">
                 {description}
               </p>
             </div>

@@ -88,7 +88,9 @@ function formatDateLabel(dateKey: string): string {
   return `${d} ${MONTHS_FR[parseInt(m, 10) - 1]} ${y}`;
 }
 
-const PILL_BASE = 'px-2.5 py-1 rounded-pill text-micro font-bold whitespace-nowrap';
+// Étape : légende 13/600 (11 px graisse 700 était le registre du `Badge`,
+// capitales en moins).
+const PILL_BASE = 'px-2.5 py-1 rounded-pill text-caption font-semibold whitespace-nowrap';
 
 function getPillClass(stepKey: Step, currentStep: Step, allSteps: Step[]): string {
   if (stepKey === currentStep) return `${PILL_BASE} bg-primary-700 text-white`;
@@ -99,15 +101,24 @@ function getPillClass(stepKey: Step, currentStep: Step, allSteps: Step[]): strin
 }
 
 const getDayBtnClass = (hasSlots: boolean, isSelected: boolean): string => {
-  const base = 'aspect-square rounded-md border text-caption transition-all';
-  if (isSelected) return `${base} border-primary-700 bg-primary-700 text-white font-bold cursor-pointer`;
-  if (hasSlots) return `${base} border-transparent bg-primary-50 text-primary-800 font-bold cursor-pointer hover:bg-primary-100`;
+  // Un chiffre sous 16 px : Nunito 600, tabulaire (doctrine § 1).
+  const base = 'aspect-square rounded-md border text-caption tabular-nums transition-all';
+  if (isSelected) return `${base} border-primary-700 bg-primary-700 text-white font-semibold cursor-pointer`;
+  if (hasSlots) return `${base} border-transparent bg-primary-50 text-primary-800 font-semibold cursor-pointer hover:bg-primary-100`;
   return `${base} border-transparent bg-transparent text-ink-600 opacity-35 cursor-default`;
 };
 
-const TIME_SLOT_BASE = 'w-full py-2 rounded-lg font-semibold text-body cursor-pointer transition-all text-center border';
+const TIME_SLOT_BASE = 'w-full py-2 rounded-lg font-semibold text-body tabular-nums cursor-pointer transition-all text-center border';
 const TIME_SLOT_SELECTED = 'border-2 border-primary-500 bg-primary-50 text-primary-800';
 const TIME_SLOT_DEFAULT = 'border-ink-200 bg-white text-ink-900 hover:border-primary-300 hover:bg-primary-50';
+
+/* Bandeaux de source (crédits, entreprise, paiement) : l'anatomie d'une
+   `Alert` — titre 16/600 · 4 · texte en légende 13, l'icône centrée sur la
+   première ligne (`h-lh` sur une ligne de 26 px). Le titre était en légende
+   grasse, le texte en 11 px (le registre des étiquettes). */
+const BANNER_ICON = 'shrink-0 inline-flex items-center h-lh text-body';
+const BANNER_TITLE = 'font-body text-body font-semibold text-ink-900';
+const BANNER_TEXT = 'font-body text-caption text-ink-600';
 
 const STEP_LABELS: Record<Step, string> = {
   datetime:     'Date & Heure',
@@ -209,12 +220,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     if (isEnterprise) {
       return (
         <div className="mb-stack p-stack rounded-xl bg-success-bg/30 border border-success-base/30 flex items-start gap-stack-xs">
-          <Building2 size={16} className="text-success-fg shrink-0 mt-0.5" />
-          <div className="flex-1 min-w-0">
-            <p className="m-0 font-body text-caption font-bold text-ink-900">
+          <span className={BANNER_ICON}><Building2 size={16} className="text-success-fg" /></span>
+          <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+            <p className={BANNER_TITLE}>
               Session sponsorisée par {companyName}
             </p>
-            <p className="m-0 font-body text-micro text-ink-600">
+            <p className={BANNER_TEXT}>
               {credits.remaining} / {credits.total} sessions utilisées ce trimestre
             </p>
           </div>
@@ -224,12 +235,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     if (hasCredits) {
       return (
         <div className="mb-stack p-stack rounded-xl bg-primary-50 border border-primary-100 flex items-start gap-stack-xs">
-          <Wallet size={16} className="text-primary-600 shrink-0 mt-0.5" />
-          <div className="flex-1 min-w-0">
-            <p className="m-0 font-body text-caption font-bold text-ink-900">
+          <span className={BANNER_ICON}><Wallet size={16} className="text-primary-600" /></span>
+          <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+            <p className={BANNER_TITLE}>
               Incluse dans ton forfait {userPlan === 'pro' ? 'Pro' : ''}
             </p>
-            <p className="m-0 font-body text-micro text-ink-600">
+            <p className={BANNER_TEXT}>
               {credits.remaining} / {credits.total} sessions restantes ce mois
             </p>
           </div>
@@ -239,17 +250,17 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     // free OU pro à 0 crédit → upsell banner
     return (
       <div className="mb-stack p-stack rounded-xl bg-accent-50 border border-accent-200 flex items-start gap-stack-xs">
-        <Sparkles size={16} className="text-accent-700 shrink-0 mt-0.5" />
-        <div className="flex-1 min-w-0">
-          <p className="m-0 font-body text-caption font-bold text-ink-900">
+        <span className={BANNER_ICON}><Sparkles size={16} className="text-accent-700" /></span>
+        <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+          <p className={BANNER_TITLE}>
             {userPlan === 'pro'
               ? `Forfait épuisé (${credits.total}/${credits.total} utilisées)`
               : `Session à l'unité · ${sessionPrice} €`}
           </p>
-          <p className="m-0 font-body text-micro text-ink-600">
+          <p className={BANNER_TEXT}>
             {userPlan === 'pro'
               ? 'Cette session sera facturée en plus de ton forfait.'
-              : <>Passe à <strong>TLS Pro</strong> pour des sessions incluses · <a href="/account/billing" className="text-primary-700 underline font-semibold">Voir forfaits</a></>}
+              : <>Passe à <strong>TLS Pro</strong> pour des sessions incluses · <a href="/account/billing" className="text-primary-800 underline font-semibold">Voir forfaits</a></>}
           </p>
         </div>
       </div>
@@ -268,15 +279,19 @@ export const BookingModal: React.FC<BookingModalProps> = ({
       >
         {/* Header — compact */}
         <div className="px-stack-md py-stack border-b border-ink-200 flex items-center gap-stack-xs flex-wrap shrink-0">
-          <div className="w-10 h-10 rounded-pill bg-primary-100 text-primary-800 flex items-center justify-center font-display font-black text-caption shrink-0">
+          {/* Initiales : Nunito 600 à 13 px — le League Spartan ne descend pas
+              sous 16 px, et `font-black` (900) est interdit dans l'app. */}
+          <div className="w-10 h-10 rounded-pill bg-primary-100 text-primary-800 flex items-center justify-center font-body font-semibold text-caption shrink-0">
             {coachInitials}
           </div>
 
-          <div className="flex-1 min-w-[180px]">
-            <h2 id={dialog.titleId} className="text-body font-bold text-ink-900">
+          {/* Titre de la modale : h2 au pas du bloc (20/26/700) — il était au
+              corps du texte (16 px) —, méta en légende 4 px dessous. */}
+          <div className="flex-1 min-w-[180px] flex flex-col gap-stack-3xs">
+            <h2 id={dialog.titleId} className="font-display text-h3 text-ink-900">
               Réserver une session
             </h2>
-            <p className="m-0 text-caption text-ink-600">
+            <p className="text-caption text-ink-600">
               {coachName} · 45 min
             </p>
           </div>
@@ -315,7 +330,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     >
                       <ChevronLeft />
                     </Button>
-                    <span className="font-bold text-body text-ink-900">
+                    <span className="font-semibold text-body text-ink-900">
                       {MONTHS_FR[currentMonth.getMonth()]} {currentMonth.getFullYear()}
                     </span>
                     <Button
@@ -332,7 +347,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
                   <div className="grid grid-cols-7 gap-tight mb-1">
                     {DAYS_FR.map((d) => (
-                      <div key={d} className="text-center text-micro font-bold text-ink-600 uppercase tracking-wide py-1">
+                      <div key={d} className="text-center text-caption font-semibold text-ink-600 py-1">
                         {d}
                       </div>
                     ))}
@@ -362,7 +377,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 <div>
                   <div className="flex items-center gap-stack-2xs mb-2">
                     <Clock size={14} className="text-primary-500 shrink-0" />
-                    <span className="text-caption font-bold text-ink-900">
+                    <span className="text-caption font-semibold text-ink-900">
                       {selectedDate ? formatDateLabel(selectedDate) : 'Choisis une date'}
                     </span>
                   </div>
@@ -395,25 +410,25 @@ export const BookingModal: React.FC<BookingModalProps> = ({
             <div className="flex flex-col gap-stack">
               {/* Order summary compact */}
               <div className="p-stack rounded-xl bg-primary-50 border border-primary-100 flex items-center justify-between gap-stack-xs">
-                <div className="flex flex-col gap-tight min-w-0">
-                  <span className="font-display text-body font-bold text-ink-900 truncate">
+                <div className="flex flex-col gap-stack-3xs min-w-0">
+                  <span className="font-body text-body font-semibold text-ink-900 truncate">
                     Session 1:1 avec {coachName}
                   </span>
                   <span className="font-body text-caption text-ink-600 truncate">
                     {selectedDate && formatDateLabel(selectedDate)} · {selectedTime} · 45 min
                   </span>
                 </div>
-                <div className="text-right shrink-0">
-                  <span className="font-display text-h3 font-bold text-ink-900 leading-none block">{sessionPrice} €</span>
-                  <span className="font-body text-micro text-ink-500">TVA incluse</span>
+                <div className="text-right shrink-0 flex flex-col gap-stack-3xs">
+                  <span className="font-display text-h3 text-ink-900 tabular-nums">{sessionPrice} €</span>
+                  <span className="font-body text-caption text-ink-600">TVA incluse</span>
                 </div>
               </div>
 
               {/* Payment method header */}
               <div className="flex items-center gap-stack-xs">
                 <CreditCard size={16} className="text-primary-600" />
-                <span className="font-display text-caption font-bold text-ink-900">Paiement par carte</span>
-                <span className="ml-auto inline-flex items-center gap-tight text-micro text-ink-500">
+                <span className="font-body text-body font-semibold text-ink-900">Paiement par carte</span>
+                <span className="ml-auto inline-flex items-center gap-stack-3xs text-caption text-ink-600">
                   <Lock size={14} /> Sécurisé
                 </span>
               </div>
@@ -468,10 +483,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 </label>
               </div>
 
-              <p className="m-0 font-body text-micro text-ink-500">
+              <p className="font-body text-caption text-ink-600 max-w-prose">
                 En confirmant, tu acceptes nos{' '}
-                <a href="/terms" className="text-primary-700 underline">CGV</a> et la{' '}
-                <a href="/cancellation" className="text-primary-700 underline">politique d'annulation</a> (gratuite jusqu'à 24h avant).
+                <a href="/terms" className="text-primary-800 underline">CGV</a> et la{' '}
+                <a href="/cancellation" className="text-primary-800 underline">politique d'annulation</a> (gratuite jusqu'à 24h avant).
               </p>
             </div>
           )}
@@ -484,13 +499,15 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   <div className="w-10 h-10 rounded-md bg-primary-600 flex items-center justify-center shrink-0">
                     <Calendar size={18} className="text-white" />
                   </div>
-                  <div className="flex-1 min-w-[180px]">
-                    <p className="m-0 text-caption font-bold text-ink-900">Session</p>
-                    <p className="m-0 text-body font-extrabold text-primary-800">
+                  {/* Libellé en légende, valeur au-dessous en 16/600 : elle
+                      était en graisse 800, réservée au site. */}
+                  <div className="flex-1 min-w-[180px] flex flex-col gap-stack-3xs">
+                    <p className="text-caption text-ink-600">Session</p>
+                    <p className="text-body font-semibold text-ink-900 tabular-nums">
                       {selectedDate && formatDateLabel(selectedDate)} · {selectedTime}
                     </p>
                   </div>
-                  <div className="flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-success-bg text-success-fg text-caption font-bold shrink-0">
+                  <div className="flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-success-bg text-success-fg text-caption font-semibold shrink-0">
                     <CheckCircle2 size={14} /> 45 min
                   </div>
                 </div>
@@ -513,7 +530,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     </span>
                   )}
                   {needsPayment && (
-                    <span className="font-display text-body font-bold text-ink-900">{sessionPrice} €</span>
+                    <span className="font-body text-body font-semibold text-ink-900 tabular-nums">{sessionPrice} €</span>
                   )}
                 </div>
               </div>
@@ -525,10 +542,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   { icon: <Video size={14} />,    title: 'Lien visio',    body: 'Envoyé par email.' },
                   { icon: <AlertCircle size={14} />, title: 'Annulation', body: "Gratuite jusqu'à 24h avant." },
                 ].map((info) => (
-                  <div key={info.title} className="p-stack rounded-lg bg-ink-50 border border-ink-200">
-                    <div className="text-primary-500 mb-1">{info.icon}</div>
-                    <p className="m-0 mb-0.5 text-caption font-bold text-ink-900">{info.title}</p>
-                    <p className="m-0 text-micro text-ink-600">{info.body}</p>
+                  <div key={info.title} className="p-stack rounded-lg bg-ink-50 border border-ink-200 flex flex-col gap-stack-3xs">
+                    <div className="text-primary-500">{info.icon}</div>
+                    <p className="text-caption font-semibold text-ink-900">{info.title}</p>
+                    <p className="text-caption text-ink-600">{info.body}</p>
                   </div>
                 ))}
               </div>

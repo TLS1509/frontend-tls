@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, AlertTriangle, CalendarX, RefreshCcw, ChevronDown } from 'lucide-react';
+import { X, AlertTriangle, CalendarX, RefreshCcw, ChevronDown, CheckCircle2 } from 'lucide-react';
 import { Button } from '../core/Button';
 import { IconChip } from '../ui/IconChip';
 import { useDialog } from '../../hooks/useDialog';
@@ -83,25 +83,28 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
         {step === 'confirm' ? (
           <>
             {/* Warning icon */}
-            <div className="flex justify-center mb-stack">
+            <div className="flex justify-center">
               <IconChip size="lg" tone="warm">
                 <AlertTriangle />
               </IconChip>
             </div>
 
-            <h2 id={dialog.titleId} className="text-h3 text-ink-900 text-center mb-2">
+            {/* Titre h2 20/26/700 · 8 · message 16 ink-700, centré et court.
+                Écart icône → titre écrit SUR le titre : un `mt-*` bat la marge de base des titres (0,75em), qui sinon s'ajoutait à celle de l'icône (31 px au lieu de 16). */}
+            <h2 id={dialog.titleId} className="mt-stack font-display text-h3 text-ink-900 text-center text-balance">
               Annuler la session ?
             </h2>
-            <p className="text-body text-ink-600 text-center mb-stack-md">
+            <p className="mt-stack-xs font-body text-body text-ink-700 text-center text-balance mb-stack-md">
               Cette action est irréversible. Vous pouvez aussi reprogrammer plutôt qu'annuler.
             </p>
 
-            {/* Session summary */}
-            <div className="px-4 py-3 rounded-xl bg-ink-50 border border-ink-200 mb-stack-md">
-              <p className="text-body font-bold text-ink-900 mb-0.5">
+            {/* Session summary — libellé de rangée 16/600 · 4 · date en
+                légende (elle était en 11 px, le registre des étiquettes). */}
+            <div className="px-4 py-3 rounded-xl bg-ink-50 border border-ink-200 mb-stack-md flex flex-col gap-stack-3xs">
+              <p className="font-body text-body font-semibold text-ink-900">
                 {sessionTitle}
               </p>
-              <p className="text-micro text-ink-600 flex items-center gap-tight">
+              <p className="font-body text-caption text-ink-600">
                 📅 {sessionDate}
               </p>
             </div>
@@ -150,13 +153,18 @@ export const CancelSessionModal: React.FC<CancelSessionModalProps> = ({
             </div>
           </>
         ) : (
-          /* Done state */
-          <div className="text-center py-stack-lg animate-[csoFadeIn_0.4s_ease_both]">
-            <div className="text-[3rem] mb-3">✅</div>
-            <h3 className="text-h3 font-bold text-ink-900 mb-2">
+          /* Done state — pastille d'icône du système au lieu d'un émoji de
+             48 px (`text-[3rem]`, hors échelle) ; le titre reste un h2 et
+             reprend l'id du dialogue : c'est lui qui le nomme désormais (il
+             était en h3, sans h2 au-dessus, et le dialogue perdait son nom). */
+          <div className="flex flex-col items-center gap-stack-xs text-center py-stack-lg animate-[csoFadeIn_0.4s_ease_both]">
+            <IconChip size="lg" tone="success">
+              <CheckCircle2 />
+            </IconChip>
+            <h2 id={dialog.titleId} className="mt-stack-xs font-display text-h3 text-ink-900">
               Session annulée
-            </h3>
-            <p className="text-body text-ink-600">
+            </h2>
+            <p className="font-body text-body text-ink-700 text-balance">
               Vous pouvez réserver une nouvelle session quand vous le souhaitez.
             </p>
           </div>
