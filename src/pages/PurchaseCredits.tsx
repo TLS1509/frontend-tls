@@ -98,7 +98,7 @@ const PurchaseCredits: React.FC = () => {
                 <Input placeholder="4242 4242 4242 4242" leadingIcon={<CreditCard className="w-4 h-4" />} />
               </FormGroup>
               <FormGroup label="Nom du titulaire">
-                <Input placeholder="Chloé Mimault" />
+                <Input placeholder="Nom tel qu'il figure sur la carte" />
               </FormGroup>
               <FormGroup label="Date d'expiration">
                 <Input placeholder="MM/AA" />
