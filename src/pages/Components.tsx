@@ -178,7 +178,7 @@ import { PageHeader } from '../components/patterns/PageHeader';
 import { ViewerHeader } from '../components/patterns/ViewerHeader';
 import { QuickActionButton } from '../components/ui/QuickActionButton';
 import { Divider } from '../components/ui/Divider';
-import { Bell, MessageSquare, BookOpen, Calendar, GraduationCap, Clock3, Flame, Trophy, Zap, Users, Lightbulb, CheckCircle2, LayoutDashboard, Map as MapIcon, PenLine, Video, Sparkles as SparklesIcon, UserRound as UserIcon, Settings2, Target, BarChart3, LogOut, Mail, Layers, Palette, FolderTree, LayoutTemplate, Star, SlidersHorizontal, ArrowLeft, ArrowRight, TrendingUp, FolderOpen, User, Bookmark, Check, CheckCheck } from 'lucide-react';
+import { Bell, MessageSquare, BookOpen, Calendar, GraduationCap, Clock3, Flame, Trophy, Zap, Users, Lightbulb, CheckCircle2, LayoutDashboard, Map as MapIcon, PenLine, Video, Sparkles as SparklesIcon, UserRound as UserIcon, Settings2, Target, BarChart3, LogOut, Mail, Layers, Palette, FolderTree, LayoutTemplate, Star, SlidersHorizontal, ArrowLeft, ArrowRight, TrendingUp, FolderOpen, User, Bookmark, Check, CheckCheck, ChevronUp, CirclePlus } from 'lucide-react';
 import { SidebarUserCard } from '../components/layout/Sidebar';
 import { ConsentBanner } from '../components/patterns/ConsentBanner';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
@@ -722,7 +722,7 @@ const PositionnementModalDemo: React.FC = () => {
   return (
     <div className="flex flex-col gap-stack-xs items-start">
       <Button onClick={() => setOpen(true)}>🎯 Se positionner</Button>
-      <p className="m-0 text-caption text-ink-500">
+      <p className="m-0 text-caption text-ink-600">
         S'ouvre avant de démarrer un parcours. 3 questions, 5 niveaux.
       </p>
       <PositionnementModal isOpen={open} onClose={() => setOpen(false)} courseTitle="Maîtrise des données" />
@@ -735,7 +735,7 @@ const BookingModalDemo: React.FC = () => {
   return (
     <div className="flex flex-col gap-stack-xs items-start">
       <Button onClick={() => setOpen(true)}>📅 Réserver une session</Button>
-      <p className="m-0 text-caption text-ink-500">
+      <p className="m-0 text-caption text-ink-600">
         Calendrier interactif + créneaux disponibles + confirmation 2 étapes.
       </p>
       <BookingModal
@@ -867,7 +867,7 @@ const SegmentedControlDemo: React.FC = () => {
         value={periode}
         onChange={setPeriode}
       />
-      <p className="m-0 text-caption text-ink-500">Vue : {vue} · Période : {periode}</p>
+      <p className="m-0 text-caption text-ink-600">Vue : {vue} · Période : {periode}</p>
     </div>
   );
 };
@@ -1007,7 +1007,7 @@ const TabsDemo: React.FC = () => {
   return (
     <div className="flex flex-col gap-stack-lg">
       <div>
-        <p className="m-0 mb-3 text-caption font-semibold text-ink-500 uppercase">Pill (défaut)</p>
+        <p className="m-0 mb-3 text-caption font-semibold text-ink-600">Pill (défaut)</p>
         <Tabs
           items={[
             { id: 'tab1', label: '📚 Étapes' },
@@ -1020,7 +1020,7 @@ const TabsDemo: React.FC = () => {
         />
       </div>
       <div>
-        <p className="m-0 mb-3 text-caption font-semibold text-ink-500 uppercase">Underline</p>
+        <p className="m-0 mb-3 text-caption font-semibold text-ink-600">Underline</p>
         <Tabs
           items={[
             { id: 'a', label: 'Général' },
@@ -1044,7 +1044,7 @@ const FilterChipDemo: React.FC = () => {
     <div className="flex flex-col gap-stack-lg">
       {/* Default surface */}
       <div className="flex flex-col gap-stack-xs">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Default surface · single-select + reset</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">Default surface · single-select + reset</p>
         <div className="flex gap-stack-xs flex-wrap">
           {TOPICS.map((label, i) => {
             const key = i === 0 ? 'all' : label.toLowerCase();
@@ -1058,7 +1058,7 @@ const FilterChipDemo: React.FC = () => {
 
       {/* Default with count badges */}
       <div className="flex flex-col gap-stack-xs">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Default · avec count badges</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">Default · avec count badges</p>
         <div className="flex gap-stack-xs flex-wrap">
           <FilterChip label="En cours" active count={3} onClick={() => {}} />
           <FilterChip label="Terminés" count={1} onClick={() => {}} />
@@ -1068,7 +1068,7 @@ const FilterChipDemo: React.FC = () => {
 
       {/* Glass variant */}
       <div className="flex flex-col gap-stack-xs">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Glass variant · sur fond coloré</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">Glass variant · sur fond coloré</p>
         <div className="bg-gradient-to-r from-primary-700 to-primary-800 rounded-xl px-stack py-stack-md flex gap-stack-xs flex-wrap">
           {TOPICS.map((label, i) => {
             const key = i === 0 ? 'tous' : label.toLowerCase();
@@ -1087,7 +1087,7 @@ const FilterChipDemo: React.FC = () => {
 
       {/* Glass with count badges */}
       <div className="flex flex-col gap-stack-xs">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Glass · avec count badges</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">Glass · avec count badges</p>
         <div className="bg-gradient-to-r from-secondary-700 to-secondary-800 rounded-xl px-stack py-stack-md flex gap-stack-xs flex-wrap">
           <FilterChip label="Non lus" variant="glass" active count={3} onClick={() => {}} />
           <FilterChip label="Mentions" variant="glass" count={7} onClick={() => {}} />
@@ -1168,7 +1168,7 @@ const SidebarDemo: React.FC = () => {
   ];
   return (
     <div className="flex flex-col gap-stack-xs">
-      <div className="flex items-center gap-stack-xs text-caption text-ink-500">
+      <div className="flex items-center gap-stack-xs text-caption text-ink-600">
         <button
           type="button"
           onClick={() => setCollapsed(p => !p)}
@@ -1221,8 +1221,8 @@ const SidebarDemo: React.FC = () => {
           ))}
         </Sidebar>
         <div className="flex-1 p-stack-lg bg-gradient-to-br from-ink-50 to-white overflow-hidden rounded-r-xl">
-          <p className="text-body text-ink-500">Active : <strong className="text-ink-900">{items.find(i => i.id === active)?.label}</strong></p>
-          <p className="text-caption text-ink-500 mt-1">Cliquer sur la carte utilisateur en bas → dropdown glass à droite. Mobile : drawer + hamburger (md:)</p>
+          <p className="text-body text-ink-600">Active : <strong className="text-ink-900">{items.find(i => i.id === active)?.label}</strong></p>
+          <p className="text-caption text-ink-600 mt-1">Cliquer sur la carte utilisateur en bas → dropdown glass à droite. Mobile : drawer + hamburger (md:)</p>
         </div>
       </div>
     </div>
@@ -1334,10 +1334,13 @@ const ShowcaseBloc: React.FC<{
      « à trancher » qu'elle habillait. Une vitrine montre ce que le système FAIT ;
      elle ne demande pas ce qu'il devrait faire. Ce qui reste ouvert vit sur la
      page d'arbitrages, qui sait enregistrer une réponse — la vitrine, non. */
+  /* Titre de sous-section à 20 (doctrine § 1 : le h3 est aussi le titre d'une
+     sous-section), note en texte secondaire long : 16 ink-700 à la largeur de
+     lecture, 8 px sous le titre. */
   <section className="flex flex-col gap-stack">
-    <div className="flex flex-col gap-tight">
+    <div className="flex flex-col gap-stack-xs">
       <h4 className="font-display text-h3 text-ink-900">{titre}</h4>
-      {note && <p className="m-0 font-body text-body text-ink-600 max-w-[65ch]">{note}</p>}
+      {note && <p className="font-body text-body text-ink-700 max-w-prose">{note}</p>}
     </div>
     {children}
   </section>
@@ -1398,35 +1401,66 @@ const COMPONENTS: ComponentEntry[] = [
 
   {
     name: 'Rythme des titres',
-    codeName: 'convention — aucun fichier propriétaire',
+    codeName: 'convention — PageShell · base CSS des titres',
     description:
-      "Un titre appartient à ce qui le suit, pas à ce qui le précède. L'espace au-dessus doit donc valoir trois à quatre fois celui d'en dessous. L'app applique aujourd'hui un ratio de 1:1 sur 302 piles verticales.",
-    keywords: ['rythme', 'titre', 'heading', 'proximité', 'gap', 'espacement', 'vertical'],
+      "Un titre appartient à ce qui le suit, pas à ce qui le précède. D'où le rapport de 3:1 autour d'un titre de section : 48 px au-dessus, 16 en dessous (doctrine § 5). Le 09/09, l'app appliquait un rapport de 1:1 sur 302 piles verticales.",
+    keywords: ['rythme', 'titre', 'heading', 'proximité', 'gap', 'espacement', 'vertical', '48', 'check-rythme', 'pageshell'],
     render: () => (
       <div className="flex flex-col gap-section">
         <ShowcaseBloc
-          titre="Ce que fait l'app aujourd'hui"
-          note="La règle du repo veut qu'un composant ne porte jamais son propre margin — c'est le parent qui possède le rythme, via gap (piège n°12). Correct, mais un gap est par construction symétrique : il donne exactement autant d'air au-dessus du titre qu'en dessous. Le titre flotte alors entre deux blocs au lieu d'appartenir au sien. Compté dans src/pages : 228 piles en gap-stack (16 px), 43 en gap-section, 26 en gap-stack-lg. Aucune n'applique d'asymétrie."
+          titre="Ce que faisait l'app le 9 septembre"
+          note="La règle du repo veut qu'un composant ne porte jamais son propre margin — c'est le parent qui possède le rythme, via gap (piège n°12). Correct, mais un gap est par construction symétrique : il donne exactement autant d'air au-dessus du titre qu'en dessous. Le titre flottait alors entre deux blocs au lieu d'appartenir au sien. Compté ce jour-là dans src/pages : 228 piles en gap-stack (16 px), 43 en gap-section, 26 en gap-stack-lg, aucune asymétrie."
         >
           <div className="grid gap-stack sm:grid-cols-2">
             <div className="rounded-lg border border-ink-200 p-stack">
-              <p className="m-0 mb-stack-xs text-micro font-bold uppercase tracking-wider text-ink-500">Constaté — gap-stack uniforme</p>
+              <p className="mb-stack-xs text-caption font-semibold text-ink-600">Constaté le 09/09 — gap-stack uniforme</p>
               <div className="flex flex-col gap-stack rounded-md bg-ink-50 p-stack">
-                <p className="m-0 font-body text-body text-ink-600">Fin du bloc précédent.</p>
-                <h5 className="m-0 font-display text-h3 text-ink-900">Un titre de section</h5>
-                <p className="m-0 font-body text-body text-ink-600">Le texte qui lui appartient.</p>
+                <p className="font-body text-body text-ink-700">Fin du bloc précédent.</p>
+                <p className="font-display text-h2 text-ink-900">Un titre de section</p>
+                <p className="font-body text-body text-ink-700">Le texte qui lui appartient.</p>
               </div>
-              <p className="m-0 mt-stack-xs text-micro text-ink-500 tabular-nums">16 px dessus · 16 px dessous — ratio 1,0</p>
+              <p className="mt-stack-xs text-caption text-ink-600 tabular-nums">16 px dessus · 16 px dessous — rapport 1,0</p>
             </div>
             <div className="rounded-lg border border-primary-200 bg-primary-50/30 p-stack">
-              <p className="m-0 mb-stack-xs text-micro font-bold uppercase tracking-wider text-primary-700">Proposé — règle de proximité</p>
+              <p className="mb-stack-xs text-caption font-semibold text-primary-800">La règle — 48 dessus, 16 dessous</p>
               <div className="rounded-md bg-white p-stack">
-                <p className="m-0 font-body text-body text-ink-600">Fin du bloc précédent.</p>
-                <h5 className="mt-section mb-stack-xs font-display text-h3 text-ink-900">Un titre de section</h5>
-                <p className="m-0 font-body text-body text-ink-600">Le texte qui lui appartient.</p>
+                <p className="font-body text-body text-ink-700">Fin du bloc précédent.</p>
+                <p className="mt-page mb-stack font-display text-h2 text-ink-900">Un titre de section</p>
+                <p className="font-body text-body text-ink-700">Le texte qui lui appartient.</p>
               </div>
-              <p className="m-0 mt-stack-xs text-micro text-primary-700 tabular-nums">32 px dessus · 8 px dessous — ratio 4,0</p>
+              <p className="mt-stack-xs text-caption text-primary-800 tabular-nums">48 px dessus · 16 px dessous — rapport 3,0</p>
             </div>
+          </div>
+        </ShowcaseBloc>
+
+        <ShowcaseBloc
+          titre="Ce qui la porte aujourd'hui"
+          note="Trois mécanismes, sans marge sur aucun composant. PageShell pose 48 px entre deux sections par défaut depuis le 24/09 — il en posait 32, soit un rapport de 2:1. Un titre de section est séparé de son contenu par gap-stack, 16 px. Et la base CSS donne 0,75 em au-dessus de tout h2 à h4 qui n'ouvre pas son conteneur (21 px pour un h2 de 28), ce qui creuse l'écart même sous un gap symétrique. `npm run check:rythme` signale tout titre de section sous 1,5:1."
+        >
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[420px] border-collapse font-body text-body">
+              <thead>
+                <tr className="border-b border-ink-200 text-left">
+                  <th className="py-2 pr-stack text-caption font-semibold text-ink-600">Relation</th>
+                  <th className="py-2 pr-stack text-right text-caption font-semibold text-ink-600">Espace</th>
+                  <th className="py-2 text-caption font-semibold text-ink-600">Token</th>
+                </tr>
+              </thead>
+              <tbody className="text-ink-700">
+                {([
+                  ['Dans une ligne, dans un groupe', '4 – 8', 'gap-stack-3xs · gap-stack-xs'],
+                  ['Entre éléments d’un même ensemble', '12 – 16', 'gap-stack-sm · gap-stack'],
+                  ['Titre de section → son contenu', '16', 'gap-stack'],
+                  ['Entre deux sections', '48', 'gap-page'],
+                ] as const).map(([rel, px, tok]) => (
+                  <tr key={rel} className="border-b border-ink-100">
+                    <td className="py-2 pr-stack">{rel}</td>
+                    <td className="py-2 pr-stack text-right tabular-nums">{px}</td>
+                    <td className="py-2"><code className="font-mono text-caption">{tok}</code></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </ShowcaseBloc>
       </div>
@@ -1452,9 +1486,9 @@ const COMPONENTS: ComponentEntry[] = [
               ['section', 32], ['section-lg', 40], ['page', 48],
             ] as const).map(([nom, px]) => (
               <div key={nom} className="flex items-center gap-stack">
-                <code className="w-28 shrink-0 font-mono text-micro text-ink-600">{nom}</code>
+                <code className="w-28 shrink-0 font-mono text-caption text-ink-600">{nom}</code>
                 <div className="h-3 rounded-xs bg-primary-500" style={{ width: `${px * 3}px` }} />
-                <span className="font-mono text-micro text-ink-500 tabular-nums">{px} px</span>
+                <span className="font-mono text-caption text-ink-600 tabular-nums">{px} px</span>
               </div>
             ))}
           </div>
@@ -1468,12 +1502,12 @@ const COMPONENTS: ComponentEntry[] = [
             <table className="w-full min-w-[420px] border-collapse font-body text-body">
               <thead>
                 <tr className="border-b border-ink-200 text-left">
-                  <th className="py-2 pr-stack font-bold text-ink-700">Écrit</th>
-                  <th className="py-2 pr-stack font-bold text-ink-700">Équivaut à</th>
-                  <th className="py-2 text-right font-bold text-ink-700">Usages</th>
+                  <th className="py-2 pr-stack text-caption font-semibold text-ink-600">Écrit</th>
+                  <th className="py-2 pr-stack text-caption font-semibold text-ink-600">Équivaut à</th>
+                  <th className="py-2 text-right text-caption font-semibold text-ink-600">Usages</th>
                 </tr>
               </thead>
-              <tbody className="text-ink-600">
+              <tbody className="text-ink-700">
                 {([['gap-0.5', 'gap-tight', 53], ['gap-stack-xs', 'gap-stack-xs', 94], ['gap-stack', 'gap-stack', 17], ['gap-stack-lg', 'gap-stack-lg', 15], ['gap-8', 'gap-section', 2]] as const).map(([a, b, n]) => (
                   <tr key={a} className="border-b border-ink-100">
                     <td className="py-2 pr-stack"><code className="font-mono text-caption">{a}</code></td>
@@ -1493,7 +1527,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Padding',
     codeName: 'convention — p-* et les surfaces',
     description:
-      "L'inverse exact des gouttières : 778 paddings sémantiques contre 2 450 numériques, soit 24 % d'adoption. Et le padding intérieur d'une carte prend cinq valeurs différentes selon la carte.",
+      "L'inverse exact des gouttières : 778 paddings sémantiques contre 2 450 numériques, soit 24 % d'adoption. Le padding intérieur d'une carte, lui, est tranché (arbitrage n°4 du 23/09, padding de carte) : 24 px au canon, 20 en unique dérogation dense — jamais sous le rayon de 20.",
     keywords: ['padding', 'espacement', 'carte', 'surface', 'gouttière de page'],
     render: () => (
       <div className="flex flex-col gap-section">
@@ -1516,27 +1550,28 @@ const COMPONENTS: ComponentEntry[] = [
 
   {
     name: 'Centrage',
-    codeName: 'vérifié au navigateur, 2026-09-09',
+    codeName: 'vérifié au navigateur le 2026-09-09, remesuré le 2026-09-24',
     description:
-      "Mesuré plutôt que supposé : le centrage géométrique est juste partout où on l'a sondé. Le texte d'un bouton dérive de 0,65 px de son centre optique, et les glyphes en pastille sont à 0,00 px. Ce n'est donc pas là que se joue l'impression de flottement.",
+      "Mesuré plutôt que supposé : le centrage géométrique est juste partout où on l'a sondé. Le label d'un bouton md (16 px, 700) dérive de 0,70 px de son centre optique, et les glyphes en pastille sont à 0,00 px. Ce n'est donc pas là que se joue l'impression de flottement.",
     keywords: ['centrage', 'alignement', 'optique', 'baseline', 'capitale'],
     render: () => (
       <div className="flex flex-col gap-section">
         <ShowcaseBloc
           titre="Ce qui a été mesuré"
-          note="Un centrage vertical par items-center centre la boîte de ligne, pas la hauteur de capitale — et les deux ne coïncident que si les métriques de la fonte s'y prêtent. Celles de Nunito s'y prêtent : sur un bouton md de 44 px, la ligne de base tombe à 28 px du haut, la capitale mesure 10,69 px, donc son milieu est à 22,65 px pour un centre géométrique à 22. L'écart de 0,65 px est invisible. Rien à corriger, et c'est utile de le savoir : la prochaine fois qu'un bloc paraîtra mal centré, il faudra chercher ailleurs."
+          note="Un centrage vertical par items-center centre la boîte de ligne, pas la hauteur de capitale — et les deux ne coïncident que si les métriques de la fonte s'y prêtent. Celles de Nunito s'y prêtent : sur un bouton md de 44 px, avec son label à 16 px depuis le 24/09, la ligne de base tombe à 27 px du haut, la capitale mesure 11,41 px, donc son milieu est à 21,30 px pour un centre géométrique à 22. L'écart de 0,70 px est invisible. Rien à corriger, et c'est utile de le savoir : la prochaine fois qu'un bloc paraîtra mal centré, il faudra chercher ailleurs."
         >
           <div className="overflow-x-auto">
             <table className="w-full min-w-[460px] border-collapse font-body text-body">
-              <tbody className="text-ink-600">
+              <tbody className="text-ink-700">
                 {([
                   ['Bouton md, hauteur', '44,00 px'],
-                  ['Ligne de base, depuis le haut', '28,00 px'],
-                  ['Hauteur de capitale', '10,69 px'],
+                  ['Label', '16 px · 700'],
+                  ['Ligne de base, depuis le haut', '27,00 px'],
+                  ['Hauteur de capitale', '11,41 px'],
                   ['Centre géométrique', '22,00 px'],
-                  ['Milieu de la capitale', '22,65 px'],
-                  ['Dérive optique', '0,65 px — sous le seuil du visible'],
-                  ['Glyphe dans une pastille de 40 px', '0,00 px sur les deux axes'],
+                  ['Milieu de la capitale', '21,30 px'],
+                  ['Dérive optique', '0,70 px — sous le seuil du visible'],
+                  ['Glyphe dans une pastille de 40 px (09/09)', '0,00 px sur les deux axes'],
                 ] as const).map(([k, v]) => (
                   <tr key={k} className="border-b border-ink-100">
                     <td className="py-2 pr-stack">{k}</td>
@@ -1555,17 +1590,17 @@ const COMPONENTS: ComponentEntry[] = [
           <div className="flex flex-wrap items-center gap-stack">
             <div className="flex flex-col items-start gap-stack-xs">
               <Button>Texte seul</Button>
-              <span className="font-mono text-micro text-ink-500">20 / 20 — symétrique</span>
+              <span className="font-mono text-caption text-ink-600">20 / 20 — symétrique</span>
             </div>
             <div className="flex flex-col items-start gap-stack-xs">
               <Button leadingIcon={I.plus}>Icône à gauche</Button>
-              <span className="font-mono text-micro text-ink-500">20 / 20 — l’icône pèse moins</span>
+              <span className="font-mono text-caption text-ink-600">20 / 20 — l’icône pèse moins</span>
             </div>
             <div className="flex flex-col items-start gap-stack-xs">
               <span className="inline-flex [&>button]:pl-4">
                 <Button leadingIcon={I.plus}>Icône à gauche</Button>
               </span>
-              <span className="font-mono text-micro text-secondary-700">16 / 20 — compensé</span>
+              <span className="font-mono text-caption text-secondary-700">16 / 20 — compensé</span>
             </div>
           </div>
         </ShowcaseBloc>
@@ -1575,12 +1610,13 @@ const COMPONENTS: ComponentEntry[] = [
 
 {
     name: 'Les rayons, et ce qui va ensemble',
-    codeName: 'R3 · R4 — tranchées le 14/09/2026',
+    codeName: 'R3 (la règle du seuil) · R4 (les champs à 14) — tranchées le 14/09/2026',
     description:
-      "La règle est celle du seuil. Sous 28 px de haut, pilule et rayon 14 sont indiscernables — le navigateur plafonne à la moitié de la hauteur : la pilule reste, elle ne coûte rien. Au-dessus, le rayon devient une déclaration et prend l'échelle : le bouton est passé à 14 (R3), le bouton-icône garde son cercle, et la famille champ a suivi le même jour (R4) — elle est à 36-52 px de haut, donc toujours au-dessus du seuil.",
+      "La règle est celle du seuil (R3). Sous 28 px de haut, pilule et rayon 14 sont indiscernables — le navigateur plafonne le rayon à la moitié de la hauteur : la pilule y reste, elle ne coûte rien. Au-dessus, le rayon devient une déclaration et prend l'échelle étagée : 14 pour ce qui se presse ou se remplit (Button, FilterChip md, SegmentedControl et la famille champ, R4), 20 pour les cartes, 24 pour les surcouches. Le bouton-icône garde son cercle.",
     keywords: ['rayon', 'radius', 'pilule', 'bouton', 'badge', 'carte', 'champ', 'input', 'cohérence'],
     render: () => {
-      const coque = 'flex flex-col rounded-lg border border-ink-200 bg-white p-stack-lg min-w-0';
+      /* Une carte au canon : 20 px (étage conteneur), padding 24. */
+      const coque = 'flex flex-col rounded-xl border border-ink-200 bg-white p-stack-lg min-w-0';
       const metas = [{ icon: <Clock3 />, text: '45 min' }, { icon: <Calendar />, text: 'Jeudi 18' }];
       return (
         <div className="flex flex-col gap-section">
@@ -1595,16 +1631,17 @@ const COMPONENTS: ComponentEntry[] = [
               </p>
               <div className="grid gap-stack [grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))]">
                 {([
-                  ['Badge · MetaPill · Chip · FilterChip', 'pilule', "Étage étiquette. Sous le seuil par construction (20 · 24 · 28 px) : la pilule y rend la même forme que 14 — la garder ne coûte rien et c'est la convention du petit label."],
-                  ['Button', 'rounded-lg (14)', "Étage interactif. Au-dessus du seuil sur ses quatre tailles. ⚠️ Cette fiche disait « prend le rayon de la Card qui le contient » — faux depuis que la Card est passée à 20 le 16/09. Le bouton NE suit PAS : plus l'élément est grand, plus son rayon l'est, et des rayons imbriqués doivent être apparentés, pas identiques."],
+                  ['Badge · MetaPill · Chip sm · FilterChip sm', 'pilule', "Étage étiquette. Sous le seuil ou à lui : Badge 20, MetaPill et Chip sm 24, Badge large 26, FilterChip sm 28. La pilule y rend la même forme que 14 — la garder ne coûte rien, et c'est la convention du petit label."],
+                  ['Button · FilterChip md · SegmentedControl', 'rounded-lg (14)', "Étage interactif. Le bouton a trois tailles, 36 · 44 · 52 (arbitrage n°22 : une hauteur commune aux contrôles d'une même ligne), toutes au-dessus du seuil ; le FilterChip md fait 44, le rail du SegmentedControl 36 ou 44. Le bouton NE suit PAS la carte, passée à 20 le 16/09 : plus l'élément est grand, plus son rayon l'est, et des rayons imbriqués doivent être apparentés, pas identiques."],
                   ['Famille champ', 'rounded-lg (14)', "Étage interactif. R4, même jour : Input · Select · Combobox · Search. 36 à 52 px de haut, donc toujours au-dessus du seuil. Le composant disait 10 sans l'avoir justifié."],
                   ['Card · StatCard · rangées de liste', 'rounded-xl (20) · 14 pour les rangées', "Étage conteneur, le plus grand — décidé le 16/09. R1 l'avait posée à 14 le 09/09 ; à l'usage 14 se lisait comme un rectangle, et Figma était resté à 20 (nœud Card 1111:46, lié à radius-xl). Une rangée de liste reste à l'étage interactif, donc 14."],
+                  ['Modal · tiroirs · feuilles', 'rounded-2xl (24)', "Étage surcouche (arbitrage n°2 du 23/09, le rayon des surcouches) : plus l'objet est haut dans l'empilement, plus il est rond. Son padding de 24 égale le rayon, donc ses boutons restent des formes fixes."],
                   ['Button iconOnly', 'pilule → cercle', "Exception écrite. Carré, donc la pilule y donne un cercle parfait — ne pas « uniformiser »."],
                 ] as const).map(([fam, val, pourquoi]) => (
                   <div key={fam} className="flex flex-col gap-stack-2xs rounded-lg border border-ink-200 bg-white p-stack">
-                    <span className="font-display text-h5 text-ink-900">{fam}</span>
-                    <span className="font-mono text-caption text-primary-700">{val}</span>
-                    <span className="font-body text-caption text-ink-600">{pourquoi}</span>
+                    <span className="font-body text-body font-semibold text-ink-900">{fam}</span>
+                    <span className="font-mono text-caption text-primary-800">{val}</span>
+                    <span className="font-body text-body text-ink-700">{pourquoi}</span>
                   </div>
                 ))}
               </div>
@@ -1631,10 +1668,10 @@ const COMPONENTS: ComponentEntry[] = [
                   <span className={`inline-flex items-center ${cls} border border-secondary-200 bg-secondary-50 px-2.5 py-0.5 font-body text-micro font-bold uppercase tracking-label text-secondary-700`}>
                     À venir
                   </span>
-                  <span className="font-mono text-micro text-ink-500">{nom}</span>
+                  <span className="font-mono text-caption text-ink-600">{nom}</span>
                 </div>
               ))}
-              <span className="font-mono text-micro text-ink-500 self-center">24 px de haut · plafond à 12 : les deux premières sont identiques, la troisième passe dessous</span>
+              <span className="font-mono text-caption text-ink-600 self-center">24 px de haut · plafond à 12 : les deux premières sont identiques, la troisième passe dessous</span>
             </div>
           </ShowcaseBloc>
 
@@ -1652,7 +1689,7 @@ const COMPONENTS: ComponentEntry[] = [
                   <span className={`inline-flex ${surcharge}`}>
                     <Button leadingIcon={<Plus />}>Rejoindre</Button>
                   </span>
-                  <span className="font-mono text-micro text-ink-500">{nom}</span>
+                  <span className="font-mono text-caption text-ink-600">{nom}</span>
                 </div>
               ))}
             </div>
@@ -1665,7 +1702,7 @@ const COMPONENTS: ComponentEntry[] = [
             <div className="grid gap-stack-lg [grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))]">
               {([
                 ['[&_button]:rounded-pill', 'CTA en pilule (avant R3)'],
-                ['', 'CTA au rayon de la carte — retenu'],
+                ['', 'CTA à 14 dans une carte à 20 — retenu'],
                 ['[&_button]:rounded-md', 'CTA à 10 px'],
               ] as const).map(([surcharge, nom]) => (
                 <div key={nom} className="flex flex-col gap-stack-xs">
@@ -1674,17 +1711,17 @@ const COMPONENTS: ComponentEntry[] = [
                       <MetaPillGroup items={metas} />
                       <Badge variant="warm" className="shrink-0">À venir</Badge>
                     </div>
-                    <div className="mt-stack flex items-center justify-between gap-stack">
+                    <div className="mt-stack-3xs flex items-center justify-between gap-stack">
                       <div className="min-w-0">
                         <h4 className="font-display text-h3 text-ink-900">Session de coaching</h4>
-                        <p className="m-0 mt-1 font-body text-body text-ink-600">
+                        <p className="mt-stack-xs font-body text-body text-ink-700">
                           Préparer le lancement du parcours Neuro-éducation.
                         </p>
                       </div>
                       <Button size="sm" className="shrink-0">Rejoindre</Button>
                     </div>
                   </div>
-                  <span className="font-mono text-micro text-ink-500">{nom}</span>
+                  <span className="font-mono text-caption text-ink-600">{nom}</span>
                 </div>
               ))}
             </div>
@@ -1700,16 +1737,19 @@ const COMPONENTS: ComponentEntry[] = [
                 ['Après — une seule', 'rounded-lg', 'Le formulaire se lit comme un objet, pas comme deux familles empilées.'],
               ] as const).map(([titre, rayon, dit]) => (
                 <div key={titre} className="flex flex-col gap-stack-xs">
-                  <span className="font-display text-h5 text-ink-900">{titre}</span>
+                  <span className="font-body text-body font-semibold text-ink-900">{titre}</span>
+                  {/* Champ fait main exprès : il montre l'avant et l'après d'un
+                      rayon. Hauteur et filet sont ceux de la famille champ
+                      d'aujourd'hui — 52 px au cran lg, filet ink-400. */}
                   <input
                     readOnly
                     value="Jeanne Dupont"
                     aria-label={`Champ de démonstration — ${rayon}`}
-                    className={`w-full h-12 px-4 ${rayon} border border-ink-300 bg-white font-body text-body text-ink-900`}
+                    className={`w-full h-13 px-4 ${rayon} border border-ink-400 bg-white font-body text-body text-ink-900`}
                   />
                   <Button emphasis="soft" size="lg" fullWidth>Envoyer le message</Button>
-                  <span className="font-mono text-micro text-ink-500">champ 48 px · bouton 48 px · {rayon === 'rounded-md' ? '10 contre 14' : '14 et 14'}</span>
-                  <span className="font-body text-caption text-ink-600">{dit}</span>
+                  <span className="font-mono text-caption text-ink-600">champ 52 px · bouton 52 px · {rayon === 'rounded-md' ? '10 contre 14' : '14 et 14'}</span>
+                  <span className="font-body text-body text-ink-700">{dit}</span>
                 </div>
               ))}
             </div>
@@ -1723,21 +1763,22 @@ const COMPONENTS: ComponentEntry[] = [
               <table className="w-full min-w-[400px] border-collapse font-body text-body">
                 <thead>
                   <tr className="border-b border-ink-200 text-left">
-                    <th className="py-2 pr-stack font-bold text-ink-700">hauteur</th>
-                    <th className="py-2 pr-stack text-right font-bold text-ink-700">rayon 14 rendu</th>
-                    <th className="py-2 pr-stack text-right font-bold text-ink-700">pilule rendue</th>
-                    <th className="py-2 font-bold text-ink-700">ce qu’on voit</th>
+                    <th className="py-2 pr-stack text-caption font-semibold text-ink-600">hauteur</th>
+                    <th className="py-2 pr-stack text-right text-caption font-semibold text-ink-600">rayon 14 rendu</th>
+                    <th className="py-2 pr-stack text-right text-caption font-semibold text-ink-600">pilule rendue</th>
+                    <th className="py-2 text-caption font-semibold text-ink-600">ce qu’on voit</th>
                   </tr>
                 </thead>
-                <tbody className="text-ink-600">
+                <tbody className="text-ink-700">
                   {([
-                    ['18 px · Badge compact', '9', '9', 'rien'],
-                    ['20 px · Badge normal', '10', '10', 'rien'],
+                    ['20 px · Badge compact et normal', '10', '10', 'rien'],
+                    ['24 px · MetaPill · Chip sm', '12', '12', 'rien'],
                     ['26 px · Badge large', '13', '13', 'rien'],
-                    ['28 px · le seuil', '14', '14', 'rien'],
-                    ['30 px · MetaPill md', '14', '15', '1 px'],
-                    ['32 px · Button sm', '14', '16', '2 px'],
-                    ['44 px · Button md', '14', '22', '8 px'],
+                    ['28 px · le seuil · FilterChip sm', '14', '14', 'rien'],
+                    ['30 px · Chip md · MetaPill md', '14', '15', '1 px'],
+                    ['36 px · Button sm · champ sm', '14', '18', '4 px'],
+                    ['44 px · Button md · FilterChip md', '14', '22', '8 px'],
+                    ['52 px · Button lg · champ lg', '14', '26', '12 px'],
                   ] as const).map(([h, a, b, v]) => (
                     <tr key={h} className={`border-b border-ink-100 ${v === 'rien' ? '' : 'text-ink-900'}`}>
                       <td className="py-2 pr-stack">{h}</td>
@@ -1757,9 +1798,9 @@ const COMPONENTS: ComponentEntry[] = [
 
   {
     name: 'Disposition des cartes',
-    codeName: 'décision ouverte — arbitrage n°8',
+    codeName: 'décision ouverte — où poser l’état, la donnée et l’action',
     description:
-      "Les cinq dispositions candidates, montées avec les VRAIS composants : Badge pour l'état, MetaPillGroup pour les données, Button pour le CTA. Même contenu partout — seule la place change.",
+      "Les dispositions candidates, montées avec les VRAIS composants : Badge pour l'état, MetaPillGroup pour les données, Button pour l'action. Même contenu et mêmes espaces partout — ceux de l'anatomie de carte du 24/09 ; seule la place change.",
     keywords: ['carte', 'disposition', 'statut', 'méta', 'cta', 'anatomie', 'layout'],
     render: () => {
       const metas = [
@@ -1768,15 +1809,15 @@ const COMPONENTS: ComponentEntry[] = [
       ];
       const titre = 'Session de coaching';
       const texte = 'Préparer le lancement du parcours Neuro-éducation avec Pierre-Armand.';
-      /* Une carte de démonstration : le canon du 09/09 — rayon 14, padding 24,
-         bordure ink-200, aucune ombre. */
-      const coque = 'flex flex-col rounded-lg border border-ink-200 bg-white p-stack-lg min-w-0';
+      /* Une carte de démonstration au canon : rayon 20 (étage conteneur, depuis
+         le 16/09 — elle était à 14), padding 24, bordure ink-200, aucune ombre. */
+      const coque = 'flex flex-col rounded-xl border border-ink-200 bg-white p-stack-lg min-w-0';
 
       return (
         <div className="flex flex-col gap-section">
           <ShowcaseBloc
             titre="Cinq dispositions, mêmes composants"
-            note="L'ordre vertical et les espaces viennent de l'arbitrage n°7 : 8 px sous le badge, 4 sous le titre, 16 avant les métas, 16 avant le CTA. Ce qui change d'une carte à l'autre, c'est uniquement OÙ se posent l'état, les données et l'action."
+            note="Les espaces sont ceux de l'anatomie de carte (doctrine § 5, 24/09) : ligne du haut → titre 4 px, titre → texte 8, texte → données 12, contenu → action 24. Le texte est à 16 px ink-700, le titre en h3 20. Ce qui change d'une carte à l'autre, c'est uniquement OÙ se posent l'état, les données et l'action."
           >
             <div className="grid gap-stack-lg [grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))]">
 
@@ -1784,12 +1825,12 @@ const COMPONENTS: ComponentEntry[] = [
               <div className="flex flex-col gap-stack-xs">
                 <div className={coque}>
                   <Badge variant="warm" className="self-start">À venir</Badge>
-                  <h4 className="mt-stack-xs font-display text-h3 text-ink-900">{titre}</h4>
-                  <p className="m-0 mt-1 font-body text-body text-ink-600">{texte}</p>
-                  <MetaPillGroup items={metas} className="mt-stack" />
-                  <Button size="sm" className="mt-stack self-start">Rejoindre</Button>
+                  <h4 className="mt-stack-3xs font-display text-h3 text-ink-900">{titre}</h4>
+                  <p className="mt-stack-xs font-body text-body text-ink-700">{texte}</p>
+                  <MetaPillGroup items={metas} className="mt-stack-sm" />
+                  <Button size="sm" className="mt-stack-lg self-start">Rejoindre</Button>
                 </div>
-                <span className="text-micro font-mono text-ink-500"><b>A</b> · empilé, le statut ouvre</span>
+                <span className="text-caption font-mono text-ink-600"><b>A</b> · empilé, le statut ouvre</span>
               </div>
 
               {/* B — barre de tête */}
@@ -1802,11 +1843,11 @@ const COMPONENTS: ComponentEntry[] = [
                     <MetaPillGroup items={metas} />
                     <Badge variant="warm" className="shrink-0">À venir</Badge>
                   </div>
-                  <h4 className="mt-stack font-display text-h3 text-ink-900">{titre}</h4>
-                  <p className="m-0 mt-1 font-body text-body text-ink-600">{texte}</p>
-                  <Button size="sm" className="mt-stack self-start">Rejoindre</Button>
+                  <h4 className="mt-stack-3xs font-display text-h3 text-ink-900">{titre}</h4>
+                  <p className="mt-stack-xs font-body text-body text-ink-700">{texte}</p>
+                  <Button size="sm" className="mt-stack-lg self-start">Rejoindre</Button>
                 </div>
-                <span className="text-micro font-mono text-ink-500"><b>B</b> · métas à gauche, statut à droite</span>
+                <span className="text-caption font-mono text-ink-600"><b>B</b> · métas à gauche, statut à droite</span>
               </div>
 
               {/* C — statut en coin */}
@@ -1816,11 +1857,11 @@ const COMPONENTS: ComponentEntry[] = [
                     <h4 className="font-display text-h3 text-ink-900">{titre}</h4>
                     <Badge variant="warm" className="shrink-0 mt-0.5">À venir</Badge>
                   </div>
-                  <p className="m-0 mt-1 font-body text-body text-ink-600">{texte}</p>
-                  <MetaPillGroup items={metas} className="mt-stack" />
-                  <Button size="sm" className="mt-stack self-start">Rejoindre</Button>
+                  <p className="mt-stack-xs font-body text-body text-ink-700">{texte}</p>
+                  <MetaPillGroup items={metas} className="mt-stack-sm" />
+                  <Button size="sm" className="mt-stack-lg self-start">Rejoindre</Button>
                 </div>
-                <span className="text-micro font-mono text-ink-500"><b>C</b> · le statut annote le titre</span>
+                <span className="text-caption font-mono text-ink-600"><b>C</b> · le statut annote le titre</span>
               </div>
 
               {/* D — pied de carte */}
@@ -1830,13 +1871,13 @@ const COMPONENTS: ComponentEntry[] = [
                     <h4 className="font-display text-h3 text-ink-900">{titre}</h4>
                     <Badge variant="warm" className="shrink-0 mt-0.5">À venir</Badge>
                   </div>
-                  <p className="m-0 mt-1 font-body text-body text-ink-600">{texte}</p>
-                  <div className="mt-stack pt-stack border-t border-ink-200 flex items-center justify-between gap-stack-xs">
+                  <p className="mt-stack-xs font-body text-body text-ink-700">{texte}</p>
+                  <div className="mt-stack-lg pt-stack border-t border-ink-200 flex items-center justify-between gap-stack-xs">
                     <MetaPillGroup items={metas} />
                     <Button size="sm" className="shrink-0">Rejoindre</Button>
                   </div>
                 </div>
-                <span className="text-micro font-mono text-ink-500"><b>D</b> · métas et CTA sur une ligne, sous un filet</span>
+                <span className="text-caption font-mono text-ink-600"><b>D</b> · métas et CTA sur une ligne, sous un filet</span>
               </div>
 
               {/* F — le CTA sur la MÊME LIGNE que le bloc de texte */}
@@ -1848,15 +1889,15 @@ const COMPONENTS: ComponentEntry[] = [
                     <Badge variant="warm" className="shrink-0">À venir</Badge>
                   </div>
                   {/* Corps : le texte à gauche, l'action à droite, centrée sur lui */}
-                  <div className="mt-stack flex items-center justify-between gap-stack">
+                  <div className="mt-stack-3xs flex items-center justify-between gap-stack">
                     <div className="min-w-0">
                       <h4 className="font-display text-h3 text-ink-900">{titre}</h4>
-                      <p className="m-0 mt-1 font-body text-body text-ink-600">{texte}</p>
+                      <p className="mt-stack-xs font-body text-body text-ink-700">{texte}</p>
                     </div>
                     <Button size="sm" className="shrink-0">Rejoindre</Button>
                   </div>
                 </div>
-                <span className="text-micro font-mono text-secondary-700"><b>F</b> · métas à gauche, statut à droite, CTA centré sur le bloc de texte</span>
+                <span className="text-caption font-mono text-secondary-800"><b>F</b> · métas à gauche, statut à droite, CTA centré sur le bloc de texte</span>
               </div>
 
               {/* E — celle décrite le 10/09 */}
@@ -1866,13 +1907,13 @@ const COMPONENTS: ComponentEntry[] = [
                     <Badge variant="warm">À venir</Badge>
                     <MetaPillGroup items={metas} className="justify-end" />
                   </div>
-                  <h4 className="mt-stack font-display text-h3 text-ink-900">{titre}</h4>
-                  <p className="m-0 mt-1 font-body text-body text-ink-600">{texte}</p>
-                  <div className="mt-stack flex justify-end">
+                  <h4 className="mt-stack-3xs font-display text-h3 text-ink-900">{titre}</h4>
+                  <p className="mt-stack-xs font-body text-body text-ink-700">{texte}</p>
+                  <div className="mt-stack-lg flex justify-end">
                     <Button size="sm">Rejoindre</Button>
                   </div>
                 </div>
-                <span className="text-micro font-mono text-primary-700"><b>E</b> · statut à gauche, métas à droite, titre en h3, CTA aligné au texte</span>
+                <span className="text-caption font-mono text-primary-800"><b>E</b> · statut à gauche, métas à droite, titre en h3, CTA aligné au texte</span>
               </div>
             </div>
           </ShowcaseBloc>
@@ -1885,7 +1926,7 @@ const COMPONENTS: ComponentEntry[] = [
               <Badge variant="warm">état</Badge>
               <MetaPillGroup items={[{ icon: <Clock3 />, text: 'donnée' }]} />
               <Button size="sm">action</Button>
-              <span className="font-mono text-micro text-ink-500">les trois primitives, telles que le produit les rend</span>
+              <span className="font-mono text-caption text-ink-600">les trois primitives, telles que le produit les rend</span>
             </div>
           </ShowcaseBloc>
         </div>
@@ -1897,14 +1938,14 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'La famille des pastilles',
     codeName: 'ui/Badge.tsx · ui/Chip.tsx',
     description:
-      "Deux registres, et il faut les distinguer d'un coup d'œil : Badge dit un ÉTAT, MetaPill dit une DONNÉE. Le système déclare neuf enveloppes sur une seule primitive ; deux portent 327 des 351 usages.",
+      "Deux registres, et il faut les distinguer d'un coup d'œil : Badge dit un ÉTAT, MetaPill dit une DONNÉE. La famille est passée de neuf enveloppes à six le 10/09 : Badge, FilterChip, MetaPill et MetaPillGroup, StatusBadge, et Chip, la primitive interne.",
     keywords: ['badge', 'pastille', 'chip', 'pill', 'meta', 'statut', 'tag', 'filtre'],
     render: () => (
       <div className="flex flex-col gap-section">
 
         <ShowcaseBloc
           titre="Deux registres, deux traitements"
-          note="La différence n'est pas décorative : elle dit au lecteur ce qu'il regarde avant qu'il ait lu. Un état crie — capitales, graisse 700, serrage positif, bordure. Une donnée chuchote — casse normale, graisse 500. Confondre les deux, c'est ce qui rend une carte illisible : on ne sait plus ce qui est un fait et ce qui est un statut."
+          note="La différence n'est pas décorative : elle dit au lecteur ce qu'il regarde avant qu'il ait lu. Un état crie — 11 px en capitales, graisse 700, serrage positif, bordure. Une donnée chuchote — 11 px en casse normale, graisse 500. À hauteur voisine (Badge 20 px, MetaPill 24), c'est le registre qui les sépare, pas la taille. Confondre les deux, c'est ce qui rend une carte illisible : on ne sait plus ce qui est un fait et ce qui est un statut."
         >
           <div className="flex flex-wrap items-start gap-section">
             <div className="flex flex-col items-start gap-stack-xs">
@@ -1913,7 +1954,7 @@ const COMPONENTS: ComponentEntry[] = [
                 <Badge variant="success">Terminé</Badge>
                 <Badge variant="danger">En retard</Badge>
               </div>
-              <span className="text-micro text-ink-500 font-mono">Badge — l’état · 264 usages</span>
+              <span className="text-caption text-ink-600 font-mono">Badge — l’état · 11 px · 700 · capitales</span>
             </div>
             <div className="flex flex-col items-start gap-stack-xs">
               <MetaPillGroup
@@ -1923,7 +1964,7 @@ const COMPONENTS: ComponentEntry[] = [
                   { text: 'Intermédiaire' },
                 ]}
               />
-              <span className="text-micro text-ink-500 font-mono">MetaPill — la donnée · 16 usages</span>
+              <span className="text-caption text-ink-600 font-mono">MetaPill — la donnée · 11 px · 500</span>
             </div>
           </div>
         </ShowcaseBloc>
@@ -1933,10 +1974,14 @@ const COMPONENTS: ComponentEntry[] = [
           note="Chip — donc MetaPill, Tag, FilterChip — portait les MÊMES noms pour des hauteurs différentes : un Badge « md » mesurait 20 px quand un Chip « md » en fait 30. On comparait deux échelles qui ne parlent pas de la même chose, et l’écart se lisait comme un défaut d’alignement alors qu’il est voulu. Des noms propres à la famille lèvent la confusion sans toucher aux hauteurs."
         >
           <div className="flex flex-wrap items-end gap-stack">
-            {(['compact', 'normal', 'large'] as const).map((t) => (
+            {([
+              ['compact', '20 px · padding 8'],
+              ['normal', '20 px · padding 10 · le défaut'],
+              ['large', '26 px · 13 px'],
+            ] as const).map(([t, mesure]) => (
               <div key={t} className="flex flex-col items-start gap-stack-2xs">
                 <Badge variant="brand" size={t}>Nouveau</Badge>
-                <span className="text-micro text-ink-500 font-mono">{t}</span>
+                <span className="text-caption text-ink-600 font-mono">{t} · {mesure}</span>
               </div>
             ))}
           </div>
@@ -1944,28 +1989,26 @@ const COMPONENTS: ComponentEntry[] = [
 
         <ShowcaseBloc
           titre="Ce que la famille compte vraiment"
-          note="Neuf enveloppes déclarées, deux réellement employées. Le CLAUDE.md disait « ne pas fusionner, APIs fondamentalement différentes » — écrit en supposant qu’elles servaient toutes. Quatre composants pour neuf usages cumulés, c’est du vocabulaire, pas des API."
+          note="Relevé le 24/09 : appels JSX dans src/, hors vitrine et labo. Le CLAUDE.md disait « ne pas fusionner, APIs fondamentalement différentes » — écrit en supposant que les neuf enveloppes servaient. Tag, Pill et TrendingBadge n’avaient aucun usage produit : ils ont été supprimés le 10/09. Les « Tag » qu’on croyait leurs étaient l’icône Lucide du même nom."
         >
           <div className="defiler">
             <table className="w-full min-w-[420px] border-collapse font-body text-body">
               <thead>
                 <tr className="border-b border-ink-200 text-left">
-                  <th className="py-2 pr-stack font-bold text-ink-700">composant</th>
-                  <th className="py-2 pr-stack text-right font-bold text-ink-700">usages</th>
-                  <th className="py-2 font-bold text-ink-700">verdict</th>
+                  <th className="py-2 pr-stack text-caption font-semibold text-ink-600">composant</th>
+                  <th className="py-2 pr-stack text-right text-caption font-semibold text-ink-600">appels</th>
+                  <th className="py-2 text-caption font-semibold text-ink-600">rôle</th>
                 </tr>
               </thead>
-              <tbody className="text-ink-600">
+              <tbody className="text-ink-700">
                 {([
-                  ['Badge', 264, 'à garder — le registre de l’état'],
-                  ['FilterChip', 63, 'à garder — le filtre interactif'],
-                  ['MetaPillGroup', 10, 'à garder — le registre de la donnée'],
-                  ['MetaPill', 6, 'idem, employé par le groupe'],
-                  ['Tag', 7, 'à fondre dans FilterChip'],
-                  ['Chip', 5, 'primitive interne — les 5 usages publics sont dans le DevPanel'],
-                  ['StatusBadge', 1, 'à fondre dans Badge'],
-                  ['Pill', 1, 'à fondre dans Badge'],
-                  ['TrendingBadge', 0, 'à retirer'],
+                  ['Badge', 244, 'l’état'],
+                  ['MetaPill', 68, 'la donnée'],
+                  ['FilterChip', 66, 'le filtre — un contrôle de 44 px en md'],
+                  ['MetaPillGroup', 14, 'les données d’une carte (défaut sm)'],
+                  ['Chip', 4, 'primitive interne : les enveloppes prennent ses tokens, ses seuls appels directs sont dans le DevPanel'],
+                  ['StatusBadge', 1, 'les cinq états d’une leçon, avec leur icône — du vocabulaire de domaine'],
+                  ['Tag · Pill · TrendingBadge', 0, 'supprimés le 10/09'],
                 ] as const).map(([n, u, v]) => (
                   <tr key={n} className="border-b border-ink-100">
                     <td className="py-2 pr-stack"><code className="font-mono text-caption">{n}</code></td>
@@ -1990,9 +2033,9 @@ const COMPONENTS: ComponentEntry[] = [
             ] as const).map(([quoi, avant, apres]) => (
               <div key={quoi} className="flex flex-wrap items-baseline gap-stack-xs text-caption">
                 <span className="w-24 shrink-0 font-bold text-ink-700">{quoi}</span>
-                <code className="font-mono text-micro text-ink-500 line-through">{avant}</code>
-                <span className="text-ink-500">→</span>
-                <code className="font-mono text-micro text-primary-700">{apres}</code>
+                <code className="font-mono text-caption text-ink-600 line-through">{avant}</code>
+                <span className="text-ink-600">→</span>
+                <code className="font-mono text-caption text-primary-700">{apres}</code>
               </div>
             ))}
           </div>
@@ -2005,7 +2048,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: "Échelle d'icônes",
     codeName: '--icon-size-* · index.css',
     description:
-      "Tranché le 2026-09-09 : tout est ramené sur l'échelle, et l'échelle a été étendue aux deux bouts. Elle comptait cinq crans quand le code en posait vingt-sept ; 851 des 1 904 tailles écrites à la main tombaient hors échelle. Il reste zéro écart.",
+      "Tranché le 2026-09-09 : tout est ramené sur l'échelle, étendue aux deux bouts — neuf crans de 14 à 48 px. Elle en comptait cinq quand le code posait vingt-sept tailles ; 851 des 1 904 tailles écrites à la main tombaient hors échelle. Il en restait 12 au recomptage du 17/09 (check-handmade).",
     keywords: ['icône', 'icon', 'taille', 'lucide', 'échelle', 'alignement'],
     render: () => (
       <div className="flex flex-col gap-section">
@@ -2015,21 +2058,19 @@ const COMPONENTS: ComponentEntry[] = [
         >
           <div className="flex flex-col gap-stack">
             {([
-              ['xs', 'text-caption', '16 px · caption 13'],
-              ['sm', 'text-body', '18 px · body-sm 15'],
-              ['md', 'text-body', '20 px · body 16'],
-              ['lg', 'text-body-lg', '24 px · body-lg 18'],
-              ['xl', 'text-h3', '28 px · h4 20'],
+              ['xs', 'text-caption font-body', '16 px · légende 13 · bouton sm'],
+              ['sm', 'text-body font-body', '18 px · corps 16 · bouton md'],
+              ['md', 'text-body font-body', '20 px · corps 16 · bouton lg'],
+              ['lg', 'text-body-lg font-body', '24 px · chapô 18'],
+              ['xl', 'text-h3 font-display', '28 px · titre h3 20'],
             ] as const).map(([cran, texte, meta]) => (
               <div key={cran} className="flex items-center gap-stack">
-                <code className="w-20 shrink-0 font-mono text-micro text-ink-600">icon-{cran}</code>
-                <span className={`icon-${cran} inline-flex shrink-0 items-center justify-center text-primary-600 [&>svg]:w-full [&>svg]:h-full`}>
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                    <circle cx="12" cy="12" r="9" /><path d="M12 8v8M8 12h8" />
-                  </svg>
+                <code className="w-20 shrink-0 font-mono text-caption text-ink-600">icon-{cran}</code>
+                <span className={`icon-${cran} inline-flex shrink-0 items-center justify-center text-primary-700 [&>svg]:w-full [&>svg]:h-full`}>
+                  <CirclePlus strokeWidth={2} aria-hidden />
                 </span>
-                <span className={`${texte} font-body text-ink-800`}>Étiquette</span>
-                <span className="ml-auto font-mono text-micro text-ink-500 tabular-nums">{meta}</span>
+                <span className={`${texte} text-ink-800`}>Étiquette</span>
+                <span className="ml-auto font-mono text-caption text-ink-600 tabular-nums">{meta}</span>
               </div>
             ))}
           </div>
@@ -2063,7 +2104,7 @@ const COMPONENTS: ComponentEntry[] = [
             ] as const).map(([size, label, meta]) => (
               <div key={size} className="flex flex-col items-start gap-stack-xs">
                 <Button size={size} leadingIcon={I.plus}>{label}</Button>
-                <span className="text-micro text-ink-500 font-body tabular-nums">{meta}</span>
+                <span className="text-caption text-ink-600 font-body tabular-nums">{meta}</span>
               </div>
             ))}
           </div>
@@ -2110,7 +2151,7 @@ const COMPONENTS: ComponentEntry[] = [
             ] as const).map(([size, px]) => (
               <div key={size} className="flex flex-col items-start gap-stack-xs">
                 <Button size={size} leadingIcon={I.plus} trailingIcon={I.arrow}>Étiquette</Button>
-                <span className="text-micro text-ink-500 font-body tabular-nums">icône {px}</span>
+                <span className="text-caption text-ink-600 font-body tabular-nums">icône {px}</span>
               </div>
             ))}
             <div className="flex flex-col items-start gap-stack-xs">
@@ -2119,7 +2160,7 @@ const COMPONENTS: ComponentEntry[] = [
                 <Button iconOnly aria-label="Ajouter" size="md" emphasis="soft" tone="warm">{I.plus}</Button>
                 <Button iconOnly aria-label="Ajouter" size="lg" emphasis="outline">{I.plus}</Button>
               </div>
-              <span className="text-micro text-ink-500 font-body">iconOnly, même boîte</span>
+              <span className="text-caption text-ink-600 font-body">iconOnly, même boîte</span>
             </div>
           </div>
         </ShowcaseBloc>
@@ -2476,7 +2517,7 @@ const COMPONENTS: ComponentEntry[] = [
             <CardTitle>Carte mise en avant</CardTitle>
             <CardDesc>Ombre douce, padding généreux, pas de bordure.</CardDesc>
             <CardFooter>
-              <span className="text-caption text-ink-500">il y a 3 min</span>
+              <span className="text-caption text-ink-600">il y a 3 min</span>
               <Button size="sm" emphasis="outline">Voir</Button>
             </CardFooter>
           </Card>
@@ -2567,7 +2608,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-stack-lg">
         {/* Badge — sémantique */}
         <div className="flex flex-col gap-stack-xs">
-          <span className="font-body text-micro font-bold uppercase tracking-widest text-ink-500">Badge — sémantique</span>
+          <span className="font-body text-caption font-semibold text-ink-600">Badge — sémantique</span>
           <div className="hstack flex-wrap">
             <Badge variant="brand">Brand</Badge>
             <Badge variant="neutral">Neutral</Badge>
@@ -2582,7 +2623,7 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
         {/* StatusBadge — état leçon */}
         <div className="flex flex-col gap-stack-xs">
-          <span className="font-body text-micro font-bold uppercase tracking-widest text-ink-500">StatusBadge — état leçon</span>
+          <span className="font-body text-caption font-semibold text-ink-600">StatusBadge — état leçon</span>
           <div className="hstack flex-wrap gap-stack-xs">
             <StatusBadge status="locked" />
             <StatusBadge status="available" />
@@ -2698,21 +2739,21 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">ParcoursCardSkeleton</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">ParcoursCardSkeleton</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
             <ParcoursCardSkeleton />
             <ParcoursCardSkeleton />
           </div>
         </div>
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">NotificationRowSkeleton</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">NotificationRowSkeleton</p>
           <div className="flex flex-col gap-stack-xs">
             <NotificationRowSkeleton />
             <NotificationRowSkeleton />
           </div>
         </div>
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">EditorialCardSkeleton</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">EditorialCardSkeleton</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
             <EditorialCardSkeleton />
             <EditorialCardSkeleton />
@@ -2748,7 +2789,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* ── Variants ────────────────────────────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Variants</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">Variants</p>
             <Search placeholder="default — blanc + bordure (pages app)" shortcut="⌘K" />
             <div className="bg-gradient-to-r from-primary-700 to-primary-800 p-stack rounded-xl">
               <Search variant="glass" placeholder="glass — sur fond coloré / hero…" shortcut="⌘K" />
@@ -2757,7 +2798,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* ── Sizes ────────────────────────────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Sizes</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">Sizes</p>
             <Search size="sm" placeholder="sm — compact (32px)" />
             <Search size="md" placeholder="md — standard (40px)" />
             <Search size="lg" placeholder="lg — large (48px)" shortcut="⌘K" />
@@ -2765,7 +2806,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* ── Suggestions (async) ───────────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Suggestions · async + loading state</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">Suggestions · async + loading state</p>
             <Search
               variant="default"
               placeholder='Tape "react" pour suggestions…'
@@ -2788,7 +2829,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* ── trailing slot ───────────────────────────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">trailing slot · filter button avec badge</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">trailing slot · filter button avec badge</p>
             <Search
               variant="default"
               placeholder="Rechercher avec filtres…"
@@ -2807,7 +2848,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* ── filtersSlot (FilterChip inline) ──────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">filtersSlot · FilterChip inline dans le wrapper</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">filtersSlot · FilterChip inline dans le wrapper</p>
             <Search
               value={filterQuery}
               onChange={(e) => setFilterQuery(e.target.value)}
@@ -2825,7 +2866,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* ── Glass + FilterBar (pattern hero gradient) ────────────────────── */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">glass + FilterBar · pattern hero gradient (LearningPaths)</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">glass + FilterBar · pattern hero gradient (LearningPaths)</p>
             <div className="bg-gradient-to-r from-primary-700 to-primary-800 p-stack-lg rounded-xl">
               <Search
                 size="sm"
@@ -2887,7 +2928,7 @@ const COMPONENTS: ComponentEntry[] = [
         <div className="flex flex-col gap-section max-w-2xl">
           {/* Inline — 1-2 axes peu d'options */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">layout="inline" · chips + toggle (Veille / Parcours)</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">layout="inline" · chips + toggle (Veille / Parcours)</p>
             <SearchFilters
               query={q1}
               onQueryChange={setQ1}
@@ -2901,7 +2942,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* Panel — 2+ axes, dont un à beaucoup d'options → dropdown auto */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">layout="panel" · groupes labellisés + auto chips/checklist (Journal / Espace App.)</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">layout="panel" · groupes labellisés + auto chips/checklist (Journal / Espace App.)</p>
             <SearchFilters
               layout="panel"
               query={q2}
@@ -2981,14 +3022,14 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/ProgressRing.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['Profile', 'CompetencyRadar', 'ReadingProgressRing'],
-    description: 'Anneau SVG circulaire de progression (0–100). 5 tones (brand/warm/sun/success/danger). Gradient interne + halo glow optionnel. Animate 0→value au mount. Slots `label` (centré) et `valueLabel`. Sizes arbitraires via prop `size`, `thickness`.',
-    keywords: ['progress', 'ring', 'circle', 'circular', 'svg', 'donut', 'percentage', 'glow', 'tone'],
+    description: "Anneau SVG de progression (0–100). 5 tons (brand/warm/sun/success/danger), dégradé interne et halo optionnel (`glow`), animation de 0 à la valeur au montage. La valeur prend un pas de l'échelle selon le diamètre : dès 160 px `stat-value`, dès 112 le h2 (28), dès 80 le h3 (20), dès 64 le corps (16/600), en dessous la légende (13/600) — elle était à `size / 4,5` px, hors échelle. `label` s'affiche sous la valeur en légende 13/600 ink-600 : on lui passe du texte simple. `size` (défaut 120) et `thickness` sont libres.",
+    keywords: ['progress', 'ring', 'circle', 'circular', 'svg', 'donut', 'percentage', 'glow', 'tone', 'anneau', 'progression'],
     render: () => (
       <div className="flex gap-stack-lg flex-wrap items-center py-stack-xs">
-        <ProgressRing value={78} tone="brand" label={<span className="text-micro font-bold text-primary-700">PARCOURS</span>} />
-        <ProgressRing value={54} tone="warm" label={<span className="text-micro font-bold text-secondary-700">COACHING</span>} />
-        <ProgressRing value={92} tone="sun" label={<span className="text-micro font-bold text-accent-700">BADGES</span>} />
-        <ProgressRing value={33} tone="success" label={<span className="text-micro font-bold text-success-fg">CERTIF</span>} />
+        <ProgressRing value={78} tone="brand" label="Parcours" />
+        <ProgressRing value={54} tone="warm" label="Coaching" />
+        <ProgressRing value={92} tone="sun" label="Badges" />
+        <ProgressRing value={33} tone="success" label="Certification" />
         <ProgressRing value={20} tone="danger" size={80} thickness={8} />
         <ProgressRing value={65} tone="brand" size={60} thickness={6} glow={false} />
       </div>
@@ -3053,13 +3094,13 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['grid', 'layout', 'responsive', 'columns', 'cards'],
     render: () => (
       <div className="flex flex-col gap-stack">
-        <p className="m-0 text-micro font-bold text-ink-500 uppercase tracking-[0.06em]">layout="default" (3 col)</p>
+        <p className="m-0 text-caption font-semibold text-ink-600">layout="default" (3 col)</p>
         <CardGrid layout="default" gapSize="sm">
           {['Module A', 'Module B', 'Module C'].map((t) => (
             <div key={t} className="p-3 bg-primary-50 rounded-lg text-caption text-primary-800 font-semibold border border-primary-100">{t}</div>
           ))}
         </CardGrid>
-        <p className="m-0 text-micro font-bold text-ink-500 uppercase tracking-[0.06em]">layout="feature" (4 col)</p>
+        <p className="m-0 text-caption font-semibold text-ink-600">layout="feature" (4 col)</p>
         <CardGrid layout="feature" gapSize="sm">
           {['Actu', 'Tutoriel', 'Dossier', 'Mag'].map((t) => (
             <div key={t} className="p-3 bg-secondary-50 rounded-lg text-caption text-secondary-700 font-semibold border border-secondary-100">{t}</div>
@@ -3101,7 +3142,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-stack-lg">
         {/* Tones — light bg */}
         <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-white border border-ink-200">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Tones</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Tones</p>
           <MetaPillGroup
             items={[
               { text: 'Default' },
@@ -3116,7 +3157,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* Sizes */}
         <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-white border border-ink-200">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Sizes (tone primary)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Sizes (tone primary)</p>
           <MetaPillGroup
             items={[
               { text: 'Small', tone: 'primary' },
@@ -3145,7 +3186,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* Glass variant — on tinted backdrop */}
         <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-gradient-to-br from-primary-50 via-primary-100 to-primary-50 border border-primary-200">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Glass (frosted on light tinted bg)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Glass (frosted on light tinted bg)</p>
           <MetaPillGroup
             items={[
               { text: '6 semaines', tone: 'glass' },
@@ -3158,7 +3199,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* Glass-dark variant — on saturated dark bg */}
         <div className="flex flex-col gap-stack-xs p-stack rounded-xl bg-gradient-to-br from-primary-700 to-primary-800 border border-primary-700">
-          <p className="text-caption font-bold uppercase tracking-wider text-white m-0">Glass-dark (frosted on saturated gradient — heroes)</p>
+          <p className="text-caption font-semibold text-white m-0">Glass-dark (frosted on saturated gradient — heroes)</p>
           <MetaPillGroup
             items={[
               { text: '6 semaines', tone: 'glass-dark' },
@@ -3207,11 +3248,11 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['modal', 'confirm', 'dialog', 'alert', 'danger', 'warning', 'info', 'success', 'cancel', 'session'],
     render: () => (
       <div className="flex flex-col gap-section">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">ConfirmModal — confirmation générique</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">ConfirmModal — confirmation générique</p>
         <ConfirmModalDemo />
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">SuccessModal — célébration check animé</p>
+        <p className="text-caption font-semibold text-ink-600 m-0 mt-stack">SuccessModal — célébration check animé</p>
         <SuccessModalDemo />
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">CancelSessionModal — annulation / reprogrammation</p>
+        <p className="text-caption font-semibold text-ink-600 m-0 mt-stack">CancelSessionModal — annulation / reprogrammation</p>
         <CancelSessionModalDemo />
       </div>
     ),
@@ -3410,12 +3451,12 @@ const COMPONENTS: ComponentEntry[] = [
       ];
       return (
         <div className="flex flex-col gap-section">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Stepper — indicateur horizontal / vertical</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Stepper — indicateur horizontal / vertical</p>
           <div className="flex flex-col gap-stack-lg">
             <Stepper items={steps} orientation="horizontal" />
             <Stepper items={steps} orientation="vertical" />
           </div>
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">Steps — checklist séquentielle verticale</p>
+          <p className="text-caption font-semibold text-ink-600 m-0 mt-stack">Steps — checklist séquentielle verticale</p>
           <Steps
             items={[
               { title: 'Créer votre compte', description: 'Email + mot de passe sécurisé', state: 'done' },
@@ -3440,7 +3481,7 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-section">
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">variant="underline" (défaut)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">variant="underline" (défaut)</p>
           <TabsWithContent
             variant="underline"
             tabs={[
@@ -3451,7 +3492,7 @@ const COMPONENTS: ComponentEntry[] = [
           />
         </div>
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">variant="pill"</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">variant="pill"</p>
           <TabsWithContent
             variant="pill"
             tabs={[
@@ -3462,7 +3503,7 @@ const COMPONENTS: ComponentEntry[] = [
           />
         </div>
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">variant="boxed"</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">variant="boxed"</p>
           <TabsWithContent
             variant="boxed"
             tabs={[
@@ -3541,7 +3582,7 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         <div>
-          <div className="text-caption text-ink-500 mb-stack-xs uppercase tracking-wider">variant="simple" (anchors)</div>
+          <div className="text-caption text-ink-600 mb-stack-xs">variant="simple" (anchors)</div>
           <Breadcrumb
             items={[
               { label: 'Accueil', href: '#' },
@@ -3562,7 +3603,7 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
 
         <div>
-          <div className="text-caption text-ink-500 mb-stack-xs uppercase tracking-wider">variant="nav" (boutons + icônes + ChevronRight)</div>
+          <div className="text-caption text-ink-600 mb-stack-xs">variant="nav" (boutons + icônes + ChevronRight)</div>
           <Breadcrumb
             variant="nav"
             items={[
@@ -3584,7 +3625,7 @@ const COMPONENTS: ComponentEntry[] = [
             onNavigate={(i) => console.log('navigate', i)}
             className="mt-stack-xs"
           />
-          <div className="text-micro text-ink-500 mt-1">↑ maxVisible=3 → ellipsis automatique</div>
+          <div className="text-caption text-ink-600 mt-1">↑ maxVisible=3 → ellipsis automatique</div>
         </div>
 
         <div className="bg-ink-50 rounded-md overflow-hidden">
@@ -3596,7 +3637,7 @@ const COMPONENTS: ComponentEntry[] = [
               { label: 'Article courant' },
             ]}
           />
-          <div className="p-stack text-caption text-ink-500">sticky — blur + border-bottom</div>
+          <div className="p-stack text-caption text-ink-600">sticky — blur + border-bottom</div>
         </div>
       </div>
     ),
@@ -3610,8 +3651,8 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['breadcrumb', 'auto', 'location', 'path', 'navigation', 'back', 'layout', 'route'],
     render: () => (
       <div className="flex flex-col gap-stack-xs p-stack bg-ink-50 rounded-xl border border-ink-200">
-        <p className="text-caption text-ink-500 m-0 italic">Simulation — rendu réel disponible dans toute page routée avec ≥ 2 segments (ex. /learning-paths/1, /veille/article/1)</p>
-        <div className="flex items-center gap-stack-2xs text-caption text-ink-500">
+        <p className="text-caption text-ink-600 m-0 italic">Simulation — rendu réel disponible dans toute page routée avec ≥ 2 segments (ex. /learning-paths/1, /veille/article/1)</p>
+        <div className="flex items-center gap-stack-2xs text-caption text-ink-600">
           <span className="inline-flex items-center gap-tight text-primary-700 hover:text-primary-800 cursor-pointer font-medium">
             <BookOpen size={13} /> Parcours
           </span>
@@ -3657,7 +3698,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-wrap gap-section items-start">
         {/* Variant solid — actions context menu */}
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Solid · actions context</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Solid · actions context</p>
           {/* autoFocus={false} : cette démo est rendue OUVERTE en permanence. Avec le
     défaut du composant (autoFocus), elle prend le focus au montage et le
     navigateur scrolle pour l'amener à l'écran — la catégorie Navigation
@@ -3674,7 +3715,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* Variant glass — user menu (vrai pattern utilisé dans Sidebar) */}
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Glass · user menu (Sidebar)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Glass · user menu (Sidebar)</p>
           <div className="relative bg-gradient-to-br from-primary-50 to-primary-100/40 p-section rounded-2xl">
             <DropdownMenu variant="glass" autoFocus={false} style={{ position: 'static', minWidth: 260 }}>
               <DropdownItem icon={<UserIcon size={16} />}>Mon Profil</DropdownItem>
@@ -3822,7 +3863,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* ─── Usage canonique : CardGrid square-tiles + iconSize md (default) ─── */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">⭐ Pattern canonique · <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">&lt;CardGrid layout="square-tiles"&gt;</code> · iconSize <strong>md</strong> (default · 32px)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">⭐ Pattern canonique · <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">&lt;CardGrid layout="square-tiles"&gt;</code> · iconSize md (défaut · 32 px)</p>
           <CardGrid layout="square-tiles" gapSize="md">
             <IconFeatureCard square tone="brand" iconStyle="plain" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="Coaching" onClick={() => {}} />
             <IconFeatureCard square tone="warm" iconStyle="plain" icon={<MapIcon size={32} strokeWidth={1.75} />} title="Parcours" onClick={() => {}} />
@@ -3833,7 +3874,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* ─── Version sm (compact tiles) ─── */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Variante compacte · iconSize <strong>sm</strong> (24px) — pour zones denses (sidebar, hero overlays)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Variante compacte · iconSize sm (24 px) — pour les zones denses</p>
           <CardGrid layout="square-tiles" gapSize="md">
             <IconFeatureCard square tone="brand" iconStyle="plain" iconSize="sm" icon={<MessageSquare size={24} strokeWidth={1.75} />} title="Coaching" onClick={() => {}} />
             <IconFeatureCard square tone="warm" iconStyle="plain" iconSize="sm" icon={<MapIcon size={24} strokeWidth={1.75} />} title="Parcours" onClick={() => {}} />
@@ -3844,7 +3885,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* ─── Avec description optionnelle ─── */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Avec description (feature cards landing/marketing) · md</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Avec description (feature cards landing/marketing) · md</p>
           <CardGrid layout="square-tiles" gapSize="md">
             <IconFeatureCard tone="brand" iconStyle="plain" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="Coaching" description="Sessions 1:1 personnalisées" onClick={() => {}} />
             <IconFeatureCard tone="warm" iconStyle="plain" icon={<MapIcon size={32} strokeWidth={1.75} />} title="Parcours" description="Apprenez à votre rythme" onClick={() => {}} />
@@ -3855,7 +3896,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* ─── iconStyle × tone (matrice compacte 3×3) ─── */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">iconStyle (plain / filled / bubble) × tone (brand / warm / sun) · md</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">iconStyle (plain / filled / bubble) × tone (brand / warm / sun) · md</p>
           <div className="grid grid-cols-3 gap-stack">
             <IconFeatureCard square tone="brand" iconStyle="plain" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="Plain · brand" onClick={() => {}} />
             <IconFeatureCard square tone="warm" iconStyle="filled" icon={<Flame size={32} />} title="Filled · warm" onClick={() => {}} />
@@ -3865,7 +3906,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* ─── iconSize ─── */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">iconSize · xs 20 / sm 24 / md 32 (default) / lg 40 / xl 48 — title scale automatiquement</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">iconSize · xs 20 / sm 24 / md 32 (default) / lg 40 / xl 48 — title scale automatiquement</p>
           <div className="flex flex-wrap gap-stack items-start">
             <IconFeatureCard tone="brand" iconStyle="plain" iconSize="xs" icon={<MessageSquare size={20} strokeWidth={1.75} />} title="xs" onClick={() => {}} className="w-[100px]" />
             <IconFeatureCard tone="brand" iconStyle="plain" iconSize="sm" icon={<MessageSquare size={24} strokeWidth={1.75} />} title="sm" onClick={() => {}} className="w-[120px]" />
@@ -3877,7 +3918,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* ─── surface (4 variants) ─── */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">surface · card / tinted / glass / frosted</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">surface · card / tinted / glass / frosted</p>
           {/* card + tinted sur fond clair */}
           <div className="flex flex-wrap gap-stack">
             <IconFeatureCard square surface="card" tone="brand" iconStyle="plain" iconSize="md" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="card" onClick={() => {}} className="w-[140px]" />
@@ -3894,7 +3935,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* ─── description optionnelle (sans / avec) ─── */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">description · optionnelle (sans = pure tile · avec = feature card)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">description · optionnelle (sans = pure tile · avec = feature card)</p>
           <div className="flex flex-wrap gap-stack items-start">
             <IconFeatureCard square tone="warm" iconStyle="plain" iconSize="md" icon={<Trophy size={32} strokeWidth={1.75} />} title="Sans desc" onClick={() => {}} className="w-[140px]" />
             <IconFeatureCard tone="warm" iconStyle="plain" iconSize="md" icon={<Trophy size={32} strokeWidth={1.75} />} title="Avec desc" description="12 badges cette année" onClick={() => {}} className="w-[180px]" />
@@ -3957,7 +3998,7 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['session', 'coaching', 'meeting', 'past', 'planned', 'surface', 'tinted', 'glass', 'frosted'],
     render: () => (
       <div className="flex flex-col gap-stack">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Surfaces · card (default) / tinted primary / tinted warm</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">Surfaces · card (default) / tinted primary / tinted warm</p>
         <div className="flex flex-col gap-stack">
           <SessionCard
             title="Stratégie d'implémentation IA"
@@ -3998,7 +4039,7 @@ const COMPONENTS: ComponentEntry[] = [
           />
         </div>
 
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">Surfaces · glass / frosted (sur fond coloré pour visualiser le blur)</p>
+        <p className="text-caption font-semibold text-ink-600 m-0 mt-stack">Surfaces · glass / frosted (sur fond coloré pour visualiser le blur)</p>
         <div className="rounded-2xl bg-gradient-to-br from-primary-700 via-primary-800 to-secondary-700 p-stack flex flex-col gap-stack">
           <SessionCard
             surface="glass"
@@ -4124,11 +4165,11 @@ const COMPONENTS: ComponentEntry[] = [
       return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
           <div>
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Layout: timeline + groupByDate</p>
+            <p className="text-caption font-semibold text-ink-600 mb-3">Layout: timeline + groupByDate</p>
             <ActivityFeed items={items} layout="timeline" groupByDate />
           </div>
           <div>
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Layout: list</p>
+            <p className="text-caption font-semibold text-ink-600 mb-3">Layout: list</p>
             <ActivityFeed items={items.slice(0, 3)} layout="list" />
           </div>
         </div>
@@ -4166,7 +4207,7 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         <div>
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Compact (default)</p>
+          <p className="text-caption font-semibold text-ink-600 mb-3">Compact (default)</p>
           <AuthorStrip
             name="Marie Dubois"
             role="Senior Editor TLS"
@@ -4177,7 +4218,7 @@ const COMPONENTS: ComponentEntry[] = [
           />
         </div>
         <div>
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Expanded</p>
+          <p className="text-caption font-semibold text-ink-600 mb-3">Expanded</p>
           <AuthorStrip
             variant="expanded"
             name="Pierre Leclerc"
@@ -4282,7 +4323,7 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         <div>
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">ReadingProgressBar — tones (relative position pour la démo)</p>
+          <p className="text-caption font-semibold text-ink-600 mb-3">ReadingProgressBar — tones (relative position pour la démo)</p>
           <div className="flex flex-col gap-stack-xs">
             <div className="relative h-6 bg-ink-50 rounded-md overflow-hidden">
               <ReadingProgressBar tone="brand" fixed={false} height={6} className="absolute inset-0" />
@@ -4294,10 +4335,10 @@ const COMPONENTS: ComponentEntry[] = [
               <ReadingProgressBar tone="sun" fixed={false} height={6} className="absolute inset-0" />
             </div>
           </div>
-          <p className="text-micro text-ink-500 mt-stack-xs">Note : en usage normal, `fixed=true` (défaut) ancre la barre au top du viewport.</p>
+          <p className="text-caption text-ink-600 mt-stack-xs">Note : en usage normal, `fixed=true` (défaut) ancre la barre au top du viewport.</p>
         </div>
         <div>
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">ReadingProgressRing — 4 tones</p>
+          <p className="text-caption font-semibold text-ink-600 mb-3">ReadingProgressRing — 4 tones</p>
           <div className="flex items-center gap-stack-lg">
             <ReadingProgressRing tone="brand" />
             <ReadingProgressRing tone="warm" />
@@ -4319,7 +4360,7 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
         <div>
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Tone warm (default)</p>
+          <p className="text-caption font-semibold text-ink-600 mb-3">Tone warm (default)</p>
           <TableOfContents
             tone="warm"
             items={[
@@ -4332,7 +4373,7 @@ const COMPONENTS: ComponentEntry[] = [
           />
         </div>
         <div>
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Tone brand</p>
+          <p className="text-caption font-semibold text-ink-600 mb-3">Tone brand</p>
           <TableOfContents
             tone="brand"
             title="Chapitres"
@@ -4364,7 +4405,7 @@ const COMPONENTS: ComponentEntry[] = [
         return (
           <div className="flex flex-col gap-stack-lg">
             <div>
-              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Single-select · brand · tinted · solid</p>
+              <p className="text-caption font-semibold text-ink-600 mb-3">Single-select · brand · tinted · solid</p>
               <FilterBar
                 surface="tinted"
                 tone="brand"
@@ -4384,7 +4425,7 @@ const COMPONENTS: ComponentEntry[] = [
             </div>
 
             <div>
-              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Multi-select · warm · plain · with icons</p>
+              <p className="text-caption font-semibold text-ink-600 mb-3">Multi-select · warm · plain · with icons</p>
               <FilterBar
                 tone="warm"
                 label="Filtrer"
@@ -4400,7 +4441,7 @@ const COMPONENTS: ComponentEntry[] = [
             </div>
 
             <div>
-              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-3">Multi-select · sun · size sm</p>
+              <p className="text-caption font-semibold text-ink-600 mb-3">Multi-select · sun · size sm</p>
               <FilterBar
                 tone="sun"
                 size="sm"
@@ -4416,7 +4457,7 @@ const COMPONENTS: ComponentEntry[] = [
             </div>
 
             <div className="rounded-xl p-stack-lg bg-gradient-to-r from-primary-700 to-primary-800">
-              <p className="text-caption font-bold uppercase tracking-wider text-white mb-3">Glass variant · on gradient hero</p>
+              <p className="text-caption font-semibold text-white mb-3">Glass variant · on gradient hero</p>
               <FilterBar
                 tone="brand"
                 variant="glass"
@@ -4491,7 +4532,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-section">
         {/* Variants showcase (size md, tone primary) */}
         <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-ink-50/50 border border-ink-200">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">4 variants · size md · tone primary</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">4 variants · size md · tone primary</p>
           <SectionHeader variant="default" icon={Calendar} title="Default — tinted bubble" subtitle="bg-{tone}-50 + tone icon (legacy)" />
           <SectionHeader variant="solid" icon={Calendar} title="Solid — filled bubble" subtitle="bg-gradient {tone}-600→700 + white icon (strong CTA)" />
           <SectionHeader variant="minimal" icon={Calendar} title="Minimal — stroke inline" subtitle="No bubble, premium/airy" />
@@ -4500,7 +4541,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* Sizes showcase (variant solid, tone warm) */}
         <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-secondary-50/30 border border-secondary-200">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">4 sizes · variant solid · tone warm</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">4 sizes · variant solid · tone warm</p>
           <SectionHeader size="xs" variant="solid" tone="warm" icon={Calendar} title="Size xs — text-body 16" as="h4" />
           <SectionHeader size="sm" variant="solid" tone="warm" icon={Calendar} title="Size sm — text-h3 20" as="h3" />
           <SectionHeader size="md" variant="solid" tone="warm" icon={Calendar} title="Size md — text-h3 24 (default)" as="h3" />
@@ -4509,7 +4550,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* Tones showcase (variant default, size md) */}
         <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-ink-50/50 border border-ink-200">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">5 tones · variant default</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">5 tones · variant default</p>
           <SectionHeader variant="default" tone="primary" icon={Calendar} title="Tone primary (teal)" />
           <SectionHeader variant="default" tone="warm" icon={Calendar} title="Tone warm (orange)" />
           <SectionHeader variant="default" tone="sun" icon={Calendar} title="Tone sun (yellow)" />
@@ -4519,7 +4560,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* Real usage examples */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Usage examples</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Usage examples</p>
           <SectionHeader icon={Calendar} title="Prochaine session" subtitle="Votre prochain rendez-vous de coaching" action={<button className="text-caption text-primary-700 hover:underline">Voir tout →</button>} />
           <SectionHeader icon="⚡" title="Actions rapides" subtitle="ReactNode/emoji icon supporté" />
           <SectionHeader title="Sans icône" subtitle="Section minimale" divider />
@@ -4577,7 +4618,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-stack-lg">
         {/* Pattern 1 — Viewer with prev/next + counter (FlashcardsViewer style) */}
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Viewer avec navigation séquentielle (Flashcards / Astuces)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Viewer avec navigation séquentielle (Flashcards / Astuces)</p>
           <div className="rounded-xl overflow-hidden border border-ink-200 bg-ink-50">
             <ViewerHeader
               sticky={false}
@@ -4591,13 +4632,13 @@ const COMPONENTS: ComponentEntry[] = [
               onNext={() => {}}
               onClose={() => {}}
             />
-            <div className="p-section text-center text-ink-500 text-caption">— Contenu viewer ici —</div>
+            <div className="p-section text-center text-ink-600 text-caption">— Contenu viewer ici —</div>
           </div>
         </div>
 
         {/* Pattern 2 — Viewer simple title-only (VideoViewer style) */}
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Viewer simple back + title + close (Video / Article)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Viewer simple back + title + close (Video / Article)</p>
           <div className="rounded-xl overflow-hidden border border-ink-200 bg-ink-50">
             <ViewerHeader
               sticky={false}
@@ -4608,13 +4649,13 @@ const COMPONENTS: ComponentEntry[] = [
               subtitle="Publié le 30 avril 2026 par Sophie Martin"
               onClose={() => {}}
             />
-            <div className="p-section text-center text-ink-500 text-caption">— Contenu viewer ici —</div>
+            <div className="p-section text-center text-ink-600 text-caption">— Contenu viewer ici —</div>
           </div>
         </div>
 
         {/* Pattern 3 — Disabled boundaries (first/last item) */}
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Disabled state aux bornes (premier / dernier item)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Disabled state aux bornes (premier / dernier item)</p>
           <div className="rounded-xl overflow-hidden border border-ink-200 bg-ink-50">
             <ViewerHeader
               sticky={false}
@@ -4627,7 +4668,7 @@ const COMPONENTS: ComponentEntry[] = [
               onNext={() => {}}
               disablePrev
             />
-            <div className="p-stack text-center text-ink-500 text-caption">— prev disabled —</div>
+            <div className="p-stack text-center text-ink-600 text-caption">— prev disabled —</div>
           </div>
         </div>
       </div>
@@ -4643,7 +4684,7 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Avec progression + Enregistrer</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Avec progression + Enregistrer</p>
           <div className="rounded-xl overflow-hidden border border-ink-200">
             <HeaderNav
               backLabel="Quitter le questionnaire"
@@ -4655,7 +4696,7 @@ const COMPONENTS: ComponentEntry[] = [
           </div>
         </div>
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Simple back only</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Simple back only</p>
           <div className="rounded-xl overflow-hidden border border-ink-200">
             <HeaderNav
               backLabel="Retour"
@@ -4676,14 +4717,14 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['viewer', 'overlay', 'fullscreen', 'immersive', 'player', 'reader', 'tone', 'progress', 'prev', 'next'],
     render: () => (
       <div className="flex flex-col gap-stack-xs">
-        <p className="text-caption text-ink-500 m-0">Aperçu tronqué — composant wrapper full-screen utilisé dans les pages viewer. children = contenu immersif (Flashcard, VideoPlayer, LessonContent…).</p>
+        <p className="text-caption text-ink-600 m-0">Aperçu tronqué — composant wrapper full-screen utilisé dans les pages viewer. children = contenu immersif (Flashcard, VideoPlayer, LessonContent…).</p>
         <div className="rounded-2xl overflow-hidden border border-ink-200 bg-white min-h-[260px] flex flex-col">
           <div className="flex items-center justify-between px-stack-md py-3 bg-white/85 backdrop-blur-glass-light border-b border-ink-200">
             <button className="inline-flex items-center gap-stack-2xs text-caption text-ink-600 font-medium bg-ink-50 border border-ink-200 rounded-pill px-3 py-1.5">
               <ArrowLeft size={14} /> Retour
             </button>
             <div className="flex-1 text-center">
-              <p className="m-0 text-caption text-ink-500">Carte 3 sur 12</p>
+              <p className="m-0 text-caption text-ink-600">Carte 3 sur 12</p>
               <p className="m-0 text-body font-bold text-ink-900 truncate">Boucle de feedback OKR</p>
             </div>
             <div className="flex items-center gap-tight">
@@ -4692,10 +4733,10 @@ const COMPONENTS: ComponentEntry[] = [
             </div>
           </div>
           <div className="h-1 bg-ink-100"><div className="h-full bg-gradient-to-r from-primary-500 to-primary-700" style={{ width: '25%' }} /></div>
-          <div className="flex-1 flex items-center justify-center p-section text-ink-500 text-caption">— children slot (LessonPlayer / Flashcard / VideoPlayer…) —</div>
+          <div className="flex-1 flex items-center justify-center p-section text-ink-600 text-caption">— children slot (LessonPlayer / Flashcard / VideoPlayer…) —</div>
           <div className="px-stack-md py-3 border-t border-ink-200 bg-white flex items-center justify-between">
             <button className="inline-flex items-center gap-stack-2xs text-caption font-medium text-ink-600 px-3 py-stack-xs rounded-pill hover:bg-ink-50 border border-ink-200 cursor-pointer"><ArrowLeft size={14} /> Précédent</button>
-            <span className="text-caption text-ink-500">3 / 12</span>
+            <span className="text-caption text-ink-600">3 / 12</span>
             <button className="inline-flex items-center gap-stack-2xs text-caption font-medium text-primary-700 px-3 py-stack-xs rounded-pill hover:bg-primary-50 border border-primary-200 cursor-pointer">Suivant <ArrowRight size={14} /></button>
           </div>
         </div>
@@ -4802,7 +4843,7 @@ const COMPONENTS: ComponentEntry[] = [
         <div className="flex flex-col gap-section">
           {/* 1 — VeilleCard (vertical, grid mode) */}
           <div className="flex flex-col gap-stack">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">1 · <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">&lt;VeilleCard&gt;</code> — vertical (grid mode)</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">1 · <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">&lt;VeilleCard&gt;</code> — vertical (grid mode)</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-stack-lg">
               <VeilleCard item={sampleItem} surface="card" isSaved={false} showSaveButton={true} onToggleSave={() => {}} onClick={() => {}} />
               <VeilleCard item={tutoItem} surface="card" isSaved={true} showSaveButton={true} onToggleSave={() => {}} onClick={() => {}} />
@@ -4812,7 +4853,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* 2 — VeilleCardListItem (horizontal, list mode) */}
           <div className="flex flex-col gap-stack">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">2 · <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">&lt;VeilleCardListItem&gt;</code> — horizontal (list mode)</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">2 · <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">&lt;VeilleCardListItem&gt;</code> — horizontal (list mode)</p>
             <div className="flex flex-col gap-stack">
               <VeilleCardListItem item={sampleItem} surface="card" isSaved={false} showSaveButton={true} onToggleSave={() => {}} onClick={() => {}} />
               <VeilleCardListItem item={tutoItem} surface="card" isSaved={true} showSaveButton={true} onToggleSave={() => {}} onClick={() => {}} />
@@ -4822,7 +4863,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* 3 — FeaturedSpotlight (hero horizontal) */}
           <div className="flex flex-col gap-stack">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">3 · <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">&lt;FeaturedSpotlight&gt;</code> — hero "À la une"</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">3 · <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">&lt;FeaturedSpotlight&gt;</code> — hero "À la une"</p>
             <FeaturedSpotlight item={{ ...sampleItem, featured: true }} isSaved={false} showSaveButton={true} onToggleSave={() => {}} onClick={() => {}} />
           </div>
         </div>
@@ -4833,7 +4874,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'VeilleCard — design proposals',
     codeName: '(mockups visuels — verticaux grid + horizontaux list)',
     cssBase: 'Tailwind',
-    description: '7 proposals de design VeilleCard : **4 verticaux** pour vue grid (A cover, C tinted, D overlay, L glass) + **3 horizontaux** pour vue list (HZ-1 split image, HZ-2 tinted row, HZ-3 compact inbox). Badge catégorie overlaid en top glassy sur les images.',
+    description: "Maquettes, pas un composant : les sept pistes explorées pour VeilleCard — quatre verticales pour la grille (A couverture, C teintée, D surimpression, L verre) et trois horizontales pour la liste (HZ-1 image à gauche, HZ-2 rangée teintée, HZ-3 boîte de réception). Leur texte suit l'échelle du 24/09 : titres h3 20, méta 13, étiquettes 11 ; le soulèvement au survol a été retiré (passe motion du 17/09).",
     keywords: ['veille', 'card', 'vertical', 'horizontal', 'grid', 'list', 'cover', 'tinted', 'overlay', 'glass', 'compact'],
     render: () => {
       const item = { typeLabel: 'Dossier', category: 'Management', title: "Transformation IA des parcours de formation", summary: "Synthèse approfondie sur l'impact de l'IA sur les dispositifs de formation professionnelle en Europe.", author: 'McKinsey', publishedAt: 'Il y a 3 jours', readTime: '22 min' };
@@ -4842,16 +4883,16 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* Design A — Cover dominant (current) */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">A · Cover dominant (current default)</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">A · Cover dominant (current default)</p>
             <article className="flex flex-col rounded-2xl bg-white border border-ink-200 overflow-hidden">
               <div className="relative h-32 bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-500">
                 <div className="absolute inset-0 flex items-center justify-center"><FolderOpen size={56} strokeWidth={1.25} className="text-white/95" /></div>
                 <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
               </div>
               <div className="flex flex-col gap-stack-xs p-stack-md">
-                <span className="font-body text-micro font-semibold uppercase tracking-wider text-ink-500">{item.category} · {item.publishedAt}</span>
+                <span className="font-body text-caption font-semibold text-ink-600">{item.category} · {item.publishedAt}</span>
                 <h3 className="font-display text-h3 font-bold text-ink-900">{item.title}</h3>
-                <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
+                <span className="font-body text-caption text-ink-600"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
                 <p className="m-0 font-body text-body text-ink-600">{item.summary}</p>
                 <footer className="flex justify-between items-center pt-stack-xs border-t border-ink-100"><span className="text-caption font-bold text-accent-700">Lire →</span></footer>
               </div>
@@ -4860,15 +4901,15 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* Design C — Tinted full bg */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">C · Tinted full bg · couleur tone-aware en arrière-plan complet</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">C · Tinted full bg · couleur tone-aware en arrière-plan complet</p>
             <article className="flex flex-col rounded-2xl bg-accent-50/70 border border-accent-100 p-stack-md gap-stack-xs hover:bg-accent-50">
               <div className="flex items-center justify-between">
                 <span className="inline-flex items-center gap-stack-2xs px-2.5 py-1 rounded-pill bg-white/90 text-accent-700 border border-accent-200 text-micro font-bold uppercase tracking-wider"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
-                <button className="w-8 h-8 rounded-pill bg-white/70 text-ink-500 hover:text-ink-900 flex items-center justify-center"><Bookmark size={14} /></button>
+                <button className="w-8 h-8 rounded-pill bg-white/70 text-ink-600 hover:text-ink-900 flex items-center justify-center"><Bookmark size={14} /></button>
               </div>
-              <span className="font-body text-micro font-semibold uppercase tracking-wider text-accent-700">{item.category} · {item.publishedAt}</span>
+              <span className="font-body text-caption font-semibold text-ink-600">{item.category} · {item.publishedAt}</span>
               <h3 className="font-display text-h3 font-bold text-ink-900">{item.title}</h3>
-              <span className="font-body text-caption text-ink-500"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
+              <span className="font-body text-caption text-ink-600"><User size={12} className="inline mr-0.5" /> {item.author} · ⏱ {item.readTime}</span>
               <p className="m-0 font-body text-body text-ink-700">{item.summary}</p>
               <footer className="flex justify-between items-center pt-stack-xs border-t border-white/60"><span className="text-caption font-bold text-accent-700">Lire →</span></footer>
             </article>
@@ -4876,14 +4917,14 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* Design D — Magazine portrait avec title overlay */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">D · Magazine portrait · cover large + title en overlay bottom</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">D · Magazine portrait · cover large + title en overlay bottom</p>
             <article className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-accent-300 via-accent-500 to-secondary-600 h-[280px]">
               <div className="absolute inset-0 flex items-center justify-center opacity-90"><FolderOpen size={84} strokeWidth={1} className="text-white" /></div>
               {/* Gradient overlay bottom for readability */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
               <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
               <div className="absolute inset-x-0 bottom-0 p-stack-md text-white flex flex-col gap-tight">
-                <span className="font-body text-micro font-semibold uppercase tracking-wider text-white/80">{item.category} · {item.publishedAt}</span>
+                <span className="font-body text-caption font-semibold text-white/80">{item.category} · {item.publishedAt}</span>
                 <h3 className="font-display text-h3 font-bold text-white">{item.title}</h3>
                 <div className="flex justify-between items-center text-caption text-white/90 mt-tight">
                   <span><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span>
@@ -4895,7 +4936,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* L — Glass overlay full photo (Apple News style) */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">L · Glass overlay · photo plein cover + panel glass content au bottom (Apple News style)</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">L · Glass overlay · photo plein cover + panel glass content au bottom (Apple News style)</p>
             <article className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-primary-400 via-accent-500 to-secondary-600 h-[300px] cursor-pointer group">
               <div className="absolute inset-0 flex items-center justify-center opacity-90">
                 <FolderOpen size={96} strokeWidth={0.9} className="text-white/85" />
@@ -4907,9 +4948,9 @@ const COMPONENTS: ComponentEntry[] = [
                 <Bookmark size={15} />
               </button>
               <div className="absolute inset-x-3 bottom-3 rounded-xl bg-white/85 backdrop-blur-glass-heavy border border-white/60 p-stack flex flex-col gap-tight shadow-lg">
-                <span className="font-body text-micro font-bold uppercase tracking-wider text-primary-700">{item.category} · {item.publishedAt}</span>
-                <h3 className="font-display text-body-lg font-bold text-ink-900">{item.title}</h3>
-                <div className="flex items-center gap-stack-xs mt-1 font-body text-micro text-ink-600">
+                <span className="font-body text-caption font-semibold text-ink-600">{item.category} · {item.publishedAt}</span>
+                <h3 className="font-display text-h3 text-ink-900">{item.title}</h3>
+                <div className="flex items-center gap-stack-xs mt-1 font-body text-caption text-ink-600">
                   <User size={11} className="inline shrink-0" /><span>{item.author}</span>
                   <span aria-hidden>·</span>
                   <span>⏱ {item.readTime}</span>
@@ -4934,17 +4975,17 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* HZ-1 — Badge sur l'image, meta sous le titre */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">HZ-1 · Badge catégorie sur l'image · meta sous le titre</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">HZ-1 · Badge catégorie sur l'image · meta sous le titre</p>
             <div className="flex flex-col gap-stack-xs max-w-content">
               {hzItems.map((it, idx) => (
-                <article key={idx} className="grid grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] rounded-2xl bg-white border border-ink-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer group">
+                <article key={idx} className="grid grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] rounded-2xl bg-white border border-ink-200 overflow-hidden hover:border-ink-300 transition-colors cursor-pointer group">
                   {/* Image avec badge en overlay bottom */}
                   <div className={`relative bg-gradient-to-br ${it.gradFrom} via-current ${it.gradTo} flex items-center justify-center min-h-[108px] overflow-hidden`}>
                     <div className="absolute inset-0 opacity-25" style={{ backgroundImage: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5) 0%, transparent 60%)' }} aria-hidden />
                     <it.Icon size={38} strokeWidth={1.25} className="text-white/90 group-hover:scale-110 transition-transform duration-base" />
                     {/* Badge catégorie — sur l'image en haut, glassy */}
                     <span className="absolute top-2 left-0 right-0 flex justify-center">
-                      <span className="inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/90 backdrop-blur-glass-medium border border-white/40 text-[10px] font-bold uppercase tracking-wide text-ink-900 shadow-sm">
+                      <span className="inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/90 backdrop-blur-glass-medium border border-white/40 text-micro font-bold uppercase tracking-label text-ink-900 shadow-sm">
                         <it.Icon size={9} strokeWidth={2.5} /> {it.typeLabel}
                       </span>
                     </span>
@@ -4952,7 +4993,7 @@ const COMPONENTS: ComponentEntry[] = [
                   {/* Content : titre → meta → summary */}
                   <div className="flex flex-col justify-center gap-tight p-stack">
                     <h3 className="font-display text-body font-bold text-ink-900 line-clamp-2">{it.title}</h3>
-                    <div className="flex items-center gap-stack-2xs font-body text-micro text-ink-500 flex-wrap">
+                    <div className="flex items-center gap-stack-2xs font-body text-caption text-ink-600 flex-wrap">
                       <User size={10} className="shrink-0" />
                       <span>{it.author}</span>
                       <span aria-hidden>·</span>
@@ -4962,7 +5003,7 @@ const COMPONENTS: ComponentEntry[] = [
                       <span aria-hidden>·</span>
                       <span>⏱ {it.readTime}</span>
                     </div>
-                    <p className="m-0 font-body text-caption text-ink-500 line-clamp-1 hidden sm:block">{it.summary}</p>
+                    <p className="m-0 font-body text-caption text-ink-600 line-clamp-1 hidden sm:block">{it.summary}</p>
                   </div>
                 </article>
               ))}
@@ -4971,7 +5012,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* HZ-2 — Tinted row avec badge sur zone icône */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">HZ-2 · Tinted row · icône + badge catégorie · meta sous titre</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">HZ-2 · Tinted row · icône + badge catégorie · meta sous titre</p>
             <div className="flex flex-col gap-stack-xs max-w-content">
               {hzItems.map((it, idx) => (
                 <article key={idx} className={`flex items-center gap-0 rounded-xl ${it.toneBg} border ${it.toneBorder} hover:brightness-95 cursor-pointer transition-all overflow-hidden`}>
@@ -4980,12 +5021,12 @@ const COMPONENTS: ComponentEntry[] = [
                     <div className={`inline-flex items-center justify-center w-9 h-9 rounded-lg bg-white/80 ${it.toneText} shadow-xs`}>
                       <it.Icon size={17} strokeWidth={1.75} />
                     </div>
-                    <span className={`font-body text-[9px] font-black uppercase tracking-wider ${it.toneText}`}>{it.typeLabel}</span>
+                    <span className={`font-body text-caption font-semibold ${it.toneText}`}>{it.typeLabel}</span>
                   </div>
                   {/* Content */}
                   <div className="flex-1 min-w-0 flex flex-col gap-tight px-stack py-3">
                     <h3 className="font-display text-body font-bold text-ink-900 line-clamp-1">{it.title}</h3>
-                    <div className="flex items-center gap-stack-2xs font-body text-micro text-ink-500 flex-wrap">
+                    <div className="flex items-center gap-stack-2xs font-body text-caption text-ink-600 flex-wrap">
                       <User size={10} className="shrink-0" />
                       <span>{it.author}</span>
                       <span aria-hidden>·</span>
@@ -5002,7 +5043,7 @@ const COMPONENTS: ComponentEntry[] = [
 
           {/* HZ-3 — Compact inbox (ultra-dense, 1 ligne) */}
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">HZ-3 · Compact inbox · badge icône + titre + meta 1 ligne · bookmark</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">HZ-3 · Compact inbox · badge icône + titre + meta 1 ligne · bookmark</p>
             <div className="flex flex-col rounded-2xl bg-white border border-ink-200 overflow-hidden divide-y divide-ink-100 max-w-content">
               {hzItems.map((it, idx) => (
                 <article key={idx} className="flex items-center gap-stack-xs px-stack py-3 hover:bg-ink-50 cursor-pointer transition-colors group">
@@ -5011,17 +5052,17 @@ const COMPONENTS: ComponentEntry[] = [
                     <span className={`inline-flex items-center justify-center w-9 h-9 rounded-xl ${it.toneBg} ${it.toneText}`}>
                       <it.Icon size={16} strokeWidth={2} />
                     </span>
-                    <span className={`font-body text-[8px] font-black uppercase tracking-wider ${it.toneText}`}>{it.typeLabel}</span>
+                    <span className={`font-body text-caption font-semibold ${it.toneText}`}>{it.typeLabel}</span>
                   </div>
                   {/* Title + meta */}
                   <div className="flex-1 min-w-0 flex flex-col gap-tight">
                     <h4 className="font-display text-body font-bold text-ink-900 truncate group-hover:text-primary-700 transition-colors">{it.title}</h4>
-                    <p className="m-0 font-body text-micro text-ink-500 truncate">
+                    <p className="m-0 font-body text-caption text-ink-600 truncate">
                       <User size={9} className="inline mr-0.5" />{it.author} · {it.publishedAt} · ⏱ {it.readTime}
                     </p>
                   </div>
                   <button className="text-ink-300 hover:text-primary-600 shrink-0 transition-colors"><Bookmark size={14} /></button>
-                  <ArrowRight size={13} className="text-ink-300 group-hover:text-ink-600 shrink-0 group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight size={13} className="text-ink-300 group-hover:text-ink-600 shrink-0 transition-colors" />
                 </article>
               ))}
             </div>
@@ -5052,12 +5093,12 @@ const COMPONENTS: ComponentEntry[] = [
       return (
         <div className="flex flex-col gap-section">
           <div className="flex flex-col gap-stack">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Layout <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">list</code> (DEFAULT) · cards horizontales denses</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">Layout <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">list</code> (DEFAULT) · cards horizontales denses</p>
             <VeilleCardFeed items={sampleItems.slice(1)} layout="list" savedIds={new Set(['3'])} onItemClick={() => {}} onToggleSave={() => {}} />
           </div>
 
           <div className="flex flex-col gap-stack">
-            <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0">Layout <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">grid</code> · cards verticales (à définir)</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">Layout <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">grid</code> · cards verticales (à définir)</p>
             <VeilleCardFeed items={sampleItems} savedIds={new Set(['3'])} onItemClick={() => {}} onToggleSave={() => {}} />
           </div>
         </div>
@@ -5076,7 +5117,7 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-section">
         <div className="flex flex-col gap-stack">
-          <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Variant dark (défaut — sur dégradé)</span>
+          <span className="text-caption font-semibold text-ink-600">Variant dark (défaut — sur dégradé)</span>
           <div className="p-stack-lg rounded-xl" style={{ background: 'linear-gradient(150deg, #2F5F6A 0%, #55A1B4 100%)' }}>
             <VeilleFormatShortcutCards
               cards={[
@@ -5089,7 +5130,7 @@ const COMPONENTS: ComponentEntry[] = [
           </div>
         </div>
         <div className="flex flex-col gap-stack">
-          <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Défaut (sans surcharge)</span>
+          <span className="text-caption font-semibold text-ink-600">Défaut (sans surcharge)</span>
           <VeilleFormatShortcutCards />
         </div>
       </div>
@@ -5142,19 +5183,19 @@ const COMPONENTS: ComponentEntry[] = [
     toneAware: true,
     render: () => (
       <div className="flex flex-col gap-section">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Accessible — brand / warm / sun</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">Accessible — brand / warm / sun</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
           <LearningItemCard id="1" type="video_conc" title="Maîtriser la rétroaction constructive" description="Comprendre les mécanismes du feedback pour progresser efficacement." duration="15 min" dreyfusLevel={3} theme="Communication" isAccessible={true} onClick={() => {}} />
           <LearningItemCard id="2" type="mission" title="Conduire un entretien de recrutement" description="Structurer et mener un entretien professionnel pour évaluer les compétences." duration="45 min" dreyfusLevel={4} theme="Management" isAccessible={true} onClick={() => {}} />
           <LearningItemCard id="3" type="astuces" title="5 astuces pour mémoriser durablement" description="Des techniques cognitives éprouvées pour ancrer les apprentissages sur le long terme." duration="10 min" dreyfusLevel={2} theme="Pédagogie" isAccessible={true} onClick={() => {}} />
         </div>
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-section">Complété + En cours (progress bar)</p>
+        <p className="text-caption font-semibold text-ink-600 m-0 mt-section">Complété + En cours (progress bar)</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
           <LearningItemCard id="c1" type="astuces" title="5 astuces pour mémoriser durablement" description="Des techniques cognitives éprouvées pour ancrer les apprentissages sur le long terme." duration="10 min" dreyfusLevel={2} theme="Pédagogie" isAccessible={true} isCompleted={true} onClick={() => {}} />
           <LearningItemCard id="c2" type="guide" title="Guide de feedback 360°" description="Concevoir et déployer un dispositif de feedback multi-sources." duration="30 min" dreyfusLevel={3} theme="RH" isAccessible={true} progress={65} onClick={() => {}} />
           <LearningItemCard id="c3" type="ressource" title="Boîte à outils facilitation" description="Templates et fiches pratiques pour faciliter des ateliers en présentiel ou distanciel." duration="20 min" dreyfusLevel={2} theme="Facilitation" isAccessible={true} progress={25} onClick={() => {}} />
         </div>
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-section">Locked states — tier / prerequisite</p>
+        <p className="text-caption font-semibold text-ink-600 m-0 mt-section">Locked states — tier / prerequisite</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
           <LearningItemCard id="4" type="masterclass" title="Stratégie de changement organisationnel" description="Piloter la transformation avec méthode et embarquer les équipes." duration="2h" dreyfusLevel={5} theme="Leadership" isAccessible={false} denialReason="tier" denialMessage="Disponible avec l'abonnement Pro" onClick={() => {}} />
           <LearningItemCard id="5" type="guide" title="Guide de feedback 360°" description="Concevoir et déployer un dispositif de feedback multi-sources." duration="30 min" dreyfusLevel={3} theme="RH" isAccessible={false} denialReason="prerequisite" denialMessage="Complète d'abord les astuces de base" onClick={() => {}} />
@@ -5172,7 +5213,7 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['article', 'editorial', 'actu', 'tutoriel', 'dossier', 'magazine', 'bookmark', 'tone', 'video', 'thumbnail', 'play'],
     render: () => (
       <div className="flex flex-col gap-section">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">ArticleCard — actu / tutoriel / dossier</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">ArticleCard — actu / tutoriel / dossier</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
           <ArticleCard
             itemId="a1"
@@ -5209,7 +5250,7 @@ const COMPONENTS: ComponentEntry[] = [
             onRead={() => {}}
           />
         </div>
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">VideoCard — vidéos standalone</p>
+        <p className="text-caption font-semibold text-ink-600 m-0 mt-stack">VideoCard — vidéos standalone</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack-lg max-w-content">
           <VideoCard
             title="Construire un prompt structuré en 5 étapes"
@@ -5285,7 +5326,7 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-section max-w-2xl">
         <div>
-          <p className="text-caption font-semibold text-ink-500 mb-stack-xs">Contexte : chatbot</p>
+          <p className="text-caption font-semibold text-ink-600 mb-stack-xs">Contexte : chatbot</p>
           <div className="flex flex-col gap-stack p-stack bg-ink-50 rounded-xl border border-ink-200">
             <MessageBubble
               variant="user"
@@ -5318,7 +5359,7 @@ const COMPONENTS: ComponentEntry[] = [
           </div>
         </div>
         <div>
-          <p className="text-caption font-semibold text-ink-500 mb-stack-xs">Contexte : messaging (coaching)</p>
+          <p className="text-caption font-semibold text-ink-600 mb-stack-xs">Contexte : messaging (coaching)</p>
           <div className="flex flex-col gap-stack p-stack bg-white rounded-xl border border-ink-200">
             <MessageBubble
               variant="user"
@@ -5396,9 +5437,9 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['logo', 'brand', 'mark', 'wordmark', 'tls'],
     render: () => (
       <div className="flex flex-col gap-stack p-stack rounded-xl bg-white border border-ink-200 max-w-md">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Sur fond blanc</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">Sur fond blanc</p>
         <TlsLogo />
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mt-stack">Sur fond brand (gradient)</p>
+        <p className="text-caption font-semibold text-ink-600 m-0 mt-stack">Sur fond brand (gradient)</p>
         <div className="p-stack rounded-lg bg-gradient-brand-deep">
           <TlsLogo />
         </div>
@@ -5416,26 +5457,26 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-section p-stack rounded-xl bg-white border border-ink-200">
         <div className="flex flex-wrap items-center gap-section">
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">horizontal</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">horizontal</p>
             <TlsLogoLockup layout="horizontal" iconSize={44} />
           </div>
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">horizontal-3</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">horizontal-3</p>
             <TlsLogoLockup layout="horizontal-3" iconSize={56} />
           </div>
         </div>
         <div className="flex flex-wrap items-start gap-section">
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">vertical</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">vertical</p>
             <TlsLogoLockup layout="vertical" iconSize={64} />
           </div>
           <div className="flex flex-col gap-stack-xs">
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">vertical-3</p>
+            <p className="text-caption font-semibold text-ink-600 m-0">vertical-3</p>
             <TlsLogoLockup layout="vertical-3" iconSize={64} />
           </div>
         </div>
         <div className="flex flex-col gap-stack-xs">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">wordmark ink · sur fond brand (white)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">wordmark ink · sur fond brand (white)</p>
           <div className="flex flex-wrap items-center gap-section">
             <TlsLogoLockup layout="horizontal" iconSize={40} wordmarkTone="ink" />
             <div className="p-stack rounded-lg bg-gradient-brand-deep">
@@ -5624,7 +5665,7 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
 
         {/* Brand deep + soft pastels (gradients tokens additionnels) */}
-        <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0 mt-stack">Hero & soft pastels — autres gradients tokens DS</p>
+        <p className="text-caption font-semibold text-ink-600 m-0 mt-stack">Hero & soft pastels — autres gradients tokens DS</p>
 
         {/* Brand deep (saturated 90°) */}
         <div className="relative h-[140px] overflow-hidden rounded-xl bg-gradient-brand-deep border border-ink-200">
@@ -5639,33 +5680,33 @@ const COMPONENTS: ComponentEntry[] = [
           <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-soft-pastel border border-ink-200">
             <div className="relative z-base p-stack flex flex-col items-center justify-center h-full text-center">
               <p className="m-0 font-display text-body font-bold text-ink-900">bg-gradient-soft-pastel</p>
-              <p className="m-0 mt-tight font-body text-micro text-ink-600 font-mono">135° · cyan #f0f9ff → mist #f8fbfd → cream #fefaf5</p>
+              <p className="m-0 mt-tight font-body text-caption text-ink-600 font-mono">135° · cyan #f0f9ff → mist #f8fbfd → cream #fefaf5</p>
             </div>
           </div>
           <div className="relative h-[180px] overflow-hidden rounded-xl bg-gradient-soft-duo border border-ink-200">
             <div className="relative z-base p-stack flex flex-col items-center justify-center h-full text-center">
               <p className="m-0 font-display text-body font-bold text-ink-900">bg-gradient-soft-duo</p>
-              <p className="m-0 mt-tight font-body text-micro text-ink-600 font-mono">135° · cyan #f0f9ff → mist #f8fbfd → cream #fefaf5</p>
+              <p className="m-0 mt-tight font-body text-caption text-ink-600 font-mono">135° · cyan #f0f9ff → mist #f8fbfd → cream #fefaf5</p>
             </div>
           </div>
         </div>
 
         {/* Equivalence — utility class vs Tailwind native composition */}
-        <p className="text-caption font-bold uppercase tracking-wider text-primary-700 m-0 mt-stack">⚖️ Équivalence — utility DS vs Tailwind natif composé</p>
+        <p className="text-caption font-semibold text-ink-600 m-0 mt-stack">⚖️ Équivalence — utility DS vs Tailwind natif composé</p>
         <p className="text-caption text-ink-600 m-0">
-          Les couleurs sont définies en <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">@theme</code> → Tailwind v4 expose <code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">from-X</code>/<code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">via-X</code>/<code className="text-micro bg-ink-50 px-1.5 py-0.5 rounded">to-X</code> automatiquement. Les 2 versions ci-dessous rendent <strong>identiquement</strong> :
+          Les couleurs sont définies en <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">@theme</code> → Tailwind v4 expose <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">from-X</code>/<code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">via-X</code>/<code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">to-X</code> automatiquement. Les 2 versions ci-dessous rendent <strong>identiquement</strong> :
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
           <div className="relative h-[140px] overflow-hidden rounded-xl bg-gradient-page-ambient border border-ink-200">
             <div className="relative z-base p-3 h-full flex flex-col items-center justify-center text-center">
               <p className="m-0 font-mono text-caption text-ink-700"><strong>Utility DS</strong></p>
-              <code className="m-0 mt-tight text-micro text-ink-900 bg-white/60 px-2 py-1 rounded">bg-gradient-page-ambient</code>
+              <code className="m-0 mt-tight text-caption text-ink-900 bg-white/60 px-2 py-1 rounded">bg-gradient-page-ambient</code>
             </div>
           </div>
           <div className="relative h-[140px] overflow-hidden rounded-xl bg-gradient-to-br from-primary-50 via-white to-accent-50 border border-ink-200">
             <div className="relative z-base p-3 h-full flex flex-col items-center justify-center text-center">
               <p className="m-0 font-mono text-caption text-ink-700"><strong>Tailwind composé</strong></p>
-              <code className="m-0 mt-tight text-micro text-ink-900 bg-white/60 px-2 py-1 rounded">bg-gradient-to-br from-primary-50 via-white to-accent-50</code>
+              <code className="m-0 mt-tight text-caption text-ink-900 bg-white/60 px-2 py-1 rounded">bg-gradient-to-br from-primary-50 via-white to-accent-50</code>
             </div>
           </div>
         </div>
@@ -5703,14 +5744,14 @@ const COMPONENTS: ComponentEntry[] = [
         staticAside
         main={
           <SectionCard title="Contenu principal">
-            <p className="m-0 text-body text-ink-500">
+            <p className="m-0 text-body text-ink-600">
               La colonne principale prend ~1.4fr de l'espace disponible. Elle peut contenir n'importe quel contenu : SectionCard, formulaires, listes, médias.
             </p>
           </SectionCard>
         }
         aside={
           <SectionCard title="Aside">
-            <p className="m-0 text-body text-ink-500">
+            <p className="m-0 text-body text-ink-600">
               L'aside prend ~0.8fr et devient sticky sur desktop (top: 96px). Sur mobile, le layout passe en single-column.
             </p>
           </SectionCard>
@@ -5730,7 +5771,7 @@ const COMPONENTS: ComponentEntry[] = [
         title="À retenir"
         titleIcon={<CheckCircle2 size={18} className="text-primary-600" />}
         description="Points essentiels à mémoriser pour cette section."
-        headerAction={<span className="text-caption text-ink-500">3 items</span>}
+        headerAction={<span className="text-caption text-ink-600">3 items</span>}
         actions={
           <>
             <button type="button" className="inline-flex items-center gap-tight text-body text-primary-700 hover:text-primary-800 underline bg-transparent border-0 p-0 cursor-pointer">
@@ -5757,7 +5798,7 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-section">
         <div>
-          <p className="text-caption text-ink-500 mb-stack-xs uppercase tracking-wider font-semibold">onClick → &lt;button&gt;</p>
+          <p className="text-caption text-ink-600 mb-stack-xs font-semibold">onClick → &lt;button&gt;</p>
           <RelatedItemList
             items={[
               { id: '1', title: 'Interview expert', description: 'Vision 2027', meta: 'Interview', onClick: () => {} },
@@ -5766,7 +5807,7 @@ const COMPONENTS: ComponentEntry[] = [
           />
         </div>
         <div>
-          <p className="text-caption text-ink-500 mb-stack-xs uppercase tracking-wider font-semibold">href → &lt;a&gt; anchor (dans l'app via useNavigate)</p>
+          <p className="text-caption text-ink-600 mb-stack-xs font-semibold">href → &lt;a&gt; anchor (dans l'app via useNavigate)</p>
           <RelatedItemList
             items={[
               { id: '4', title: 'Webinaire replay', description: 'IA & pédagogie : retour d\'expérience', meta: 'Vidéo', onClick: () => {} },
@@ -5775,7 +5816,7 @@ const COMPONENTS: ComponentEntry[] = [
           />
         </div>
         <div>
-          <p className="text-caption text-ink-500 mb-stack-xs uppercase tracking-wider font-semibold">Sans interaction (display-only)</p>
+          <p className="text-caption text-ink-600 mb-stack-xs font-semibold">Sans interaction (display-only)</p>
           <RelatedItemList
             items={[
               { id: '6', title: 'Sans lien interactif', description: 'Item purement displayonly (pas de href ni onClick)', meta: 'Lecture' },
@@ -5828,7 +5869,7 @@ const COMPONENTS: ComponentEntry[] = [
           <IconChip size="sm"><Target /></IconChip>
           <IconChip size="md"><Target /></IconChip>
           <IconChip size="lg"><Target /></IconChip>
-          <span className="text-micro text-ink-500 font-mono">xs 24 · sm 32 · md 40 · lg 48</span>
+          <span className="text-caption text-ink-600 font-mono">xs 24 · sm 32 · md 40 · lg 48</span>
         </div>
         <div className="hstack flex-wrap">
           <IconChip size="md" tone="brand"><BookOpen /></IconChip>
@@ -5854,7 +5895,7 @@ const COMPONENTS: ComponentEntry[] = [
             ['sun', 'bg-accent-50 border-accent-200', <Trophy key="i" />, 'Carte accent-50'],
           ] as const).map(([chipTone, surfaceClasses, icon, label]) => (
             <div key={chipTone} className={['flex flex-col gap-stack-sm rounded-xl border p-stack-lg', surfaceClasses].join(' ')}>
-              <span className="text-micro text-ink-700 font-mono">{label}</span>
+              <span className="text-caption text-ink-700 font-mono">{label}</span>
               <div className="flex items-center gap-stack-sm">
                 <IconChip size="md" tone={chipTone}>{icon}</IconChip>
                 <span className="text-body text-ink-700">défaut : cran 50, se fond</span>
@@ -5903,7 +5944,7 @@ const COMPONENTS: ComponentEntry[] = [
     usedBy: [],
     render: () => (
       <div className="relative min-h-[120px] border border-ink-100 rounded-lg overflow-hidden bg-ink-50">
-        <p className="p-stack text-caption text-ink-500 italic">ConsentBanner — position fixed bottom dans l'app réelle. Démo statique ci-dessous :</p>
+        <p className="p-stack text-caption text-ink-600 italic">ConsentBanner — position fixed bottom dans l'app réelle. Démo statique ci-dessous :</p>
         <div className="relative bg-white/95 border-t border-ink-100 shadow-lg p-stack">
           <div className="flex flex-col md:flex-row md:items-center gap-stack-xs">
             <div className="flex-1 text-body text-ink-600">
@@ -5937,7 +5978,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-section items-center">
         <div className="flex flex-wrap gap-section justify-center items-start">
           <div className="flex flex-col items-center gap-stack-xs">
-            <span className="text-caption text-ink-500">sm — sans cible</span>
+            <span className="text-caption text-ink-600">sm — sans cible</span>
             <CompetencyRadar
               size="sm"
               axes={[
@@ -5952,7 +5993,7 @@ const COMPONENTS: ComponentEntry[] = [
             />
           </div>
           <div className="flex flex-col items-center gap-stack-xs">
-            <span className="text-caption text-ink-500">md — avec objectifs cibles</span>
+            <span className="text-caption text-ink-600">md — avec objectifs cibles</span>
             <CompetencyRadar
               size="md"
               axes={[
@@ -5967,7 +6008,7 @@ const COMPONENTS: ComponentEntry[] = [
             />
           </div>
         </div>
-        <p className="text-caption text-ink-500 text-center max-w-prose">Clic sur les labels d'axes → drill-down (console.log). Échelle Dreyfus 1–5.</p>
+        <p className="text-caption text-ink-600 text-center max-w-prose">Clic sur les labels d'axes → drill-down (console.log). Échelle Dreyfus 1–5.</p>
       </div>
     ),
   },
@@ -6000,7 +6041,7 @@ const COMPONENTS: ComponentEntry[] = [
               <span className="text-body font-semibold text-ink-900">Prompt Engineering avancé</span>
               <AITransparencyLabel variant="recommended" size="sm" />
             </div>
-            <p className="text-caption text-ink-500">Exemple d'usage en contexte — label inline sur une recommandation IA</p>
+            <p className="text-caption text-ink-600">Exemple d'usage en contexte — label inline sur une recommandation IA</p>
           </div>
         </div>
       </div>
@@ -6022,7 +6063,7 @@ const COMPONENTS: ComponentEntry[] = [
           <AIOverrideButton label="Override suggestion" size="md" onOverride={(r) => console.log('Override:', r)} />
         </div>
         <div className="border border-ink-100 rounded-lg p-stack flex flex-col gap-stack-xs">
-          <p className="text-caption text-ink-500 font-medium">Avec raison obligatoire (requireReason=true) :</p>
+          <p className="text-caption font-semibold text-ink-600">Avec raison obligatoire (requireReason=true) :</p>
           <AIOverrideButton
             requireReason
             onOverride={(r) => console.log('Override with reason:', r)}
@@ -6045,22 +6086,22 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-stack">
         <div className="flex flex-wrap gap-stack-xs items-center">
-          <span className="text-caption text-ink-500">≤ 90j :</span>
-          <span className="text-caption text-ink-500 italic">(rien affiché)</span>
+          <span className="text-caption text-ink-600">≤ 90j :</span>
+          <span className="text-caption text-ink-600 italic">(rien affiché)</span>
           <AtrophieIndicator daysSinceActivity={45} />
         </div>
         <div className="flex flex-wrap gap-stack-xs items-center">
-          <span className="text-caption text-ink-500">91–180j :</span>
+          <span className="text-caption text-ink-600">91–180j :</span>
           <AtrophieIndicator daysSinceActivity={94} currentLevel={3} size="sm" />
           <AtrophieIndicator daysSinceActivity={130} currentLevel={2} size="md" />
         </div>
         <div className="flex flex-wrap gap-stack-xs items-center">
-          <span className="text-caption text-ink-500">&gt; 180j (critique) :</span>
+          <span className="text-caption text-ink-600">&gt; 180j (critique) :</span>
           <AtrophieIndicator daysSinceActivity={210} currentLevel={4} size="sm" />
           <AtrophieIndicator daysSinceActivity={365} size="md" />
         </div>
         <div className="flex flex-wrap gap-stack-xs items-center">
-          <span className="text-caption text-ink-500">Sans label :</span>
+          <span className="text-caption text-ink-600">Sans label :</span>
           <AtrophieIndicator daysSinceActivity={100} showLabel={false} />
           <AtrophieIndicator daysSinceActivity={200} showLabel={false} />
         </div>
@@ -6194,7 +6235,7 @@ const COMPONENTS: ComponentEntry[] = [
       return (
         <div className="flex flex-col gap-section max-w-2xl">
           <div className="flex flex-col gap-stack">
-            <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Single-select · tone warm · icon-top</span>
+            <span className="text-caption font-semibold text-ink-600">Single-select · tone warm · icon-top</span>
             <OptionGrid
               tone="warm"
               value={role}
@@ -6211,7 +6252,7 @@ const COMPONENTS: ComponentEntry[] = [
             />
           </div>
           <div className="flex flex-col gap-stack">
-            <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Multi-select · tone brand · text-only</span>
+            <span className="text-caption font-semibold text-ink-600">Multi-select · tone brand · text-only</span>
             <OptionGrid
               multi
               tone="brand"
@@ -6242,7 +6283,7 @@ const COMPONENTS: ComponentEntry[] = [
       const [level, setLevel] = React.useState<number | undefined>(3);
       return (
         <div className="flex flex-col gap-stack max-w-content">
-          <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Tone warm · niveau 3 sélectionné</span>
+          <span className="text-caption font-semibold text-ink-600">Tone warm · niveau 3 sélectionné</span>
           <DreyfusLevelSelector tone="warm" value={level} onChange={setLevel} />
         </div>
       );
@@ -6264,15 +6305,15 @@ const COMPONENTS: ComponentEntry[] = [
       return (
         <div className="flex flex-col gap-section max-w-xl">
           <div className="flex flex-col gap-stack">
-            <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Tone brand · rien sélectionné</span>
+            <span className="text-caption font-semibold text-ink-600">Tone brand · rien sélectionné</span>
             <DreyfusSlider value={v1} onChange={(n) => setV1(n)} tone="brand" />
           </div>
           <div className="flex flex-col gap-stack">
-            <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Tone warm · D3 sélectionné</span>
+            <span className="text-caption font-semibold text-ink-600">Tone warm · D3 sélectionné</span>
             <DreyfusSlider value={v2} onChange={(n) => setV2(n)} tone="warm" />
           </div>
           <div className="flex flex-col gap-stack">
-            <span className="text-caption font-semibold text-ink-500 uppercase tracking-wide">Tone sun · D2 sélectionné</span>
+            <span className="text-caption font-semibold text-ink-600">Tone sun · D2 sélectionné</span>
             <DreyfusSlider value={v3} onChange={(n) => setV3(n)} tone="sun" />
           </div>
         </div>
@@ -6347,15 +6388,15 @@ const COMPONENTS: ComponentEntry[] = [
       return (
         <div className="flex flex-col gap-stack max-w-xl">
           <div className="flex items-center gap-stack">
-            <span className="text-caption text-ink-500 w-24">Primary · md</span>
+            <span className="text-caption text-ink-600 w-24">Primary · md</span>
             <ProgressDots total={5} current={primaryIdx} tone="primary" size="md" onSelect={setPrimaryIdx} />
           </div>
           <div className="flex items-center gap-stack">
-            <span className="text-caption text-ink-500 w-24">Warm · sm</span>
+            <span className="text-caption text-ink-600 w-24">Warm · sm</span>
             <ProgressDots total={5} current={warmIdx} tone="warm" size="sm" onSelect={setWarmIdx} />
           </div>
           <div className="flex items-center gap-stack">
-            <span className="text-caption text-ink-500 w-24">Sun · xs</span>
+            <span className="text-caption text-ink-600 w-24">Sun · xs</span>
             <ProgressDots total={7} current={sunIdx} tone="sun" size="xs" onSelect={setSunIdx} />
           </div>
         </div>
@@ -6401,7 +6442,7 @@ const COMPONENTS: ComponentEntry[] = [
             onFlip={() => setFlipped((f) => !f)}
             tone={tone}
           />
-          <p className="text-center font-body text-caption text-ink-500">
+          <p className="text-center font-body text-caption text-ink-600">
             {flipped ? 'Verso visible — cliquer pour retourner' : 'Recto — cliquer pour voir la réponse'}
           </p>
         </div>
@@ -6589,7 +6630,7 @@ const COMPONENTS: ComponentEntry[] = [
             <RadioGroup name="mode" label="Mode d'apprentissage" value={v2} onChange={setV2} options={opts2} orientation="horizontal" hint="Certaines options nécessitent un abonnement" />
           </div>
           <div>
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-stack">Variant card — tone primary / warm / sun</p>
+            <p className="text-caption font-semibold text-ink-600 mb-stack">Variant card — tone primary / warm / sun</p>
             <div className="flex flex-col gap-stack">
               <RadioGroup name="goal" label="Objectif" variant="card" tone="primary" value={v1} onChange={setV1} options={opts1.slice(0,2)} orientation="horizontal" />
               <RadioGroup name="goalw" label="Ton warm" variant="card" tone="warm" value="coaching" onChange={() => {}} options={opts2.slice(0,2)} orientation="horizontal" />
@@ -6624,7 +6665,7 @@ const COMPONENTS: ComponentEntry[] = [
             <CheckboxGroup name="notifsh" label="Horizontal" value={vals} onChange={setVals} options={optsSmall} orientation="horizontal" hint={`${vals.length} sélectionnée(s)`} />
           </div>
           <div>
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 mb-stack">Variant card — tone primary</p>
+            <p className="text-caption font-semibold text-ink-600 mb-stack">Variant card — tone primary</p>
             <CheckboxGroup name="notifsc" label="Préférences" variant="card" tone="primary" value={vals} onChange={setVals} options={optsSmall} orientation="horizontal" />
           </div>
         </div>
@@ -6663,14 +6704,14 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['input', 'group', 'layout', 'form', 'grid', 'horizontal', 'vertical', 'columns'],
     render: () => (
       <div className="flex flex-col gap-section">
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Grid 2 cols</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">Grid 2 cols</p>
         <InputGroup label="Adresse postale" layout="grid" columns={2}>
           <Input label="Rue" placeholder="12 rue de la Paix" />
           <Input label="Code postal" placeholder="75001" />
           <Input label="Ville" placeholder="Paris" />
           <Input label="Pays" placeholder="France" />
         </InputGroup>
-        <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Horizontal (row)</p>
+        <p className="text-caption font-semibold text-ink-600 m-0">Horizontal (row)</p>
         <InputGroup layout="horizontal">
           <Input label="Prénom" placeholder="Marie" />
           <Input label="Nom" placeholder="Dupont" />
@@ -6699,17 +6740,18 @@ const COMPONENTS: ComponentEntry[] = [
         { key: 'name', header: 'Nom', accessor: (r: User) => <span className="font-semibold">{r.name}</span> },
         { key: 'role', header: 'Rôle', accessor: (r: User) => r.role },
         { key: 'score', header: 'Score', accessor: (r: User) => `${r.score} pts`, align: 'center' as const },
+        /* Un statut est un état : Badge, pas une pastille faite main. */
         { key: 'status', header: 'Statut', accessor: (r: User) => (
-          <span className={`inline-flex items-center px-2 py-0.5 rounded-pill text-micro font-semibold ${r.status === 'Actif' ? 'bg-success-bg text-success-fg' : 'bg-ink-100 text-ink-500'}`}>{r.status}</span>
+          <Badge variant={r.status === 'Actif' ? 'success' : 'neutral'} size="compact">{r.status}</Badge>
         )},
       ];
       return (
         <div className="flex flex-col gap-section">
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Default</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Default</p>
           <SimpleTable columns={columns} rows={data} keyExtractor={(r) => r.id} />
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Striped + clickable</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Striped + clickable</p>
           <SimpleTable columns={columns} rows={data} keyExtractor={(r) => r.id} striped onRowClick={() => {}} />
-          <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0">Empty state</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Empty state</p>
           <SimpleTable columns={columns} rows={[]} keyExtractor={(r) => r.id} emptyLabel="Aucun membre dans cette équipe" />
         </div>
       );
@@ -6734,7 +6776,7 @@ const COMPONENTS: ComponentEntry[] = [
           renderItem={(item) => (
             <div key={item.id} className="flex items-center justify-between px-stack py-3 border-b border-ink-100 last:border-0 hover:bg-ink-50 rounded-lg transition-colors">
               <span className="font-semibold text-ink-900">{item.title}</span>
-              <span className="text-caption text-ink-500">{item.category}</span>
+              <span className="text-caption text-ink-600">{item.category}</span>
             </div>
           )}
           listClassName="border border-ink-200 rounded-xl overflow-hidden"
@@ -6770,7 +6812,7 @@ const COMPONENTS: ComponentEntry[] = [
           renderItem={(item) => (
             <div key={item.id} className="flex items-center justify-between px-stack py-3 border-b border-ink-100 last:border-0 hover:bg-ink-50 rounded-lg transition-colors">
               <span className="font-semibold text-ink-900">{item.title}</span>
-              <span className="text-caption text-primary-700 font-medium">{item.cat}</span>
+              <span className="text-caption text-ink-600">{item.cat}</span>
             </div>
           )}
           listClassName="border border-ink-200 rounded-xl overflow-hidden"
@@ -6798,20 +6840,20 @@ const COMPONENTS: ComponentEntry[] = [
       return (
         <div className="flex flex-col gap-section">
           <div>
-            <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mb-3">Horizontal — step 2/4</p>
+            <p className="text-caption font-semibold text-ink-600 m-0 mb-3">Horizontal — step 2/4</p>
             <StepIndicator steps={STEPS} currentStep={2} orientation="horizontal" tone="primary" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-stack">
             <div>
-              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mb-3">Vertical — primary</p>
+              <p className="text-caption font-semibold text-ink-600 m-0 mb-3">Vertical — primary</p>
               <StepIndicator steps={STEPS} currentStep={1} orientation="vertical" tone="primary" />
             </div>
             <div>
-              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mb-3">Vertical — warm</p>
+              <p className="text-caption font-semibold text-ink-600 m-0 mb-3">Vertical — warm</p>
               <StepIndicator steps={STEPS} currentStep={2} orientation="vertical" tone="warm" />
             </div>
             <div>
-              <p className="text-caption font-bold uppercase tracking-wider text-ink-500 m-0 mb-3">Vertical — sun</p>
+              <p className="text-caption font-semibold text-ink-600 m-0 mb-3">Vertical — sun</p>
               <StepIndicator steps={STEPS} currentStep={3} orientation="vertical" tone="sun" />
             </div>
           </div>
@@ -6853,18 +6895,19 @@ const COMPONENTS: ComponentEntry[] = [
             onDestructive={() => setOpen(false)}
             size="sm"
           >
-            <div className="flex flex-col gap-stack-xs">
-              <label className="text-body font-semibold text-ink-900">Prénom</label>
-              <input className="w-full h-10 px-3 rounded-lg border border-ink-200 text-body focus:outline-none focus:border-primary-400 focus:ring-2 focus:ring-primary-100" defaultValue="Marie" />
-            </div>
-            <div className="flex flex-col gap-stack-xs">
-              <label className="text-body font-semibold text-ink-900">Rôle</label>
-              <select className="w-full h-10 px-3 rounded-lg border border-ink-200 text-body focus:outline-none focus:border-primary-400 h-auto min-h-[44px] appearance-none bg-white">
-                <option>Apprenante</option>
-                <option>Manager</option>
-                <option>Coach</option>
-              </select>
-            </div>
+            {/* Les champs du système, pas des imitations : la démo posait un
+                <input> fait main à 40 px, filet ink-200 (1,5:1). */}
+            <Input label="Prénom" id="modalform-prenom" defaultValue="Marie" />
+            <Select
+              label="Rôle"
+              id="modalform-role"
+              options={[
+                { value: 'apprenante', label: 'Apprenante' },
+                { value: 'manager', label: 'Manager' },
+                { value: 'coach', label: 'Coach' },
+              ]}
+              defaultValue="apprenante"
+            />
           </ModalForm>
         </div>
       );
@@ -6904,17 +6947,18 @@ const COMPONENTS: ComponentEntry[] = [
           renderCard={(item, _, layout) =>
             layout === 'grid' ? (
               <div key={item.id} className="flex flex-col gap-stack-xs p-stack rounded-xl border border-ink-200 bg-white hover:border-primary-300 hover:shadow-sm transition-all">
-                <span className="inline-flex self-start px-2 py-0.5 rounded-pill bg-primary-50 text-primary-800 text-micro font-semibold">{item.cat}</span>
-                <p className="font-semibold text-ink-900 text-body m-0">{item.title}</p>
-                <p className="text-caption text-ink-500 m-0">{item.author}</p>
+                {/* La catégorie est une donnée : MetaPill (arbitrages n°14-15). */}
+                <MetaPill text={item.cat} tone="primary" className="self-start" />
+                <p className="font-semibold text-ink-900 text-body">{item.title}</p>
+                <p className="text-caption text-ink-600">{item.author}</p>
               </div>
             ) : (
               <div key={item.id} className="flex items-center justify-between px-stack py-3 rounded-xl border border-ink-200 bg-white hover:border-primary-300 transition-all">
                 <div className="flex items-center gap-stack-xs">
-                  <span className="inline-flex px-2 py-0.5 rounded-pill bg-primary-50 text-primary-800 text-micro font-semibold shrink-0">{item.cat}</span>
-                  <p className="font-semibold text-ink-900 text-body m-0">{item.title}</p>
+                  <MetaPill text={item.cat} tone="primary" className="shrink-0" />
+                  <p className="font-semibold text-ink-900 text-body">{item.title}</p>
                 </div>
-                <p className="text-caption text-ink-500 m-0 shrink-0 ml-3">{item.author}</p>
+                <p className="text-caption text-ink-600 m-0 shrink-0 ml-3">{item.author}</p>
               </div>
             )
           }
@@ -7506,7 +7550,7 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-stack">
         <div>
-          <p className="m-0 mb-stack-xs text-caption text-ink-500">cols=&#123;3&#125;</p>
+          <p className="m-0 mb-stack-xs text-caption text-ink-600">cols=&#123;3&#125;</p>
           <Grid cols={3} gap="stack-xs">
             {[1, 2, 3, 4, 5, 6].map((n) => (
               <div key={n} className="rounded-md bg-ink-50 border border-ink-200 py-3 text-center text-caption">{n}</div>
@@ -7514,7 +7558,7 @@ const COMPONENTS: ComponentEntry[] = [
           </Grid>
         </div>
         <div>
-          <p className="m-0 mb-stack-xs text-caption text-ink-500">min=&quot;180px&quot; — s&apos;adapte sans breakpoint</p>
+          <p className="m-0 mb-stack-xs text-caption text-ink-600">min=&quot;180px&quot; — s&apos;adapte sans breakpoint</p>
           <Grid min="180px" gap="stack-xs">
             {['A', 'B', 'C', 'D'].map((n) => (
               <div key={n} className="rounded-md bg-primary-50 border border-primary-200 py-3 text-center text-caption">{n}</div>
@@ -7534,7 +7578,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex gap-section">
         {(['stack-xs', 'stack', 'stack-lg'] as const).map((g) => (
           <div key={g} className="flex-1">
-            <p className="m-0 mb-stack-xs text-caption text-ink-500">gap=&quot;{g}&quot;</p>
+            <p className="m-0 mb-stack-xs text-caption text-ink-600">gap=&quot;{g}&quot;</p>
             <Stack gap={g}>
               <div className="rounded-md bg-ink-50 border border-ink-200 py-2 text-center text-caption">A</div>
               <div className="rounded-md bg-ink-50 border border-ink-200 py-2 text-center text-caption">B</div>
@@ -7573,7 +7617,7 @@ const COMPONENTS: ComponentEntry[] = [
     keywords: ['bottom', 'nav', 'mobile', 'tabbar', 'fixed', 'responsive', 'md:hidden'],
     render: () => (
       <div className="flex flex-col gap-stack-xs">
-        <p className="m-0 text-caption text-ink-500">
+        <p className="m-0 text-caption text-ink-600">
           Cadre de 380px — la barre n&apos;apparait qu&apos;en dessous de 768px de large.
         </p>
         <div className="relative h-40 w-full max-w-[380px] overflow-hidden rounded-2xl border border-ink-200 bg-ink-50 [transform:translate(0)]">
@@ -7617,11 +7661,11 @@ const COMPONENTS: ComponentEntry[] = [
     render: () => (
       <div className="flex flex-col gap-stack">
         <div>
-          <p className="m-0 mb-stack-xs text-caption text-ink-500">layout=&quot;list&quot;</p>
+          <p className="m-0 mb-stack-xs text-caption text-ink-600">layout=&quot;list&quot;</p>
           <SkeletonGroup count={2} template={ActivityItemSkeleton} layout="list" />
         </div>
         <div>
-          <p className="m-0 mb-stack-xs text-caption text-ink-500">layout=&quot;grid-3&quot;</p>
+          <p className="m-0 mb-stack-xs text-caption text-ink-600">layout=&quot;grid-3&quot;</p>
           <SkeletonGroup count={3} template={StatCardSkeleton} layout="grid-3" />
         </div>
       </div>
@@ -8020,8 +8064,8 @@ const EDITORIAL_TYPE_TOKENS: TokenEntry[] = [
    titres lâches et le petit texte illisible. */
 const TRACKING_TOKENS: TokenEntry[] = [
   { name: 'tracking-display', cssVar: '--tracking-display', value: '-0.03em — h1, hero', group: 'Serrage (tracking)', type: 'typography' },
-  { name: 'tracking-headline', cssVar: '--tracking-headline', value: '-0.025em — h2, h3', group: 'Serrage (tracking)', type: 'typography' },
-  { name: 'tracking-snug', cssVar: '--tracking-snug', value: '-0.02em — h4', group: 'Serrage (tracking)', type: 'typography' },
+  { name: 'tracking-headline', cssVar: '--tracking-headline', value: '-0.025em — h2', group: 'Serrage (tracking)', type: 'typography' },
+  { name: 'tracking-snug', cssVar: '--tracking-snug', value: '-0.02em — h3 (et h4, qui n’a plus de pas à lui)', group: 'Serrage (tracking)', type: 'typography' },
   { name: 'tracking-label', cssVar: '--tracking-label', value: '+0.05em — le seul positif : étiquettes en capitales', group: 'Serrage (tracking)', type: 'typography' },
 ];
 
@@ -8065,10 +8109,10 @@ const RADIUS_TOKENS: TokenEntry[] = [
   { name: 'xs', cssVar: '--radius-xs', value: '4 px', group: 'Rayons', type: 'radius' },
   { name: 'sm', cssVar: '--radius-sm', value: '6 px', group: 'Rayons', type: 'radius' },
   { name: 'md', cssVar: '--radius-md', value: '10 px', group: 'Rayons', type: 'radius' },
-  { name: 'lg', cssVar: '--radius-lg', value: '14 px — le rayon des cartes', group: 'Rayons', type: 'radius' },
-  { name: 'xl', cssVar: '--radius-xl', value: '20 px', group: 'Rayons', type: 'radius' },
-  { name: '2xl', cssVar: '--radius-2xl', value: '24 px', group: 'Rayons', type: 'radius' },
-  { name: 'pill', cssVar: '--radius-pill', value: '999 px — boutons, badges', group: 'Rayons', type: 'radius' },
+  { name: 'lg', cssVar: '--radius-lg', value: '14 px — étage interactif : boutons, champs, rangées', group: 'Rayons', type: 'radius' },
+  { name: 'xl', cssVar: '--radius-xl', value: '20 px — étage conteneur : cartes', group: 'Rayons', type: 'radius' },
+  { name: '2xl', cssVar: '--radius-2xl', value: '24 px — étage surcouche : modales, tiroirs', group: 'Rayons', type: 'radius' },
+  { name: 'pill', cssVar: '--radius-pill', value: '999 px — étiquettes sous 28 px, bouton icône', group: 'Rayons', type: 'radius' },
 ];
 
 /* Depuis la passe de sobriété du 2026-09-09, les cartes n'ont plus d'ombre : la
@@ -8105,9 +8149,9 @@ const SHADOW_TOKENS: TokenEntry[] = [
 const ICON_TOKENS: TokenEntry[] = [
   { name: '2xs', cssVar: '--icon-size-2xs', value: '14 px — méta-données, pastilles, chevrons · 770 usages', group: 'Icônes — interface', type: 'icon' },
   { name: 'xs', cssVar: '--icon-size-xs', value: '16 px — avec caption (13 px) · bouton sm', group: 'Icônes — interface', type: 'icon' },
-  { name: 'sm', cssVar: '--icon-size-sm', value: '18 px — avec body-sm (15 px) · bouton md', group: 'Icônes — interface', type: 'icon' },
+  { name: 'sm', cssVar: '--icon-size-sm', value: '18 px — avec le corps (16 px) · bouton md', group: 'Icônes — interface', type: 'icon' },
   { name: 'md', cssVar: '--icon-size-md', value: '20 px — avec body (16 px) · bouton lg', group: 'Icônes — interface', type: 'icon' },
-  { name: 'lg', cssVar: '--icon-size-lg', value: '24 px — avec body-lg (18 px) · bouton xl', group: 'Icônes — interface', type: 'icon' },
+  { name: 'lg', cssVar: '--icon-size-lg', value: '24 px — avec le chapô (18 px)', group: 'Icônes — interface', type: 'icon' },
   { name: 'xl', cssVar: '--icon-size-xl', value: '28 px — le plus grand cran d’interface', group: 'Icônes — interface', type: 'icon' },
   { name: '2xl', cssVar: '--icon-size-2xl', value: '32 px — vignettes, en-têtes de carte', group: 'Icônes — affichage', type: 'icon' },
   { name: '3xl', cssVar: '--icon-size-3xl', value: '40 px — états vides', group: 'Icônes — affichage', type: 'icon' },
@@ -8357,21 +8401,41 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
   }
 
   if (t.type === 'typography') {
-    const isDisplay = t.group === 'Display';
-    const fontSize = isDisplay ? '2rem' : t.value.split(' ')[0];
+    /* Le spécimen se dessine depuis la VARIABLE, comme les couleurs et les
+       ombres. Il lisait la taille dans la chaîne `value` (« 36 px · 44… ») et
+       passait « 36 » sans unité : le navigateur l'ignorait, et les vingt et un
+       spécimens rendaient à 16 px, les titres en graisse 600 — mesuré au
+       navigateur le 2026-09-24. `tracking-label` tombait, lui, à 0,8 px
+       (« +0.05em » lu comme une taille). La table était juste ; son rendu ne
+       montrait aucune échelle.
+       Spécimen décoratif (aria-hidden) : la valeur lisible est dans la méta. */
+    const DISPLAY = ['h1', 'h2', 'h3', 'hero', 'section', 'title', 'feature', 'stat-value', 'stat-value-lg'];
+    const GRAND = ['h1', 'hero', 'section', 'title', 'stat-value', 'stat-value-lg'];
+    let style: React.CSSProperties;
+    let specimen = 'Aa Éé Öö 1234';
+    if (t.group === 'Familles') {
+      style = { fontFamily: `var(${t.cssVar})`, fontSize: 'var(--text-h3)' };
+    } else if (t.group === 'Serrage (tracking)') {
+      style = t.name === 'tracking-label'
+        ? { fontFamily: 'var(--font-body)', fontSize: 'var(--text-micro)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: `var(${t.cssVar})` }
+        : { fontFamily: 'var(--font-display)', fontSize: 'var(--text-h2)', fontWeight: 700, letterSpacing: `var(${t.cssVar})` };
+      specimen = t.name === 'tracking-label' ? 'À venir' : 'Parcours';
+    } else {
+      const display = DISPLAY.includes(t.name);
+      if (GRAND.includes(t.name)) specimen = 'Aa 12';
+      style = {
+        fontFamily: display ? 'var(--font-display)' : 'var(--font-body)',
+        fontSize: `var(${t.cssVar})`,
+        lineHeight: `var(${t.cssVar}--line-height, 1.2)`,
+        fontWeight: `var(${t.cssVar}--font-weight, ${display ? 700 : 400})` as React.CSSProperties['fontWeight'],
+        letterSpacing: `var(${t.cssVar}--letter-spacing, normal)`,
+        ...(t.name === 'micro' ? { fontWeight: 700, textTransform: 'uppercase' as const, letterSpacing: 'var(--tracking-label)' } : {}),
+      };
+    }
     return (
       <div className="token-card token-card--wide">
-        <div
-          className="token-card__typography"
-          style={{
-            fontFamily: t.name.startsWith('display') || t.name.startsWith('h')
-              ? 'League Spartan, sans-serif'
-              : 'Nunito, sans-serif',
-            fontSize,
-            fontWeight: t.name.startsWith('h') || t.name.startsWith('display') ? 600 : 400,
-          }}
-        >
-          Aa Éé Öö 1234
+        <div aria-hidden className="token-card__typography" style={style}>
+          {specimen}
         </div>
         <div className="token-card__meta">
           <p className="token-card__name">{t.name}</p>
@@ -8487,7 +8551,7 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
           }}
         >
           <div className={`absolute inset-2 rounded-md bg-white/40 backdrop-blur-${suffix} flex items-center justify-center`}>
-            <span className="text-micro font-bold text-white drop-shadow">{t.value}</span>
+            <span className="text-caption font-semibold text-ink-900">{t.value}</span>
           </div>
         </div>
         <div className="token-card__meta">
@@ -8513,7 +8577,7 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
       <div className="token-card">
         <div className="h-[72px] rounded-md bg-ink-100/30 p-3 flex items-center justify-center">
           <div className={`${bgClass} w-full h-full rounded-sm border border-ink-200 shadow-xs flex items-center justify-center`}>
-            <span className="text-micro font-mono text-ink-600">{t.name}</span>
+            <span className="text-caption font-mono text-ink-600">{t.name}</span>
           </div>
         </div>
         <div className="token-card__meta">
@@ -8533,18 +8597,16 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
        corrigé dans Button le 2026-09-09. */
     const box = `icon-${t.name}`;
     const paired: Record<string, string> = {
-      '2xs': 'text-micro', xs: 'text-caption', sm: 'text-body', md: 'text-body',
-      lg: 'text-body-lg', xl: 'text-h3', '2xl': 'text-h3', '3xl': 'text-h3', '4xl': 'text-h3',
+      '2xs': 'text-micro font-body', xs: 'text-caption font-body', sm: 'text-body font-body', md: 'text-body font-body',
+      lg: 'text-body-lg font-body', xl: 'text-h3 font-display', '2xl': 'text-h3 font-display', '3xl': 'text-h3 font-display', '4xl': 'text-h3 font-display',
     };
     return (
       <div className="token-card">
         <div className="h-[88px] rounded-md bg-ink-50 flex items-center justify-center gap-stack-xs">
           <span className={`${box} inline-flex items-center justify-center bg-primary-100 rounded-xs text-primary-800 [&>svg]:w-full [&>svg]:h-full`}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <circle cx="12" cy="12" r="9" /><path d="M12 8v8M8 12h8" />
-            </svg>
+            <CirclePlus strokeWidth={2} aria-hidden />
           </span>
-          <span className={`${paired[t.name] ?? 'text-body'} font-body text-ink-700`}>Étiquette</span>
+          <span className={`${paired[t.name] ?? 'text-body font-body'} text-ink-700`}>Étiquette</span>
         </div>
         <div className="token-card__meta">
           <p className="token-card__name">icon-{t.name}</p>
@@ -8562,7 +8624,7 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
     return (
       <div className="token-card">
         <div className="h-[88px] rounded-md bg-ink-50 flex items-center justify-center">
-          <div className={`${sizeClass} rounded-md bg-primary-700 flex items-center justify-center text-white text-micro font-bold tabular-nums`}>
+          <div className={`${sizeClass} rounded-md bg-primary-700 flex items-center justify-center text-white text-caption font-semibold tabular-nums`}>
             {t.name === 'touch-lg' ? '48' : '44'}
           </div>
         </div>
@@ -8583,7 +8645,7 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
         <div className="h-[72px] rounded-md bg-ink-50 flex items-center justify-center relative overflow-hidden">
           <div className="absolute left-4 top-4 w-12 h-12 rounded-md bg-primary-300/medium" />
           <div className="absolute left-7 top-7 w-12 h-12 rounded-md bg-primary-500/overlay" />
-          <span className="relative font-display font-bold text-h3 text-white tabular-nums drop-shadow">{z}</span>
+          <span className="relative font-display text-h3 text-ink-900 tabular-nums">{z}</span>
         </div>
         <div className="token-card__meta">
           <p className="token-card__name">{t.name}</p>
@@ -8697,7 +8759,7 @@ class ComponentPreviewErrorBoundary extends React.Component<
       return (
         <div className="p-stack bg-danger-bg text-danger-fg border border-danger-base rounded-md">
           <p className="font-bold">Render Error</p>
-          <p className="text-sm font-mono">{this.state.error?.message || 'Unknown error'}</p>
+          <p className="text-caption font-mono">{this.state.error?.message || 'Unknown error'}</p>
         </div>
       );
     }
@@ -8912,15 +8974,19 @@ const Components: React.FC = () => {
 
   return (
     <div className="ds-showcase">
-      {/* -------------------------------- HERO (EditorialHero brand) ---------- */}
-      <EditorialHero
+      {/* -------------------------------- HERO (PageHero flat) ---------------- */}
+      {/* Le surtitre portait Sparkles, que DESIGN.md § 10.3 réserve aux
+          fonctions d'IA. La puce `<code>` était blanche sur blanc (1,00:1) :
+          un reste du temps où ce hero était sur fond teal. Elle prend le
+          traitement des valeurs de la vitrine, encre sur ink-50. */}
+      <PageHero
         tone="flat"
-        eyebrow={{ icon: <SparklesIcon size={12} />, label: `Design System · v1.0.0 · ${lastUpdated}` }}
+        eyebrow={{ icon: <Layers size={14} />, label: `Design System · v1.0.0 · ${lastUpdated}` }}
         title="Components"
         summary={
           <>
             Source :{' '}
-            <code className="font-mono text-[0.92em] bg-white/15 text-white px-1.5 py-0.5 rounded-sm border border-white/20">
+            <code className="font-mono text-body text-ink-900 bg-ink-50 px-1.5 py-0.5 rounded-sm border border-ink-200">
               src/components/
             </code>{' '}
             — bibliothèque vivante de {COMPONENTS.length} composants React et {ALL_TOKENS.length} tokens,
@@ -9009,7 +9075,7 @@ const Components: React.FC = () => {
                       className="inline-flex items-center gap-tight rounded-pill border border-ink-200 bg-white px-3 py-1 text-caption font-semibold text-ink-600 transition-colors duration-fast ease-standard hover:border-primary-300 hover:bg-primary-50 hover:text-primary-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
                     >
                       {subCat}
-                      <span className="text-ink-500 font-normal">{list.length}</span>
+                      <span className="text-ink-600 font-normal">{list.length}</span>
                     </a>
                   ))}
                 </nav>
@@ -9023,8 +9089,10 @@ const Components: React.FC = () => {
                       id={`sub-${componentSlug(subCat)}`}
                       className="flex items-baseline gap-stack-xs mt-stack-lg first:mt-0 pb-2 border-b border-ink-100 scroll-mt-20"
                     >
-                      <h3 className="font-display text-h3 font-semibold text-ink-700">{subCat}</h3>
-                      <span className="text-caption text-ink-500">{list.length}</span>
+                      {/* Un titre, donc 700 et ink-900 : il était en 600 ink-700,
+                          plus pâle que les noms de fiche qu'il annonce. */}
+                      <h3 className="font-display text-h3 text-ink-900">{subCat}</h3>
+                      <span className="text-caption text-ink-600 tabular-nums">{list.length}</span>
                     </div>
                   )}
 
@@ -9039,19 +9107,19 @@ const Components: React.FC = () => {
                           <div>
                             <div className="flex items-center gap-stack-xs flex-wrap">
                               <h3 className="ds-component__name">{c.name}</h3>
+                              {/* Un état, donc un Badge : la pastille était refaite
+                                  à la main, avec son propre serrage. */}
                               {c.showcaseOnly && (
-                                <span
-                                  className="inline-flex items-center gap-tight px-2 py-0.5 rounded-pill bg-accent-50 text-accent-800 border border-accent-200 text-micro font-bold uppercase tracking-wider"
-                                  title="Disponible dans le Design System mais pas (encore) consommé par une page de l'app"
-                                >
-                                  Showcase only
+                                <span title="Disponible dans le Design System mais pas (encore) consommé par une page de l'app">
+                                  <Badge variant="sun" size="compact">Vitrine seulement</Badge>
                                 </span>
                               )}
                             </div>
                             <p className="ds-component__desc">{c.description}</p>
+                            {/* Une méta : légende 13, 12 px sous la description. */}
                             {c.usedBy && c.usedBy.length > 0 && (
-                              <p className="m-0 mt-1 text-micro text-ink-500">
-                                <span className="font-bold uppercase tracking-wider mr-1.5">Used by:</span>
+                              <p className="mt-stack-sm max-w-prose text-caption text-ink-600">
+                                <span className="font-semibold">Utilisé par :</span>{' '}
                                 {c.usedBy.join(' · ')}
                               </p>
                             )}
@@ -9088,63 +9156,40 @@ const Components: React.FC = () => {
               </div>
               <div className="grid gap-stack [grid-template-columns:repeat(auto-fill,minmax(320px,1fr))]">
                 {pages.map((p) => (
+                  /* L'anatomie des cartes (doctrine § 5) : surtitre 13/600 → 4 →
+                     titre h3 20 → texte 16 ink-700 → méta → action. Le nom était
+                     en 800 (graisse du site), la famille en capitales 11 px à la
+                     couleur de sa famille (2,47 à 3,72:1), les étiquettes en
+                     pastilles faites main, et le bouton, fait main lui aussi,
+                     posait du blanc sur un cran 600 (2,64 à 3,98:1). */
                   <div
                     key={p.id}
-                    className="bg-white border border-ink-200 rounded-xl overflow-hidden flex flex-col"
+                    className="flex flex-col overflow-hidden rounded-xl border border-ink-200 bg-white"
                   >
-                    {/* Color header */}
                     <div
-                      className="flex items-center gap-stack-xs border-b border-ink-200"
-                      style={{ background: p.bg, padding: 'var(--s-5) var(--s-5) var(--s-4)' }}
+                      className="flex items-center gap-stack-sm border-b border-ink-200 px-stack-lg pt-stack-md pb-stack"
+                      style={{ background: p.bg }}
                     >
-                      <span className="text-h2 leading-none">{p.icon}</span>
-                      <div>
-                        <div
-                          className="text-micro font-bold uppercase mb-1"
-                          style={{ color: p.color, letterSpacing: '0.07em' }}
-                        >
-                          {p.family}
-                        </div>
-                        <div className="text-body font-extrabold text-ink-900">
-                          {p.name}
-                        </div>
+                      <span aria-hidden className="text-h2 leading-none">{p.icon}</span>
+                      <div className="min-w-0">
+                        <p className="text-caption font-semibold text-ink-600">{p.family}</p>
+                        <h3 className="mt-stack-3xs font-display text-h3 text-ink-900">{p.name}</h3>
                       </div>
                     </div>
 
-                    {/* Body */}
-                    <div className="flex-1 flex flex-col gap-stack-xs" style={{ padding: 'var(--s-4) var(--s-5)' }}>
-                      <p className="text-body text-ink-500 m-0">
-                        {p.description}
-                      </p>
-
-                      {/* Tags */}
-                      <div className="flex flex-wrap" style={{ gap: 'var(--s-1-5)' }}>
-                        {p.tags.map((tag) => (
-                          <span
-                            key={tag}
-                            className="bg-ink-50 border border-ink-200 rounded-pill text-micro font-semibold text-ink-500"
-                            style={{ padding: 'var(--chip-padding-xs)' }}
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-
-                      {/* Navigate button */}
-                      <button
-                        type="button"
+                    <div className="flex flex-1 flex-col gap-stack-sm px-stack-lg pt-stack pb-stack-lg">
+                      <p className="max-w-prose text-body text-ink-700">{p.description}</p>
+                      <MetaPillGroup items={p.tags.map((tag) => ({ text: tag }))} />
+                      <Button
+                        emphasis="soft"
+                        size="sm"
+                        fullWidth
+                        className="mt-auto"
+                        trailingIcon={<ArrowRight />}
                         onClick={() => navigate(p.path)}
-                        className="mt-auto inline-flex items-center justify-center rounded-pill border-none text-white font-bold text-body cursor-pointer font-body w-full transition-opacity duration-150"
-                        style={{
-                          gap: 'var(--s-1-5)',
-                          padding: 'var(--s-2) var(--s-4-5)',
-                          background: p.color,
-                        }}
-                        onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.85')}
-                        onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
                       >
-                        Ouvrir la page →
-                      </button>
+                        Ouvrir la page
+                      </Button>
                     </div>
                   </div>
                 ))}
@@ -9184,11 +9229,12 @@ const Components: React.FC = () => {
           type="button"
           onClick={scrollToTop}
           aria-label="Retour en haut de page"
-          className="fixed bottom-28 right-10 z-toast w-12 h-12 rounded-pill bg-primary-600 text-white shadow-lg flex items-center justify-center cursor-pointer transition-all duration-base hover:bg-primary-700 hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          /* Cran 700 et survol qui fonce (règle du bouton solid) ; plus de
+             soulèvement au survol (passe motion du 17/09) ; Lucide plutôt
+             qu'un SVG écrit à la main. */
+          className="fixed bottom-28 right-10 z-toast w-12 h-12 rounded-pill bg-primary-700 text-white shadow-lg flex items-center justify-center cursor-pointer transition-colors duration-base hover:bg-primary-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <polyline points="18 15 12 9 6 15" />
-          </svg>
+          <ChevronUp className="icon-md" strokeWidth={2.5} aria-hidden />
         </button>
       )}
 
@@ -9210,7 +9256,8 @@ const PAGE_STYLES = `
     padding: var(--s-8) var(--s-6);
     display: flex;
     flex-direction: column;
-    gap: var(--s-10);
+    /* 48 entre deux sections (doctrine § 5) — c'était 40. */
+    gap: var(--spacing-page);
   }
   .ds-hero {
     padding: var(--s-10) var(--s-8);
@@ -9270,17 +9317,23 @@ const PAGE_STYLES = `
     background: var(--tls-primary-600); color: #fff; border-color: var(--tls-primary-600);
   }
 
-  .ds-section { display: flex; flex-direction: column; gap: var(--s-5); }
+  /* 16 entre un titre de section et son contenu (doctrine § 5) — c'était 20. */
+  .ds-section { display: flex; flex-direction: column; gap: var(--s-4); }
   .ds-section__head {
     display: flex; align-items: baseline; justify-content: space-between;
     padding-bottom: var(--s-3); border-bottom: 1px solid var(--border);
   }
+  /* Un titre de section est un h2 : 28/36, 700. Il était au pas du h1 (36)
+     et en graisse 400 — le reset de Tailwind rend la graisse héritée, et rien
+     ici ne la reposait. Deux pas de trop pour un intitulé de catégorie, sous
+     le vrai h1 de la page. */
   .ds-section__title {
-    font-family: 'League Spartan', sans-serif; font-size: var(--text-h1);
-    margin: 0; color: var(--text);
+    font-family: var(--font-display); font-size: var(--text-h2);
+    line-height: 1.2857; letter-spacing: var(--tracking-headline);
+    font-weight: 700; margin: 0; color: var(--text);
   }
   .ds-section__count {
-    font-size: var(--text-caption); color: var(--text-muted); font-weight: 500;
+    font-size: var(--text-caption); color: var(--text-muted); font-weight: 400;
   }
 
   .ds-component-list { display: flex; flex-direction: column; gap: var(--s-6); }
@@ -9303,9 +9356,12 @@ const PAGE_STYLES = `
     font-family: 'League Spartan', sans-serif; font-size: var(--text-h3);
     font-weight: 700; margin: 0; color: var(--text);
   }
+  /* Texte secondaire long sous un titre : 16 px ink-700, largeur de lecture,
+     8 px sous le titre (doctrine § 2, 3 et 5). Il était en ink-600, la
+     couleur de la méta, sur 70 caractères et à 4 px. */
   .ds-component__desc {
-    margin: 4px 0 0; color: var(--text-muted); font-size: var(--text-body);
-    max-width: 70ch;
+    margin: var(--s-2) 0 0; color: var(--color-ink-700); font-size: var(--text-body);
+    max-width: var(--container-prose);
   }
   .ds-component__chips { display: flex; gap: var(--s-1-5); align-items: center; flex-wrap: wrap; }
 
@@ -9336,14 +9392,17 @@ const PAGE_STYLES = `
     transition: all var(--dur-2) var(--ease-standard);
   }
   .copy-chip:hover { border-color: var(--tls-primary-300); color: var(--tls-primary-800); }
-  .copy-chip__state { font-size: 10px; color: var(--text-soft); }
+  /* 10 px hors échelle, en ink-500 (placeholders seulement) : 581 textes de
+     la vitrine sous le plancher de 11 px. Il suit désormais le corps du chip. */
+  .copy-chip__state { font-size: inherit; color: var(--text-muted); }
   .copy-chip code { font: inherit; background: none; padding: 0; }
 
   /* Token grids */
   .ds-token-group { display: flex; flex-direction: column; gap: var(--s-3); margin-top: var(--s-5); }
   .ds-token-group__title {
-    font-family: 'League Spartan', sans-serif;
-    font-size: var(--text-h3); margin: 0; color: var(--text);
+    font-family: var(--font-display);
+    font-size: var(--text-h3); line-height: 1.3; letter-spacing: var(--tracking-snug);
+    font-weight: 700; margin: 0; color: var(--text);
   }
   .ds-token-grid {
     display: grid; gap: var(--s-3);
@@ -9377,7 +9436,7 @@ const PAGE_STYLES = `
   @keyframes motion-slide { from { transform: translateX(-30px); } to { transform: translateX(30px); } }
   .token-card__typography {
     padding: var(--s-4); background: var(--surface-muted); border-radius: var(--r-md);
-    color: var(--text);
+    color: var(--text); overflow: hidden;
     display: flex; align-items: center; justify-content: center;
     min-height: 72px;
   }
