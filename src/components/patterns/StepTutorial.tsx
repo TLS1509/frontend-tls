@@ -116,16 +116,21 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
             {activeStep + 1} / {steps.length}
           </Badge>
 
-          {/* Icône | texte — le texte descend de (56 − 26) / 2 = 15 px pour
-              centrer la PREMIÈRE ligne du titre sur l'icône (doctrine § 4). */}
+          {/* Icône | texte — le texte descend de (56 − 36) / 2 = 10 px pour
+              centrer la PREMIÈRE ligne du titre sur l'icône (doctrine § 4).
+              Titre d'étape : un h2 à 28 (2026-09-24). C'était un h2 dessiné à
+              20, le pas d'un titre de carte : le niveau disait « section », la
+              taille disait « bloc ». Posé sous le h1 de la page (onboarding),
+              il nomme le contenu principal — c'est un h2, et la taille suit
+              le niveau (doctrine § 6). */}
           <div className="mt-stack-sm flex items-start gap-stack">
             {step.icon && (
               <div className={['w-14 h-14 rounded-xl flex items-center justify-center shrink-0', TONE_ICON_BG[tone]].join(' ')}>
                 {step.icon}
               </div>
             )}
-            <div className={['flex flex-col gap-stack-xs min-w-0', step.icon ? 'mt-[15px]' : ''].filter(Boolean).join(' ')}>
-              <h2 className="font-display text-h3 text-ink-900 text-balance">
+            <div className={['flex flex-col gap-stack-xs min-w-0', step.icon ? 'mt-2.5' : ''].filter(Boolean).join(' ')}>
+              <h2 className="font-display text-h2 text-ink-900 text-balance">
                 {step.title}
               </h2>
               <p className="font-body text-body text-ink-700 max-w-prose">
