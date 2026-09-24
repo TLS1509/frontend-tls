@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useId, useRef } from 'react';
 import { X } from 'lucide-react';
 import { Button } from '../core/Button';
 
@@ -44,6 +44,12 @@ export const ModalForm: React.FC<ModalFormProps> = ({
 }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const firstFocusRef = useRef<HTMLButtonElement>(null);
+  /* Le dialogue se nomme par son titre, et se décrit par sa description
+     (2026-09-24). Un <dialog> n'emprunte pas son nom à son contenu : sans
+     `aria-labelledby`, Chromium lui calculait un nom vide, et un lecteur
+     d'écran annonçait « dialogue » sans dire lequel. */
+  const titreId = useId();
+  const descriptionId = useId();
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -65,6 +71,8 @@ export const ModalForm: React.FC<ModalFormProps> = ({
   return (
     <dialog
       ref={dialogRef}
+      aria-labelledby={titreId}
+      aria-describedby={description ? descriptionId : undefined}
       onClick={handleDialogClick}
       onClose={onClose}
       className={[
@@ -89,9 +97,9 @@ export const ModalForm: React.FC<ModalFormProps> = ({
             16 ink-700 (elle était en ink-500, la couleur des placeholders). */}
         <div className="flex items-start justify-between gap-stack-xs px-stack-lg pt-stack-md pb-stack border-b border-ink-100">
           <div className="flex flex-col gap-stack-xs min-w-0">
-            <h2 className="font-display text-h3 text-ink-900 text-balance">{title}</h2>
+            <h2 id={titreId} className="font-display text-h3 text-ink-900 text-balance">{title}</h2>
             {description && (
-              <p className="font-body text-body text-ink-700 max-w-prose">{description}</p>
+              <p id={descriptionId} className="font-body text-body text-ink-700 max-w-prose">{description}</p>
             )}
           </div>
           <button
