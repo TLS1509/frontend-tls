@@ -33,7 +33,7 @@ paths:
   | Étage | Famille | Rayon | Pourquoi |
   |---|---|---|---|
   | étiquette | `Badge` · `MetaPill` sm · `Chip` sm · `FilterChip` sm | `rounded-pill` | sous le seuil par construction (20 · 24 · 28 px) |
-  | interactif | `Button` (3 tailles : 36 · 44 · 52, arbitrage n°22) · `FilterChip` md · `SegmentedControl` · `QualitativeRating` · rangées de liste | **`rounded-lg`** (14) | au-dessus du seuil — ⚠️ corrigé le 2026-09-24 : `FilterChip` md fait 44 px (arbitrage n°22 : un contrôle de la ligne), la table le rangeait à tort parmi les étiquettes « sous le seuil par construction » |
+  | interactif | `Button` (3 tailles : 36 · 44 · 52, arbitrage n°22) · `FilterChip` md · `QualitativeRating` · rangées de liste | **`rounded-lg`** (14) | au-dessus du seuil — ⚠️ corrigé le 2026-09-24 : `FilterChip` md fait 44 px (arbitrage n°22 : un contrôle de la ligne), la table le rangeait à tort parmi les étiquettes « sous le seuil par construction ». `SegmentedControl` supprimé le 24/09 (aucun usage produit) — à recréer depuis l'historique git si le besoin revient (commit `360ed1f5`), à ce rayon |
   | interactif | **famille champ** (`Input` · `Select` · `Combobox` · `Search` + faits main) | **`rounded-lg`** (14) | R4 ci-dessous — 36 à 52 px de haut, donc toujours au-dessus du seuil |
   | conteneur | `Card` · `StatCard` · cartes faites main | **`rounded-xl`** (20) | l'étage le plus grand posé dans la page |
   | **surcouche** | `Modal` · modales · tiroirs · feuilles | **`rounded-2xl`** (24) | tranché le 2026-09-23 (arbitrage n°2) : plus l'objet est haut dans l'empilement, plus il est rond. Padding 24 ≥ rayon 24 : ses boutons restent des formes fixes. Material 3 va jusqu'à 28 dp, mais à 28 le padding 24 rendrait ses boutons évasés |
@@ -522,7 +522,9 @@ de l'XP, de la série et du classement — bilan : `docs/_audits/PASSES-ARBITRAG
   chapô, 11 pour les étiquettes). Chaque pas se voit (rapport ≥ 1,23).
 - **n°22 · Une échelle de hauteur commune : 36 / 44 / 52** pour tout ce qui se
   pose sur une même ligne (Button, Input, Select, Combobox, Search,
-  SegmentedControl, FilterChip). Le `Button sm` passe de 32 à 36 ; le `xl` (52)
+  FilterChip ; `SegmentedControl`, qui en était, est supprimé le 24/09 — aucun
+  usage produit ; à recréer depuis l'historique git si le besoin revient,
+  commit `360ed1f5`, sur cette échelle). Le `Button sm` passe de 32 à 36 ; le `xl` (52)
   devient le `lg`. Les étiquettes (Badge, MetaPill, Chip) gardent leur échelle,
   sous le seuil de 28 px.
 - **n°23 · Voix : « vous » pour le pilotage** (manager, entreprise, admin, CLO),

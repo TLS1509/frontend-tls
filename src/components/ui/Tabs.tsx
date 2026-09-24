@@ -69,7 +69,7 @@ export interface TabsProps
 const CONTAINER_VARIANT: Record<TabsVariant, string> = {
   // Rail de 52 px (onglet 44 + retrait 4) : au-dessus du seuil de 28 px, le rayon
   // prend l'échelle (R3) — 14 pour le rail, 14 − 4 = 10 pour l'onglet (règle des
-  // coins imbriqués). Même construction que `SegmentedControl`. (24/09)
+  // coins imbriqués). (24/09)
   // Il défile dans son cadre comme `underline` (2026-09-24) : à 375 px, quatre
   // pages avaient un onglet hors de l'écran (« Compétences » sur
   // /analytics/dashboard, « Exemples » sur /api-docs…) et des libellés tassés

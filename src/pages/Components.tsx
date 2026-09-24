@@ -243,7 +243,6 @@ import { Chip } from '../components/ui/Chip';
 import { IconChip } from '../components/ui/IconChip';
 import { Tooltip } from '../components/ui/Tooltip';
 import { Kbd } from '../components/ui/Kbd';
-import { SegmentedControl } from '../components/ui/SegmentedControl';
 import { SettingsRow } from '../components/patterns/SettingsRow';
 import { SelectableOptionCard } from '../components/patterns/SelectableOptionCard';
 import { RadioGroup } from '../components/ui/RadioGroup';
@@ -830,36 +829,6 @@ const VideoPlayerModalDemo: React.FC = () => {
 };
 
 /* ── Démos phase 4 : composants qui ont besoin d'un état local ───────────── */
-
-const SegmentedControlDemo: React.FC = () => {
-  const [vue, setVue] = useState<'liste' | 'grille' | 'calendrier'>('liste');
-  const [periode, setPeriode] = useState<'7j' | '30j' | '90j'>('30j');
-  return (
-    <div className="flex flex-col gap-stack">
-      <SegmentedControl
-        options={[
-          { value: 'liste', label: 'Liste' },
-          { value: 'grille', label: 'Grille' },
-          { value: 'calendrier', label: 'Calendrier' },
-        ]}
-        value={vue}
-        onChange={setVue}
-      />
-      <SegmentedControl
-        size="sm"
-        tone="warm"
-        options={[
-          { value: '7j', label: '7 jours' },
-          { value: '30j', label: '30 jours' },
-          { value: '90j', label: '90 jours' },
-        ]}
-        value={periode}
-        onChange={setPeriode}
-      />
-      <p className="m-0 text-caption text-ink-600">Vue : {vue} · Période : {periode}</p>
-    </div>
-  );
-};
 
 const SelectableOptionCardDemo: React.FC = () => {
   const [choix, setChoix] = useState('coach');
@@ -1681,7 +1650,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Les rayons, et ce qui va ensemble',
     codeName: 'R3 (la règle du seuil) · R4 (les champs à 14) — tranchées le 14/09/2026',
     description:
-      "La règle est celle du seuil (R3). Sous 28 px de haut, pilule et rayon 14 sont indiscernables — le navigateur plafonne le rayon à la moitié de la hauteur : la pilule y reste, elle ne coûte rien. Au-dessus, le rayon devient une déclaration et prend l'échelle étagée : 14 pour ce qui se presse ou se remplit (Button, FilterChip md, SegmentedControl et la famille champ, R4), 20 pour les cartes, 24 pour les surcouches. Le bouton-icône garde son cercle.",
+      "La règle est celle du seuil (R3). Sous 28 px de haut, pilule et rayon 14 sont indiscernables — le navigateur plafonne le rayon à la moitié de la hauteur : la pilule y reste, elle ne coûte rien. Au-dessus, le rayon devient une déclaration et prend l'échelle étagée : 14 pour ce qui se presse ou se remplit (Button, FilterChip md et la famille champ, R4), 20 pour les cartes, 24 pour les surcouches. Le bouton-icône garde son cercle.",
     keywords: ['rayon', 'radius', 'pilule', 'bouton', 'badge', 'carte', 'champ', 'input', 'cohérence'],
     render: () => {
       /* Une carte au canon : 20 px (étage conteneur), padding 24. */
@@ -1701,7 +1670,7 @@ const COMPONENTS: ComponentEntry[] = [
               <div className="grid gap-stack [grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))]">
                 {([
                   ['Badge · MetaPill · Chip sm · FilterChip sm', 'pilule', "Étage étiquette. Sous le seuil ou à lui : Badge 20, MetaPill et Chip sm 24, Badge large 26, FilterChip sm 28. La pilule y rend la même forme que 14 — la garder ne coûte rien, et c'est la convention du petit label."],
-                  ['Button · FilterChip md · SegmentedControl', 'rounded-lg (14)', "Étage interactif. Le bouton a trois tailles, 36 · 44 · 52 (arbitrage n°22 : une hauteur commune aux contrôles d'une même ligne), toutes au-dessus du seuil ; le FilterChip md fait 44, le rail du SegmentedControl 36 ou 44. Le bouton NE suit PAS la carte, passée à 20 le 16/09 : plus l'élément est grand, plus son rayon l'est, et des rayons imbriqués doivent être apparentés, pas identiques."],
+                  ['Button · FilterChip md', 'rounded-lg (14)', "Étage interactif. Le bouton a trois tailles, 36 · 44 · 52 (arbitrage n°22 : une hauteur commune aux contrôles d'une même ligne), toutes au-dessus du seuil ; le FilterChip md fait 44. Le bouton NE suit PAS la carte, passée à 20 le 16/09 : plus l'élément est grand, plus son rayon l'est, et des rayons imbriqués doivent être apparentés, pas identiques."],
                   ['Famille champ', 'rounded-lg (14)', "Étage interactif. R4, même jour : Input · Select · Combobox · Search. 36 à 52 px de haut, donc toujours au-dessus du seuil. Le composant disait 10 sans l'avoir justifié."],
                   ['Card · StatCard · rangées de liste', 'rounded-xl (20) · 14 pour les rangées', "Étage conteneur, le plus grand — décidé le 16/09. R1 l'avait posée à 14 le 09/09 ; à l'usage 14 se lisait comme un rectangle, et Figma était resté à 20 (nœud Card 1111:46, lié à radius-xl). Une rangée de liste reste à l'étage interactif, donc 14."],
                   ['Modal · tiroirs · feuilles', 'rounded-2xl (24)', "Étage surcouche (arbitrage n°2 du 23/09, le rayon des surcouches) : plus l'objet est haut dans l'empilement, plus il est rond. Son padding de 24 égale le rayon, donc ses boutons restent des formes fixes."],
@@ -6562,19 +6531,14 @@ const COMPONENTS: ComponentEntry[] = [
       const [tone, setTone] = React.useState<'primary' | 'warm' | 'sun'>('primary');
       return (
         <div className="flex flex-col items-start gap-stack max-w-2xl">
-          {/* Le choix du ton s'applique tout de suite : un SegmentedControl, pas
-              des pastilles faites main. */}
-          <SegmentedControl
-            size="sm"
-            aria-label="Ton de la carte"
-            options={[
-              { value: 'primary', label: 'primary' },
-              { value: 'warm', label: 'warm' },
-              { value: 'sun', label: 'sun' },
-            ]}
-            value={tone}
-            onChange={setTone}
-          />
+          {/* Le choix du ton s'applique tout de suite : des FilterChip sm, pas
+              des pastilles faites main (SegmentedControl, qui tenait ce rôle,
+              est supprimé le 24/09 faute d'usage produit). */}
+          <div role="group" aria-label="Ton de la carte" className="flex flex-wrap gap-stack-2xs">
+            {(['primary', 'warm', 'sun'] as const).map((t) => (
+              <FilterChip key={t} size="sm" label={t} active={tone === t} onClick={() => setTone(t)} />
+            ))}
+          </div>
           {/* La carte se centre elle-même jusqu'à 560 px : le cadre prend sa
               largeur, pour qu'elle parte du même bord que la bascule. */}
           <div className="w-full max-w-[560px]">
@@ -7639,14 +7603,6 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
       </div>
     ),
-  },
-  {
-    name: 'SegmentedControl',
-    codeName: 'ui/SegmentedControl.tsx',
-    showcaseOnly: true,
-    description: "Bascule entre deux à quatre vues exclusives. À préférer aux onglets quand il n'y a pas de contenu à titrer, et aux boutons radio quand le choix s'applique tout de suite. Palier interactif : un rail au rayon 14 de 36 · 44 · 52 (défaut md), des segments au rayon 10, libellés 13 ou 16 en 600 ; le segment actif est blanc, libellé au cran 800. Trois tons (primary · warm · sun). Son seul consommateur produit, le classement, a disparu avec l'arbitrage n°18 ; la vitrine s'en sert encore (bascule de ton de FlipCard).",
-    keywords: ['segmented', 'control', 'toggle', 'vue', 'bascule', 'filtre', 'tabs'],
-    render: () => <SegmentedControlDemo />,
   },
   {
     name: 'SettingsRow',

@@ -219,7 +219,6 @@ export const CATALOG: Record<string, CatalogMeta> = {
   Chip:                 { category: 'Atoms', subCategory: 'Chips & Pills' },
   Tooltip:              { category: 'Feedback', subCategory: 'Status messages' },
   Kbd:                  { category: 'Atoms', subCategory: 'Indicators' },
-  SegmentedControl:     { category: 'Navigation', subCategory: 'Secondary nav' },
   SettingsRow:          { category: 'Lists & Feeds', subCategory: 'Lists (vertical)' },
   SelectableOptionCard: { category: 'Cards', subCategory: 'Generic' },
   FloatLabel:           { category: 'Atoms', subCategory: 'Form fields' },

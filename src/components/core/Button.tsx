@@ -114,7 +114,7 @@ export type ButtonVariant =
 /**
  * Trois hauteurs, celles de tout ce qui se pose sur une même ligne (arbitrage
  * n°22 du 2026-09-24) : sm 36 · md 44 · lg 52 — comme Input, Select, Combobox,
- * Search, SegmentedControl et FilterChip.
+ * Search et FilterChip.
  *
  * `xl` est DÉPRÉCIÉ : il rend exactement `lg`. L'ancien `xl` (52 px) est
  * devenu le `lg` ; garder le nom évite de casser la dizaine d'appels du site.
