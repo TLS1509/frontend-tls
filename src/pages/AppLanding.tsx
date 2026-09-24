@@ -195,7 +195,9 @@ const AppLanding: React.FC = () => {
   const handleSignup = (e: React.FormEvent, emailVal: string) => {
     e.preventDefault();
     if (!emailVal.trim()) return;
-    navigate(`/auth/signup?email=${encodeURIComponent(emailVal.trim())}`);
+    // L'e-mail passe par l'état du routeur, pas par l'URL : une donnée
+    // personnelle n'a rien à faire dans l'historique ni dans les journaux.
+    navigate('/auth/signup', { state: { email: emailVal.trim() } });
   };
 
   // Hero stagger

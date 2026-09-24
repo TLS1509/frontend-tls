@@ -24,9 +24,12 @@ export const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  // Pas encore d'appel d'authentification côté front : la session vient de
+  // WordPress. On mène donc au tableau de bord. Surtout, on ne journalise
+  // rien — l'ancien console.log écrivait le mot de passe en clair.
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login attempt:', { email, password, rememberMe });
+    navigate('/dashboard');
   };
 
   return (

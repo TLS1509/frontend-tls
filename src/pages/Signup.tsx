@@ -3,7 +3,7 @@
  */
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   AuthShell,
   AuthDivider,
@@ -20,8 +20,12 @@ import { Mail, UserRound } from 'lucide-react';
 
 export const Signup: React.FC = () => {
   const navigate = useNavigate();
+  // L'e-mail saisi sur /inscription arrive par l'état du routeur : on le
+  // reprend pour ne pas le faire retaper.
+  const location = useLocation();
+  const emailTransmis = (location.state as { email?: unknown } | null)?.email;
   const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(typeof emailTransmis === 'string' ? emailTransmis : '');
   const [password, setPassword] = useState('');
   const [acceptTerms, setAcceptTerms] = useState(false);
 
@@ -71,12 +75,12 @@ export const Signup: React.FC = () => {
             label={
               <>
                 J'accepte les{' '}
-
-                <a href="#" className="text-white underline underline-offset-4 hover:text-white/85 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-white/60 rounded-sm">
+                {/* Nouvel onglet : le formulaire en cours ne doit pas se perdre. */}
+                <a href="/website/cgv-cgu" target="_blank" rel="noopener noreferrer" className="text-white underline underline-offset-4 hover:text-white/85 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-white/60 rounded-sm">
                   conditions d'utilisation
                 </a>{' '}
                 et la{' '}
-                <a href="#" className="text-white underline underline-offset-4 hover:text-white/85 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-white/60 rounded-sm">
+                <a href="/website/politique-confidentialite" target="_blank" rel="noopener noreferrer" className="text-white underline underline-offset-4 hover:text-white/85 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-white/60 rounded-sm">
                   politique de confidentialité
                 </a>
               </>
