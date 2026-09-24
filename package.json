@@ -11,6 +11,8 @@
     "check:showcase": "node scripts/check-showcase-coverage.mjs",
     "check:contrast": "node scripts/check-contrast.mjs",
     "check:radius": "node scripts/check-radius.mjs",
+    "check:typo": "node scripts/check-typo.mjs",
+    "check:rythme": "node scripts/check-rythme.mjs",
     "capture": "node scripts/capture-routes.mjs"
   },
   "dependencies": {

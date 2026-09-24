@@ -261,6 +261,8 @@ node scripts/check-showcase-coverage.mjs  # tout composant exporté est-il class
 # Au rendu — serveur de dev lancé, Chromium du cache Playwright (playwright-core) :
 npm run check:contrast                 # tout texte passe-t-il AA sur son fond RÉEL ?
 npm run check:radius                   # rayon intérieur = extérieur − retrait ?
+npm run check:typo                     # tailles, graisses, familles rendues vs l'échelle ; niveaux de titre
+npm run check:rythme                   # espace au-dessus d'un titre ≥ 1,5 × en dessous ; gaps réels
 npm run capture -- --out <dossier>     # captures pleine page, 1440 et 375, pour la critique
 ```
 
