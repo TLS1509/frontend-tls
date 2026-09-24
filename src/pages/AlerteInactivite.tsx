@@ -1,8 +1,9 @@
 import React from 'react';
-import { Bell, Settings, AlertTriangle, CheckCircle2, Clock, Users } from 'lucide-react';
-import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { Bell, Settings, AlertTriangle, CheckCircle2, Users } from 'lucide-react';
+import { PageHero } from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { DataTable, type DataTableColumn } from '../components/patterns/DataTable';
+import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { FormGroup } from '../components/core/FormGroup';
 import { Input } from '../components/core/Input';
@@ -10,22 +11,22 @@ import { Select } from '../components/core/Select';
 import { Badge } from '../components/ui/Badge';
 import { StatCard } from '../components/ui/StatCard';
 import { Alert } from '../components/ui/Alert';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 
 const ALERT_HISTORY_ROWS = [
   {
     apprenant: (
-      <div className="flex flex-col gap-tight">
+      <div className="flex flex-col gap-stack-3xs">
         <span className="font-semibold text-ink-900">Marie Dupont</span>
-        <span className="text-micro text-ink-500">Commercial · Équipe Sud</span>
+        <span className="text-caption text-ink-600">Commercial · Équipe Sud</span>
       </div>
     ),
-    jours: <span className="font-bold text-danger-fg">21 jours</span>,
+    jours: <span className="font-semibold text-ink-900 tabular-nums whitespace-nowrap">21 jours</span>,
     joursTri: 21,
-    statut: <Badge variant="danger" size="compact">En cours</Badge>,
-    date: <span className="text-caption text-ink-600">08 mai 2026</span>,
+    statut: <Badge variant="warm" size="compact">En cours</Badge>,
+    date: <span className="text-caption text-ink-600">8 mai 2026</span>,
     dateTri: '2026-05-08',
     action: (
       <Button emphasis="link" size="sm">
@@ -35,15 +36,15 @@ const ALERT_HISTORY_ROWS = [
   },
   {
     apprenant: (
-      <div className="flex flex-col gap-tight">
+      <div className="flex flex-col gap-stack-3xs">
         <span className="font-semibold text-ink-900">Thomas Bernard</span>
-        <span className="text-micro text-ink-500">Manager · Équipe Nord</span>
+        <span className="text-caption text-ink-600">Manager · Équipe Nord</span>
       </div>
     ),
-    jours: <span className="font-bold text-success-fg">18 jours</span>,
+    jours: <span className="font-semibold text-ink-900 tabular-nums whitespace-nowrap">18 jours</span>,
     joursTri: 18,
     statut: <Badge variant="success" size="compact">Résolue</Badge>,
-    date: <span className="text-caption text-ink-600">05 mai 2026</span>,
+    date: <span className="text-caption text-ink-600">5 mai 2026</span>,
     dateTri: '2026-05-05',
     action: (
       <Button emphasis="link" size="sm">
@@ -53,15 +54,15 @@ const ALERT_HISTORY_ROWS = [
   },
   {
     apprenant: (
-      <div className="flex flex-col gap-tight">
+      <div className="flex flex-col gap-stack-3xs">
         <span className="font-semibold text-ink-900">Camille Rousseau</span>
-        <span className="text-micro text-ink-500">RH · Siège</span>
+        <span className="text-caption text-ink-600">RH · Siège</span>
       </div>
     ),
-    jours: <span className="font-bold text-warning-fg">16 jours</span>,
+    jours: <span className="font-semibold text-ink-900 tabular-nums whitespace-nowrap">16 jours</span>,
     joursTri: 16,
-    statut: <Badge variant="sun" size="compact">En cours</Badge>,
-    date: <span className="text-caption text-ink-600">03 mai 2026</span>,
+    statut: <Badge variant="warm" size="compact">En cours</Badge>,
+    date: <span className="text-caption text-ink-600">3 mai 2026</span>,
     dateTri: '2026-05-03',
     action: (
       <Button emphasis="link" size="sm">
@@ -71,12 +72,12 @@ const ALERT_HISTORY_ROWS = [
   },
   {
     apprenant: (
-      <div className="flex flex-col gap-tight">
+      <div className="flex flex-col gap-stack-3xs">
         <span className="font-semibold text-ink-900">Lucas Martin</span>
-        <span className="text-micro text-ink-500">Développeur · Tech</span>
+        <span className="text-caption text-ink-600">Développeur · Tech</span>
       </div>
     ),
-    jours: <span className="font-bold text-ink-500">14 jours</span>,
+    jours: <span className="font-semibold text-ink-900 tabular-nums whitespace-nowrap">14 jours</span>,
     joursTri: 14,
     statut: <Badge variant="neutral" size="compact">Ignorée</Badge>,
     date: <span className="text-caption text-ink-600">28 avr. 2026</span>,
@@ -89,12 +90,12 @@ const ALERT_HISTORY_ROWS = [
   },
   {
     apprenant: (
-      <div className="flex flex-col gap-tight">
+      <div className="flex flex-col gap-stack-3xs">
         <span className="font-semibold text-ink-900">Sophie Leclerc</span>
-        <span className="text-micro text-ink-500">Finance · Comptabilité</span>
+        <span className="text-caption text-ink-600">Finance · Comptabilité</span>
       </div>
     ),
-    jours: <span className="font-bold text-success-fg">19 jours</span>,
+    jours: <span className="font-semibold text-ink-900 tabular-nums whitespace-nowrap">19 jours</span>,
     joursTri: 19,
     statut: <Badge variant="success" size="compact">Résolue</Badge>,
     date: <span className="text-caption text-ink-600">25 avr. 2026</span>,
@@ -109,12 +110,13 @@ const ALERT_HISTORY_ROWS = [
 
 // Les cellules sont des nœuds stylés : le tri lit les valeurs brutes
 // `joursTri` / `dateTri`, portées par la rangée mais jamais affichées.
+// Alignement : le texte à gauche, les nombres et l'action à droite.
 const TABLE_COLUMNS: DataTableColumn[] = [
   { key: 'apprenant', label: 'Apprenant', sortable: false },
-  { key: 'jours', label: 'Jours d\'inactivité', sortable: true, align: 'center', sortValue: (r) => r.joursTri as number },
-  { key: 'statut', label: 'Statut', sortable: false, align: 'center' },
+  { key: 'jours', label: 'Jours d\'inactivité', sortable: true, align: 'right', sortValue: (r) => r.joursTri as number },
+  { key: 'statut', label: 'Statut', sortable: false },
   { key: 'date', label: 'Envoyé le', sortable: true, sortValue: (r) => r.dateTri as string },
-  { key: 'action', label: 'Action', sortable: false, align: 'center' },
+  { key: 'action', label: 'Action', sortable: false, align: 'right' },
 ];
 
 const PRIORITY_OPTIONS = [
@@ -132,12 +134,17 @@ const FREQUENCY_OPTIONS = [
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
+/* Passe typographique du 2026-09-24 : une seule coque (l'en-tête collait au
+   haut de la fenêtre et partait 32 px à gauche du contenu) ; deux sections à
+   h2 hors des cartes ; les jours d'inactivité en encre (une couleur par
+   rangée — rouge, vert, brun, gris — sans légende) ; « En cours » a un seul
+   ton ; le compte des alertes chuchote en méta au lieu d'un `Badge`. */
 export default function AlerteInactivite() {
   return (
-    <div className="flex flex-col gap-section">
-      <EditorialHero
-        eyebrow="Enterprise · Alertes"
-        title="Alertes Inactivité"
+    <PageShell width="wide">
+      <PageHero
+        eyebrow="Espace entreprise"
+        title="Alertes d'inactivité"
         summary="Configurez les seuils d'alerte pour les apprenants inactifs et consultez l'historique des alertes déclenchées."
         tone="flat"
         trailing={
@@ -147,42 +154,40 @@ export default function AlerteInactivite() {
         }
       />
 
-      <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
+      {/* KPI row */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
+        <StatCard
+          label="Alertes déclenchées ce mois"
+          value="12"
+          icon={<Bell size={20} />}
+          deltaDirection="up"
+          delta="+3 vs mois dernier"
+        />
+        <StatCard
+          label="Apprenants inactifs actuels"
+          value="7"
+          icon={<Users size={20} />}
+          deltaDirection="down"
+          polarity="lower-is-better"
+          delta="−2 vs semaine dernière"
+        />
+        <StatCard
+          label="Taux de résolution"
+          value="71"
+          sub="%"
+          icon={<CheckCircle2 size={20} />}
+          deltaDirection="up"
+          delta={'+8\u00a0% ce trimestre'}
+        />
+      </div>
 
-        {/* KPI row */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
-          <StatCard
-            label="Alertes déclenchées ce mois"
-            value="12"
-            icon={<Bell size={20} />}
-            deltaDirection="up"
-            delta="+3 vs mois dernier"
-          />
-          <StatCard
-            label="Apprenants inactifs actuels"
-            value="7"
-            variant="warm"
-            icon={<Users size={20} />}
-            deltaDirection="down"
-            polarity="lower-is-better"
-            delta="-2 vs semaine dernière"
-          />
-          <StatCard
-            label="Taux de résolution"
-            value="71"
-            sub="%"
-            icon={<CheckCircle2 size={20} />}
-            deltaDirection="up"
-            delta="+8% ce trimestre"
-          />
-        </div>
-
-        {/* Config form */}
-        <SectionCard
+      {/* Config form */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader
           title="Configuration des seuils"
-          titleIcon={<Settings size={18} />}
-          description="Définissez les règles de déclenchement des alertes d'inactivité."
-        >
+          subtitle="Définissez les règles de déclenchement des alertes d'inactivité."
+        />
+        <Card className="flex flex-col gap-stack-lg">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
             <FormGroup label="Seuil d'inactivité (jours)" id="threshold">
               <Input
@@ -225,30 +230,26 @@ export default function AlerteInactivite() {
             Les alertes critiques sont envoyées immédiatement, indépendamment de la fréquence configurée.
           </Alert>
 
-          <div className="mt-stack">
+          <div>
             <Button emphasis="soft" size="md" leadingIcon={<Settings size={16} />}>
               Enregistrer la configuration
             </Button>
           </div>
-        </SectionCard>
+        </Card>
+      </section>
 
-        {/* Historique alertes */}
-        <SectionCard
+      {/* Historique alertes — `DataTable` porte sa propre coque. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader
           title="Historique des alertes"
-          titleIcon={<Clock size={18} />}
-          description="Les 30 derniers jours · Mis à jour en temps réel."
-          headerAction={
-            <Badge variant="neutral" size="compact">5 alertes affichées</Badge>
-          }
-        >
-          <DataTable
-            columns={TABLE_COLUMNS}
-            rows={ALERT_HISTORY_ROWS}
-            emptyMessage="Aucune alerte déclenchée sur cette période."
-          />
-        </SectionCard>
-
-      </Container>
-    </div>
+          meta={`${ALERT_HISTORY_ROWS.length} alertes · les 30 derniers jours`}
+        />
+        <DataTable
+          columns={TABLE_COLUMNS}
+          rows={ALERT_HISTORY_ROWS}
+          emptyMessage="Aucune alerte déclenchée sur cette période."
+        />
+      </section>
+    </PageShell>
   );
 }
