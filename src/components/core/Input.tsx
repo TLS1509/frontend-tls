@@ -245,8 +245,17 @@ export const Input: React.FC<InputProps> = ({
 // CHECKBOX
 // ============================================================================
 
+/* Case, radio et interrupteur s'alignent sur le CENTRE DE LA PREMIÈRE LIGNE
+   de leur libellé (doctrine §4) : `items-start`, et un retrait qui centre la
+   boîte dans l'interligne de 26 px — 3 px pour la case et le radio (20 px),
+   1 px pour l'interrupteur (24). Sur une ligne, le rendu est celui de
+   `items-center` ; sur deux, la boîte ne glisse plus au milieu du bloc.
+   Sans libellé, pas de retrait : la boîte seule se centre chez son parent. */
 const TOGGLE_LABEL =
-  'relative inline-flex items-center gap-stack-xs cursor-pointer font-body text-body text-ink-900 select-none';
+  'relative inline-flex items-start gap-stack-xs cursor-pointer font-body text-body text-ink-900 select-none';
+
+const RETRAIT_BOITE = 'mt-0.75';
+const RETRAIT_RAIL = 'mt-px';
 
 const CHECKBOX_BOX =
   "inline-flex items-center justify-center w-5 h-5 shrink-0 bg-white border-2 border-ink-400 rounded-sm transition-colors " +
@@ -283,7 +292,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   return (
     <label className={[TOGGLE_LABEL, className].filter(Boolean).join(' ')}>
       <input ref={ref} id={fieldId} type="checkbox" className="peer sr-only" {...rest} />
-      <span aria-hidden="true" className={CHECKBOX_BOX} />
+      <span aria-hidden="true" className={label ? `${CHECKBOX_BOX} ${RETRAIT_BOITE}` : CHECKBOX_BOX} />
       {label && <span>{label}</span>}
     </label>
   );
@@ -317,7 +326,7 @@ export const Radio: React.FC<RadioProps> = ({
   return (
     <label className={[TOGGLE_LABEL, className].filter(Boolean).join(' ')}>
       <input id={fieldId} type="radio" className="peer sr-only" {...rest} />
-      <span aria-hidden="true" className={RADIO_BOX} />
+      <span aria-hidden="true" className={label ? `${RADIO_BOX} ${RETRAIT_BOITE}` : RADIO_BOX} />
       {label && <span>{label}</span>}
     </label>
   );
@@ -363,7 +372,7 @@ export const Switch: React.FC<SwitchProps> = ({
         className="peer sr-only"
         {...rest}
       />
-      <span aria-hidden="true" className={SWITCH_TRACK} />
+      <span aria-hidden="true" className={label ? `${SWITCH_TRACK} ${RETRAIT_RAIL}` : SWITCH_TRACK} />
       {label && <span>{label}</span>}
     </label>
   );

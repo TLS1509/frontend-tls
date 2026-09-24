@@ -130,7 +130,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
                 <span
                   aria-hidden="true"
                   className={[
-                    'mt-0.5 w-5 h-5 shrink-0 rounded-pill border-2 flex items-center justify-center',
+                    'mt-0.75 w-5 h-5 shrink-0 rounded-pill border-2 flex items-center justify-center',
                     'transition-[border-color,background-color] duration-base ease-standard',
                     isChecked
                       ? TONE_INDICATOR[tone]
@@ -143,7 +143,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
                 </span>
 
                 <div className="flex flex-col gap-stack-3xs min-w-0">
-                  <span className="text-body font-semibold text-ink-900 leading-snug">
+                  <span className="text-body font-semibold text-ink-900">
                     {option.label}
                   </span>
                   {option.description && (
@@ -193,7 +193,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
                    d'émission — piège n°6), et un radio coché ne rendait qu'un
                    anneau, son point blanc perdu sur du blanc. */
                 className={[
-                  'mt-0.5 w-5 h-5 shrink-0 rounded-pill border-2 flex items-center justify-center',
+                  'mt-0.75 w-5 h-5 shrink-0 rounded-pill border-2 flex items-center justify-center',
                   'transition-[border-color,background-color] duration-base ease-standard',
                   'peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-500',
                   isChecked ? TONE_INDICATOR[tone] : 'border-ink-400 bg-white',
@@ -205,7 +205,7 @@ export const RadioGroup: React.FC<RadioGroupProps> = ({
               {(option.label || option.description) && (
                 <div className="flex flex-col gap-stack-3xs">
                   {option.label && (
-                    <span className="text-body font-semibold text-ink-900 leading-snug">
+                    <span className="text-body font-semibold text-ink-900">
                       {option.label}
                     </span>
                   )}

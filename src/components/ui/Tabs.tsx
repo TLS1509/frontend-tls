@@ -197,7 +197,8 @@ export const Tabs: React.FC<TabsProps> = ({
             onKeyDown={(e) => handleKeyDown(e, idx)}
           >
             {item.icon && (
-              <span aria-hidden="true" className="inline-flex items-center">
+              // Icône à 18 px, le cran des contrôles de 44 (motif de `Button`).
+              <span aria-hidden="true" className="inline-flex items-center justify-center shrink-0 [&>svg]:size-4.5">
                 {item.icon}
               </span>
             )}
