@@ -140,7 +140,7 @@ export default function CoachTeamDashboard() {
             }
           >
             <strong className="font-semibold">{stats.stuckCount} bloqué{stats.stuckCount !== 1 ? 's' : ''}</strong> et{' '}
-            <strong className="font-semibold">{stats.atRiskCount} à risque</strong> : planifie un bilan cette semaine.
+            <strong className="font-semibold">{stats.atRiskCount} à risque</strong> : planifiez un bilan cette semaine.
           </Alert>
         )}
       </div>
