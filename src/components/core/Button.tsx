@@ -559,6 +559,10 @@ export const Button: React.FC<ButtonProps> = ({
   ...rest
 }) => {
   const taille = tailleRendue(size);
+  // Le niveau RENDU, alias résolu, exposé au DOM : la règle « un seul `solid`
+  // par écran » (arbitrage n°19) se vérifie au rendu, pas dans le source — un
+  // `variant="destructive"` est un `solid` sans jamais l'écrire.
+  const niveau = emphasis ?? VARIANT_ALIAS[variant].emphasis;
   const classes = [
     BASE,
     // Le bouton-icône est carré : la pilule y rend un cercle parfait.
@@ -609,6 +613,7 @@ export const Button: React.FC<ButtonProps> = ({
     const linkRest = rest as Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'target' | 'rel' | 'onClick'>;
     const sharedProps = {
       className: classes,
+      'data-emphasis': niveau,
       target,
       rel,
       'aria-disabled': isDisabled || undefined,
@@ -635,6 +640,7 @@ export const Button: React.FC<ButtonProps> = ({
     <button
       type={type}
       className={classes}
+      data-emphasis={niveau}
       disabled={disabled || loading}
       aria-busy={loading || undefined}
       aria-disabled={disabled || loading || undefined}
