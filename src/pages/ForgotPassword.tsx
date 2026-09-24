@@ -9,7 +9,6 @@ import {
   AuthSuccess,
   AuthField,
   AuthPrimaryButton,
-  AuthGhostButton,
 } from '../components/patterns/AuthShell';
 import { MailCheck, CheckCircle2, Mail } from 'lucide-react';
 
@@ -45,12 +44,9 @@ export const ForgotPassword: React.FC = () => {
               required
             />
 
-            <div className="flex flex-col gap-stack-xs">
-              <AuthPrimaryButton type="submit">Envoyer le lien</AuthPrimaryButton>
-              <AuthGhostButton onClick={() => navigate('/auth/login')}>
-                Retour connexion
-              </AuthGhostButton>
-            </div>
+            {/* Un seul retour : le lien « Retour à la connexion » au-dessus de
+                la carte. Le bouton « Retour connexion » menait au même endroit. */}
+            <AuthPrimaryButton type="submit" className="mt-stack-xs">Envoyer le lien</AuthPrimaryButton>
           </form>
         ) : (
           <AuthSuccess

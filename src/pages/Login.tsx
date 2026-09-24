@@ -33,7 +33,14 @@ export const Login: React.FC = () => {
   };
 
   return (
+    /* Passe typographique du 2026-09-24 : le h1 dit la tâche (« Connexion »),
+       comme sur les quatre autres écrans d'auth — le logo porte la marque, et
+       l'onglet ne s'intitule plus « The Learning Society · The Learning
+       Society ». Le bouton principal est à 24 px des champs (contenu →
+       action), le lien « Mot de passe oublié » en 600 (500 est la graisse des
+       puces). */
     <AuthShell
+      brand={{ title: 'Connexion' }}
       form={
         <form className="flex flex-col gap-stack" onSubmit={handleSubmit}>
           <AuthField
@@ -54,8 +61,10 @@ export const Login: React.FC = () => {
             required
           />
 
-          {/* Remember + Forgot */}
-          <div className="flex items-center justify-between gap-stack-xs">
+          {/* Remember + Forgot — la rangée passe à la ligne quand la place
+              manque (375 px) : le lien descend, le libellé de la case ne se
+              coupe plus en deux (« Se souvenir / de moi »). */}
+          <div className="flex flex-wrap items-center justify-between gap-x-stack-xs gap-y-stack-xs">
             <AuthCheckbox
               checked={rememberMe}
               onChange={setRememberMe}
@@ -64,13 +73,13 @@ export const Login: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate('/auth/forgot-password')}
-              className="shrink-0 bg-transparent border-0 p-0 cursor-pointer text-body font-medium text-white hover:text-white hover:underline underline-offset-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 rounded-sm whitespace-nowrap"
+              className="shrink-0 bg-transparent border-0 p-0 cursor-pointer text-body font-semibold text-white hover:text-white hover:underline underline-offset-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60 rounded-sm whitespace-nowrap"
             >
               Mot de passe oublié ?
             </button>
           </div>
 
-          <AuthPrimaryButton type="submit">Se connecter</AuthPrimaryButton>
+          <AuthPrimaryButton type="submit" className="mt-stack-xs">Se connecter</AuthPrimaryButton>
 
           {/* Divider + Socials */}
           <AuthDivider>ou continuer avec</AuthDivider>

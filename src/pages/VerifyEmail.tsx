@@ -65,22 +65,23 @@ export const VerifyEmail: React.FC = () => {
           <div className="flex flex-col gap-stack">
             {/* Inbox visual */}
             <div className="flex flex-col items-center gap-stack-xs p-stack-lg rounded-lg bg-ink-900/20 border border-white/20">
-              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/15 border border-white/25 text-white">
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-white/15 border border-white/25 text-white">
                 <Inbox size={24} strokeWidth={1.75} />
               </div>
-              <div className="flex flex-col items-center text-center gap-tight">
-                <p className="m-0 font-body text-body text-white">
+              <div className="flex flex-col items-center text-center gap-stack-3xs">
+                <p className="font-body text-body text-white">
                   Lien envoyé à
                 </p>
-                <p className="m-0 font-display text-body font-semibold text-white">
+                <p className="font-body text-body font-semibold text-white">
                   {email}
                 </p>
               </div>
             </div>
 
-            <p className="m-0 font-body text-body text-white text-center">
-              Cliquez sur le lien de confirmation reçu dans votre boîte de réception pour activer votre compte.
-              Vérifiez aussi vos spams si besoin.
+            {/* Centré, donc deux lignes au plus (doctrine § 3) : il en faisait
+                trois. Même sens, moins de mots. */}
+            <p className="font-body text-body text-white text-center">
+              Cliquez sur le lien reçu pour activer votre compte. Pensez à vérifier vos spams.
             </p>
 
             <div className="flex flex-col gap-stack-xs">
@@ -100,7 +101,7 @@ export const VerifyEmail: React.FC = () => {
               </AuthGhostButton>
             </div>
 
-            <p className="m-0 font-body text-caption text-white text-center">
+            <p className="font-body text-body text-white text-center">
               Mauvaise adresse email ? <AuthInlineLink onClick={() => navigate('/auth/signup')}>Modifier l'inscription</AuthInlineLink>
             </p>
           </div>

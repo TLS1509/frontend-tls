@@ -37,7 +37,10 @@ export const Signup: React.FC = () => {
 
   return (
     <AuthShell
-      brand={{ subtitle: 'Créez votre compte pour démarrer votre formation' }}
+      /* Passe typographique du 2026-09-24 : le h1 dit la tâche ; le mot de
+         passe a un placeholder qui dit la règle (« •••••••• » en blanc se
+         lisait comme un champ déjà rempli) ; l'action à 24 px des champs. */
+      brand={{ title: 'Créer un compte', subtitle: 'Quelques informations pour démarrer votre formation' }}
       form={
         <form className="flex flex-col gap-stack" onSubmit={handleSubmit}>
           <AuthField
@@ -62,7 +65,7 @@ export const Signup: React.FC = () => {
 
           <AuthPasswordField
             label="Mot de passe"
-            placeholder="••••••••"
+            placeholder="12 caractères minimum"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -87,7 +90,7 @@ export const Signup: React.FC = () => {
             }
           />
 
-          <AuthPrimaryButton type="submit" disabled={!acceptTerms}>
+          <AuthPrimaryButton type="submit" disabled={!acceptTerms} className="mt-stack-xs">
             Créer mon compte
           </AuthPrimaryButton>
 
