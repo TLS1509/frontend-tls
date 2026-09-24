@@ -497,7 +497,7 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         </main>
 
         <footer className="px-6 py-4 text-caption text-ink-500 text-center">
-          © {new Date().getFullYear()} The Learning Society. All rights reserved.
+          © {new Date().getFullYear()} The Learning Society. Tous droits réservés.
         </footer>
       </div>
 
