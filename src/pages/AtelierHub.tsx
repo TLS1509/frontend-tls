@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MapPin, Calendar, Clock, Video, CheckCircle, AlertCircle } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { PageShell } from '../components/layout';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
@@ -42,27 +43,41 @@ export default function AtelierHub() {
     return true;
   });
 
+  const filtreLabel: Record<Filter, string> = {
+    all: 'Tous les ateliers',
+    upcoming: 'Ateliers à venir',
+    past: 'Ateliers passés',
+    mine: 'Mes inscriptions',
+  };
+
   return (
     <PageShell width="page" noPadTop={true} className="pt-6 md:pt-8 lg:pt-10">
+      {/* « Accès entreprise » dit à qui s'ouvre la page : une donnée de la
+          ligne de méta, plus une pastille d'état. Casse normale dans le
+          surtitre et le titre (« Ateliers Pratiques », « de ta Cohorte »). */}
       <EditorialHero
         tone="flat"
-        eyebrow="Ateliers Pratiques"
-        title="Ateliers de ta Cohorte"
+        eyebrow="Ateliers pratiques"
+        title="Ateliers de ta cohorte"
         summary="Sessions pratiques en petit groupe animées par ton coach. Maximum 12 participants. Distanciel ou présentiel."
-        trailing={<Badge variant="info" size="normal">Accès entreprise</Badge>}
+        meta={[{ label: 'Accès entreprise' }]}
       />
 
-      <div className="flex flex-col gap-section">
-
-        {/* Filters */}
-        <div className="flex items-center gap-stack-xs flex-wrap">
+      {/* Une section h2 entre le h1 et les titres de carte (h3) ; les filtres
+          vivent sous son titre, le compte passe en méta. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader
+          title={filtreLabel[activeFilter]}
+          meta={`${filtered.length} atelier${filtered.length > 1 ? 's' : ''}`}
+          size="md"
+        />
+        <div className="flex items-center gap-stack-xs flex-wrap" role="group" aria-label="Filtrer les ateliers">
           <FilterChip label="Tous" active={activeFilter === 'all'} onClick={() => setActiveFilter('all')} />
           <FilterChip label="À venir" active={activeFilter === 'upcoming'} onClick={() => setActiveFilter('upcoming')} />
           <FilterChip label="Passés" active={activeFilter === 'past'} onClick={() => setActiveFilter('past')} />
           <FilterChip label={`Mes inscriptions (${myEnrollments.length})`} active={activeFilter === 'mine'} onClick={() => setActiveFilter('mine')} />
         </div>
 
-        {/* Grid */}
         {filtered.length === 0 ? (
           <p className="text-body text-ink-600 py-section text-center">Aucun atelier dans cette catégorie.</p>
         ) : (
@@ -74,6 +89,12 @@ export default function AtelierHub() {
               const percent = Math.round((atelier.enrolledCount / atelier.maxParticipants) * 100);
 
               return (
+                /* Anatomie de carte (doctrine § 5) : les états → 4 → le titre
+                   h3 20 → 8 → le coach → 12 → date, lieu, places (légende
+                   ink-600) → 24 → l'action. Tous les blocs se touchaient (la
+                   carte déclare `flex`, elle perd son gap) sous un titre à
+                   16/600. Le mode (distanciel ou présentiel) est une donnée :
+                   il quitte les pastilles d'état pour la ligne de date. */
                 <Card key={atelier.id} variant="default" className="flex flex-col p-stack-md">
                   <div className="flex items-center gap-stack-xs flex-wrap">
                     {isPast ? (
@@ -83,9 +104,6 @@ export default function AtelierHub() {
                     ) : (
                       <Badge variant="info">À venir</Badge>
                     )}
-                    <Badge variant="neutral">
-                      {atelier.mode === 'distanciel' ? 'Distanciel' : 'Présentiel'}
-                    </Badge>
                     {enrollment && (
                       <Badge variant={enrollment.status === 'waitlist' ? 'warm' : 'success'}>
                         {enrollment.status === 'waitlist' ? (
@@ -99,37 +117,42 @@ export default function AtelierHub() {
                     )}
                   </div>
 
-                  <h3 className="text-body font-semibold text-ink-900">{atelier.title}</h3>
+                  <h3 className="mt-stack-3xs font-display text-h3 text-ink-900">{atelier.title}</h3>
 
-                  <div className="flex items-center gap-stack-xs">
+                  <p className="mt-stack-xs flex items-center gap-stack-xs text-caption font-semibold text-ink-900">
                     <Avatar initials={atelier.coachInitials} size="sm" />
-                    <span className="text-body text-ink-600">{atelier.coachName}</span>
+                    {atelier.coachName}
+                  </p>
+
+                  <div className="mt-stack-sm flex flex-col gap-stack-xs text-caption text-ink-600">
+                    {/* Chaque icône voyage avec son texte : l'adresse passait à
+                        la ligne en laissant son icône seule au bout de la première. */}
+                    <p className="flex flex-wrap items-start gap-x-stack-sm gap-y-stack-3xs text-caption">
+                      <span className="inline-flex items-center gap-stack-2xs">
+                        <Calendar size={14} className="shrink-0" aria-hidden="true" />
+                        {formatDate(atelier.scheduledAt)}
+                      </span>
+                      {atelier.mode === 'presentiel' && atelier.location ? (
+                        <span className="inline-flex items-start gap-stack-2xs min-w-0">
+                          <span className="shrink-0 inline-flex items-center h-lh"><MapPin size={14} aria-hidden="true" /></span>
+                          <span>Présentiel · {atelier.location}</span>
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-stack-2xs">
+                          <Video size={14} className="shrink-0" aria-hidden="true" />
+                          Distanciel
+                        </span>
+                      )}
+                    </p>
+                    <div className="flex flex-col gap-stack-3xs">
+                      <ProgressBar value={percent} fill="warm" size="sm" valueLabel={false} />
+                      <span className="tabular-nums">
+                        {atelier.enrolledCount}/{atelier.maxParticipants} places
+                      </span>
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-stack-xs flex-wrap">
-                    <Calendar size={14} className="text-ink-600 shrink-0" />
-                    <span className="text-caption text-ink-500">{formatDate(atelier.scheduledAt)}</span>
-                    {atelier.mode === 'presentiel' && atelier.location ? (
-                      <>
-                        <MapPin size={14} className="text-ink-600 shrink-0 ml-stack-xs" />
-                        <span className="text-caption text-ink-500 truncate">{atelier.location}</span>
-                      </>
-                    ) : (
-                      <>
-                        <Video size={14} className="text-ink-600 shrink-0 ml-stack-xs" />
-                        <span className="text-caption text-ink-500">Distanciel</span>
-                      </>
-                    )}
-                  </div>
-
-                  <div className="flex flex-col gap-tight">
-                    <ProgressBar value={percent} fill="warm" size="sm" valueLabel={false} />
-                    <span className="text-caption text-ink-500">
-                      {atelier.enrolledCount}/{atelier.maxParticipants} places
-                    </span>
-                  </div>
-
-                  <div className="mt-tight">
+                  <div className="mt-auto pt-stack-lg">
                     {isPast ? (
                       <Button emphasis="outline" size="sm" fullWidth>Voir le récap</Button>
                     ) : enrollment ? (
@@ -161,7 +184,7 @@ export default function AtelierHub() {
             })}
           </div>
         )}
-      </div>
+      </section>
     </PageShell>
   );
 }
