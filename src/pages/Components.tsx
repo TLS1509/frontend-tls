@@ -837,7 +837,7 @@ const VideoPlayerModalDemo: React.FC = () => {
         title="Introduction au Prompt Engineering"
         duration="12:34"
         instructor="Sophie Martin"
-        description="Découvrez les fondamentaux du prompt engineering."
+        description="Les fondamentaux du prompt engineering, et comment structurer une demande."
       />
     </div>
   );
@@ -2133,8 +2133,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Button',
     codeName: 'core/Button.tsx',
     description:
-      "Le déclencheur d'une action. Son API est une grille : `emphasis` (solid · soft · outline · ghost · link) dit combien il insiste, `tone` (brand · warm · sun · danger · neutral) de quelle couleur. Trois tailles, 36 · 44 · 52, celles des champs d'une même ligne (arbitrage n°22) ; rayon 14, graisse 700. Un seul `solid` par écran, pour l'action principale (arbitrage n°19) : le bouton expose son niveau au DOM (`data-emphasis`), que la sonde `check:boutons` compte écran par écran. Les treize `variant` historiques et l'ancien cran `xl` restent acceptés, comme alias dépréciés.",
-    keywords: ['cta', 'action', 'emphasis', 'tone', 'solid', 'soft', 'outline', 'ghost', 'link', 'onDark', 'iconOnly', 'primary', 'destructive', 'glass', 'taille', '36', '44', '52', 'contraste', 'wcag', 'icône', 'data-emphasis', 'cible', 'tactile'],
+      "Le déclencheur d'une action. Son API est une grille : `emphasis` (solid · soft · outline · ghost · link) dit combien il insiste, `tone` (brand · warm · sun · danger · neutral) de quelle couleur. Trois tailles, 36 · 44 · 52, celles des champs d'une même ligne (arbitrage n°22) ; rayon 14, graisse 700. Un seul `solid` par écran, pour l'action principale (arbitrage n°19) : le bouton expose son niveau au DOM (`data-emphasis`), que la sonde `check:boutons` compte écran par écran. `flush` (start · end · both) cale le libellé d'un `ghost` sur le bord du texte qu'il suit, d'une marge négative égale au padding de la taille ; la prop est sans effet sur les autres niveaux et sur `iconOnly`. Les treize `variant` historiques et l'ancien cran `xl` restent acceptés, comme alias dépréciés.",
+    keywords: ['cta', 'action', 'emphasis', 'tone', 'solid', 'soft', 'outline', 'ghost', 'link', 'onDark', 'iconOnly', 'primary', 'destructive', 'glass', 'taille', '36', '44', '52', 'contraste', 'wcag', 'icône', 'data-emphasis', 'cible', 'tactile', 'flush', 'calage', 'bord', 'marge négative'],
     render: () => (
       <div className="flex flex-col gap-section">
 
@@ -2248,6 +2248,25 @@ const COMPONENTS: ComponentEntry[] = [
               <Button emphasis="outline">outline</Button>
               <Button emphasis="ghost" trailingIcon={I.arrow}>ghost</Button>
             </div>
+          </div>
+        </ShowcaseBloc>
+
+        {/* ─── 6 · LE CALAGE D'UN GHOST ───────────────────────────────────── */}
+        <ShowcaseBloc
+          titre="Un ghost calé sur le bord du texte — `flush`"
+          note="Au repos, un ghost n'a ni fond ni filet : ce qu'on voit, c'est son libellé, et son padding le décale de 16, 20 ou 24 px (sm, md, lg) du texte qu'il suit. `flush` pose une marge négative égale à ce padding : `start` en début de rangée, sous un titre ou un paragraphe (Précédent, Retour) ; `end` en bout de rangée ; `both` pour une place qui change de côté selon la largeur, celle que SectionHeader donne à son action. La boîte déborde d'autant, et son fond n'apparaît qu'au survol. La prop est sans effet sur solid, soft, outline, link et iconOnly : on peut la poser sur un bouton dont le niveau change avec l'état. Elle remplace les `-ml-stack-md` que les pages écrivaient à la main (24/09)."
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-stack">
+            {([
+              [undefined, 'Sans flush : le libellé part 20 px à droite du texte.'],
+              ['start', 'Avec flush="start" : le libellé tombe sur le bord du texte.'],
+            ] as const).map(([flush, legende]) => (
+              <div key={legende} className="flex flex-col items-start gap-stack-xs rounded-xl border border-ink-200 bg-white p-stack-lg">
+                <p className="font-body text-body text-ink-700 max-w-prose">Le libellé d'un ghost se voit seul : c'est lui qui doit s'aligner sur le texte au-dessus.</p>
+                <Button emphasis="ghost" tone="neutral" flush={flush} leadingIcon={<ArrowLeft />}>Précédent</Button>
+                <span className="font-body text-caption text-ink-600">{legende}</span>
+              </div>
+            ))}
           </div>
         </ShowcaseBloc>
       </div>
@@ -3279,23 +3298,23 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'PositionnementModal',
     codeName: 'modals/PositionnementModal.tsx',
-    description: "Auto-évaluation des compétences de l'apprenant avant de démarrer un parcours : cinq niveaux par question, une barre de progression, un écran de succès. « Suivant » — « Valider » à la dernière question — est le solid de la modale (arbitrage n°19).",
-    keywords: ['modal', 'positioning', 'competence', 'assessment', 'level', 'self-eval'],
+    description: "Auto-évaluation des compétences de l'apprenant avant de démarrer un parcours : cinq niveaux par question, une barre de progression, un écran de succès. « Suivant » — « Valider » à la dernière question — est le solid de la modale (arbitrage n°19). Dialogue `useDialog`, comme Modal : focus piégé, Échap, et la page derrière inerte pendant l'ouverture.",
+    keywords: ['modal', 'positioning', 'competence', 'assessment', 'level', 'self-eval', 'useDialog', 'inert'],
     render: () => <PositionnementModalDemo />,
   },
   {
     name: 'BookingModal',
     codeName: 'modals/BookingModal.tsx',
-    description: "Réservation d'une session de coaching en deux étapes, trois quand la session est payante : date et heure au calendrier, paiement, confirmation. Au pied, l'étape suivante est le solid (« Continuer », « Payer », « Réserver la session ») ; le retour et les flèches de mois du calendrier sont en ghost neutre (arbitrage n°19).",
-    keywords: ['modal', 'booking', 'calendar', 'coaching', 'slot', 'time', 'reservation'],
+    description: "Réservation d'une session de coaching en deux étapes, trois quand la session est payante : date et heure au calendrier, paiement, confirmation. Au pied, l'étape suivante est le solid (« Continuer », « Payer », « Réserver la session ») ; le retour et les flèches de mois du calendrier sont en ghost neutre (arbitrage n°19). Dialogue `useDialog`, comme Modal : focus piégé, Échap, et la page derrière inerte pendant l'ouverture.",
+    keywords: ['modal', 'booking', 'calendar', 'coaching', 'slot', 'time', 'reservation', 'useDialog', 'inert'],
     render: () => <BookingModalDemo />,
   },
   {
     name: 'Dialog Modals',
     codeName: 'modals/ConfirmModal.tsx · modals/SuccessModal.tsx · modals/CancelSessionModal.tsx',
     usedBy: ['Billing', 'SubscriptionPayment'],
-    description: "Trois dialogues bâtis sur le même tronc, texte centré : pastille d'icône, titre en h2 au pas h3 (20/700), 8 px, message 16 ink-700, 24 px, actions — un seul solid par modale (arbitrage n°19). ConfirmModal : quatre variantes (info · success · warning · danger) ; Annuler en outline neutre, Confirmer en solid au ton de la variante (brand pour info et success, sun pour warning, danger). SuccessModal : une réussite, avec une coche ; « Continuer », l'unique action, en solid. CancelSessionModal : annuler ou reprogrammer une session, avec le choix d'un motif ; « Confirmer l'annulation » en solid danger, posé en premier, sous le motif dont il dépend, « Reprogrammer plutôt » en ghost.",
-    keywords: ['modal', 'confirm', 'dialog', 'alert', 'danger', 'warning', 'info', 'success', 'cancel', 'session'],
+    description: "Trois dialogues bâtis sur le même tronc, texte centré : pastille d'icône, titre en h2 au pas h3 (20/700), 8 px, message 16 ink-700, 24 px, actions — un seul solid par modale (arbitrage n°19). ConfirmModal : quatre variantes (info · success · warning · danger) ; Annuler en outline neutre, Confirmer en solid au ton de la variante (brand pour info et success, sun pour warning, danger). SuccessModal : une réussite, avec une coche ; « Continuer », l'unique action, en solid. CancelSessionModal : annuler ou reprogrammer une session, avec le choix d'un motif ; « Confirmer l'annulation » en solid danger, posé en premier, sous le motif dont il dépend, « Reprogrammer plutôt » en ghost. Les trois passent par `useDialog`, comme Modal : focus piégé, Échap, et la page derrière inerte pendant l'ouverture.",
+    keywords: ['modal', 'confirm', 'dialog', 'alert', 'danger', 'warning', 'info', 'success', 'cancel', 'session', 'useDialog', 'inert'],
     render: () => (
       <div className="flex flex-col gap-section">
         <p className="text-caption font-semibold text-ink-600 m-0">ConfirmModal — confirmation générique</p>
@@ -3310,15 +3329,15 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SessionFeedbackModal',
     codeName: 'modals/SessionFeedbackModal.tsx',
-    description: "Notation en étoiles et commentaire, après une session de coaching ou en fin de leçon. L'envoi, « Envoyer mon avis », est le solid de la modale, au ton sun (arbitrage n°19).",
-    keywords: ['modal', 'feedback', 'rating', 'stars', 'review', 'comment', 'session'],
+    description: "Notation en étoiles et commentaire, après une session de coaching ou en fin de leçon. L'envoi, « Envoyer mon avis », est le solid de la modale, au ton sun (arbitrage n°19). Dialogue `useDialog`, comme Modal : focus piégé, Échap, et la page derrière inerte pendant l'ouverture.",
+    keywords: ['modal', 'feedback', 'rating', 'stars', 'review', 'comment', 'session', 'useDialog', 'inert'],
     render: () => <SessionFeedbackModalDemo />,
   },
   {
     name: 'VideoPlayerModal',
     codeName: 'modals/VideoPlayerModal.tsx',
-    description: 'Lecteur vidéo plein écran pour tutoriels, leçons vidéo et contenu Veille.',
-    keywords: ['modal', 'video', 'player', 'media', 'fullscreen', 'veille', 'tutorial'],
+    description: "Lecteur vidéo en modale, pour les tutoriels, les leçons vidéo et la Veille : panneau ink-950 de 860 px au plus, au rayon 24 ; la vidéo et sa barre de lecture, puis un bandeau blanc — le titre en h2 au pas h3 (20/700), l'auteur et la durée en 13, la description en 16. Dialogue `useDialog`, comme Modal : focus piégé, Échap, et la page derrière inerte pendant l'ouverture. ⚠️ L'invite « Cliquez pour lancer la vidéo » et la description par défaut vouvoient, sur des surfaces qui tutoient l'apprenant (arbitrage n°23).",
+    keywords: ['modal', 'video', 'player', 'media', 'fullscreen', 'veille', 'tutorial', 'useDialog', 'inert'],
     render: () => <VideoPlayerModalDemo />,
   },
 
@@ -3596,16 +3615,16 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Modal',
     codeName: 'ui/Modal.tsx',
-    description: "Dialogue bloquant, pour une décision : voile, boîte au rayon 24 (étage surcouche), 480 px au plus, padding 24 puis 32. Titre en h2 au pas h3 (20/700), 8 px, description 16 ink-700, 16 px, le corps en 16, puis les actions à 24 px du contenu, alignées à droite, Confirmer en dernier. Une modale ouverte est un écran à elle seule (arbitrage n°19) : un seul solid, l'action qu'elle sert — en danger pour confirmer une suppression —, Annuler en outline neutre quand il forme la paire, le reste en ghost. Fermeture par Échap, par le bouton-icône ou par un clic sur le voile.",
-    keywords: ['modal', 'dialog', 'overlay', 'popup', 'scrim', 'interrupt'],
+    description: "Dialogue bloquant, pour une décision : voile, boîte au rayon 24 (étage surcouche), 480 px au plus, padding 24 puis 32. Titre en h2 au pas h3 (20/700), 8 px, description 16 ink-700, 16 px, le corps en 16, puis les actions à 24 px du contenu, alignées à droite, Confirmer en dernier. Une modale ouverte est un écran à elle seule (arbitrage n°19) : un seul solid, l'action qu'elle sert — en danger pour confirmer une suppression —, Annuler en outline neutre quand il forme la paire, le reste en ghost. Fermeture par Échap, par le bouton-icône ou par un clic sur le voile. Le comportement vient de `useDialog`, partagé par toutes les modales de `modals/` et par ChartDetailModal : le focus entre dans la modale et y reste (Tab et Maj+Tab), il revient au déclencheur à la fermeture ; et depuis le 24/09, tout le reste du document est inerte pendant l'ouverture (`inert` : ni focus, ni clic, ni lecteur d'écran). Seules les régions vivantes restent actives, pour qu'un toast s'annonce encore. Avant, un lecteur d'écran parcourait la page derrière, et `check:boutons` y comptait un second solid.",
+    keywords: ['modal', 'dialog', 'overlay', 'popup', 'scrim', 'interrupt', 'useDialog', 'inert', 'focus', 'aria-modal'],
     render: () => <ModalDemo />,
   },
   {
     name: 'CelebrationModal',
     codeName: 'modals/CelebrationModal.tsx',
     showcaseOnly: true,
-    description: "Célébration d'un jalon (parcours terminé, badge obtenu) : pastille de 80 px, titre en h2 au pas h3 (20/700) ink-900, description 16 ink-700, puis les actions, passées par la page — un seul solid, l'action que la modale sert (« Voir mon badge »), le reste en ghost (arbitrage n°19) ; des étincelles animées autour, que `hideSparkles` retire.",
-    keywords: ['celebration', 'modal', 'milestone', 'achievement', 'parcours', 'badge', 'reward'],
+    description: "Célébration d'un jalon (parcours terminé, badge obtenu) : pastille de 80 px, titre en h2 au pas h3 (20/700) ink-900, description 16 ink-700, puis les actions, passées par la page — un seul solid, l'action que la modale sert (« Voir mon badge »), le reste en ghost (arbitrage n°19). Dialogue `useDialog`, comme Modal : focus piégé, Échap, et la page derrière inerte pendant l'ouverture. ⚠️ Ses quatre étincelles scintillent en boucle autour du panneau : un mouvement permanent (arbitrage n°16) et une étincelle qui ne signale aucune IA (DESIGN.md §10) ; `hideSparkles` les retire.",
+    keywords: ['celebration', 'modal', 'milestone', 'achievement', 'parcours', 'badge', 'reward', 'useDialog', 'inert', 'hideSparkles'],
     render: () => <CelebrationModalDemo />,
   },
   {
@@ -3890,8 +3909,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'IconFeatureCard',
     codeName: 'ui/IconFeatureCard.tsx',
-    description: "Tuile à icône, contenu centré : l'icône (plain · filled · bubble), le titre, une description optionnelle. L'échelle des titres suit `iconSize` : xs et sm → 16/700 en League Spartan, md, lg et xl → h3 20/700 ; description 16 ink-700. Tons brand · warm · sun × surfaces card · tinted · glass · frosted ; `square` pour une tuile carrée ; `onClick` en fait un bouton. À partir de quatre tuiles, la poser dans `<CardGrid layout=\"square-tiles\">`.",
-    keywords: ['feature', 'icon', 'card', 'tile', 'button', 'plain', 'filled', 'bubble', 'tone', 'quick action', 'shortcut', 'glass', 'frosted', 'tinted', 'surface', 'square', 'responsive', 'centered'],
+    usedBy: ['Coaching', 'LearningPathDetail'],
+    description: "Tuile à icône, contenu centré : l'icône (plain · filled · bubble), le titre, une description optionnelle. L'échelle des titres suit `iconSize` : xs et sm → 16/700 en League Spartan, md, lg et xl → h3 20/700 ; description 16 ink-700. La bulle (`bubble`) est un IconChip depuis le 24/09 (arbitrage n°3) : un carré au rayon proportionnel, 32 · 40 · 48 px de xs à md, lg et xl s'arrêtant à 48, glyphe au cran 800 — au cran 100 sur la surface tinted (arbitrage n°10). Elle était faite main, au rayon 20 à toutes les tailles, donc ronde à 32 et 40, et son glyphe au cran 500 mesurait 1,60 à 2,62:1 ; il mesure 5,79 à 9,49. Tons brand · warm · sun × surfaces card · tinted · glass · frosted ; `square` pour une tuile carrée ; `onClick` en fait un bouton. Toujours dans `<CardGrid layout=\"square-tiles\">` (deux colonnes au moins) : une tuile plus étroite que sa bulle et son padding ne la contient pas.",
+    keywords: ['feature', 'icon', 'card', 'tile', 'button', 'plain', 'filled', 'bubble', 'tone', 'quick action', 'shortcut', 'glass', 'frosted', 'tinted', 'surface', 'square', 'responsive', 'centered', 'IconChip', 'square-tiles'],
     render: () => (
       <div className="flex flex-col gap-section">
 
@@ -3922,19 +3942,38 @@ const COMPONENTS: ComponentEntry[] = [
           <p className="text-caption font-semibold text-ink-600 m-0">Avec description · md</p>
           <CardGrid layout="square-tiles" gapSize="md">
             <IconFeatureCard tone="brand" iconStyle="plain" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="Coaching" description="Sessions 1:1 personnalisées" onClick={() => {}} />
-            <IconFeatureCard tone="warm" iconStyle="plain" icon={<MapIcon size={32} strokeWidth={1.75} />} title="Parcours" description="Apprenez à votre rythme" onClick={() => {}} />
-            <IconFeatureCard tone="sun" iconStyle="plain" icon={<PenLine size={32} strokeWidth={1.75} />} title="Journal" description="Notez vos réflexions" onClick={() => {}} />
+            <IconFeatureCard tone="warm" iconStyle="plain" icon={<MapIcon size={32} strokeWidth={1.75} />} title="Parcours" description="Apprends à ton rythme" onClick={() => {}} />
+            <IconFeatureCard tone="sun" iconStyle="plain" icon={<PenLine size={32} strokeWidth={1.75} />} title="Journal" description="Note tes réflexions" onClick={() => {}} />
             <IconFeatureCard tone="brand" iconStyle="plain" icon={<BookOpenText size={32} strokeWidth={1.75} />} title="Veille" description="Actualités choisies" onClick={() => {}} />
           </CardGrid>
         </div>
 
-        {/* ─── iconStyle × tone (matrice compacte 3×3) ─── */}
+        {/* ─── iconStyle × tone ───
+            Dans CardGrid square-tiles, plus un `grid-cols-3` : à 375, trois
+            colonnes laissaient 54 px à la tuile « Bubble · sun », moins que sa
+            bulle de 48 et ses 2 × 12 de padding. */}
         <div className="flex flex-col gap-stack">
           <p className="text-caption font-semibold text-ink-600 m-0">iconStyle (plain · filled · bubble) × ton (brand · warm · sun) · md</p>
-          <div className="grid grid-cols-3 gap-stack">
+          <CardGrid layout="square-tiles" gapSize="md">
             <IconFeatureCard square tone="brand" iconStyle="plain" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="Plain · brand" onClick={() => {}} />
             <IconFeatureCard square tone="warm" iconStyle="filled" icon={<Flame size={32} />} title="Filled · warm" onClick={() => {}} />
             <IconFeatureCard square tone="sun" iconStyle="bubble" icon={<Star size={20} strokeWidth={1.75} />} title="Bubble · sun" onClick={() => {}} />
+          </CardGrid>
+        </div>
+
+        {/* ─── La bulle : un IconChip, à trois crans ─── */}
+        <div className="flex flex-col gap-stack">
+          <p className="text-caption font-semibold text-ink-600 m-0">bubble · un IconChip de 32, 40 puis 48 px ; lg et xl s'arrêtent à 48</p>
+          <div className="flex flex-wrap gap-stack items-start">
+            {([
+              ['xs', 'w-[100px]'],
+              ['sm', 'w-[120px]'],
+              ['md', 'w-[140px]'],
+              ['lg', 'w-[160px]'],
+              ['xl', 'w-[180px]'],
+            ] as const).map(([iconSize, largeur]) => (
+              <IconFeatureCard key={iconSize} tone="brand" iconStyle="bubble" iconSize={iconSize} icon={<MessageSquare strokeWidth={1.75} />} title={iconSize} onClick={() => {}} className={largeur} />
+            ))}
           </div>
         </div>
 
@@ -3972,7 +4011,7 @@ const COMPONENTS: ComponentEntry[] = [
           <p className="text-caption font-semibold text-ink-600 m-0">description optionnelle — sans, une tuile ; avec, une carte</p>
           <div className="flex flex-wrap gap-stack items-start">
             <IconFeatureCard square tone="warm" iconStyle="plain" iconSize="md" icon={<Trophy size={32} strokeWidth={1.75} />} title="Sans desc" onClick={() => {}} className="w-[140px]" />
-            <IconFeatureCard tone="warm" iconStyle="plain" iconSize="md" icon={<Trophy size={32} strokeWidth={1.75} />} title="Avec desc" description="12 badges cette année" onClick={() => {}} className="w-[180px]" />
+            <IconFeatureCard tone="warm" iconStyle="plain" iconSize="md" icon={<Trophy size={32} strokeWidth={1.75} />} title="Avec desc" description="3 niveaux validés cette année" onClick={() => {}} className="w-[180px]" />
           </div>
         </div>
       </div>
@@ -4163,8 +4202,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'QuizComponent',
     codeName: 'ui/QuizComponent.tsx',
-    description: "Quiz à plusieurs questions, calé à gauche de sa colonne à la largeur de lecture (672 px) : il se centrait lui-même, sur un autre axe que le titre de sa section, et la leçon devait l'enfermer dans une boîte pour le retenir. « Question n sur N » et pourcentage en 13/600, barre de 6 px, question en h3 20, options en rangées de 16, degré de confiance après chaque réponse (`askConfidence`) ; à la fin, le score en `stat-value` et une phrase en 16 ink-700.",
-    keywords: ['quiz', 'question', 'answer', 'test', 'assessment', 'score', 'interactive', 'aligné', 'gauche'],
+    usedBy: ['LessonPlayer'],
+    description: "Quiz à plusieurs questions, dans une carte au rayon 20 (l'étage conteneur ; elle était au rayon 14 d'un bouton), padding 24, calée à gauche de sa colonne à la largeur de lecture (672 px) : elle se centrait elle-même, sur un autre axe que le titre de sa section. « Question n sur N » et pourcentage en 13/600, barre de 6 px, question en h3 20, options en rangées de 16. Après chaque réponse, le degré de confiance (`askConfidence`) : « Pas sûr », « Plutôt sûr », « Certain », trois réponses de même poids en Button soft neutre. Au pied, « Précédent » en ghost neutre, calé sur le bord du texte (`flush`), et « Suivant », puis « Valider », en soft brand : avancer est l'action de la carte, et la leçon garde son solid (arbitrage n°19) ; ces boutons étaient des aplats faits main. À la fin, « Quiz terminé » en h3 20 (un h2 dessiné à 20 jusqu'au 24/09), le score en `stat-value`, une phrase en 16 ink-700 et « Refaire le quiz » en soft brand.",
+    keywords: ['quiz', 'question', 'answer', 'test', 'assessment', 'score', 'interactive', 'aligné', 'gauche', 'confiance', 'calibration', 'soft', 'flush'],
     render: () => (
       <QuizComponent
         questions={[
@@ -4180,25 +4220,40 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ActivityFeed',
     codeName: 'patterns/ActivityFeed.tsx',
-    description: "Fil d'activité chronologique : icônes Lucide par type, acteur en Avatar, trois dispositions — timeline, list (des rangées dans UNE carte, la disposition d'un fil, arbitrage n°5) et cards, gardée pour compatibilité. Titre 16/600 et heure 13 sur la ligne de base, description 16 ink-700 plafonnée à la largeur de lecture — au tableau de bord, elle courait sur 1 002 px ; regroupement par date (libellé 13/600), état vide, « Voir plus ».",
-    keywords: ['activity', 'feed', 'timeline', 'history', 'events', 'chronological', 'notification'],
+    usedBy: ['Dashboard', 'CoachLearnerProfile'],
+    description: "Fil d'activité chronologique : icônes Lucide par type, acteur en Avatar, trois dispositions — timeline, list (des rangées dans UNE carte, la disposition d'un fil, arbitrage n°5) et cards, gardée pour compatibilité. Titre 16/600 et heure 13 sur la ligne de base, description 16 ink-700 plafonnée à la largeur de lecture — au tableau de bord, elle courait sur 1 002 px ; regroupement par date (libellé 13/600), « Voir plus ». L'état vide tutoie l'apprenant, dont le fil vit sur le tableau de bord (arbitrage n°23) : « Aucune activité pour le moment », puis « Tes prochaines activités apparaîtront ici dès que tu commenceras à apprendre. » — il vouvoyait. Une surface qui vouvoie, ou qui montre le fil d'un autre (la fiche apprenant du coach), passe les siens par `emptyMessage` et `emptyDescription` (24/09).",
+    keywords: ['activity', 'feed', 'timeline', 'history', 'events', 'chronological', 'notification', 'empty', 'état vide', 'emptyDescription', 'emptyMessage', 'tu'],
     render: () => {
+      /* Des faits calmes (arbitrage n°18) : un niveau validé, pas un « badge
+         débloqué ». */
       const items = [
-        { id: '1', type: 'complete' as const, title: 'Leçon terminée', description: 'Module 3 — Prompt Engineering avancé', timestamp: new Date(Date.now() - 7200000) },
-        { id: '2', type: 'achievement' as const, title: 'Badge débloqué', description: 'Pionnier IA — Premier badge obtenu', timestamp: new Date(Date.now() - 86400000) },
-        { id: '3', type: 'feedback' as const, title: 'Feedback reçu', description: 'Sophie Martin a commenté votre session', timestamp: new Date(Date.now() - 172800000), actor: { name: 'Sophie Martin' }, actionLabel: 'Voir', onActionClick: () => {} },
-        { id: '4', type: 'progress' as const, title: 'Objectif atteint', description: '5 leçons complétées cette semaine', timestamp: new Date(Date.now() - 86400000 * 5) },
-        { id: '5', type: 'start' as const, title: 'Nouveau parcours commencé', description: 'Leadership & Communication', timestamp: new Date(Date.now() - 86400000 * 10) },
+        { id: '1', type: 'complete' as const, title: 'Leçon terminée', description: 'Module 3, Prompt engineering avancé', timestamp: new Date(Date.now() - 7200000) },
+        { id: '2', type: 'achievement' as const, title: 'Niveau validé', description: 'Leadership, niveau D3, validé par Sophie Martin', timestamp: new Date(Date.now() - 86400000) },
+        { id: '3', type: 'feedback' as const, title: 'Retour reçu', description: 'Sophie Martin a commenté ta session', timestamp: new Date(Date.now() - 172800000), actor: { name: 'Sophie Martin' }, actionLabel: 'Voir', onActionClick: () => {} },
+        { id: '4', type: 'progress' as const, title: 'Objectif atteint', description: '5 leçons terminées cette semaine', timestamp: new Date(Date.now() - 86400000 * 5) },
+        { id: '5', type: 'start' as const, title: 'Nouveau parcours commencé', description: 'Leadership et communication', timestamp: new Date(Date.now() - 86400000 * 10) },
       ];
       return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
-          <div>
-            <p className="text-caption font-semibold text-ink-600 mb-3">timeline, groupée par date</p>
-            <ActivityFeed items={items} layout="timeline" groupByDate />
+        <div className="flex flex-col gap-section">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
+            <div>
+              <p className="text-caption font-semibold text-ink-600 mb-3">timeline, groupée par date</p>
+              <ActivityFeed items={items} layout="timeline" groupByDate />
+            </div>
+            <div>
+              <p className="text-caption font-semibold text-ink-600 mb-3">list — des rangées dans une carte</p>
+              <ActivityFeed items={items.slice(0, 3)} layout="list" />
+            </div>
           </div>
-          <div>
-            <p className="text-caption font-semibold text-ink-600 mb-3">list — des rangées dans une carte</p>
-            <ActivityFeed items={items.slice(0, 3)} layout="list" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-lg">
+            <div>
+              <p className="text-caption font-semibold text-ink-600 mb-3">Vide · la voix de l'apprenant, par défaut</p>
+              <ActivityFeed items={[]} />
+            </div>
+            <div>
+              <p className="text-caption font-semibold text-ink-600 mb-3">Vide · le fil d'un autre, `emptyDescription`</p>
+              <ActivityFeed items={[]} emptyMessage="Aucune activité récente" emptyDescription="Les activités de Camille apparaîtront ici dès qu'elle reprendra son parcours." />
+            </div>
           </div>
         </div>
       );
@@ -4542,9 +4597,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'SectionHeader',
     codeName: 'patterns/SectionHeader.tsx',
-    usedBy: ['Dashboard', 'Journal', 'LearningPathDetail', 'et 94 autres pages (24/09)'],
-    description: "L'en-tête de section canonique : titre, sous-titre, méta, action, pastille d'icône optionnelle. Le niveau se choisit par `as` (h2 par défaut, h3, h4), indépendamment de la taille. Tailles : md, le défaut, et lg → titre h2 28/36 ; sm et xs → titre h3 20/26. La pastille est un IconChip (arbitrage n°3) : 32 · 32 · 40 · 48 px de xs à lg, au rayon proportionnel, glyphe au cran 800 ; la première ligne du titre se centre sur elle. Sous-titre 16 ink-700 à la largeur de lecture et méta en légende 13 ink-600, chacun à 4 px. L'en-tête est une rangée qui se replie : le titre réclame 16rem à côté de l'action, sinon l'action passe dessous, à 8 px, calée à gauche — la règle mesure la place réelle, pas la fenêtre. Variantes default · minimal · underline ; cinq tons, `accent` rejoignant `sun`. `solid` est déprécié et rend la même pastille que default ; `iconClassName` est retiré, `compact` déprécié (= sm). Aucune marge extérieure : la page pose 48 px au-dessus et 16 en dessous.",
-    keywords: ['section', 'header', 'titre', 'title', 'icon', 'IconChip', 'pastille', 'h2', 'h3', 'h4', 'as', 'meta', 'subtitle', 'action', 'wrap', 'replie', '16rem', 'divider', 'variants', 'sizes', 'solid', 'minimal', 'underline', 'canonical'],
+    usedBy: ['Dashboard', 'Journal', 'LearningPathDetail', 'et 86 autres pages (24/09)'],
+    description: "L'en-tête de section canonique : titre, sous-titre, méta, action, pastille d'icône optionnelle. Le niveau se choisit par `as` (h2 par défaut, h3, h4), indépendamment de la taille. Tailles : md, le défaut, et lg → titre h2 28/36 ; sm et xs → titre h3 20/26. La pastille est un IconChip (arbitrage n°3) : 32 · 32 · 40 · 48 px de xs à lg, au rayon proportionnel, glyphe au cran 800 ; la première ligne du titre se centre sur elle. Sous-titre 16 ink-700 à la largeur de lecture et méta en légende 13 ink-600, chacun à 4 px. L'en-tête est une rangée qui se replie : le titre réclame 16rem à côté de l'action, sinon l'action passe dessous, à 8 px, calée à gauche — la règle mesure la place réelle, pas la fenêtre. Un `Button` passé en action reçoit `flush=\"both\"`, sauf s'il porte le sien : un ghost y cale son libellé sur le bord droit de l'en-tête à côté du titre, sur le bord gauche du titre quand il passe dessous ; un soft ou un outline gardent leur boîte alignée. Variantes default · minimal · underline ; cinq tons, `accent` rejoignant `sun`. `solid` est déprécié et rend la même pastille que default ; `iconClassName` est retiré, `compact` déprécié (= sm). Aucune marge extérieure : la page pose 48 px au-dessus et 16 en dessous.",
+    keywords: ['section', 'header', 'titre', 'title', 'icon', 'IconChip', 'pastille', 'h2', 'h3', 'h4', 'as', 'meta', 'subtitle', 'action', 'wrap', 'replie', '16rem', 'divider', 'variants', 'sizes', 'solid', 'minimal', 'underline', 'canonical', 'flush', 'ghost', 'Tout voir'],
     render: () => (
       <div className="flex flex-col gap-section">
         {/* Tailles : de lg à xs, pour que les niveaux ne sautent pas (h2, h2, h3, h3). */}
@@ -4576,7 +4631,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* En situation : sous-titre, méta, action */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-semibold text-ink-600">En situation · sous-titre, méta et action</p>
+          <p className="text-caption font-semibold text-ink-600">En situation · sous-titre, méta et action · le libellé du ghost « Voir tout » tombe sur le bord droit</p>
           <SectionHeader
             icon={BookOpen}
             title="Mes parcours"
@@ -4590,7 +4645,7 @@ const COMPONENTS: ComponentEntry[] = [
         {/* Le repli : la colonne ne laisse pas 16rem au titre à côté de
             l'action, qui passe dessous. Même composant, même props. */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-semibold text-ink-600">Dans une colonne de 320 px · l'action passe sous le titre</p>
+          <p className="text-caption font-semibold text-ink-600">Dans une colonne de 320 px · l'action passe sous le titre, son libellé calé sur le bord gauche</p>
           <div className="max-w-[320px]">
             <SectionHeader
               icon={BookOpen}
@@ -6122,22 +6177,40 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'AIOverrideButton',
     codeName: 'ui/AIOverrideButton.tsx',
-    description: "« Rejeter cette recommandation », pour le coach ou l'admin : un Button ghost neutre (sm par défaut) précédé d'une icône — un outil, jamais l'action principale (arbitrage n°19). Avec `requireReason`, il déplie une zone de texte — libellé 16/600, filet ink-400 — et deux actions sm : « Annuler » en ghost et « Confirmer le rejet » en soft warm, la page gardant son solid. Transversal IA (module 13 bis).",
-    keywords: ['ai', 'ia', 'override', 'reject', 'button', 'coach', 'admin', 'feedback'],
+    description: "« Rejeter cette recommandation » : l'apprenant, son coach ou son manager écarte ce que l'IA propose. Un Button ghost neutre (sm par défaut) précédé d'une icône — un outil, jamais l'action principale (arbitrage n°19). Avec `requireReason`, il déplie une zone de texte — libellé « Raison du rejet (optionnel) » 16/600, filet ink-400 — et deux actions sm : « Annuler » en ghost et « Confirmer le rejet » en soft warm, la page gardant son solid. L'aide de la zone de texte parle la voix de la page (`voix`, 24/09) : « Expliquez pourquoi vous rejetez… » par défaut, le cas ambigu selon PRODUCT.md, et « Explique pourquoi tu rejettes… » avec `voix=\"tu\"`, que passent les pages de l'apprenant (Passeport, confidentialité du profil). Les libellés, à l'infinitif ou nominaux, valent dans les deux voix. Transversal IA (module 13 bis).",
+    keywords: ['ai', 'ia', 'override', 'reject', 'button', 'coach', 'admin', 'feedback', 'voix', 'tu', 'vous', 'apprenant'],
     showcaseOnly: false,
-    usedBy: ['CoachLearnerProfile'],
+    usedBy: ['CoachLearnerProfile', 'PasseportRoadmap (voix « tu »)', 'ProfilePrivacy (voix « tu »)'],
     render: () => (
       <div className="flex flex-col gap-stack">
         <div className="flex flex-wrap gap-stack-xs items-center">
           <AIOverrideButton onOverride={(r) => console.log('Override:', r)} />
           <AIOverrideButton label="Écarter la suggestion" size="md" onOverride={(r) => console.log('Override:', r)} />
         </div>
-        <div className="border border-ink-100 rounded-lg p-stack flex flex-col gap-stack-xs">
-          <p className="text-caption font-semibold text-ink-600">Avec raison obligatoire (requireReason=true) :</p>
-          <AIOverrideButton
-            requireReason
-            onOverride={(r) => console.log('Override with reason:', r)}
-          />
+        {/* Les deux voix, dépliées au clic : l'aide de la zone de texte change. */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
+          <div className="border border-ink-100 rounded-lg p-stack flex flex-col gap-stack-xs">
+            <p className="text-caption font-semibold text-ink-600">requireReason · voix « vous », le défaut (coach, manager)</p>
+            {/* Un bloc autour : replié, le bouton garde sa largeur ; déplié,
+                le champ prend celle du cadre. */}
+            <div>
+              <AIOverrideButton
+                requireReason
+                onOverride={(r) => console.log('Override with reason:', r)}
+              />
+            </div>
+          </div>
+          <div className="border border-ink-100 rounded-lg p-stack flex flex-col gap-stack-xs">
+            <p className="text-caption font-semibold text-ink-600">requireReason · voix="tu" (pages de l'apprenant)</p>
+            <div>
+              <AIOverrideButton
+                requireReason
+                voix="tu"
+                label="Ignorer"
+                onOverride={(r) => console.log('Override with reason:', r)}
+              />
+            </div>
+          </div>
         </div>
       </div>
     ),
@@ -6253,38 +6326,44 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'StepTutorial',
     codeName: 'patterns/StepTutorial.tsx',
-    description: "Tutoriel guidé pas à pas : filet de progression, image optionnelle, compteur « 1 / 3 » en Badge, puis une pastille d'icône de 56 px dont le centre tient la première ligne du titre — un h2 à 28/36 depuis le 24/09 : il suit le h1 de l'écran d'onboarding et nomme le contenu principal ; il était dessiné à 20 — et la description 16 ink-700 ; sous la carte, Précédent en ghost neutre, Suivant et Terminer en solid au ton de la page (arbitrage n°19), tous en Button md, et « Passer » en 13 ; le CTA facultatif d'une étape est en soft. Contrôlé (`currentStep`) ou autonome ; trois tons. Module 3, Onboarding.",
-    keywords: ['tutorial', 'wizard', 'onboarding', 'step', 'étape', 'guide', 'tour', 'progression'],
+    description: "Tutoriel guidé pas à pas, dans une carte en verre clair : filet de progression, image optionnelle, compteur « 1 / 3 » en Badge, puis la pastille de l'étape — un IconChip lg depuis le 24/09 : 48 px au rayon 14, glyphe au cran 800 ; elle était faite main, 56 px au rayon 20, glyphe au 600 — dont le centre tient la première ligne du titre, un h2 à 28/36 (il suit le h1 de l'écran d'onboarding), et la description 16 ink-700. Sous la carte, une rangée : « Précédent » en ghost neutre, calé sur le bord de la carte (`flush`), les points de progression, puis « Suivant », « Compris » à la dernière étape, en solid au ton de la page (arbitrage n°19), tous en Button md ; « Passer le tutoriel » en 13. Sous 28rem de tutoriel (requête de conteneur), les points s'effacent : le compteur et le filet disent déjà l'étape, et à 375 px « Suivant » sortait de l'écran de 24 px. Le CTA facultatif d'une étape est en soft. Contrôlé (`currentStep`) ou autonome ; trois tons. Module 3, Onboarding. ⚠️ La carte est encore au rayon 14, celui d'un bouton, et non au 20 d'un conteneur.",
+    keywords: ['tutorial', 'wizard', 'onboarding', 'step', 'étape', 'guide', 'tour', 'progression', 'IconChip', 'flush', 'container', '28rem'],
     usedBy: ['OnboardingTutorial'],
-    render: () => (
-      <div className="max-w-lg mx-auto">
-        <StepTutorial
-          tone="primary"
-          onComplete={() => {}}
-          onSkip={() => {}}
-          steps={[
-            {
-              id: 'parcours',
-              title: 'Découvre tes parcours',
-              description: 'Explore les parcours de formation adaptés à ton profil Dreyfus. Chaque parcours contient des leçons, des exercices pratiques et des ressources complémentaires.',
-              icon: <BookOpen size={22} />,
-            },
-            {
-              id: 'coaching',
-              title: 'Réserve ton coach',
-              description: 'Tu as accès à des sessions de coaching individualisé. Ton coach t\'accompagne dans ta progression et corrige tes travaux pratiques.',
-              icon: <GraduationCap size={22} />,
-            },
-            {
-              id: 'passeport',
-              title: 'Suis ton Passeport Compétences',
-              description: 'Ton radar de compétences H.S.O. évolue au fil de tes activités. Définis tes objectifs et observe ta progression Dreyfus en temps réel.',
-              icon: <Target size={22} />,
-            },
-          ]}
-        />
-      </div>
-    ),
+    render: () => {
+      const etapes = [
+        {
+          id: 'parcours',
+          title: 'Découvre tes parcours',
+          description: 'Explore les parcours adaptés à ton profil. Chacun contient des leçons, des exercices pratiques corrigés par ton coach et des ressources complémentaires.',
+          icon: <BookOpen />,
+        },
+        {
+          id: 'coaching',
+          title: 'Réserve ton coach',
+          description: 'Ton coach t\'accompagne dans ta progression : sessions individuelles, correction de tes exercices, échanges par la messagerie.',
+          icon: <GraduationCap />,
+        },
+        {
+          id: 'passeport',
+          title: 'Suis ton Passeport',
+          description: 'Ton Passeport situe chaque compétence sur l\'échelle Dreyfus, de D1 Novice à D5 Maître. Un niveau y est validé par ton coach ou ton manager, sur preuves de ta pratique.',
+          icon: <Target />,
+        },
+      ];
+      return (
+        <div className="flex flex-col gap-section">
+          <div className="max-w-lg">
+            <StepTutorial tone="primary" onComplete={() => {}} onSkip={() => {}} steps={etapes} />
+          </div>
+          {/* Le seuil est celui du tutoriel, pas de la fenêtre : dans une
+              colonne étroite, les points s'effacent aussi sur le bureau. */}
+          <div className="flex flex-col gap-stack-xs max-w-[360px]">
+            <p className="text-caption font-semibold text-ink-600">Dans une colonne de 360 px · sous 28rem, les points de progression s'effacent</p>
+            <StepTutorial tone="warm" onComplete={() => {}} steps={etapes} />
+          </div>
+        </div>
+      );
+    },
   },
 
   // ─── Phase 14.1 — Première expérience flow ──────────────────────────────────
@@ -6358,9 +6437,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'DreyfusSlider',
     codeName: 'ui/DreyfusSlider.tsx',
-    description: "Choix d'un niveau Dreyfus sur une piste horizontale (D1 à D5), plus compact que DreyfusLevelSelector : piste de 10 px, curseur de 28 px, un `<input type=\"range\">` invisible pour le clavier ; libellés en 13/600 ink-600 sous la piste, l'actif au cran 800 du ton sans changer de graisse ; description en 13. Sous 24rem de rangée (requête de conteneur), les mots cèdent la place à leur code, D1…D5, au lieu de se chevaucher — « Apprenant » et « Compétent » se recouvraient de 11 px à 375 ; le mot reste lu par les lecteurs d'écran, et la description sous la piste redonne le nom du niveau choisi. Tons brand · warm · sun ; libellés canoniques (DREYFUS_LABELS, cahier 02).",
-    keywords: ['dreyfus', 'slider', 'level', 'positionnement', 'competence', 'track', 'horizontal', 'compact', 'touch', 'container', 'abréviation', 'D1'],
-    usedBy: ['Positionnement'],
+    description: "Choix d'un niveau Dreyfus sur une piste horizontale (D1 à D5), plus compact que DreyfusLevelSelector : piste de 10 px, curseur de 28 px, un `<input type=\"range\">` invisible pour le clavier, et un cran cliquable par niveau ; libellés en 13/600 ink-600 sous la piste, l'actif au cran 800 du ton sans changer de graisse ; description en 13. Chaque cran tombe sous son libellé depuis le 24/09 : la piste va du centre de la première colonne de libellés au centre de la dernière (une demi-colonne de marge de chaque côté), et les crans sont centrés sur elle. Elle occupait toute la rangée : ses crans tombaient à 0, 25, 50, 75 et 100 % quand les libellés sont centrés à 10, 30, 50, 70 et 90 % — jusqu'à 67 px d'écart à 1440 —, et ils pendaient 10 px sous la piste. Sous 24rem de rangée (requête de conteneur), les mots cèdent la place à leur code, D1…D5, au lieu de se chevaucher ; le mot reste lu par les lecteurs d'écran, et la description sous la piste redonne le nom du niveau choisi. Tons brand · warm · sun ; libellés canoniques (DREYFUS_LABELS, cahier 02).",
+    keywords: ['dreyfus', 'slider', 'level', 'positionnement', 'competence', 'track', 'horizontal', 'compact', 'touch', 'container', 'abréviation', 'D1', 'cran', 'aligné'],
+    usedBy: ['CoachCorrectionInterface'],
     render: () => {
       const [v1, setV1] = React.useState<number | undefined>(undefined);
       const [v2, setV2] = React.useState<number | undefined>(3);
@@ -6470,8 +6549,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'FlipCard',
     codeName: 'patterns/FlipCard.tsx',
-    description: "Carte à retourner (rotation 3D), dont chaque face est un `<button>` : tout son contenu est phrasé, en `<span>`, sans élément de titre. Au recto, une photo voilée, une bulle d'icône, la catégorie en MetaPill md, le titre en 20/26/700 à toutes les largeurs — il passait à 28 dès 640 px, un titre de section pour nommer une carte — et une indication en 13/600 ; au verso, un dégradé au cran 700 du ton, la réponse en chapô 18/28 et le détail en 16. Tons primary · warm · sun ; hauteur réglable (380 par défaut).",
-    keywords: ['flip', 'card', 'flashcard', '3d', 'rotate', 'learning', 'tone', 'button'],
+    description: "Carte à retourner (rotation 3D), dont chaque face est un `<button>` : tout son contenu est phrasé, en `<span>`, sans élément de titre. Au recto, une photo voilée, une bulle d'icône, la catégorie en MetaPill md, le titre en 20/26/700 à toutes les largeurs et l'indication « Retourne la carte » en 13/600, sur un voile blanc (elle disait « Cliquez pour voir la réponse » : elle vouvoyait l'apprenant et ne valait que pour la souris) ; au verso, un dégradé au cran 700 du ton, la réponse en chapô 18/28 et le détail en 16. Chaque face est nommée par son contenu, la question au recto, la réponse au verso : les deux portaient `aria-label=\"Retourner la flashcard\"`, et un lecteur d'écran n'entendait jamais ni l'une ni l'autre. La face cachée sort du clavier et de l'arbre d'accessibilité ; retourner la carte depuis une face fait passer le focus sur l'autre, et Entrée la retourne encore. Tons primary · warm · sun ; hauteur réglable (380 par défaut).",
+    keywords: ['flip', 'card', 'flashcard', '3d', 'rotate', 'learning', 'tone', 'button', 'accessibilité', 'nom accessible', 'focus', 'Retourne la carte'],
     usedBy: ['FlashcardsViewer'],
     render: () => {
       const [flipped, setFlipped] = React.useState(false);
@@ -6511,7 +6590,7 @@ const COMPONENTS: ComponentEntry[] = [
             />
           </div>
           <p className="font-body text-caption text-ink-600">
-            {flipped ? 'Verso visible — cliquer pour retourner' : 'Recto — cliquer pour voir la réponse'}
+            {flipped ? 'Verso visible : un clic, Entrée ou Espace ramène le recto.' : 'Recto visible : un clic, Entrée ou Espace retourne la carte.'}
           </p>
         </div>
       );
@@ -7971,8 +8050,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ChartDetailModal',
     codeName: 'charts/ChartDetailModal.tsx',
     showcaseOnly: true,
-    description: "Ouvre un graphique en grand, dans un panneau au rayon 24 (90 % de la hauteur au plus), en-tête et pied collants : titre h2 au pas h3 (20/700), sous-titre 16 ink-700, le graphique, puis les actions en Button md — la dernière, l'action que la modale sert, en solid brand ; les autres en ghost neutre (arbitrage n°19), `emphasis` et `tone` restant surchargeables. Un vrai dialogue depuis le 24/09, par `useDialog` comme les modales de `modals/` : nommé par son titre, focus d'entrée sur « Fermer », Tab et Maj+Tab piégés, Échap, focus rendu au déclencheur ; le voile n'est plus un faux bouton, seulement une zone de clic.",
-    keywords: ['chart', 'modal', 'detail', 'plein ecran', 'analytics', 'zoom', 'dialog', 'focus', 'useDialog'],
+    description: "Ouvre un graphique en grand, dans un panneau au rayon 24 (90 % de la hauteur au plus), en-tête et pied collants : titre h2 au pas h3 (20/700), sous-titre 16 ink-700, le graphique, puis les actions en Button md — la dernière, l'action que la modale sert, en solid brand ; les autres en ghost neutre (arbitrage n°19), `emphasis` et `tone` restant surchargeables. Un vrai dialogue depuis le 24/09, par `useDialog` comme les modales de `modals/` : nommé par son titre, focus d'entrée sur « Fermer », Tab et Maj+Tab piégés, Échap, focus rendu au déclencheur, et la page derrière inerte pendant l'ouverture ; le voile n'est plus un faux bouton, seulement une zone de clic (`aria-hidden`, laissé tel quel par l'inertie).",
+    keywords: ['chart', 'modal', 'detail', 'plein ecran', 'analytics', 'zoom', 'dialog', 'focus', 'useDialog', 'inert'],
     render: () => <ChartDetailModalDemo />,
   },
   {
