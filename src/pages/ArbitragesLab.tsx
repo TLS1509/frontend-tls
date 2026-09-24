@@ -590,6 +590,76 @@ const ButtonHierSpecimen: React.FC<{ look: BtnLook }> = ({ look }) => (
   </div>
 );
 
+/* n°26 — La direction du bouton : cinq façons de peindre l'action principale,
+   à partir des seules couleurs TLS. Rendus en boutons autonomes (et non en
+   surcharges de <Button>) pour que chaque direction soit exactement ce qu'elle
+   dit ; hauteur, padding et icône sont ceux du `md` réel (44 px, 20, 18). */
+type Direction = 'actuel' | 'teal' | 'vif' | 'encre' | 'matiere';
+type ToneKey = 'brand' | 'warm' | 'sun';
+const SOLID_BY_DIRECTION: Record<Direction, Record<ToneKey, string>> = {
+  actuel: { brand: 'bg-primary-700 text-white', warm: 'bg-secondary-700 text-white', sun: 'bg-accent-700 text-white' },
+  teal: { brand: 'bg-primary-700 text-white', warm: 'bg-primary-700 text-white', sun: 'bg-primary-700 text-white' },
+  vif: { brand: 'bg-primary-500 text-ink-900', warm: 'bg-secondary-500 text-ink-900', sun: 'bg-accent-400 text-ink-900' },
+  encre: { brand: 'bg-ink-900 text-white', warm: 'bg-ink-900 text-white', sun: 'bg-ink-900 text-white' },
+  matiere: {
+    brand: 'bg-gradient-to-b from-primary-400 to-primary-500 text-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.45)]',
+    warm: 'bg-gradient-to-b from-secondary-400 to-secondary-500 text-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.45)]',
+    sun: 'bg-gradient-to-b from-accent-300 to-accent-400 text-ink-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.55)]',
+  },
+};
+/* L'accent de ton que garde chaque direction sur le niveau de contexte. */
+const SOFT_BY_TONE: Record<ToneKey, string> = {
+  brand: 'bg-primary-50 text-primary-800 border border-primary-700',
+  warm: 'bg-secondary-50 text-secondary-800 border border-secondary-700',
+  sun: 'bg-accent-50 text-accent-800 border border-accent-700',
+};
+const SPEC_BASE = 'inline-flex items-center justify-center gap-stack-xs h-touch px-stack-md rounded-lg font-body font-bold text-body whitespace-nowrap';
+const SpecButton: React.FC<{ className: string; icon?: boolean; children: React.ReactNode; font?: string }> = ({ className, icon, children, font }) => (
+  <button type="button" className={`${SPEC_BASE} ${font ?? ''} ${className}`}>
+    {children}
+    {icon && <ChevronRight size={18} aria-hidden />}
+  </button>
+);
+const DirectionSpecimen: React.FC<{ d: Direction }> = ({ d }) => {
+  const rangee = (tone: ToneKey, surface: string, label: string, principal: string) => (
+    <div className={`rounded-xl border p-stack-md flex flex-col gap-stack-xs ${surface}`}>
+      <span className="text-caption text-ink-700">{label}</span>
+      <div className="flex flex-wrap items-center gap-stack-xs">
+        <SpecButton className={SOLID_BY_DIRECTION[d][tone]} icon>{principal}</SpecButton>
+        <SpecButton className={SOFT_BY_TONE[tone]}>Voir le détail</SpecButton>
+        <SpecButton className="bg-transparent text-ink-800">Plus tard</SpecButton>
+      </div>
+    </div>
+  );
+  return (
+    <div className="w-full flex flex-col gap-stack-xs">
+      {rangee('brand', 'bg-white border-ink-200', 'Écran teal (focus)', 'Reprendre')}
+      {rangee('warm', 'bg-secondary-50 border-secondary-100', 'Écran orange (action), sur carte teintée', 'Réserver la session')}
+      {rangee('sun', 'bg-white border-ink-200', 'Écran or (réflexion)', 'Publier mon entrée')}
+    </div>
+  );
+};
+
+/* n°27 — Le libellé : les deux familles TLS, trois graisses. */
+type Libelle = 'nunito700' | 'nunito600' | 'spartan600';
+const FONT_BY_LIBELLE: Record<Libelle, string> = {
+  nunito700: '',
+  nunito600: '!font-semibold',
+  spartan600: '!font-display !font-semibold tracking-snug',
+};
+const LabelSpecimen: React.FC<{ l: Libelle }> = ({ l }) => (
+  <div className="w-full rounded-xl border border-ink-200 bg-white p-stack-md flex flex-col gap-stack-sm">
+    <div className="flex flex-wrap items-center gap-stack-xs">
+      <SpecButton className="bg-primary-700 text-white" font={FONT_BY_LIBELLE[l]} icon>Reprendre la leçon</SpecButton>
+      <SpecButton className={SOFT_BY_TONE.brand} font={FONT_BY_LIBELLE[l]}>Voir le parcours</SpecButton>
+      <SpecButton className="bg-transparent text-ink-800" font={FONT_BY_LIBELLE[l]}>Plus tard</SpecButton>
+    </div>
+    <p className="m-0 text-caption text-ink-600">
+      Sous un titre de carte (League Spartan 20 / 700) et à côté d'un libellé de champ (Nunito 16 / 600).
+    </p>
+  </div>
+);
+
 /* n°20 — Corps de texte : une seule taille, 16 ou 15. */
 const BodySizeSpecimen: React.FC<{ size: 'body' | 'body-sm' }> = ({ size }) => (
   <div className="w-full rounded-xl border border-ink-200 bg-white p-stack-md flex flex-col gap-stack-xs">
@@ -887,7 +957,30 @@ export default function ArbitragesLab() {
     ],
   });
 
+  const s500 = tok('secondary-500'), s700 = tok('secondary-700'), a400 = tok('accent-400'), a700 = tok('accent-700');
   const AUDIT: Omit<DecisionProps, 'choice' | 'setChoice'>[] = [
+    {
+      id: 'direction-bouton', n: 26, title: 'La direction du bouton',
+      question: 'L’action principale d’un écran : de quelle couleur, dans quelle matière ?',
+      context: <p>Depuis l'arbitrage n°19, chaque écran a un seul <code>solid</code>. Au ton warm ou sun, il est peint au cran 700 — le premier qui porte du blanc à 4,5:1 — et ce cran tire l'orange et l'or vers le brun. Un libellé de 16 px n'est pas du « grand texte » : quelle que soit la direction, il lui faut 4,5:1. Le niveau de contexte (<code>soft</code>) et le tertiaire (<code>ghost</code>) sont ceux d'aujourd'hui dans les cinq directions ; seule change l'action principale. La forme (rayon 14, arbitrage R3) n'est pas rouverte.</p>,
+      options: [
+        { letter: 'A', label: 'Actuel : le ton au cran 700', facts: [`Blanc sur teal 700 : ${fmt(ratio('#ffffff', p700))} · orange 700 : ${fmt(ratio('#ffffff', s700))} · or 700 : ${fmt(ratio('#ffffff', a700))}`, 'L’orange et l’or tirent vers le brun'], children: <DirectionSpecimen d="actuel" /> },
+        { letter: 'B', label: 'Teal unique', facts: [`Blanc sur teal 700 : ${fmt(ratio('#ffffff', p700))}:1, partout`, 'L’action principale a toujours la même couleur, sur tout le produit', 'L’orange et l’or vivent dans les soft, les pastilles, les illustrations'], children: <DirectionSpecimen d="teal" /> },
+        { letter: 'C', label: 'Vif, à l’encre', facts: [`Encre sur teal 500 : ${fmt(ratio(ink900, p500))} · orange 500 : ${fmt(ratio(ink900, s500))} · or 400 : ${fmt(ratio(ink900, a400))}`, 'Les couleurs de marque telles quelles, sans les assombrir', 'Encre sur aplat vif : très présent, registre « signalétique »'], children: <DirectionSpecimen d="vif" /> },
+        { letter: 'D', label: 'Encre', facts: [`Blanc sur ink-900 : ${fmt(ratio('#ffffff', ink900))}:1`, 'Registre éditorial, calme, premium : la couleur passe dans les soft et les accents', 'L’action principale ne dit plus le ton de l’écran'], children: <DirectionSpecimen d="encre" /> },
+        { letter: 'E', label: 'Matière : dégradé vif, reflet', facts: [`Encre sur le bas du dégradé — teal 500 : ${fmt(ratio(ink900, p500))} · orange 500 : ${fmt(ratio(ink900, s500))} · or 400 : ${fmt(ratio(ink900, a400))}`, 'Un léger dégradé vertical et un reflet haut : « le soin dans la matière » (brief §4)', 'La plus riche ; à ne pas multiplier'], children: <DirectionSpecimen d="matiere" /> },
+      ],
+    },
+    {
+      id: 'libelle-bouton', n: 27, title: 'Le libellé du bouton',
+      question: 'Quelle famille et quelle graisse pour le texte d’un bouton ?',
+      context: <p>Les deux familles TLS : Nunito (le texte, avec de vraies italiques) et League Spartan (les titres, sans italique). Aujourd'hui les boutons sont en Nunito 700, comme les <code>Badge</code>. La graisse ne change pas le contraste : à 16 px, ni le 600 ni le 700 ne sont du « grand texte ».</p>,
+      options: [
+        { letter: 'A', label: 'Nunito 700 (actuel)', facts: ['L’action se détache nettement du texte', 'Même graisse que les titres'], children: <LabelSpecimen l="nunito700" /> },
+        { letter: 'B', label: 'Nunito 600', facts: ['Plus calme, plus éditorial', 'Même graisse que les libellés de champ et les onglets', 'Le niveau (solid, soft, ghost) porte seul la hiérarchie'], children: <LabelSpecimen l="nunito600" /> },
+        { letter: 'C', label: 'League Spartan 600', facts: ['La voix des titres, géométrique, plus « marque »', 'Le bouton parle comme l’affiche du site', 'À 16 px, elle paraît plus petite que Nunito (œil plus bas) : il faudrait la monter à 17 ou 18'], children: <LabelSpecimen l="spartan600" /> },
+      ],
+    },
     {
       id: 'gamification', n: 18, title: 'La couche de gamification',
       question: 'Garde-t-on séries, XP et classement, ou une page « Reconnaissances » adossée aux niveaux validés ?',
@@ -984,7 +1077,7 @@ export default function ArbitragesLab() {
         <header className="flex flex-col gap-stack max-w-prose">
           <h1 className="font-display text-h1 text-ink-900">Arbitrages du design system</h1>
           <p className="text-body text-ink-700">
-            Huit décisions ouvertes par l'audit UX/UI du 23/09 (n°18 à 25), puis les dix-sept déjà tranchées, gardées pour mémoire. Chaque option est rendue avec les vrais composants ; les contrastes sont calculés en direct sur les tokens. Choisis, puis copie tes choix dans la conversation.
+            Deux décisions ouvertes sur le bouton (n°26, sa direction ; n°27, son libellé — 24/09), puis celles de l'audit UX/UI du 23/09 (n°18 à 25 : n°24 et 25 restent ouvertes), puis les dix-sept tranchées avant, gardées pour mémoire. Chaque option est rendue avec les vrais composants ; les contrastes sont calculés en direct sur les tokens. Choisis, puis copie tes choix dans la conversation.
           </p>
           <nav aria-label="Décisions" className="flex flex-wrap gap-stack-xs">
             {all.map((d) => (
