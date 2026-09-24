@@ -256,10 +256,8 @@ import {
   LineChart,
   AreaChart,
   PieChart,
-  ScatterChart,
   ComposedChart,
   HeatmapChart,
-  ChartContainer,
   ChartWithExport,
   ChartDetailModal,
   TimelineChart,
@@ -7287,27 +7285,6 @@ const COMPONENTS: ComponentEntry[] = [
   },
 
   {
-    name: 'ScatterChart',
-    codeName: 'charts/ScatterChart.tsx',
-    description: "Nuage de points ou bulles, pour une corrélation : positionnement des apprenants, compétence contre engagement. Info-bulle propre — le libellé du point en 13/600, puis « axe : valeur » en 13 ink-700, arrondi à l'entier ; taille des bulles par `z` (`bubbleScale`) ; domaines réglables ; clic sur un point. `xAxisLabel` et `yAxisLabel` sont dessinés depuis le 24/09, avec l'habillage de ComposedChart — le titre vertical à gauche des graduations, l'horizontal dessous, dans un axe porté à 52 px pour que la légende ne le recouvre pas ; ils n'alimentaient que l'info-bulle et le nom accessible. Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
-    keywords: ['scatter', 'bubble', 'chart', 'correlation', 'positioning', 'analytics'],
-    usedBy: ['Coach'],
-    render: () => (
-      <ScatterChart
-        data={[
-          { label: 'Alice', x: 85, y: 90, z: 50 },
-          { label: 'Bruno', x: 72, y: 78, z: 40 },
-          { label: 'Chloé', x: 91, y: 88, z: 60 },
-        ]}
-        xAxisLabel="Niveau de compétence"
-        yAxisLabel="Engagement"
-        bubbleScale={2}
-        size="md"
-      />
-    ),
-  },
-
-  {
     name: 'ComposedChart',
     codeName: 'charts/ComposedChart.tsx',
     description: "Barres et courbe sur un même graphique, pour deux mesures liées (nombre d'activités et score moyen, volume et qualité). Barres à 70 % d'opacité, courbes de 2 px ; double axe en option (`dualAxis`) ; une série passe sur l'axe droit par `yAxisId: 'right'` — sans lui, elle reste à gauche et l'axe droit, dessiné, reste vide. Titres d'axe verticaux en 13 ink-600, à nommer : leurs défauts sont « Valeur » (« Value » jusqu'au 24/09) et « Score ». Socle commun (chartTheme.ts) : graduations et titres d'axe en 13/400 ink-600 tabulaires, info-bulle blanche au rayon 14 (titre 13/600, valeurs 13 ink-700), légende en 13 ink-700, nombres et pourcentages à la française ; `role=\"img\"` et `ariaLabel`.",
@@ -7353,28 +7330,6 @@ const COMPONENTS: ComponentEntry[] = [
         showValues
         onCellClick={() => {}}
       />
-    ),
-  },
-
-  {
-    name: 'ChartContainer',
-    codeName: 'charts/ChartContainer.tsx',
-    description: "La carte qui porte un graphique posé seul dans une section. Elle passe par Card depuis le 24/09 — rayon 20, padding 24, filet ink-200 —, le contenu centré ; c'était une carte faite main au rayon 14, padding 16, filet ink-100, un troisième gabarit de carte. Le padding dépasse le rayon : ce qu'elle contient garde sa forme (règle des coins imbriqués). Elle ne se pose jamais dans une carte — ce serait une carte dans une carte : dans une carte, poser le graphique directement. Elle n'expose que `children` et `className`, ni titre ni taille : un titre se pose au-dessus, par la page.",
-    keywords: ['chart', 'container', 'wrapper', 'card', 'carte', 'consistent', 'styling', 'analytics'],
-    usedBy: ['CoachDashboard'],
-    // ChartContainer n'expose que children + className (pas de title/size)
-    render: () => (
-      <ChartContainer>
-        <LineChart
-          data={[
-            { label: 'T1', value: 25 },
-            { label: 'T2', value: 32 },
-            { label: 'T3', value: 38 },
-          ]}
-          dataKey="value"
-          size="sm"
-        />
-      </ChartContainer>
     ),
   },
 

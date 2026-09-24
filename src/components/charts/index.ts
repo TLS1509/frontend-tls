@@ -1,10 +1,8 @@
-export { ChartContainer } from './ChartContainer';
 export { RadarChart } from './RadarChart';
 export { BarChart } from './BarChart';
 export { LineChart } from './LineChart';
 export { AreaChart } from './AreaChart';
 export { PieChart } from './PieChart';
-export { ScatterChart } from './ScatterChart';
 export { ComposedChart } from './ComposedChart';
 export { HeatmapChart } from './HeatmapChart';
 export { TimelineChart } from './TimelineChart';
@@ -18,7 +16,6 @@ export type { BarChartProps, BarChartDataPoint } from './BarChart';
 export type { LineChartProps, LineChartDataPoint } from './LineChart';
 export type { AreaChartProps, AreaChartDataPoint } from './AreaChart';
 export type { PieChartProps, PieChartDataPoint } from './PieChart';
-export type { ScatterChartProps, ScatterChartDataPoint } from './ScatterChart';
 export type { ComposedChartProps, ComposedChartSeriesConfig, ComposedChartDataPoint } from './ComposedChart';
 export type { HeatmapChartProps, HeatmapDataPoint } from './HeatmapChart';
 export type { TimelineEvent } from './TimelineChart';

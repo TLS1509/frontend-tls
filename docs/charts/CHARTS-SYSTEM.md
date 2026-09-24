@@ -25,7 +25,6 @@ Centralized charting system for multi-surface data visualization (Passeport, Ent
 
 ```
 src/components/charts/
-├── ChartContainer.tsx      # Wrapper for consistent styling/spacing
 ├── RadarChart.tsx          # Radar visualization (Recharts Radar)
 ├── index.ts                # Barrel export
 └── (future) BarChart, LineChart, HeatmapChart, etc.
@@ -57,7 +56,7 @@ Quick reference for all available charts:
 | **LineChart** | Line | Trends over time, progression, engagement timelines | `import { LineChart }` |
 | **AreaChart** | Area | Cumulative metrics, distribution, stacked trends | `import { AreaChart }` |
 | **PieChart** | Pie/Donut | Distribution, completion rates, category breakdown | `import { PieChart }` |
-| **ScatterChart** | Scatter/Bubble | Correlation, learner matrix, performance scatter | `import { ScatterChart }` |
+| ~~ScatterChart~~ | Scatter/Bubble | Supprimé le 24/09/2026 (aucun usage produit : la matrice de performance du tableau de bord coach, son seul consommateur, est partie) — à recréer depuis l'historique git si le besoin revient (commit `27d7d95b`) | — |
 | **ComposedChart** | Bar + Line | Complex metrics (count + score), dual-axis analysis | `import { ComposedChart }` |
 | **HeatmapChart** | Heatmap Grid | Team skills matrix, learner progress grid | `import { HeatmapChart }` |
 
@@ -300,38 +299,10 @@ interface PieChartProps {
 
 ### `ScatterChart`
 
-Correlation analysis and distribution (bubble chart optional).
-
-#### Key Props
-
-```tsx
-interface ScatterChartProps {
-  data: ScatterChartDataPoint[]; // { label, x, y, z?, color? }
-  xAxisLabel?: string;
-  yAxisLabel?: string;
-  xDomain?: [number, number];
-  yDomain?: [number, number];
-  size?: 'sm' | 'md' | 'lg';
-  bubbleScale?: number;         // scale for z value
-  onDotClick?: (data, index) => void;
-}
-```
-
-#### Example
-
-```tsx
-<ScatterChart
-  data={[
-    { label: 'Alice', x: 85, y: 90, z: 50 },  // z = hours spent
-    { label: 'Bob', x: 72, y: 78, z: 40 },
-    { label: 'Carol', x: 91, y: 88, z: 60 },
-  ]}
-  xAxisLabel="Skill Level (0-100)"
-  yAxisLabel="Engagement (0-100)"
-  bubbleScale={2}
-  onDotClick={(data) => navigate(`/learner/${data.label}`)}
-/>
-```
+> Supprimé le 24/09/2026 (aucun usage produit : son seul consommateur, la
+> matrice de performance de `/coach/dashboard`, a été retiré avec l'arbitrage
+> n°18). À recréer depuis l'historique git si le besoin revient
+> (`git show 27d7d95b:src/components/charts/ScatterChart.tsx`).
 
 ---
 
@@ -412,33 +383,11 @@ interface HeatmapChartProps {
 
 ### `ChartContainer`
 
-Wrapper for consistent styling across all charts.
-
-#### Props
-
-```tsx
-interface ChartContainerProps {
-  children: React.ReactNode;
-  className?: string;  // Additional classes
-}
-```
-
-#### Styling
-
-- White background (`bg-white`)
-- Subtle border (`border border-ink-100`)
-- Padding (`p-stack`)
-- Rounded corners (`rounded-lg`)
-
-#### Usage
-
-```tsx
-import { ChartContainer } from '@/components/charts';
-
-<ChartContainer>
-  <RadarChart {...props} />
-</ChartContainer>
-```
+> Supprimé le 24/09/2026 (aucun usage produit). Sa règle reste : un graphique
+> posé seul dans une section va dans une `Card` ; dans une carte, il se pose
+> directement — jamais de carte dans une carte. À recréer depuis l'historique
+> git si le besoin revient
+> (`git show be5d7fa6:src/components/charts/ChartContainer.tsx`).
 
 ---
 
@@ -521,7 +470,7 @@ Recharts labels inherit from global styles:
 - ✅ `LineChart` — Line trends with smooth curves
 - ✅ `AreaChart` — Area with stacking & gradients
 - ✅ `PieChart` — Pie/donut distributions
-- ✅ `ScatterChart` — Scatter/bubble correlations
+- ~~`ScatterChart`~~ — supprimé le 24/09/2026 (aucun usage produit)
 - ✅ `ComposedChart` — Bar + line hybrid with dual axes
 - ✅ `HeatmapChart` — Custom grid heatmap (Red→Yellow→Green)
 

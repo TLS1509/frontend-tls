@@ -71,7 +71,7 @@ export const SUBCATEGORY_ORDER: Record<Category, string[]> = {
   'Lists & Feeds': ['Grids', 'Feeds (chronological)', 'Lists (vertical)', 'Tables'],
   Forms: ['Composite forms', 'Inputs'],
   Learning: ['Achievements', 'Competence', 'Goals & progress', 'Quiz & flashcards', 'Viewer content', 'Compétences'],
-  'Data Visualization': ['Competency charts', 'Distribution charts', 'Trend charts', 'Composition charts', 'Correlation charts', 'Composite charts', 'Matrix charts', 'Timeline & Events', 'Progress & Gauges', 'Chart utilities'],
+  'Data Visualization': ['Competency charts', 'Distribution charts', 'Trend charts', 'Composition charts', 'Composite charts', 'Matrix charts', 'Timeline & Events', 'Progress & Gauges', 'Chart utilities'],
   Modals: ['Base', 'Booking flow', 'Confirm/Status', 'Celebrations', 'Media', 'Onboarding'],
   'Auth Family': ['Shell & layout'],
   'Pages & Templates': ['États d\'erreur'],
@@ -459,12 +459,10 @@ export const CATALOG: Record<string, CatalogMeta> = {
   LineChart:            { category: 'Data Visualization', subCategory: 'Trend charts' },
   AreaChart:            { category: 'Data Visualization', subCategory: 'Trend charts' },
   PieChart:             { category: 'Data Visualization', subCategory: 'Composition charts' },
-  ScatterChart:         { category: 'Data Visualization', subCategory: 'Correlation charts' },
   ComposedChart:        { category: 'Data Visualization', subCategory: 'Composite charts' },
   HeatmapChart:         { category: 'Data Visualization', subCategory: 'Matrix charts' },
   TimelineChart:        { category: 'Data Visualization', subCategory: 'Timeline & Events' },
   GaugeChart:           { category: 'Data Visualization', subCategory: 'Progress & Gauges' },
-  ChartContainer:       { category: 'Data Visualization', subCategory: 'Chart utilities' },
   ChartExportButton:    { category: 'Data Visualization', subCategory: 'Chart utilities' },
 };
 
