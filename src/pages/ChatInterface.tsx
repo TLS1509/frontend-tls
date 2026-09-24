@@ -18,32 +18,26 @@ function formatTime(): string {
 
 // ─── AI transparency footer (AI Act Article 4 compliance) ────────────────────
 
+/* Le score de confiance et les sources sont des DONNÉES sur la réponse :
+   MetaPill (arbitrage n°14), au registre des puces (11/500). Elles étaient
+   faites main, en rectangles au rayon 4. La confiance garde son ton selon
+   la valeur. */
 function ConfidenceChip({ score }: { score: number }) {
   const pct = Math.round(score * 100);
-  const cls =
-    pct >= 80
-      ? 'text-success-fg bg-success-bg border-success-border'
-      : pct >= 60
-        ? 'text-info-fg bg-info-bg border-info-border'
-        : 'text-warning-fg bg-warning-bg border-warning-border';
-  return (
-    /* Une donnée, au registre des puces : 11/500, pilule sous 28 px (elle
-       était un rectangle au rayon 4). */
-    <span className={`inline-flex items-center text-micro font-medium tabular-nums px-2 py-0.5 rounded-pill border ${cls}`}>
-      {pct}{'\u00A0'}% de confiance
-    </span>
-  );
+  const tone = pct >= 80 ? 'success' : pct >= 60 ? 'info' : 'sun';
+  return <MetaPill text={`${pct}\u00A0% de confiance`} tone={tone} />;
 }
 
 function SourceChip({ source }: { source: ChatSourceCitation }) {
   const inner = (
-    <span className="inline-flex items-center gap-stack-3xs text-micro text-primary-800 bg-primary-50 border border-primary-100 px-2 py-0.5 rounded-pill font-medium hover:bg-primary-100 transition-colors duration-fast">
-      {source.title}
-      {source.url && <ExternalLink size={14} aria-hidden />}
-    </span>
+    <MetaPill
+      tone="brand"
+      text={source.title}
+      icon={source.url ? <ExternalLink aria-hidden /> : undefined}
+    />
   );
   return source.url
-    ? <a href={source.url} className="focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500 rounded-pill">{inner}</a>
+    ? <a href={source.url} className="inline-flex rounded-pill focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500">{inner}</a>
     : inner;
 }
 
@@ -94,10 +88,7 @@ function buildAiContent(m: ChatMessage): React.ReactNode {
       <div className="flex flex-col gap-tight">
         <p className="text-body text-ink-900">{m.content}</p>
         <div className="flex items-center gap-tight pt-tight border-t border-ink-100 mt-1">
-          <span className="inline-flex items-center gap-stack-3xs text-micro font-medium text-ink-600 bg-ink-50 border border-ink-200 px-2 py-0.5 rounded-pill">
-            <Shield size={14} aria-hidden />
-            Filtré (confidentialité)
-          </span>
+          <MetaPill tone="neutral" icon={<Shield aria-hidden />} text="Filtré (confidentialité)" />
         </div>
       </div>
     );
