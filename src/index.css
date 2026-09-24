@@ -1230,21 +1230,11 @@
   min-height: 100vh;
 }
 
-/* ============================================
-   UTILITY CLASSES
-   ============================================ */
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
+/* `.sr-only` : plus de définition maison ici (retirée le 2026-09-24). Posée
+   HORS de toute couche, elle battait le `not-sr-only` de Tailwind, qui vit dans
+   `@layer utilities` : le lien « Aller au contenu » du site restait à 1 × 1 px
+   au focus (échec WCAG 2.4.7), et `DreyfusSlider` devait contourner. Tailwind
+   génère la même utility, dans sa couche, et ses variantes fonctionnent. */
 
 /* ============================================
    OMBRES ET TRACKING : générés par Tailwind depuis @theme
