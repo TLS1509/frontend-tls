@@ -2255,8 +2255,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'QuickActionButton',
     codeName: 'ui/QuickActionButton.tsx',
     cssBase: 'Tailwind (no BEM)',
-    usedBy: ['Coaching'],
-    description: "Raccourci en forme de carte compacte : pastille d'icône teintée, libellé 16/700, sous-titre optionnel en légende 13 ink-600, chevron à droite. Rayon 20, environ 66 px de haut (76 avec sous-titre). Quatre tons — primary, warm, sun, et accent qui recopie sun — sur quatre surfaces (card · tinted · glass · frosted), état désactivé. Pour les raccourcis et outils d'une section : plus compact qu'IconFeatureCard ou ActionCard, plus visuel qu'un Button.",
+    showcaseOnly: true,
+    description: "Raccourci en forme de carte compacte, mais un bouton : rayon 14, l'étage interactif — il portait le rayon d'une carte, 20, et sa pastille tombait hors de la règle des coins imbriqués. Pastille IconChip md (40 px, rayon 10, glyphe au cran 800 ; au cran 100 sur la surface tinted, où le cran 50 se fondait dans le bouton), libellé 16/700, sous-titre optionnel en légende 13 ink-600, chevron à droite ; padding 16 × 12, environ 66 px de haut (76 avec sous-titre). Quatre tons — primary, warm, sun, et accent qui recopie sun — sur quatre surfaces (card · tinted · glass · frosted), état désactivé. Aucun appel produit : la page Coaching, qu'il citait, ne l'emploie pas.",
     keywords: ['quick', 'action', 'raccourci', 'button', 'card', 'icon', 'tone', 'chevron', 'shortcut', 'tile', 'surface'],
     render: () => (
       <div className="flex flex-col gap-stack-xs max-w-[420px]">
@@ -2279,6 +2279,15 @@ const COMPONENTS: ComponentEntry[] = [
           icon={<PenLine size={18} />}
           label="Réflexions journal"
           subtitle="Vos entrées liées au coaching"
+          onClick={() => {}}
+        />
+        {/* Sur la surface tinted, la pastille monte au cran 100 (arbitrage n°10). */}
+        <QuickActionButton
+          tone="primary"
+          surface="tinted"
+          icon={<Target size={18} />}
+          label="Mes objectifs"
+          subtitle="Surface tinted, pastille au cran 100"
           onClick={() => {}}
         />
         <QuickActionButton
@@ -2563,9 +2572,9 @@ const COMPONENTS: ComponentEntry[] = [
     // Phase 1 P0 (2026-06-30, vérifié): Figma Card 1111:46 + Card/Glass 1111:63 = tous les
     // variants code présents; tinted déjà tone-split (primary/warm/sun/brand). Rien ne manquait.
     name: 'Card',
-    codeName: 'Card.tsx',
+    codeName: 'core/Card.tsx',
     cssBase: '.card',
-    description: "L'unité de contenu autonome — une collection, elle, se rend en rangées dans UNE carte (arbitrage n°5). Rayon 20 à toutes les tailles ; padding 24 au canon (md), 20 en dense (sm), 12 en xs, 32 en lg. Anatomie par les props : surtitre `eyebrow` 13/600 ink-600, 4 px, titre h3 20/26, 8 px, `description` 16 ink-700 à la largeur de lecture, 12 px, pied `footer` en 13 ink-600 sous un filet ; icône en tête. Onze variantes : default, feature et elevated (blanches, identiques), interactive, minimal, ink, tinted, glass, glass-brand, glass-warm, glass-dark. Aucune ombre ; au survol, le filet fonce et le fond se teinte, sans soulèvement. CardEyebrow, CardTitle, CardDesc et CardFooter portent les mêmes classes pour une composition libre, mais posés en frères le titre garde sa marge de base — 23 px sous le surtitre au lieu de 4 : préférer les props.",
+    description: "L'unité de contenu autonome — une collection, elle, se rend en rangées dans UNE carte (arbitrage n°5). Rayon 20 à toutes les tailles ; padding 24 au canon (md), 20 en dense (sm), 12 en xs, 32 en lg. Anatomie par les props : surtitre `eyebrow` 13/600 ink-600, 4 px, titre h3 20/26, 8 px, `description` 16 ink-700 à la largeur de lecture, 12 px, pied `footer` en 13 ink-600 sous un filet ; icône en tête. Onze variantes : default, feature et elevated (blanches, identiques), interactive, minimal, ink, tinted, glass, glass-brand, glass-warm, glass-dark. Sur les deux cartes sombres, ink et glass-dark, tout le texte passe au blanc depuis le 24/09 — par les props comme par les sous-composants, qui lisent la surface par un contexte fourni par Card ; le titre d'une carte ink se lisait à 1,00:1. glass-dark part du cran 700, le premier qui porte du blanc. Aucune ombre ; au survol, le filet fonce et le fond se teinte, sans soulèvement. CardEyebrow, CardTitle, CardDesc et CardFooter portent les mêmes classes pour une composition libre, mais posés en frères le titre garde sa marge de base — 23 px sous le surtitre au lieu de 4 : préférer les props.",
     keywords: ['container', 'surface', 'carte', 'eyebrow', 'title', 'description', 'footer', 'anatomie', 'padding', 'feature', 'interactive', 'glass', 'minimal', 'ink', 'tinted', 'tone'],
     render: () => (
       <div className="flex flex-col gap-section">
@@ -2591,7 +2600,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         <ShowcaseBloc
           titre="Les variantes"
-          note="Aucune ne porte d'ombre depuis le 09/09 : le filet suffit. interactive se teinte au survol selon son ton ; tinted prend le dégradé du ton ; les verres ne se posent que sur un fond coloré, et glass-dark part du cran 500 dans son coin haut gauche — n'y poser que du grand texte blanc."
+          note="Aucune ne porte d'ombre depuis le 09/09 : le filet suffit. interactive se teinte au survol selon son ton ; tinted prend le dégradé du ton ; les verres ne se posent que sur un fond coloré. Les deux cartes sombres, ink et glass-dark, écrivent tout leur texte en blanc — surtitre, titre, description, pied —, et glass-dark part du cran 700 : il partait du 500, où le blanc mesure 2,94:1."
         >
           <div className="flex flex-col gap-stack">
             <div className="grid gap-stack [grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))]">
@@ -2613,10 +2622,9 @@ const COMPONENTS: ComponentEntry[] = [
                 <Card variant="glass-brand" title="glass-brand" description="Voile teal, sur un fond clair." />
               </div>
               <div className="rounded-2xl bg-gradient-to-br from-primary-800 to-primary-900 p-1">
-                <Card variant="glass-dark">
-                  <p className="font-display text-h3 text-white">glass-dark</p>
-                </Card>
+                <Card variant="glass-dark" eyebrow="Sombre" title="glass-dark" description="Du cran 700 au 900, texte blanc." />
               </div>
+              <Card variant="ink" eyebrow="Sombre" title="ink" description="Fond ink-900, texte blanc." />
             </div>
           </div>
         </ShowcaseBloc>
@@ -4211,7 +4219,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ActivityFeed',
     codeName: 'patterns/ActivityFeed.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Fil d'activité chronologique : icônes Lucide par type, acteur en Avatar, trois dispositions — timeline, list (des rangées dans UNE carte, la disposition d'un fil, arbitrage n°5) et cards, gardée pour compatibilité. Titre 16/600 et heure 13 sur la ligne de base, description 16 ink-700 ; regroupement par date (libellé 13/600), état vide, « Voir plus ».",
+    description: "Fil d'activité chronologique : icônes Lucide par type, acteur en Avatar, trois dispositions — timeline, list (des rangées dans UNE carte, la disposition d'un fil, arbitrage n°5) et cards, gardée pour compatibilité. Titre 16/600 et heure 13 sur la ligne de base, description 16 ink-700 plafonnée à la largeur de lecture — au tableau de bord, elle courait sur 1 002 px ; regroupement par date (libellé 13/600), état vide, « Voir plus ».",
     keywords: ['activity', 'feed', 'timeline', 'history', 'events', 'chronological', 'notification'],
     render: () => {
       const items = [
@@ -4240,8 +4248,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ActivityTimeline',
     codeName: 'patterns/ActivityTimeline.tsx',
     cssBase: 'Tailwind (no BEM)',
-    usedBy: ['Dashboard', 'Journal', 'Passeport', 'Coaching'],
-    description: "Chronologie verticale : pastille ronde de 40 px au dégradé du ton (ou point de 12 px sans icône) et connecteur ; titre 16/600 et date 13 ink-600 sur la ligne de base, description 16 ink-700, 24 px entre les étapes. Cinq tons, trois statuts (completed · pending · in-progress). Plus compacte qu'ActivityFeed, pour un historique linéaire.",
+    showcaseOnly: true,
+    description: "Chronologie verticale : pastille ronde de 40 px au dégradé du ton (ou point de 12 px sans icône) et connecteur ; titre 16/600 et date 13 ink-600 sur la ligne de base, description 16 ink-700, 24 px entre les étapes. Cinq tons (primary · warm · sun · success · warning), trois statuts : completed et in-progress — pastille pleine —, pending — pointillés, titre en ink-600. Un jalon en cours ne pulse plus (arbitrage n°16, pas de mouvement permanent pour dire un état) : il se lit à sa place, entre les faits et les « à venir », et à son titre. Plus compacte qu'ActivityFeed, pour un historique linéaire. Aucun appel produit : les quatre pages que la fiche citait ne l'emploient pas.",
     keywords: ['timeline', 'activity', 'events', 'vertical', 'connector', 'tone', 'status', 'dot', 'chronological'],
     render: () => (
       <ActivityTimeline
@@ -5679,7 +5687,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/RatingModal.tsx',
     showcaseOnly: true,
     cssBase: 'Tailwind',
-    description: "Notation en cinq étoiles avec un commentaire, pour une session, une leçon ou un contenu. Malgré son nom, ce n'est pas un dialogue — ni rôle, ni voile, ni piège de focus — mais un panneau à poser dans un Modal : titre en h2 (28/36), description 16 ink-700, étoiles de 56 px, sens de la note en pastille 13, commentaire, actions.",
+    description: "Notation en cinq étoiles avec un commentaire, pour une session, une leçon ou un contenu. Malgré son nom, ce n'est pas un dialogue — ni rôle, ni voile, ni piège de focus — mais un panneau au rayon 24 à poser dans un Modal : titre h2 au pas du titre de dialogue, 20/26/700, comme Modal (il était au pas d'une section de page, 28/36), description 16 ink-700, étoiles de 56 px, sens de la note en pastille 13, commentaire, actions.",
     keywords: ['rating', 'stars', 'feedback', 'review', 'evaluation'],
     render: () => (
       <div className="max-w-md">
@@ -6999,8 +7007,8 @@ const COMPONENTS: ComponentEntry[] = [
     showcaseOnly: true,
     cssBase: 'Tailwind (no BEM)',
     subCategory: 'Form groups',
-    description: "Formulaire en dialogue natif (`<dialog>`) au rayon 24 : en-tête — titre en h2 au pas h3 (20/700), description 16 ink-700 —, corps (24 · 20 · 16), puis les actions à 24 px, toutes en Button sm : l'action destructive à gauche, Annuler en outline et la soumission en soft à droite. Largeur xs 320 · sm 384 · md 448 · lg 512 ; fermeture par le voile ou Échap.",
-    keywords: ['modal', 'dialog', 'form', 'formulaire', 'popup', 'overlay', 'submit'],
+    description: "Formulaire en dialogue natif (`<dialog>`) au rayon 24 : en-tête — titre en h2 au pas h3 (20/700), description 16 ink-700 —, corps (24 · 20 · 16), puis les actions à 24 px, toutes en Button sm : l'action destructive à gauche, Annuler en outline et la soumission en soft à droite. Largeur xs 320 · sm 384 · md 448 · lg 512 ; fermeture par le voile ou Échap. Le dialogue est nommé par son titre (`aria-labelledby`) et décrit par sa description (`aria-describedby`), sur des identifiants `useId` : sans eux, un `<dialog>` n'a pas de nom, et un lecteur d'écran annonçait « dialogue » sans dire lequel.",
+    keywords: ['modal', 'dialog', 'form', 'formulaire', 'popup', 'overlay', 'submit', 'aria-labelledby', 'nom accessible'],
     render: () => {
       const [open, setOpen] = React.useState(false);
       const [submitting, setSubmitting] = React.useState(false);
