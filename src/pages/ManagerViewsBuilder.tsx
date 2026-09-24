@@ -164,9 +164,11 @@ const ManagerViewsBuilder: React.FC = () => {
             </div>
           </SectionCard>
 
+          {/* Arbitrage n°19 : sauvegarder la vue est l'action principale ;
+              supprimer, destructif sur une page, passe en ghost danger. */}
           <div className="flex gap-stack-xs mt-stack-xs">
-            <Button emphasis="soft" leadingIcon={<Save className="w-4 h-4" />} fullWidth>Sauvegarder</Button>
-            <Button emphasis="outline" iconOnly leadingIcon={<Trash2 className="w-4 h-4" />} aria-label="Supprimer" />
+            <Button emphasis="solid" tone="brand" leadingIcon={<Save className="w-4 h-4" />} fullWidth>Sauvegarder</Button>
+            <Button emphasis="ghost" tone="danger" iconOnly leadingIcon={<Trash2 className="w-4 h-4" />} aria-label="Supprimer" />
           </div>
         </section>
 

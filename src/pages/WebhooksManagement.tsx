@@ -46,8 +46,8 @@ const WEBHOOK_ROWS: DataTableRow[] = [
     last_triggered: <span className="text-body text-ink-600">Il y a 3 min</span>,
     actions: (
       <div className="flex items-center gap-stack-xs">
-        <Button emphasis="outline" size="sm">Tester</Button>
-        <Button emphasis="outline" size="sm">Modifier</Button>
+        <Button emphasis="ghost" tone="brand" size="sm">Tester</Button>
+        <Button emphasis="soft" tone="brand" size="sm">Modifier</Button>
       </div>
     ),
   },
@@ -66,8 +66,8 @@ const WEBHOOK_ROWS: DataTableRow[] = [
     last_triggered: <span className="text-body text-ink-600">Il y a 27 min</span>,
     actions: (
       <div className="flex items-center gap-stack-xs">
-        <Button emphasis="outline" size="sm">Tester</Button>
-        <Button emphasis="outline" size="sm">Modifier</Button>
+        <Button emphasis="ghost" tone="brand" size="sm">Tester</Button>
+        <Button emphasis="soft" tone="brand" size="sm">Modifier</Button>
       </div>
     ),
   },
@@ -87,8 +87,8 @@ const WEBHOOK_ROWS: DataTableRow[] = [
     last_triggered: <span className="text-body text-ink-600">Il y a 2 h</span>,
     actions: (
       <div className="flex items-center gap-stack-xs">
-        <Button emphasis="outline" size="sm">Tester</Button>
-        <Button emphasis="outline" size="sm">Modifier</Button>
+        <Button emphasis="ghost" tone="brand" size="sm">Tester</Button>
+        <Button emphasis="soft" tone="brand" size="sm">Modifier</Button>
       </div>
     ),
   },
@@ -107,13 +107,15 @@ const WEBHOOK_ROWS: DataTableRow[] = [
     last_triggered: <span className="text-body text-ink-600">Il y a 14 j</span>,
     actions: (
       <div className="flex items-center gap-stack-xs">
-        <Button emphasis="outline" size="sm">Tester</Button>
-        <Button emphasis="outline" size="sm">Modifier</Button>
+        <Button emphasis="ghost" tone="brand" size="sm">Tester</Button>
+        <Button emphasis="soft" tone="brand" size="sm">Modifier</Button>
       </div>
     ),
   },
 ];
 
+/* Actions de rangée (arbitrage n°19) : « Modifier » est l'action de la rangée
+   (soft), « Tester » un outil (ghost). `outline` est réservé à Annuler. */
 const COLUMNS: DataTableColumn[] = [
   // L'URL se lit d'un bloc : sur un petit écran, la table défile plutôt que de
   // la couper tous les 7 caractères (voir `minWidth` dans DataTable).
@@ -196,7 +198,8 @@ export default function WebhooksManagement() {
         summary="Configurez les webhooks pour synchroniser les données d'apprentissage avec vos outils RH et LMS."
         tone="flat"
         trailing={
-          <Button emphasis="soft" size="md" leadingIcon={<Zap size={16} />}>
+          /* L'action pour laquelle l'écran existe : configurer un webhook. */
+          <Button emphasis="solid" tone="brand" size="md" leadingIcon={<Zap size={16} />}>
             Ajouter un webhook
           </Button>
         }
@@ -298,14 +301,16 @@ export default function WebhooksManagement() {
           {/* API docs link — la paire passe à la ligne quand la place manque. */}
           <div className="flex flex-wrap items-center gap-stack-xs">
             <Button
-              emphasis="outline"
+              emphasis="ghost"
+              tone="brand"
               size="sm"
               trailingIcon={<ExternalLink size={14} />}
             >
               Documentation API complète
             </Button>
             <Button
-              emphasis="outline"
+              emphasis="ghost"
+              tone="brand"
               size="sm"
               trailingIcon={<ExternalLink size={14} />}
             >

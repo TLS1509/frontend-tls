@@ -96,7 +96,10 @@ const TABS = [
    - les titres de section sont des h2 à 28 posés HORS des cartes (ils étaient
      des h3 à 20 dans des `SectionCard`, et la page sautait du h1 au h3) ;
    - la donnée chuchote : les comptes vont dans `meta` (13, ink-600) ;
-   - une barre, une valeur : « 82 % » était écrit deux fois par rangée. */
+   - une barre, une valeur : « 82 % » était écrit deux fois par rangée.
+   Arbitrage n°19 : une page de consultation, sans `solid`. « Tous les
+   membres » et « Tous les projets » sont des « Voir tout » (ghost) ; ouvrir
+   une fiche ou un projet est l'action de sa rangée (soft). */
 export default function ManagerCohort() {
   const [activeTab, setActiveTab] = useState('overview');
   const navigate = useNavigate();
@@ -136,7 +139,7 @@ export default function ManagerCohort() {
                 <SectionHeader
                   title="Performance de l'équipe"
                   action={
-                    <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => setActiveTab('members')}>
+                    <Button emphasis="ghost" tone="brand" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => setActiveTab('members')}>
                       Tous les membres
                     </Button>
                   }
@@ -167,7 +170,7 @@ export default function ManagerCohort() {
                   title="Projets en cours"
                   meta={`${PROJECTS.length} projets`}
                   action={
-                    <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => setActiveTab('projects')}>
+                    <Button emphasis="ghost" tone="brand" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => setActiveTab('projects')}>
                       Tous les projets
                     </Button>
                   }
@@ -245,7 +248,8 @@ export default function ManagerCohort() {
                 dreyfus: <span className="tabular-nums text-ink-900">{dreyfusFr(m.dreyfus)}</span>,
                 action: (
                   <Button
-                    emphasis="outline"
+                    emphasis="soft"
+                    tone="brand"
                     size="sm"
                     trailingIcon={<ChevronRight size={14} />}
                     aria-label={`Fiche de ${m.name}`}
@@ -282,7 +286,8 @@ export default function ManagerCohort() {
                         <ProgressBar value={p.progress} fill="brand" size="sm" layout="inline" aria-label={`Avancement de ${p.title}`} />
                       </div>
                       <Button
-                        emphasis="outline"
+                        emphasis="soft"
+                        tone="brand"
                         size="sm"
                         className="shrink-0 self-start sm:self-auto"
                         trailingIcon={<ChevronRight size={14} />}

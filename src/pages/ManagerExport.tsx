@@ -134,15 +134,19 @@ export default function ManagerExport() {
         {/* Les actions suivent l'aperçu à 24 px (contenu → actions), hors de la
             carte teintée : un bouton `soft` y perdrait son fond. */}
         <div className="flex flex-wrap items-center gap-stack-xs mt-stack-xs">
+          {/* Arbitrage n°19 : générer l'export est l'action pour laquelle
+              l'écran existe (solid) ; planifier en est une autre, secondaire
+              (soft). */}
           <Button
-            emphasis="soft"
+            emphasis="solid"
+            tone="brand"
             size="lg"
             leadingIcon={<Download size={18} />}
             onClick={handleExport}
           >
             Générer l'export
           </Button>
-          <Button emphasis="outline" size="lg">
+          <Button emphasis="soft" tone="brand" size="lg">
             Planifier un export automatique
           </Button>
         </div>

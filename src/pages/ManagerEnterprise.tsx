@@ -73,7 +73,10 @@ export default function ManagerEnterprise() {
         summary="Indicateurs globaux, suivi des cohortes, budget de formation et alertes."
         tone="flat"
         trailing={
-          <Button emphasis="soft" size="md" leadingIcon={<Download size={16} />}>
+          /* Arbitrage n°19 : un portail de consultation, sans `solid`.
+             Exporter est un outil (ghost), comme « Tout voir » et « Gérer » ;
+             ouvrir le détail d'une cohorte est l'action de sa rangée (soft). */
+          <Button emphasis="ghost" tone="brand" size="md" leadingIcon={<Download size={16} />}>
             Exporter le rapport
           </Button>
         }
@@ -101,7 +104,7 @@ export default function ManagerEnterprise() {
               key={a.id}
               variant={a.severity}
               actions={
-                <Button emphasis="outline" size="sm" onClick={() => enterpriseStore.acknowledgeAlert(MOCK_COMPANY_ID, a.id)}>
+                <Button emphasis="ghost" tone="neutral" size="sm" onClick={() => enterpriseStore.acknowledgeAlert(MOCK_COMPANY_ID, a.id)}>
                   Ignorer
                 </Button>
               }
@@ -123,7 +126,7 @@ export default function ManagerEnterprise() {
               <SectionHeader
                 title="Projets en cours"
                 meta={`${projects.length} projets`}
-                action={<Button emphasis="outline" size="sm">Tout voir</Button>}
+                action={<Button emphasis="ghost" tone="brand" size="sm">Tout voir</Button>}
               />
               <Card>
                 <ul className="flex flex-col divide-y divide-ink-100" aria-label="Projets en cours">
@@ -150,7 +153,7 @@ export default function ManagerEnterprise() {
               <SectionHeader
                 title="Cohortes"
                 meta={`${cohorts.length} cohortes`}
-                action={<Button emphasis="outline" size="sm" onClick={() => setActiveTab('cohorts')}>Gérer</Button>}
+                action={<Button emphasis="ghost" tone="brand" size="sm" onClick={() => setActiveTab('cohorts')}>Gérer</Button>}
               />
               <Card>
                 <ul className="flex flex-col divide-y divide-ink-100" aria-label="Cohortes">
@@ -196,7 +199,7 @@ export default function ManagerEnterprise() {
                         {c.memberCount} membres · Coach : {c.coachName ?? '–'} · Dreyfus moyen {dreyfusFr(c.avgDreyfusLevel)} / 5
                       </span>
                     </div>
-                    <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />} aria-label={`Détail de la cohorte ${c.name}`}>
+                    <Button emphasis="soft" tone="brand" size="sm" trailingIcon={<ChevronRight size={14} />} aria-label={`Détail de la cohorte ${c.name}`}>
                       Détail
                     </Button>
                   </li>
@@ -223,7 +226,7 @@ export default function ManagerEnterprise() {
               </dl>
               <ProgressBar value={stats.budgetUsedPercent} fill="warm" size="lg" label="Budget consommé" />
               <div>
-                <Button emphasis="outline" size="sm" leadingIcon={<Download size={14} />}>
+                <Button emphasis="ghost" tone="brand" size="sm" leadingIcon={<Download size={14} />}>
                   Exporter le rapport budget
                 </Button>
               </div>

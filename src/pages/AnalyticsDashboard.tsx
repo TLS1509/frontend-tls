@@ -217,11 +217,13 @@ export default function AnalyticsDashboard() {
         summary="Engagement, progression Dreyfus et usage des ressources d'apprentissage de l'équipe."
         tone="flat"
         trailing={
+          /* Deux outils, pas d'action principale : une page de consultation
+             n'a pas de `solid` (arbitrage n°19). */
           <div className="flex flex-wrap items-center gap-stack-xs">
-            <Button emphasis="outline" size="md" leadingIcon={<Download size={16} />}>
+            <Button emphasis="ghost" tone="brand" size="md" leadingIcon={<Download size={16} />}>
               Exporter
             </Button>
-            <Button emphasis="soft" tone="warm" size="md" leadingIcon={<RefreshCw size={16} />}>
+            <Button emphasis="ghost" tone="brand" size="md" leadingIcon={<RefreshCw size={16} />}>
               Actualiser
             </Button>
           </div>

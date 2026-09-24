@@ -166,16 +166,20 @@ export default function EnterpriseKpis() {
         summary="Les indicateurs de performance par département, par compétence et par période."
         tone="flat"
         trailing={
+          /* Deux outils, pas d'action principale : une page de consultation
+             n'a pas de `solid` (arbitrage n°19). */
           <div className="flex flex-wrap gap-stack-xs">
             <Button
-              emphasis="outline"
+              emphasis="ghost"
+              tone="brand"
               size="md"
               leadingIcon={<Download size={16} />}
             >
               Exporter
             </Button>
             <Button
-              emphasis="soft"
+              emphasis="ghost"
+              tone="brand"
               size="md"
               leadingIcon={<Settings size={16} />}
             >

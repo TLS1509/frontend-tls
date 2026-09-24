@@ -247,7 +247,7 @@ export const Enterprise: React.FC = () => {
           title="Membres de l'équipe"
           meta={`${activeMembers.length} collaborateurs actifs`}
           action={
-            <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}>
+            <Button emphasis="ghost" tone="brand" size="sm" trailingIcon={<ChevronRight size={14} />}>
               Voir tous
             </Button>
           }
@@ -284,13 +284,18 @@ export const Enterprise: React.FC = () => {
       </section>
 
       {/* ── Accès & invitations ──────────────────────────────── */}
+      {/* Arbitrage n°19 : la page est un tableau de bord de consultation, sans
+          `solid` au repos. Le formulaire d'invitation déplié devient l'écran :
+          « Envoyer » y est l'aplat, et le bouton d'en-tête, qui dit alors
+          « Annuler », forme avec lui la paire (outline neutre). */}
       <section className="flex flex-col gap-stack">
         <SectionHeader
           title="Gestion des accès"
           subtitle="Inviter, gérer ou désactiver les comptes."
           action={
             <Button
-              emphasis="soft"
+              emphasis={inviteOpen ? 'outline' : 'soft'}
+              tone={inviteOpen ? 'neutral' : 'brand'}
               size="sm"
               leadingIcon={<UserPlus size={14} />}
               onClick={() => setInviteOpen((v) => !v)}
@@ -343,7 +348,7 @@ export const Enterprise: React.FC = () => {
                     options={ROLE_OPTIONS}
                   />
                 </FormGroup>
-                <Button type="submit" emphasis="soft" size="md" leadingIcon={<Mail size={14} />} className="self-stretch sm:self-end">
+                <Button type="submit" emphasis="solid" tone="brand" size="md" leadingIcon={<Mail size={14} />} className="self-stretch sm:self-end">
                   Envoyer
                 </Button>
               </div>
@@ -371,7 +376,15 @@ export const Enterprise: React.FC = () => {
                 <Badge variant={u.status === 'active' ? 'success' : 'warm'}>
                   {u.status === 'active' ? 'Actif' : 'En attente'}
                 </Badge>
-                <Button emphasis="outline" size="sm" leadingIcon={<Mail size={14} />}>
+                {/* L'invitation en attente attend une action : « Renvoyer » est
+                    l'action de la rangée (soft). « Contacter » est un outil,
+                    présent sur chaque compte actif (ghost). */}
+                <Button
+                  emphasis={u.status === 'pending' ? 'soft' : 'ghost'}
+                  tone="brand"
+                  size="sm"
+                  leadingIcon={<Mail size={14} />}
+                >
                   {u.status === 'pending' ? 'Renvoyer' : 'Contacter'}
                 </Button>
               </li>
@@ -385,7 +398,7 @@ export const Enterprise: React.FC = () => {
         <SectionHeader
           title="Rapports"
           action={
-            <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}>
+            <Button emphasis="ghost" tone="brand" size="sm" trailingIcon={<ChevronRight size={14} />}>
               Voir tous les rapports
             </Button>
           }
@@ -421,7 +434,7 @@ export const Enterprise: React.FC = () => {
                   <Button emphasis="soft" tone="warm" size="sm" leadingIcon={<Download size={14} />}>
                     Télécharger
                   </Button>
-                  <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />}>
+                  <Button emphasis="ghost" tone="brand" size="sm" trailingIcon={<ChevronRight size={14} />}>
                     Aperçu
                   </Button>
                 </div>

@@ -99,7 +99,16 @@ export default function ManagerAlerts() {
         summary="Configurez les alertes automatiques pour suivre l'engagement de votre équipe et anticiper les situations à risque."
         tone="flat"
         trailing={
-          <Button emphasis="soft" size="md" leadingIcon={<Plus size={16} />} onClick={() => setShowNewForm(true)}>
+          /* Arbitrage n°19 : l'action principale de l'écran, tant que le
+             formulaire est fermé. Ouvert, c'est « Créer l'alerte » qui la porte
+             et ce bouton s'efface d'un cran : un seul `solid` à la fois. */
+          <Button
+            emphasis={showNewForm ? 'soft' : 'solid'}
+            tone="brand"
+            size="md"
+            leadingIcon={<Plus size={16} />}
+            onClick={() => setShowNewForm(true)}
+          >
             Nouvelle alerte
           </Button>
         }
@@ -157,10 +166,10 @@ export default function ManagerAlerts() {
               </FormGroup>
             </div>
             <div className="flex flex-wrap gap-stack-xs">
-              <Button emphasis="soft" size="md" leadingIcon={<CheckCircle2 size={16} />}>
+              <Button emphasis="solid" tone="brand" size="md" leadingIcon={<CheckCircle2 size={16} />}>
                 Créer l'alerte
               </Button>
-              <Button emphasis="outline" size="md" onClick={() => setShowNewForm(false)}>
+              <Button emphasis="outline" tone="neutral" size="md" onClick={() => setShowNewForm(false)}>
                 Annuler
               </Button>
             </div>

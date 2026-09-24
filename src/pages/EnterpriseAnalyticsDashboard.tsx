@@ -99,11 +99,13 @@ export default function EnterpriseAnalyticsDashboard() {
         summary="Engagement, progression Dreyfus et usage du coaching, toutes équipes confondues."
         tone="flat"
         trailing={
+          /* Deux outils, pas d'action principale : une page de consultation
+             n'a pas de `solid` (arbitrage n°19). */
           <div className="flex flex-wrap items-center gap-stack-xs">
-            <Button emphasis="outline" size="md" leadingIcon={<Download size={16} />}>
+            <Button emphasis="ghost" tone="brand" size="md" leadingIcon={<Download size={16} />}>
               Exporter le rapport
             </Button>
-            <Button emphasis="soft" size="md" leadingIcon={<RefreshCw size={16} />}>
+            <Button emphasis="ghost" tone="brand" size="md" leadingIcon={<RefreshCw size={16} />}>
               Actualiser
             </Button>
           </div>

@@ -84,7 +84,8 @@ const ApiDocs: React.FC = () => {
                       <span className="text-caption text-ink-600">{e.desc}</span>
                     </div>
                     <MetaPill text={e.auth} tone="neutral" className="max-sm:hidden shrink-0" />
-                    <Button emphasis="outline" size="sm" iconOnly leadingIcon={<Copy className="w-4 h-4" />} aria-label={`Copier ${e.path}`} />
+                    {/* Un outil de rangée : `ghost` (arbitrage n°19). */}
+                    <Button emphasis="ghost" tone="neutral" size="sm" iconOnly leadingIcon={<Copy className="w-4 h-4" />} aria-label={`Copier ${e.path}`} />
                   </li>
                 ))}
               </ul>

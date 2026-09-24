@@ -148,7 +148,9 @@ export default function AlerteInactivite() {
         summary="Configurez les seuils d'alerte pour les apprenants inactifs et consultez l'historique des alertes déclenchées."
         tone="flat"
         trailing={
-          <Button emphasis="soft" size="sm" leadingIcon={<Bell size={14} />}>
+          /* Un outil (tester la configuration) : `ghost`. L'action principale
+             de l'écran est l'enregistrement des seuils (arbitrage n°19). */
+          <Button emphasis="ghost" tone="brand" size="sm" leadingIcon={<Bell size={14} />}>
             Envoyer une alerte test
           </Button>
         }
@@ -231,7 +233,7 @@ export default function AlerteInactivite() {
           </Alert>
 
           <div>
-            <Button emphasis="soft" size="md" leadingIcon={<Settings size={16} />}>
+            <Button emphasis="solid" tone="brand" size="md" leadingIcon={<Settings size={16} />}>
               Enregistrer la configuration
             </Button>
           </div>
