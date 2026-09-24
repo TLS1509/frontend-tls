@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Users, CheckCircle2, Clock3, ChevronRight, BarChart3 } from 'lucide-react';
+import { Clock3, ChevronRight } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { SectionHeader } from '../components/patterns/SectionHeader';
@@ -95,7 +95,12 @@ export default function CoachDashboard() {
     APPRENANT_AXES.map((label, idx) => ({ label, current: scores[idx] ?? 0 }));
 
   return (
-    <PageShell width="page" className="pt-6 md:pt-8 lg:pt-10 relative z-base gap-section" noPadTop>
+    /* Rythme (passe typographique du 24/09) : 48 px entre les trois temps de la
+       page — l'en-tête, les chiffres, l'espace de travail à onglets —, 32 entre
+       les onglets et le panneau qu'ils commandent, 16 entre un titre de section
+       et son contenu. Le `gap-section` posé ici mettait 32 partout : rien ne
+       disait ce qui allait ensemble. */
+    <PageShell width="page" className="pt-6 md:pt-8 lg:pt-10 relative z-base" noPadTop>
       <EditorialHero
         eyebrow="Espace Coach"
         title="Tableau de bord Coach"
@@ -103,37 +108,40 @@ export default function CoachDashboard() {
         tone="flat"
       />
 
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-stack">
+        <StatCard label="Apprenants assignés" value={String(APPRENANTS.length)} size="sm" />
+        <StatCard
+          label="Corrections en attente"
+          value={String(pendingCorrections.length)}
+          delta={pendingCorrections.length > 0 ? 'urgent' : 'à jour'}
+          deltaDirection={pendingCorrections.length > 0 ? 'up' : 'down'}
+          size="sm"
+        />
+        <StatCard label="Sessions cette semaine" value="2" size="sm" />
+        <StatCard
+          label="Niveau Dreyfus moyen"
+          value={`${formatDreyfus(APPRENANTS.reduce((acc, a) => acc + a.dreyfusAvg, 0) / APPRENANTS.length)} / 5`}
+          size="sm"
+        />
+      </div>
+
       <div className="flex flex-col gap-section">
-
-        {/* Stats row */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-stack">
-          <StatCard label="Apprenants assignés" value={String(APPRENANTS.length)} size="sm" />
-          <StatCard
-            label="Corrections en attente"
-            value={String(pendingCorrections.length)}
-            delta={pendingCorrections.length > 0 ? 'urgent' : 'à jour'}
-            deltaDirection={pendingCorrections.length > 0 ? 'up' : 'down'}
-            size="sm"
-          />
-          <StatCard label="Sessions cette semaine" value="2" size="sm" />
-          <StatCard
-            label="Niveau Dreyfus moyen"
-            value={`${formatDreyfus(APPRENANTS.reduce((acc, a) => acc + a.dreyfusAvg, 0) / APPRENANTS.length)} / 5`}
-            size="sm"
-          />
-        </div>
-
         <Tabs items={TABS} value={activeTab} onChange={setActiveTab} variant="underline" />
+
+        {/* Les titres de section n'ont plus de pastille d'icône : le titre part
+            du même bord gauche que le h1 et que la table qu'il introduit. Les
+            comptes passent en `meta` (13 px, ink-600) : une donnée chuchote. */}
 
         {/* Apprenants tab */}
         {activeTab === 'apprenants' && (
-          <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_auto] gap-section items-start">
-            <div className="flex flex-col gap-stack">
+          /* Deux colonnes seulement quand le radar est ouvert : la colonne vide
+             gardait son gouttière de 32 px, et la table s'arrêtait 32 px avant
+             les onglets — deux bords droits. */
+          <div className={`grid grid-cols-1 gap-section items-start ${selected ? 'lg:grid-cols-[minmax(0,1fr)_auto]' : ''}`}>
+            <section className="flex flex-col gap-stack min-w-0">
               <SectionHeader
                 title="Mes apprenants"
-                subtitle={`${APPRENANTS.length} apprenants assignés`}
-                icon={<Users size={20} />}
-                tone="primary"
+                meta={`${APPRENANTS.length} apprenants assignés · en difficulté d'abord`}
                 size="md"
               />
               {/* Une collection d'objets du même type se lit en table, pas en pile
@@ -144,7 +152,7 @@ export default function CoachDashboard() {
                 selectedId={selectedApprenantId}
                 onRowClick={(a) => setSelectedApprenantId(selectedApprenantId === a.id ? null : a.id)}
               />
-            </div>
+            </section>
 
             {/* Radar detail panel */}
             {selected && (
@@ -181,12 +189,10 @@ export default function CoachDashboard() {
 
         {/* Matrice tab */}
         {activeTab === 'matrice' && (
-          <div className="flex flex-col gap-stack">
+          <section className="flex flex-col gap-stack">
             <SectionHeader
               title="Matrice de performance"
-              subtitle="Positionnement des apprenants : compétence (x) vs engagement (y) vs heures (bulles)"
-              icon={<BarChart3 size={20} />}
-              tone="primary"
+              subtitle="Chaque apprenant placé selon sa compétence (horizontal) et son engagement (vertical) ; la taille de la bulle suit ses heures de formation."
               size="md"
             />
             <ChartContainer>
@@ -210,31 +216,30 @@ export default function CoachDashboard() {
                 }}
               />
             </ChartContainer>
-            {/* Légende tirée de la même table que les bulles. L'aide dit ce que le
-                graphique ne dit pas : ce que mesure la taille, et ce que fait le clic. */}
-            <ul className="flex flex-wrap gap-x-section gap-y-stack-xs text-caption text-ink-600" aria-label="Légende">
-              {(Object.keys(STATUT_MATRICE) as ApprenantStatus[]).map((statut) => (
-                <li key={statut} className="flex items-center gap-stack-xs">
-                  <span className={`w-3 h-3 rounded-pill ${STATUT_MATRICE[statut].pastille}`} aria-hidden="true" />
-                  {STATUT_MATRICE[statut].label}
-                </li>
-              ))}
-            </ul>
-            <p className="text-caption text-ink-600">
-              Chaque bulle est un apprenant ; sa taille suit ses heures de formation.
-              Cliquez sur une bulle pour ouvrir son radar de compétences dans « Mes apprenants ».
-            </p>
-          </div>
+            {/* Légende tirée de la même table que les bulles, puis l'aide : ce que
+                fait le clic. Les deux forment un groupe (8 px). */}
+            <div className="flex flex-col gap-stack-xs">
+              <ul className="flex flex-wrap gap-x-section gap-y-stack-xs text-caption text-ink-600" aria-label="Légende">
+                {(Object.keys(STATUT_MATRICE) as ApprenantStatus[]).map((statut) => (
+                  <li key={statut} className="flex items-center gap-stack-xs">
+                    <span className={`w-3 h-3 rounded-pill ${STATUT_MATRICE[statut].pastille}`} aria-hidden="true" />
+                    {STATUT_MATRICE[statut].label}
+                  </li>
+                ))}
+              </ul>
+              <p className="text-caption text-ink-600 max-w-prose">
+                Cliquez sur une bulle pour ouvrir son radar de compétences dans « Mes apprenants ».
+              </p>
+            </div>
+          </section>
         )}
 
         {/* Corrections tab */}
         {activeTab === 'corrections' && (
-          <div className="flex flex-col gap-stack">
+          <section className="flex flex-col gap-stack">
             <SectionHeader
               title="File de corrections"
-              subtitle={`${pendingCorrections.length} travail${pendingCorrections.length > 1 ? 'aux' : ''} en attente de review`}
-              icon={<CheckCircle2 size={20} />}
-              tone="primary"
+              meta={`${pendingCorrections.length} travail${pendingCorrections.length > 1 ? 'aux' : ''} à corriger`}
               size="md"
               action={
                 <Button emphasis="outline" size="sm" trailingIcon={<ChevronRight size={14} />} onClick={() => navigate('/coach/corrections')}>
@@ -252,12 +257,14 @@ export default function CoachDashboard() {
                     const learner = getApprenantById(c.learnerId);
                     return (
                       <li key={c.id} className={ROW}>
+                        {/* Titre 16/600 puis sa méta 13 ink-600 : une ligne et sa
+                            légende, collées (doctrine § 5). */}
                         <div className="flex-1 min-w-0 flex flex-col gap-tight">
                           <div className="flex items-center gap-stack-xs flex-wrap">
                             <span className="text-body font-semibold text-ink-900">{c.exerciseTitle}</span>
                             {c.iterationCount === 0 && <Badge variant="sun" size="compact">Nouveau</Badge>}
                           </div>
-                          <div className="flex gap-stack-xs text-caption text-ink-500 flex-wrap">
+                          <div className="flex gap-stack-xs text-caption text-ink-600 flex-wrap">
                             <span>{learner?.name ?? c.learnerId}</span>
                             {c.competenceId && (
                               <>
@@ -266,7 +273,7 @@ export default function CoachDashboard() {
                               </>
                             )}
                             <span aria-hidden="true">·</span>
-                            <span>{new Date(c.submittedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}</span>
+                            <span className="tabular-nums">{new Date(c.submittedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}</span>
                           </div>
                         </div>
                         <Button
@@ -284,9 +291,9 @@ export default function CoachDashboard() {
                 </ul>
               </Card>
             ) : (
-              <EmptyState title="Aucune correction en attente" description="Tous les travaux ont été reviewés." />
+              <EmptyState title="Aucune correction en attente" description="Tous les travaux ont été relus." />
             )}
-          </div>
+          </section>
         )}
 
         {/* Sessions tab */}
@@ -297,7 +304,6 @@ export default function CoachDashboard() {
             icon={<Clock3 size={32} />}
           />
         )}
-
       </div>
     </PageShell>
   );

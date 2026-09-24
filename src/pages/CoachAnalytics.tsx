@@ -1,10 +1,10 @@
 import React, { useMemo, useState } from 'react';
-import { BarChart3, TrendingUp, Award, Users, Clock, CheckCircle2 } from 'lucide-react';
+import { BarChart3, TrendingUp, Users, Clock, CheckCircle2 } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
-import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import { StatCard } from '../components/ui/StatCard';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { FilterChip } from '../components/ui/FilterChip';
@@ -119,14 +119,19 @@ export default function CoachAnalytics() {
   , [learnerProfiles]);
 
   return (
+    /* 48 px entre l'en-tête, les chiffres et l'espace à onglets ; 32 entre les
+       onglets et leur panneau ; dans un panneau, 48 entre les sections et 16
+       entre un titre et son contenu. Les sections étaient des `SectionCard` :
+       titres h3 de 20 px enfermés dans des cartes, sous un h1 (saut de niveau),
+       et une carte dans une carte pour les corrections. */
     <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow={{ label: 'Coach · Analytics' }}
-        title="Analytics Équipe"
+        title="Analytics équipe"
         summary="Suivi de l'engagement, de la progression Dreyfus et de l'activité de correction de votre cohorte."
         tone="flat"
         trailing={
-          <div className="flex flex-wrap gap-stack-xs">
+          <div className="flex flex-wrap gap-stack-xs" role="group" aria-label="Période">
             {PERIOD_OPTIONS.map((p) => (
               <FilterChip
                 key={p.id}
@@ -139,46 +144,43 @@ export default function CoachAnalytics() {
         }
       />
 
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
+        <StatCard
+          icon={<Users size={20} />}
+          value={teamStats.activeLearners.toString()}
+          label="Apprenants actifs"
+          delta="↑ 2 ce mois"
+          deltaDirection="up"
+          variant="brand"
+          size="md"
+        />
+        <StatCard
+          icon={<TrendingUp size={20} />}
+          value={`D${teamStats.avgDreyfus.toFixed(1).replace('.', ',')}`}
+          label="Dreyfus moyen"
+          delta="↑ 0,3 ce trimestre"
+          deltaDirection="up"
+          size="md"
+        />
+        <StatCard
+          icon={<BarChart3 size={20} />}
+          value="72"
+          sub="%"
+          label="Taux engagement"
+          delta="↑ 5 %"
+          deltaDirection="up"
+          size="md"
+        />
+        <StatCard
+          icon={<Clock size={20} />}
+          value={teamStats.correctionsQueue.toString()}
+          label="Corrections en attente"
+          variant="warm"
+          size="md"
+        />
+      </div>
+
       <div className="flex flex-col gap-section">
-
-        {/* KPI strip */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
-          <StatCard
-            icon={<Users size={20} />}
-            value={teamStats.activeLearners.toString()}
-            label="Apprenants actifs"
-            delta="↑ 2 ce mois"
-            deltaDirection="up"
-            variant="brand"
-            size="md"
-          />
-          <StatCard
-            icon={<TrendingUp size={20} />}
-            value={`D${teamStats.avgDreyfus.toFixed(1)}`}
-            label="Dreyfus moyen"
-            delta="↑ 0.3 ce trimestre"
-            deltaDirection="up"
-            size="md"
-          />
-          <StatCard
-            icon={<BarChart3 size={20} />}
-            value="72"
-            sub="%"
-            label="Taux engagement"
-            delta="↑ 5%"
-            deltaDirection="up"
-            size="md"
-          />
-          <StatCard
-            icon={<Clock size={20} />}
-            value={teamStats.correctionsQueue.toString()}
-            label="Corrections en attente"
-            variant="warm"
-            size="md"
-          />
-        </div>
-
-        {/* Tabs */}
         <Tabs
           items={TAB_ITEMS}
           value={activeTab}
@@ -188,45 +190,42 @@ export default function CoachAnalytics() {
 
         {/* Tab : Vue globale */}
         {activeTab === 'global' && (
-          <div className="flex flex-col gap-section">
-            {/* Engagement chart */}
-            <SectionCard
-              title="Engagement hebdomadaire"
-              titleIcon={<BarChart3 size={18} className="text-secondary-600" />}
-            >
-              <BarChart data={ENGAGEMENT_WEEKS_CHART} dataKey="value" size="sm" />
-            </SectionCard>
+          <div className="flex flex-col gap-page">
+            <section className="flex flex-col gap-stack">
+              <SectionHeader title="Engagement hebdomadaire" meta="Taux d'engagement de la cohorte, sur 8 semaines" size="md" />
+              <Card>
+                {/* Une série de semaines se lit à l'horizontale : des colonnes, pas des
+                    barres couchées (qui laissaient un grand vide à gauche). */}
+                <BarChart data={ENGAGEMENT_WEEKS_CHART} dataKey="value" size="sm" layout="vertical" />
+              </Card>
+            </section>
 
-            {/* Distribution Dreyfus */}
-            <SectionCard
-              title="Distribution Dreyfus"
-              titleIcon={<TrendingUp size={18} className="text-primary-600" />}
-            >
-              <div className="flex flex-col gap-stack">
+            <section className="flex flex-col gap-stack">
+              <SectionHeader title="Distribution Dreyfus" meta={`${learnerProfiles.length} apprenants, par niveau moyen`} size="md" />
+              {/* Une rangée par niveau : le niveau en 16/600, son nom en légende,
+                  la jauge, puis le compte aligné à droite en chiffres tabulaires. */}
+              <Card className="flex flex-col gap-stack-sm">
                 {dreyfusDistribution.map((d) => (
                   <div key={d.level} className="flex items-center gap-stack">
-                    <span className="w-8 shrink-0 font-display text-body font-bold text-ink-700">
+                    <span className="w-8 shrink-0 text-body font-semibold text-ink-900 tabular-nums">
                       {d.level}
                     </span>
-                    <span className="w-36 shrink-0 text-caption text-ink-500 hidden sm:block">
+                    <span className="w-36 shrink-0 text-caption text-ink-600 hidden sm:block">
                       {d.label}
                     </span>
                     <div className="flex-1">
                       <ProgressBar value={d.pct} fill="brand" size="sm" valueLabel={false} />
                     </div>
-                    <span className="w-20 shrink-0 text-caption text-ink-600 font-semibold text-right">
+                    <span className="w-24 shrink-0 text-caption text-ink-600 tabular-nums text-right">
                       {d.count} apprenant{d.count > 1 ? 's' : ''}
                     </span>
                   </div>
                 ))}
-              </div>
-            </SectionCard>
+              </Card>
+            </section>
 
-            {/* Top progressors */}
-            <SectionCard
-              title="Top progression ce mois"
-              titleIcon={<Award size={18} className="text-accent-700" />}
-            >
+            <section className="flex flex-col gap-stack">
+              <SectionHeader title="Top progression ce mois" size="md" />
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
                 {topProgressors.map((p) => (
                   <ProfileCard
@@ -241,37 +240,37 @@ export default function CoachAnalytics() {
                   />
                 ))}
               </div>
-            </SectionCard>
+            </section>
           </div>
         )}
 
         {/* Tab : Par compétence */}
         {activeTab === 'competences' && (
-          <div className="flex flex-col gap-section">
-            <SectionCard title="Dreyfus moyen par compétence">
-              <div className="flex flex-col gap-stack">
-                {COMPETENCES.map((c) => (
-                  <div key={c.label} className="flex items-center gap-stack">
-                    <span className="w-32 shrink-0 text-body font-semibold text-ink-700">
-                      {c.label}
-                    </span>
-                    <div className="flex-1">
-                      <ProgressBar value={c.pct} fill="brand" size="sm" valueLabel={false} />
-                    </div>
-                    <Badge variant={c.badge} size="compact">
-                      D{c.value.toFixed(1)}
-                    </Badge>
+          <section className="flex flex-col gap-stack">
+            <SectionHeader title="Dreyfus moyen par compétence" meta={`${COMPETENCES.length} compétences, niveau moyen sur 5`} size="md" />
+            {/* Le niveau est une donnée : un nombre aligné à droite, en chiffres
+                tabulaires — plus une pastille d'état colorée (« D3.2 »). */}
+            <Card className="flex flex-col gap-stack-sm">
+              {COMPETENCES.map((c) => (
+                <div key={c.label} className="flex items-center gap-stack">
+                  <span className="w-32 shrink-0 text-body font-semibold text-ink-900">
+                    {c.label}
+                  </span>
+                  <div className="flex-1">
+                    <ProgressBar value={c.pct} fill="brand" size="sm" valueLabel={false} />
                   </div>
-                ))}
-              </div>
-            </SectionCard>
-          </div>
+                  <span className="w-12 shrink-0 text-body text-ink-700 tabular-nums text-right">
+                    D{c.value.toFixed(1).replace('.', ',')}
+                  </span>
+                </div>
+              ))}
+            </Card>
+          </section>
         )}
 
         {/* Tab : Corrections */}
         {activeTab === 'corrections' && (
-          <div className="flex flex-col gap-section">
-            {/* Summary KPIs */}
+          <div className="flex flex-col gap-page">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
               <StatCard
                 icon={<Clock size={20} />}
@@ -293,43 +292,46 @@ export default function CoachAnalytics() {
                 sub="%"
                 label="Taux retour 48h"
                 deltaDirection="up"
-                delta="↑ 5%"
+                delta="↑ 5 %"
                 size="md"
               />
             </div>
 
-            {/* Pending corrections */}
-            <SectionCard
-              title="Résumé corrections"
-              actions={
-                <Button emphasis="soft" size="md">
-                  Aller à la queue
-                </Button>
-              }
-            >
-              <Card variant="tinted" tone="warm" className="p-0 overflow-hidden">
-                <div className="flex flex-col divide-y divide-secondary-100">
+            {/* Les corrections en attente : des rangées dans UNE carte (plus une
+                carte teintée dans une carte de section). Le nom 16/600, l'exercice
+                16 ink-700, la compétence en MetaPill (une donnée), le délai en
+                légende. */}
+            <section className="flex flex-col gap-stack">
+              <SectionHeader
+                title="Corrections en attente"
+                meta={`${CORRECTIONS_PENDING.length} travaux à corriger`}
+                size="md"
+                action={
+                  <Button emphasis="soft" size="sm">
+                    Aller à la file
+                  </Button>
+                }
+              />
+              <Card className="p-0">
+                <ul className="flex flex-col divide-y divide-ink-100">
                   {CORRECTIONS_PENDING.map((c) => (
-                    <div
+                    <li
                       key={c.id}
-                      className="flex flex-col sm:flex-row sm:items-center gap-stack-xs px-stack py-3"
+                      className="flex flex-col sm:flex-row sm:items-center gap-stack-xs sm:gap-stack px-stack-md sm:px-stack-lg py-stack-sm"
                     >
-                      <span className="font-display text-body font-bold text-ink-900 w-36 shrink-0">
+                      <span className="text-body font-semibold text-ink-900 sm:w-40 shrink-0">
                         {c.apprenant}
                       </span>
                       <span className="flex-1 text-body text-ink-700">{c.exercice}</span>
-                      <Badge variant="info" size="compact">
-                        {c.competence}
-                      </Badge>
-                      <span className="text-caption text-ink-500 shrink-0">{c.delai}</span>
-                    </div>
+                      <MetaPill text={c.competence} className="self-start sm:self-auto" />
+                      <span className="text-caption text-ink-600 shrink-0 sm:w-28 sm:text-right">{c.delai}</span>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </Card>
-            </SectionCard>
+            </section>
           </div>
         )}
-
       </div>
     </PageShell>
   );

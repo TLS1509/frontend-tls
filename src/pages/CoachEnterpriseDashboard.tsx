@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Users, ClipboardCheck, TrendingUp } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
-import SectionCard from '../components/patterns/SectionCard';
 import { SectionHeader } from '../components/patterns/SectionHeader';
 import { DataTable, type DataTableColumn } from '../components/patterns/DataTable';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import { StatCard } from '../components/ui/StatCard';
 import { Tabs } from '../components/ui/Tabs';
 import { Avatar } from '../components/ui/Avatar';
@@ -69,48 +69,51 @@ const CoachEnterpriseDashboard: React.FC = () => {
   }));
 
   const ENGAGEMENT_TREND = [
-    { label: 'Week 1', engagement: 62, active: 18 },
-    { label: 'Week 2', engagement: 75, active: 22 },
-    { label: 'Week 3', engagement: 68, active: 20 },
-    { label: 'Week 4', engagement: 82, active: 24 },
-    { label: 'Week 5', engagement: 78, active: 23 },
-    { label: 'Week 6', engagement: 85, active: 25 },
+    { label: 'S1', engagement: 62, active: 18 },
+    { label: 'S2', engagement: 75, active: 22 },
+    { label: 'S3', engagement: 68, active: 20 },
+    { label: 'S4', engagement: 82, active: 24 },
+    { label: 'S5', engagement: 78, active: 23 },
+    { label: 'S6', engagement: 85, active: 25 },
   ];
 
   return (
+    /* 48 px entre l'en-tête, les chiffres et l'espace à onglets ; 32 entre les
+       onglets et leur panneau ; 16 entre un titre de section et son contenu.
+       Les libellés anglais (« Team Roster », « Validation Queue ») sont des
+       titres : ils passent en français. */
     <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Coach Enterprise · Vue équipe"
         title="Mon équipe Acme Corp"
-        summary="Team roster, validation queue et analytics agrégés"
+        summary="L'équipe, la file de validation et les analytics agrégés."
         tone="flat"
       />
 
-      <div className="flex flex-col gap-section">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-stack-xs">
-          <StatCard label="Apprenants suivis" value={stats.activeMembers} sub={`${members.length} membres total`} />
-          <StatCard label="Taux de complétion" value={`${stats.completionRate}%`} sub="formations" />
-          <StatCard label="Queue validation" value={pendingCorrections.length} sub="à reviewer" />
-          <StatCard label="Engagement" value={`${stats.engagementRate}%`} sub="hebdomadaire" />
-        </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
+        <StatCard label="Apprenants suivis" value={stats.activeMembers} sub={`${members.length} membres au total`} />
+        <StatCard label="Taux de complétion" value={`${stats.completionRate} %`} sub="formations" />
+        <StatCard label="File de validation" value={pendingCorrections.length} sub="à corriger" />
+        <StatCard label="Engagement" value={`${stats.engagementRate} %`} sub="hebdomadaire" />
+      </div>
 
+      <div className="flex flex-col gap-section">
         <Tabs
           value={tab}
           onChange={(v) => setTab(v as typeof tab)}
           items={[
-            { id: 'roster', label: 'Team Roster' },
-            { id: 'queue', label: 'Validation Queue' },
-            { id: 'analytics', label: 'Team Analytics' },
+            { id: 'roster', label: 'Équipe' },
+            { id: 'queue', label: 'File de validation' },
+            { id: 'analytics', label: 'Analytics' },
           ]}
         />
 
         {tab === 'roster' && (
-          <section className="flex flex-col gap-stack" aria-label="Apprenants assignés">
+          <section className="flex flex-col gap-stack">
             <SectionHeader
               title="Apprenants assignés"
-              subtitle="Statut et progression par membre de l'équipe"
-              icon={<Users size={20} />}
-              tone="primary"
+              subtitle="Statut et progression par membre de l'équipe."
+              meta={`${members.length} membres`}
               size="md"
             />
             <DataTable
@@ -126,7 +129,7 @@ const CoachEnterpriseDashboard: React.FC = () => {
                   name: (
                     <span className="flex items-center gap-stack-sm min-w-0">
                       <Avatar initials={m.name.split(' ').map((n) => n[0]).join('').slice(0, 2)} size="sm" />
-                      <span className="flex flex-col min-w-0">
+                      <span className="flex flex-col gap-tight min-w-0">
                         <span className="font-semibold text-ink-900 truncate">{m.name}</span>
                         <span className="text-caption text-ink-600 truncate">{ROLE_LABEL[m.role]}</span>
                       </span>
@@ -135,7 +138,7 @@ const CoachEnterpriseDashboard: React.FC = () => {
                   progress: (
                     <span className="flex items-center gap-stack-xs min-w-[8rem]">
                       <ProgressBar value={m.progressPercent} fill="brand" size="sm" valueLabel={false} className="flex-1" />
-                      <span className="tabular-nums text-ink-700 w-9 text-right">{m.progressPercent} %</span>
+                      <span className="tabular-nums text-ink-700 w-12 shrink-0 whitespace-nowrap text-right">{m.progressPercent}&nbsp;%</span>
                     </span>
                   ),
                   status: <Badge variant={status.variant} size="compact">{status.label}</Badge>,
@@ -151,87 +154,106 @@ const CoachEnterpriseDashboard: React.FC = () => {
         )}
 
         {tab === 'queue' && (
-          <SectionCard title="Validation Queue" description="Corrections soumises en attente de review">
+          /* Une file de travaux : des rangées dans UNE carte, plus des cartes
+             dans une carte de section. La compétence est une donnée : MetaPill. */
+          <section className="flex flex-col gap-stack">
+            <SectionHeader
+              title="File de validation"
+              subtitle="Corrections soumises, en attente de relecture."
+              meta={`${pendingCorrections.length} à corriger`}
+              size="md"
+            />
             {pendingCorrections.length === 0 ? (
-              <p className="text-body text-ink-500 m-0">Aucune correction en attente.</p>
+              <p className="text-body text-ink-600">Aucune correction en attente.</p>
             ) : (
-              <div className="flex flex-col gap-stack-xs">
-                {pendingCorrections.map((c) => {
-                  const competence = c.competenceId ? getCompetenceById(c.competenceId) : null;
-                  return (
-                    <Card key={c.id} className="p-stack-md flex flex-wrap items-center gap-stack">
-                      <ClipboardCheck className="w-6 h-6 text-secondary-600 shrink-0" />
-                      <div className="flex-1 basis-40 min-w-0">
-                        <div className="font-semibold truncate">{c.exerciseTitle}</div>
-                        <div className="text-caption text-ink-500">{formatDate(c.submittedAt)}</div>
-                      </div>
-                      {competence && <Badge variant="brand">{competence.label}</Badge>}
-                      <Button emphasis="soft" tone="warm" size="sm">Reviewer</Button>
-                    </Card>
-                  );
-                })}
-              </div>
+              <Card className="p-0">
+                <ul className="flex flex-col divide-y divide-ink-100">
+                  {pendingCorrections.map((c) => {
+                    const competence = c.competenceId ? getCompetenceById(c.competenceId) : null;
+                    return (
+                      <li key={c.id} className="flex flex-wrap items-center gap-x-stack gap-y-stack-xs px-stack-md sm:px-stack-lg py-stack-sm">
+                        <ClipboardCheck className="w-5 h-5 text-secondary-700 shrink-0" aria-hidden="true" />
+                        <div className="flex-1 basis-40 min-w-0 flex flex-col gap-tight">
+                          <p className="text-body font-semibold text-ink-900 truncate">{c.exerciseTitle}</p>
+                          <p className="text-caption text-ink-600">Soumis {formatDate(c.submittedAt)}</p>
+                        </div>
+                        {competence && <MetaPill text={competence.label} />}
+                        <Button emphasis="soft" tone="warm" size="sm">Corriger</Button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </Card>
             )}
-          </SectionCard>
+          </section>
         )}
 
         {tab === 'analytics' && (
-          <div className="flex flex-col gap-section">
-            {/* KPI cards */}
+          <div className="flex flex-col gap-page">
+            {/* Deux chiffres : des `StatCard`, plus des cartes faites main (libellé
+                en 16/600 au-dessus d'un h2 et d'une légende ink-500). */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-stack">
-              <Card className="p-stack-lg">
-                <TrendingUp className="w-6 h-6 text-success-fg mb-stack-xs" />
-                <div className="font-semibold mb-1">Taux de complétion</div>
-                <div className="font-display text-h2 font-bold">{stats.completionRate}%</div>
-                <div className="text-caption text-ink-500">formations actives : {stats.activeFormations}</div>
-              </Card>
-              <Card className="p-stack-lg">
-                <Users className="w-6 h-6 text-info-fg mb-stack-xs" />
-                <div className="font-semibold mb-1">Taux d'engagement hebdomadaire</div>
-                <div className="font-display text-h2 font-bold">{stats.engagementRate}%</div>
-                <div className="text-caption text-ink-500">{stats.activeMembers} / {members.length} apprenants actifs</div>
-              </Card>
+              <StatCard
+                icon={<TrendingUp size={20} />}
+                value={`${stats.completionRate} %`}
+                label="Taux de complétion"
+              >
+                <p className="text-caption text-ink-600">Formations actives : {stats.activeFormations}</p>
+              </StatCard>
+              <StatCard
+                icon={<Users size={20} />}
+                value={`${stats.engagementRate} %`}
+                label="Taux d'engagement hebdomadaire"
+              >
+                <p className="text-caption text-ink-600 tabular-nums">{stats.activeMembers} / {members.length} apprenants actifs</p>
+              </StatCard>
             </div>
 
-            {/* Analytics charts */}
-            <SectionCard title="Progression d'équipe" description="Performance de chaque apprenant" tone="brand">
-              <ChartWithExport
-                chartId="team-progress-chart"
-                filename="team-progress-analytics"
-                exportVariant="full"
-                data={TEAM_PROGRESS_DATA}
-              >
-                <BarChart
+            <section className="flex flex-col gap-stack">
+              <SectionHeader title="Progression d'équipe" subtitle="Performance de chaque apprenant." size="md" />
+              <Card>
+                <ChartWithExport
+                  chartId="team-progress-chart"
+                  filename="team-progress-analytics"
+                  exportVariant="full"
                   data={TEAM_PROGRESS_DATA}
-                  series={[
-                    { key: 'progression', label: 'Progression %', color: '#55A1B4' },
-                    { key: 'engagement', label: 'Engagement %', color: '#ED843A' },
-                  ]}
-                  size="lg"
-                  layout="horizontal"
-                  showLegend
-                />
-              </ChartWithExport>
-            </SectionCard>
+                >
+                  <BarChart
+                    data={TEAM_PROGRESS_DATA}
+                    series={[
+                      { key: 'progression', label: 'Progression %', color: '#55A1B4' },
+                      { key: 'engagement', label: 'Engagement %', color: '#ED843A' },
+                    ]}
+                    size="lg"
+                    layout="horizontal"
+                    showLegend
+                  />
+                </ChartWithExport>
+              </Card>
+            </section>
 
-            <SectionCard title="Tendance d'engagement" description="Évolution hebdomadaire de l'engagement" tone="warm">
-              <ChartWithExport
-                chartId="engagement-trend-chart"
-                filename="engagement-trend-analytics"
-                exportVariant="full"
-                data={ENGAGEMENT_TREND}
-              >
-                <BarChart
+            <section className="flex flex-col gap-stack">
+              <SectionHeader title="Tendance d'engagement" subtitle="Évolution hebdomadaire de l'engagement." size="md" />
+              <Card>
+                <ChartWithExport
+                  chartId="engagement-trend-chart"
+                  filename="engagement-trend-analytics"
+                  exportVariant="full"
                   data={ENGAGEMENT_TREND}
-                  series={[
-                    { key: 'engagement', label: 'Taux engagement %', color: '#F8B044' },
-                    { key: 'active', label: 'Apprenants actifs', color: '#55A1B4' },
-                  ]}
-                  size="lg"
-                  showLegend
-                />
-              </ChartWithExport>
-            </SectionCard>
+                >
+                  <BarChart
+                    data={ENGAGEMENT_TREND}
+                    series={[
+                      { key: 'engagement', label: 'Taux engagement %', color: '#F8B044' },
+                      { key: 'active', label: 'Apprenants actifs', color: '#55A1B4' },
+                    ]}
+                    size="lg"
+                    layout="vertical"
+                    showLegend
+                  />
+                </ChartWithExport>
+              </Card>
+            </section>
           </div>
         )}
       </div>

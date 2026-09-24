@@ -1,11 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Users, TrendingUp, Calendar, BarChart3, AlertTriangle, ChevronRight } from 'lucide-react';
+import { Users, Calendar, ChevronRight } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
+import { Alert } from '../components/ui/Alert';
 import { StatCard } from '../components/ui/StatCard';
 import { ProgressBar } from '../components/ui/ProgressBar';
 import { ProfileCard } from '../components/ui/ProfileCard';
@@ -74,10 +76,14 @@ export default function CoachTeamDashboard() {
   const alertCount = stats.stuckCount + stats.atRiskCount;
 
   return (
+    /* 48 px entre l'en-tête, l'état de l'équipe (chiffres + alerte, 16 entre
+       eux) et l'espace à onglets ; 32 entre les onglets et leur panneau. Les
+       sections des panneaux étaient des `SectionCard` (h3 de 20 px dans une
+       carte, sous le h1) : titre h2 28 hors de la carte, contenu dans la carte. */
     <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
       <EditorialHero
         eyebrow="Coach · Équipe"
-        title="Tableau de Bord Équipe"
+        title="Tableau de bord équipe"
         summary="Vue d'ensemble de la progression de toute votre équipe : activité, niveaux Dreyfus, sessions et corrections."
         tone="flat"
         trailing={
@@ -92,9 +98,7 @@ export default function CoachTeamDashboard() {
         }
       />
 
-      <div className="flex flex-col gap-section">
-
-        {/* KPI row */}
+      <div className="flex flex-col gap-stack">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
           <StatCard value={stats.totalLearners} label="Apprenants" size="sm" />
           <StatCard
@@ -106,11 +110,11 @@ export default function CoachTeamDashboard() {
             deltaDirection={stats.stuckCount > 0 ? 'down' : 'up'}
           />
           <StatCard
-            value={`D${stats.avgDreyfus.toFixed(1)}`}
+            value={`D${stats.avgDreyfus.toFixed(1).replace('.', ',')}`}
             label="Dreyfus moyen"
             variant="brand"
             size="sm"
-            delta="↑ 0.3 ce mois"
+            delta="↑ 0,3 ce mois"
             deltaDirection="up"
           />
           <StatCard
@@ -120,21 +124,24 @@ export default function CoachTeamDashboard() {
           />
         </div>
 
-        {/* Alert */}
         {alertCount > 0 && (
-          <div className="flex items-start gap-stack p-stack bg-warning-bg border border-warning-border rounded-lg">
-            <AlertTriangle size={18} className="text-warning-fg shrink-0 mt-0.5" />
-            <p className="text-body text-ink-700">
-              <strong>{stats.stuckCount} bloqué{stats.stuckCount !== 1 ? 's' : ''}</strong> et{' '}
-              <strong>{stats.atRiskCount} à risque</strong> : planifie un bilan cette semaine.
-            </p>
-            <Button emphasis="outline" size="sm" className="shrink-0 ml-auto">
-              Planifier
-            </Button>
-          </div>
+          /* `Alert` et non un bandeau fait main (dont le filet
+             `border-warning-border` n'existe pas dans @theme). */
+          <Alert
+            variant="warning"
+            actions={
+              <Button emphasis="outline" size="sm">
+                Planifier
+              </Button>
+            }
+          >
+            <strong className="font-semibold">{stats.stuckCount} bloqué{stats.stuckCount !== 1 ? 's' : ''}</strong> et{' '}
+            <strong className="font-semibold">{stats.atRiskCount} à risque</strong> : planifie un bilan cette semaine.
+          </Alert>
         )}
+      </div>
 
-        {/* Tabs */}
+      <div className="flex flex-col gap-section">
         <Tabs
           items={[
             { id: 'overview', label: 'Vue d\'ensemble' },
@@ -146,46 +153,52 @@ export default function CoachTeamDashboard() {
         />
 
         {activeTab === 'overview' && (
-          <div className="flex flex-col gap-section">
-            {/* Activity chart */}
-            <SectionCard title="Activité hebdomadaire" titleIcon={<BarChart3 size={18} />}>
-              <BarChart
-                data={WEEKLY_ACTIVITY_CHART}
-                dataKey="sessions"
-                series={[
-                  { key: 'sessions', label: 'Sessions', color: '#ED843A' },
-                  { key: 'corrections', label: 'Corrections', color: '#55A1B4' },
-                ]}
-                showLegend
-                size="sm"
-              />
-            </SectionCard>
+          <div className="flex flex-col gap-page">
+            <section className="flex flex-col gap-stack">
+              <SectionHeader title="Activité hebdomadaire" meta="Sessions et corrections, du lundi au vendredi" size="md" />
+              <Card>
+                <BarChart
+                  data={WEEKLY_ACTIVITY_CHART}
+                  dataKey="sessions"
+                  series={[
+                    { key: 'sessions', label: 'Sessions', color: '#ED843A' },
+                    { key: 'corrections', label: 'Corrections', color: '#55A1B4' },
+                  ]}
+                  showLegend
+                  size="sm"
+                  layout="vertical"
+                />
+              </Card>
+            </section>
 
-            {/* Dreyfus distribution */}
-            <SectionCard title="Distribution Dreyfus" titleIcon={<TrendingUp size={18} />}>
-              <div className="flex flex-col gap-stack-xs">
+            <section className="flex flex-col gap-stack">
+              <SectionHeader title="Distribution Dreyfus" meta={`${stats.totalLearners} apprenants, par niveau moyen`} size="md" />
+              {/* Une rangée par niveau : le niveau en 16/600, la jauge, le compte
+                  aligné à droite en chiffres tabulaires. */}
+              <Card className="flex flex-col gap-stack-sm">
                 {[1, 2, 3, 4, 5].map((level) => {
                   const count = learners.filter((l) => Math.round(l.dreyfusAvg) === level).length;
                   const pct = stats.totalLearners > 0 ? Math.round((count / stats.totalLearners) * 100) : 0;
                   return (
                     <div key={level} className="flex items-center gap-stack">
-                      <span className="text-caption font-semibold text-ink-600 w-6">D{level}</span>
+                      <span className="text-body font-semibold text-ink-900 tabular-nums w-8 shrink-0">D{level}</span>
                       <div className="flex-1">
                         <ProgressBar value={pct} fill="brand" size="sm" />
                       </div>
-                      <span className="text-caption text-ink-500 w-16 text-right">{count} apprenant{count !== 1 ? 's' : ''}</span>
+                      <span className="text-caption text-ink-600 tabular-nums w-24 shrink-0 text-right">{count} apprenant{count !== 1 ? 's' : ''}</span>
                     </div>
                   );
                 })}
-              </div>
-            </SectionCard>
+              </Card>
+            </section>
           </div>
         )}
 
         {activeTab === 'apprenants' && (
-          <div className="flex flex-col gap-section">
-            {/* Status filter chips */}
-            <div className="flex flex-wrap gap-stack-xs">
+          /* Les filtres et la liste qu'ils filtrent forment un groupe : 16 px
+             entre eux (32 avant). */
+          <div className="flex flex-col gap-stack">
+            <div className="flex flex-wrap gap-stack-xs" role="group" aria-label="Filtrer par statut">
               {(['all', 'on-track', 'at-risk', 'stuck'] as const).map((s) => {
                 const count = s === 'all' ? learners.length : learners.filter((l) => l.status === s).length;
                 return (
@@ -205,7 +218,7 @@ export default function CoachTeamDashboard() {
                 la carte à son arc intérieur (overflow-hidden), et l'anneau de focus
                 est posé à l'intérieur pour ne pas être rogné avec lui. */}
             {filteredLearners.length === 0 ? (
-              <p className="text-body text-ink-500 py-stack">Aucun apprenant dans cette catégorie.</p>
+              <p className="text-body text-ink-600">Aucun apprenant dans cette catégorie.</p>
             ) : (
               <Card className="p-0 overflow-hidden">
                 <ul className="flex flex-col divide-y divide-ink-100" aria-label="Apprenants">
@@ -217,8 +230,8 @@ export default function CoachTeamDashboard() {
                       >
                         <Avatar initials={learner.initials} name={learner.name} size="sm" tint="warm" />
 
-                        {/* Info */}
-                        <div className="flex-1 min-w-0">
+                        {/* Nom 16/600 et son état, puis le rôle en légende. */}
+                        <div className="flex-1 min-w-0 flex flex-col gap-tight">
                           <div className="flex items-center gap-stack-xs flex-wrap">
                             <span className="text-body font-semibold text-ink-900">{learner.name}</span>
                             <Badge variant={STATUS_VARIANT[learner.status]} size="compact">
@@ -228,12 +241,12 @@ export default function CoachTeamDashboard() {
                           <p className="text-caption text-ink-600 truncate">{learner.role}</p>
                         </div>
 
-                        {/* Progress */}
-                        <div className="hidden md:flex flex-col items-end gap-tight w-32 shrink-0">
-                          <span className="text-caption text-ink-500">Dreyfus {learner.dreyfusAvg.toFixed(1).replace('.', ',')}</span>
-                          {/* Le pourcentage est dit une fois, sous la jauge (la jauge le répétait). */}
+                        {/* Progression : le niveau, la jauge, puis le pourcentage en
+                            légende — une seule fois (la jauge le répétait). */}
+                        <div className="hidden md:flex flex-col items-end gap-stack-3xs w-36 shrink-0">
+                          <span className="text-caption text-ink-600 tabular-nums">Dreyfus {learner.dreyfusAvg.toFixed(1).replace('.', ',')}</span>
                           <ProgressBar value={learner.progressPercent} fill="brand" size="sm" valueLabel={false} className="w-full" />
-                          <span className="text-micro text-ink-600">{learner.progressPercent} % de l'objectif</span>
+                          <span className="text-caption text-ink-600 tabular-nums">{learner.progressPercent} % de l'objectif</span>
                         </div>
 
                         {/* Last activity */}
@@ -241,7 +254,7 @@ export default function CoachTeamDashboard() {
                           {formatLastActive(learner.daysSinceActivity)}
                         </span>
 
-                        <ChevronRight size={16} className="text-ink-300 shrink-0" aria-hidden="true" />
+                        <ChevronRight size={16} className="text-ink-500 shrink-0" aria-hidden="true" />
                       </Link>
                     </li>
                   ))}
@@ -252,7 +265,8 @@ export default function CoachTeamDashboard() {
         )}
 
         {activeTab === 'top' && (
-          <SectionCard title="Top progresseurs ce mois" titleIcon={<TrendingUp size={18} />}>
+          <section className="flex flex-col gap-stack">
+            <SectionHeader title="Top progresseurs ce mois" meta="Les trois plus fortes progressions vers l'objectif" size="md" />
             <div className="grid md:grid-cols-3 gap-stack">
               {topProgressors.map((p, i) => (
                 <div key={p.userId} className="relative">
@@ -266,14 +280,13 @@ export default function CoachTeamDashboard() {
                     specialties={p.competencyScores.slice(0, 2).map((c) => c.label)}
                     variant="default"
                     align="center"
-                    cta={<Badge variant="success" size="compact">D{p.dreyfusAvg.toFixed(1)}</Badge>}
+                    cta={<MetaPill text={`D${p.dreyfusAvg.toFixed(1).replace('.', ',')}`} />}
                   />
                 </div>
               ))}
             </div>
-          </SectionCard>
+          </section>
         )}
-
       </div>
     </PageShell>
   );
