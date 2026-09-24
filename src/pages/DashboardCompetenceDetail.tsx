@@ -9,7 +9,6 @@ import { Button } from '../components/core/Button';
 import { SkillBar } from '../components/ui/SkillBar';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
 import { StatCard } from '../components/ui/StatCard';
-import { ActivityFeed } from '../components/patterns/ActivityFeed';
 import { PageShell } from '../components/layout';
 import { DREYFUS_LABELS, getDreyfusLevelDef } from '../data/competencies';
 import type { DreyfusLevel } from '../types/learning';

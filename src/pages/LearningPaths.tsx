@@ -16,7 +16,6 @@ import {
   RotateCcw,
 } from 'lucide-react';
 import { SearchFilters } from '../components/patterns/SearchFilters';
-import { StatCard } from '../components/ui/StatCard';
 import { EmptyState } from '../components/ui/EmptyState';
 import { BookOpen, Clock3, Trophy, Flame } from 'lucide-react';
 import { ParcoursCard } from '../components/patterns/ParcoursCard';
