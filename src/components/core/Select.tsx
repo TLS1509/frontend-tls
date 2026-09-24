@@ -38,7 +38,7 @@ export interface SelectProps
 const FIELD_BASE = 'flex flex-col gap-stack-xs font-body';
 
 const CONTROL_BASE =
-  'inline-flex items-center gap-stack-xs w-full bg-white border text-ink-900 font-body transition-[border-color,box-shadow] duration-150';
+  'inline-flex items-center gap-stack-xs w-full border font-body transition-[border-color,box-shadow] duration-150';
 
 /* R4 — le rayon de la famille champ, hors de BASE (une seule classe par appel).
    Raisonnement complet dans `core/Input.tsx`. */
@@ -69,8 +69,16 @@ const STATUS_CLASSES: Record<SelectStatus, string> = {
   error: 'border-danger-base focus-within:ring-2 focus-within:ring-danger-base/35',
 };
 
-const DISABLED_CLASSES =
-  'bg-ink-50 text-ink-500 cursor-not-allowed';
+/* Fond et encre : une table d'états, UNE entrée posée par appel (24/09).
+   Ils vivaient dans CONTROL_BASE (`bg-white text-ink-900`) et l'état
+   désactivé ajoutait `bg-ink-50 text-ink-500` : deux classes par propriété,
+   même spécificité, l'ordre d'émission de Tailwind tranche (piège n°6) — le
+   champ désactivé restait blanc, en ink-900. L'erreur et le succès ne
+   touchent que le filet (STATUS_CLASSES). */
+const ETAT_CLASSES = {
+  repos: 'bg-white text-ink-900',
+  desactive: 'bg-ink-50 text-ink-500 cursor-not-allowed',
+} as const;
 
 const NATIVE_SELECT =
   'flex-1 bg-transparent outline-none border-0 p-0 min-w-0 font-body text-inherit appearance-none cursor-pointer disabled:cursor-not-allowed focus:outline-none focus:shadow-none focus:bg-transparent focus-visible:outline-none';
@@ -100,7 +108,7 @@ export const Select: React.FC<SelectProps> = ({
     RAYON,
     SIZE_CLASSES[size],
     STATUS_CLASSES[status],
-    disabled && DISABLED_CLASSES,
+    disabled ? ETAT_CLASSES.desactive : ETAT_CLASSES.repos,
   ]
     .filter(Boolean)
     .join(' ');

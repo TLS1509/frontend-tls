@@ -74,8 +74,23 @@ const CONTROL_BASE =
    l'ordre du `className` — piège n°6 de .claude/rules/pieges-tailwind.md. Une seule par appel. */
 const RAYON = 'rounded-lg';
 
-// Light surface (default)
-const CONTROL_LIGHT = 'bg-white text-ink-900';
+/* Fond et encre : une table d'états par surface, UNE entrée posée par appel
+   (24/09). Le fond et l'encre du repos vivaient dans CONTROL_LIGHT /
+   CONTROL_GLASS, et l'état désactivé ajoutait les siens : deux classes par
+   propriété, même spécificité, c'est l'ordre d'émission de Tailwind qui
+   tranche (piège n°6). Mesuré en montant le composant : désactivé, le champ
+   clair restait blanc en ink-900, et le champ de verre gardait son fond
+   blanc/15 (seule son encre passait à blanc/40). L'erreur et le succès ne
+   touchent que le filet (STATUS_CLASSES). */
+const ETAT_LIGHT = {
+  repos: 'bg-white text-ink-900',
+  desactive: 'bg-ink-50 text-ink-500 cursor-not-allowed hover:border-ink-300',
+} as const;
+
+const ETAT_GLASS = {
+  repos: 'bg-white/15 text-white hover:border-white/35',
+  desactive: 'bg-white/8 text-white/40 cursor-not-allowed hover:border-white/20',
+} as const;
 
 const STATUS_CLASSES: Record<InputStatus, string> = {
   // Filet à ink-400 — arbitrage n°7 du 2026-09-23 : 3,01:1 sur blanc (WCAG 1.4.11
@@ -86,15 +101,10 @@ const STATUS_CLASSES: Record<InputStatus, string> = {
   error: 'border-danger-base focus-within:ring-2 focus-within:ring-danger-base/35',
 };
 
-const DISABLED_LIGHT = 'bg-ink-50 text-ink-500 cursor-not-allowed hover:border-ink-300';
-
 // Glass surface — for dark backgrounds (auth shell, modals on dark)
 const CONTROL_GLASS =
-  'bg-white/15 backdrop-blur-glass-medium text-white ' +
-  'border-white/25 hover:border-white/35 ' +
+  'backdrop-blur-glass-medium border-white/25 ' +
   'focus-within:border-white/50 focus-within:ring-2 focus-within:ring-white/20';
-
-const DISABLED_GLASS = 'bg-white/8 text-white/40 cursor-not-allowed hover:border-white/20';
 
 /* Hauteurs 36 · 44 · 52 — l'échelle commune de l'arbitrage n°22, celle du
    bouton : un champ et son bouton posés sur une même ligne ont la même taille.
@@ -171,10 +181,10 @@ export const Input: React.FC<InputProps> = ({
     RAYON,
     SIZE_CLASSES[size],
     !multiline && SIZE_HEIGHT[size],
-    isGlass ? CONTROL_GLASS : CONTROL_LIGHT,
+    isGlass && CONTROL_GLASS,
     !isGlass && STATUS_CLASSES[status],
     multiline && TEXTAREA_EXTRA,
-    disabled && (isGlass ? DISABLED_GLASS : DISABLED_LIGHT),
+    (isGlass ? ETAT_GLASS : ETAT_LIGHT)[disabled ? 'desactive' : 'repos'],
   ]
     .filter(Boolean)
     .join(' ');

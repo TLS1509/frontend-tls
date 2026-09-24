@@ -48,7 +48,18 @@ const FIELD_BASE = 'flex flex-col gap-stack-xs font-body';
 // Visual control shell: border, bg, sizing. No `relative` here — the wrapper
 // <div class="relative"> below is the positioning context for the dropdown.
 const CONTROL_BASE =
-  'inline-flex items-center gap-stack-xs w-full bg-white border text-ink-900 font-body transition-colors duration-base';
+  'inline-flex items-center gap-stack-xs w-full border font-body transition-colors duration-base';
+
+/* Fond et encre : une table d'états, UNE entrée posée par appel (24/09).
+   Ils vivaient dans CONTROL_BASE (`bg-white text-ink-900`) et l'état
+   désactivé ajoutait `bg-ink-50 text-ink-500` : deux classes par propriété,
+   même spécificité, l'ordre d'émission de Tailwind tranche (piège n°6) — le
+   champ désactivé restait blanc, en ink-900. L'erreur et le succès ne
+   touchent que le filet (STATUS_CLASSES). */
+const ETAT_CLASSES = {
+  repos: 'bg-white text-ink-900',
+  desactive: 'bg-ink-50 text-ink-500 cursor-not-allowed',
+} as const;
 
 /* R4 — le rayon de la famille champ, hors de BASE (une seule classe par appel).
    La liste déroulante prend le même cran : elle prolonge le champ. Raisonnement
@@ -245,7 +256,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
     RAYON,
     SIZE_CLASSES[size],
     open ? active : idle,
-    disabled ? 'bg-ink-50 text-ink-500 cursor-not-allowed' : '',
+    disabled ? ETAT_CLASSES.desactive : ETAT_CLASSES.repos,
   ]
     .filter(Boolean)
     .join(' ');
