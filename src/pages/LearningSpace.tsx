@@ -8,6 +8,8 @@ import { SearchFilters } from '../components/patterns/SearchFilters';
 import { EmptyState } from '../components/ui/EmptyState';
 import { LearningItemCard } from '../components/learning/LearningItemCard';
 import { PageShell } from '../components/layout';
+import { PageHero } from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { MOCK_LEARNING_SPACE_ITEMS } from '../data/items';
 import { DREYFUS_LABELS, competencyLevel } from '../data/competencies';
 import type { ItemType, DreyfusLevel } from '../types/learning';
@@ -82,7 +84,7 @@ const LEVEL_OPTIONS = [
   { id: 'all', label: 'Tous niveaux' },
   ...([1, 2, 3, 4, 5] as DreyfusLevel[]).map((l) => ({
     id: String(l),
-    label: `D${l} — ${DREYFUS_LABELS[l]}`,
+    label: `D${l} · ${DREYFUS_LABELS[l]}`,
   })),
 ];
 
@@ -172,105 +174,112 @@ export const LearningSpace: React.FC = () => {
 
   /* ─── Render ─────────────────────────────────────────────────────────── */
 
+  const compte = `${filteredItems.length} ressource${filteredItems.length > 1 ? 's' : ''}`;
+
   return (
-    <PageShell width="page" gap="stack-lg" noPadTop className="relative z-base pt-6 md:pt-8 lg:pt-10">
+    /* Le rythme et la marge haute par défaut de PageShell (48 entre l'en-tête
+       et la collection) : la page posait sa propre marge haute, plus courte
+       que celle des autres pages, et 24 px partout. */
+    <PageShell width="page" className="relative z-base">
 
-      {/* ── Page header ─────────────────────────────────────────────────── */}
-      <div className="flex flex-col gap-tight">
-        <h1 className="font-display text-h2 font-bold text-ink-900 tracking-headline">
-          Explorez nos ressources
-        </h1>
-        <p className="m-0 font-body text-body text-ink-500 max-w-2xl">
-          Ressources adaptées à ton niveau et tes parcours actuels
-        </p>
-      </div>
-
-      {/* ── Search bar + filters (revealed on click, select-checkbox dropdowns) ── */}
-      <SearchFilters
-        layout="panel"
-        query={query}
-        onQueryChange={setQuery}
-        placeholder="Rechercher par titre, thématique, tag…"
-        aria-label="Rechercher dans l'espace d'apprentissage"
-        onReset={resetFilters}
-        filters={[
-          {
-            id: 'type',
-            label: 'Type de ressource',
-            multi: false,
-            control: 'dropdown',
-            options: TYPE_GROUPS.filter((o) => o.id !== 'all').map((o) => ({ id: o.id, label: o.label })),
-            selected: typeGroup === 'all' ? [] : [typeGroup],
-            onChange: (ids) => setTypeGroup((ids[0] as TypeGroupId) ?? 'all'),
-          },
-          {
-            id: 'theme',
-            label: 'Thématique',
-            multi: false,
-            control: 'dropdown',
-            options: themeOptions.filter((o) => o.id !== 'all'),
-            selected: theme === 'all' ? [] : [theme],
-            onChange: (ids) => setTheme(ids[0] ?? 'all'),
-          },
-          {
-            id: 'level',
-            label: 'Niveau',
-            multi: false,
-            control: 'dropdown',
-            options: LEVEL_OPTIONS.filter((o) => o.id !== 'all'),
-            selected: level === 'all' ? [] : [level],
-            onChange: (ids) => setLevel(ids[0] ?? 'all'),
-          },
-          {
-            id: 'duration',
-            label: 'Durée',
-            multi: false,
-            control: 'dropdown',
-            options: DURATION_OPTIONS.filter((o) => o.id !== 'all'),
-            selected: duration === 'all' ? [] : [duration],
-            onChange: (ids) => setDuration((ids[0] as DurationBucket) ?? 'all'),
-          },
-        ]}
+      {/* ── Page header ───────────────────────────────────────────────────
+          Le PageHero de l'app : h1 36 et chapô 18 ink-700. L'en-tête était
+          fait main, le h1 à 28 (la taille d'un titre de section), le chapô à
+          16 au cran 500 (celui des placeholders), collé au titre à 2 px. */}
+      <PageHero
+        tone="flat"
+        title="Explorez nos ressources"
+        summary="Ressources adaptées à ton niveau et à tes parcours actuels."
       />
 
-      {/* ── Resources grid ──────────────────────────────────────────────── */}
-      <div className="flex flex-col gap-stack">
-        {/* Count + layout toggle (2 col / 4 col) */}
-        <div className="flex items-center justify-between gap-stack">
-          <span className="text-caption text-ink-500 font-medium">
-            {filteredItems.length} ressource{filteredItems.length > 1 ? 's' : ''}
-          </span>
-          <div className="flex items-center gap-stack-3xs">
-            <button
-              type="button"
-              onClick={() => setGridCols(2)}
-              aria-label="Affichage 2 colonnes"
-              aria-pressed={gridCols === 2}
-              className={[
-                'inline-flex items-center justify-center p-1.5 rounded-md transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                gridCols === 2
-                  ? 'bg-primary-100 text-primary-800 shadow-xs'
-                  : 'bg-white text-ink-600 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
-              ].join(' ')}
-            >
-              <Grid2x2 size={14} strokeWidth={2} />
-            </button>
-            <button
-              type="button"
-              onClick={() => setGridCols(4)}
-              aria-label="Affichage 4 colonnes"
-              aria-pressed={gridCols === 4}
-              className={[
-                'inline-flex items-center justify-center p-1.5 rounded-md transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                gridCols === 4
-                  ? 'bg-primary-100 text-primary-800 shadow-xs'
-                  : 'bg-white text-ink-600 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
-              ].join(' ')}
-            >
-              <Grid3x3 size={14} strokeWidth={2} />
-            </button>
-          </div>
-        </div>
+      {/* ── La collection : titre (h2) → recherche → grille, 16 px ────────── */}
+      <section className="flex flex-col gap-stack">
+
+        {/* Le compte chuchote en méta sous le titre ; le choix de la grille est
+            l'action de la section. */}
+        <SectionHeader
+          title="Toutes les ressources"
+          meta={compte}
+          action={
+            <div className="flex items-center gap-stack-3xs">
+              <button
+                type="button"
+                onClick={() => setGridCols(2)}
+                aria-label="Affichage 2 colonnes"
+                aria-pressed={gridCols === 2}
+                className={[
+                  'inline-flex items-center justify-center p-1.5 rounded-md transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                  gridCols === 2
+                    ? 'bg-primary-100 text-primary-800 shadow-xs'
+                    : 'bg-white text-ink-600 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
+                ].join(' ')}
+              >
+                <Grid2x2 size={14} strokeWidth={2} />
+              </button>
+              <button
+                type="button"
+                onClick={() => setGridCols(4)}
+                aria-label="Affichage 4 colonnes"
+                aria-pressed={gridCols === 4}
+                className={[
+                  'inline-flex items-center justify-center p-1.5 rounded-md transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                  gridCols === 4
+                    ? 'bg-primary-100 text-primary-800 shadow-xs'
+                    : 'bg-white text-ink-600 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
+                ].join(' ')}
+              >
+                <Grid3x3 size={14} strokeWidth={2} />
+              </button>
+            </div>
+          }
+        />
+
+        <SearchFilters
+          layout="panel"
+          query={query}
+          onQueryChange={setQuery}
+          placeholder="Rechercher par titre, thématique, tag…"
+          aria-label="Rechercher dans l'espace d'apprentissage"
+          onReset={resetFilters}
+          filters={[
+            {
+              id: 'type',
+              label: 'Type de ressource',
+              multi: false,
+              control: 'dropdown',
+              options: TYPE_GROUPS.filter((o) => o.id !== 'all').map((o) => ({ id: o.id, label: o.label })),
+              selected: typeGroup === 'all' ? [] : [typeGroup],
+              onChange: (ids) => setTypeGroup((ids[0] as TypeGroupId) ?? 'all'),
+            },
+            {
+              id: 'theme',
+              label: 'Thématique',
+              multi: false,
+              control: 'dropdown',
+              options: themeOptions.filter((o) => o.id !== 'all'),
+              selected: theme === 'all' ? [] : [theme],
+              onChange: (ids) => setTheme(ids[0] ?? 'all'),
+            },
+            {
+              id: 'level',
+              label: 'Niveau',
+              multi: false,
+              control: 'dropdown',
+              options: LEVEL_OPTIONS.filter((o) => o.id !== 'all'),
+              selected: level === 'all' ? [] : [level],
+              onChange: (ids) => setLevel(ids[0] ?? 'all'),
+            },
+            {
+              id: 'duration',
+              label: 'Durée',
+              multi: false,
+              control: 'dropdown',
+              options: DURATION_OPTIONS.filter((o) => o.id !== 'all'),
+              selected: duration === 'all' ? [] : [duration],
+              onChange: (ids) => setDuration((ids[0] as DurationBucket) ?? 'all'),
+            },
+          ]}
+        />
 
         {/* Items grid or empty state */}
         {filteredItems.length === 0 ? (
@@ -287,7 +296,7 @@ export const LearningSpace: React.FC = () => {
             }
           />
         ) : (
-          <div className={gridCols === 4 ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-stack' : 'grid grid-cols-1 sm:grid-cols-2 gap-stack-lg'}>
+          <div className={gridCols === 4 ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-stack' : 'grid grid-cols-1 sm:grid-cols-2 gap-stack'}>
             {filteredItems.map((item) => {
               const accessCheck = canAccessItem(item.tierGate, item.prerequisites, {
                 userSubscriptionTier: userTier,
@@ -325,7 +334,7 @@ export const LearningSpace: React.FC = () => {
             })}
           </div>
         )}
-      </div>
+      </section>
     </PageShell>
   );
 };

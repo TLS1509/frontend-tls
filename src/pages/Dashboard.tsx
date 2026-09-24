@@ -23,6 +23,7 @@ import { ActivityFeed } from '../components/patterns/ActivityFeed';
 import { EmptyDashboardState } from '../components/patterns/EmptyDashboardState';
 import { PageShell } from '../components/layout';
 import { PageHero } from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import {
   ArrowRight,
   Hand,
@@ -41,6 +42,20 @@ const itemVariants = {
   hidden: { opacity: 0, y: 12 },
   show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const } },
 };
+
+// ─── En-tête de section ──────────────────────────────────────────────────────
+
+/* Titre de section (h2 28) et son action. L'action passe SOUS le titre quand la
+   place manque (375 px, ou colonnes de 326 px à 1024) : dans `SectionHeader`,
+   le titre prend `flex-1` et l'action ne se replie jamais, donc un titre de
+   28 px se cassait en deux lignes à côté d'un bouton (« Prochaine / session »).
+   Ici l'en-tête garde sa largeur propre et c'est l'action qui descend. */
+const EnTeteDeSection: React.FC<{ title: string; action: React.ReactNode }> = ({ title, action }) => (
+  <div className="flex flex-wrap items-center justify-between gap-x-stack gap-y-stack-xs">
+    <SectionHeader title={title} />
+    {action}
+  </div>
+);
 
 // ─── Contextual journal bubble ───────────────────────────────────────────────
 
@@ -70,20 +85,21 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
 
   return (
     <div className="flex flex-col gap-stack">
-      {/* Section header with inline link */}
-      <div className="flex items-center justify-between gap-stack-xs">
-        <h3 className="font-display text-h3 font-bold text-ink-900 tracking-headline">
-          Écrire aujourd'hui
-        </h3>
-        <Button
-          emphasis="outline"
-          size="sm"
-          leadingIcon={<PenLine size={14} />}
-          onClick={() => navigate('/journal')}
-        >
-          Mon journal
-        </Button>
-      </div>
+      {/* Une section de la page : h2 28 (passe typographique du 24/09). Elle
+          était un h3 20 fait main, à la taille d'un titre de carte. */}
+      <EnTeteDeSection
+        title="Écrire aujourd'hui"
+        action={
+          <Button
+            emphasis="outline"
+            size="sm"
+            leadingIcon={<PenLine size={14} />}
+            onClick={() => navigate('/journal')}
+          >
+            Mon journal
+          </Button>
+        }
+      />
 
       {/* Chat card */}
       {/* Padding 24 ≥ rayon 20 : la bulle (20) est une forme fixe. À 16, son coin
@@ -104,11 +120,15 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
               coller à `JournalBubbleCard`, avant que le cran `stack-md` (20 px)
               n'entre dans l'échelle le 17/09 au soir ; le composant avait
               rejoint le canon carte (24) entre-temps. Padding ≥ rayon : le coin ne pince pas. */}
-          <div className="flex-1 bg-primary-50/80 rounded-tl-xl rounded-tr-xl rounded-br-xl rounded-bl border border-primary-100/70 p-stack-lg">
-            <span className="block text-micro font-semibold text-primary-700 uppercase tracking-[0.07em] mb-2">
+          {/* La méta (le rendez-vous qui motive la question) est une donnée :
+              légende 13/600 ink-600, 4 px au-dessus de la question, comme un
+              surtitre de carte. Elle était en étiquette 11 px capitales teal,
+              le registre du Badge, et criait plus fort que la question. */}
+          <div className="flex-1 flex flex-col gap-stack-3xs bg-primary-50/80 rounded-tl-xl rounded-tr-xl rounded-br-xl rounded-bl border border-primary-100/70 p-stack-lg">
+            <p className="font-body text-caption font-semibold text-ink-600">
               {meta}
-            </span>
-            <p className="font-body text-body text-ink-800 m-0">
+            </p>
+            <p className="font-body text-body text-ink-900">
               {prompt}
             </p>
           </div>
@@ -151,20 +171,19 @@ const ActivitySection: React.FC<ActivitySectionProps> = ({ navigate }) => {
   const feedItems = useMemo(() => makeFeedItems(navigate), [navigate]);
   return (
     <div className="flex flex-col gap-stack">
-      {/* Section header with inline link */}
-      <div className="flex items-center justify-between gap-stack-xs">
-        <h3 className="font-display text-h3 font-bold text-ink-900 tracking-headline">
-          Activité & veille
-        </h3>
-        <Button
-          emphasis="outline"
-          size="sm"
-          trailingIcon={<ArrowRight size={14} />}
-          onClick={() => navigate('/veille')}
-        >
-          Explorer la veille
-        </Button>
-      </div>
+      <EnTeteDeSection
+        title="Activité & veille"
+        action={
+          <Button
+            emphasis="outline"
+            size="sm"
+            trailingIcon={<ArrowRight size={14} />}
+            onClick={() => navigate('/veille')}
+          >
+            Explorer la veille
+          </Button>
+        }
+      />
 
       {/* Un fil qu'on parcourt : des rangées dans une carte (arbitrage n°5 du 23/09). */}
       <ActivityFeed
@@ -218,7 +237,10 @@ export const Dashboard: React.FC = () => {
           page prend LA rampe par défaut de PageShell (section/section-lg/page),
           la même que la rangée logo du rail. Les deux colonnes partent de la
           même ligne. */}
-      <PageShell width="page" className="relative z-[2] gap-section">
+      {/* 48 px entre l'en-tête et le contenu, puis entre chaque section (le
+          défaut de PageShell, doctrine § 5). La page écrasait ce rythme à 32,
+          puis le contenu à 40 : trois écarts pour dire la même chose. */}
+      <PageShell width="page" className="relative z-[2]">
 
         {/* ① Hero */}
         <PageHero
@@ -254,7 +276,7 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
   const reduceMotion = useReducedMotion();
   return (
   <motion.div
-    className="flex flex-col gap-section-lg"
+    className="flex flex-col gap-page"
     variants={containerVariants}
     initial={reduceMotion ? false : 'hidden'}
     animate="show"
@@ -276,24 +298,31 @@ const DashboardContent: React.FC<DashboardContentProps> = ({ navigate }) => {
       />
     </motion.section>
 
-    {/* ③ Session + Journal bubble — 2 colonnes */}
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg lg:gap-section items-start">
+    {/* ③ Session + Journal bubble — 2 colonnes. Empilées (mobile), ce sont
+        deux sections : 48 entre elles, comme partout ; côte à côte, 32 de
+        gouttière. */}
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-page gap-x-section items-start">
 
       <motion.div className="flex flex-col gap-stack" variants={itemVariants}>
-        {/* Section header matching JournalBubble */}
-        <div className="flex items-center justify-between gap-stack-xs">
-          <h3 className="font-display text-h3 font-bold text-ink-900 tracking-headline">
-            Prochaine session
-          </h3>
-          <button
-            type="button"
-            onClick={() => navigate('/coaching')}
-            className="inline-flex items-center min-h-6 py-1 -my-1 gap-stack-3xs text-caption font-medium text-primary-700 hover:text-primary-800 transition-colors duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
-          >
-            Toutes mes sessions
-            <ArrowRight size={14} aria-hidden="true" />
-          </button>
-        </div>
+        {/* Même anatomie que la colonne voisine : h2 28 sur 36 de haut, la
+            hauteur du bouton `sm` d'en face — les deux titres partagent leur
+            ligne. Le lien prend la typographie des liens du fil d'activité,
+            plus bas sur la page (13/600 au cran 800 ; il était à 13/500 au
+            cran 700). Pas le niveau `link` de Button : en taille `sm` il garde
+            16 px de padding, et replié sous le titre il sortait du bord gauche. */}
+        <EnTeteDeSection
+          title="Prochaine session"
+          action={
+            <button
+              type="button"
+              onClick={() => navigate('/coaching')}
+              className="inline-flex items-center min-h-6 py-1 -my-1 gap-stack-3xs text-caption font-semibold text-primary-800 hover:text-primary-900 transition-colors duration-fast shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+            >
+              Toutes mes sessions
+              <ArrowRight size={14} aria-hidden="true" />
+            </button>
+          }
+        />
         <SessionCard
           title="Leadership & IA"
           coachName={MOCK_COACH.name}

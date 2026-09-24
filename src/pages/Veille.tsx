@@ -30,6 +30,8 @@ import {
   type VeilleFeedItem,
 } from '../components/patterns/VeilleCardFeed';
 import { PageShell } from '../components/layout';
+import { PageHero } from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { useBookmarksStore, useFilterPrefsStore } from '../stores/persistence';
 import { useToastContext } from '../contexts/ToastContext';
 
@@ -139,89 +141,95 @@ export const Veille: React.FC = () => {
     (e.currentTarget as HTMLFormElement).reset();
   };
 
+  const compte = `${filteredItems.length} publication${filteredItems.length > 1 ? 's' : ''}`;
+
   return (
-    <PageShell width="page" gap="stack-lg" noPadTop className="relative z-base pt-6 md:pt-8 lg:pt-10">
+    /* Rythme et marge haute par défaut de PageShell : 48 entre l'en-tête, la
+       collection et la bande d'abonnement. La page posait sa propre marge
+       haute, plus courte que celle des autres pages, et 24 px partout. */
+    <PageShell width="page" className="relative z-base">
 
-      {/* ── Page header ─────────────────────────────────────────────────── */}
-      <div className="flex flex-col gap-tight">
-        <h1 className="font-display text-h2 font-bold text-ink-900 tracking-headline">
-          Veille &amp; Actualités
-        </h1>
-        <p className="m-0 font-body text-body text-ink-500 max-w-2xl">
-          Actus, tutoriels, dossiers et magazine — toute la veille TLS au même endroit.
-        </p>
-      </div>
-
-      {/* ── Search + filters (SearchFilters inline) ─────────────────────── */}
-      <SearchFilters
-        query={query}
-        onQueryChange={setQuery}
-        placeholder="Rechercher un sujet, auteur, catégorie…"
-        aria-label="Rechercher dans la veille"
-        filters={[
-          {
-            id: 'type',
-            label: 'Type',
-            multi: false,
-            options: TYPE_FILTERS.filter((f) => f.id !== 'all').map((f) => ({
-              id: f.id,
-              label: f.label,
-              count: counts[f.id as VeilleType],
-              icon: f.Icon ? <f.Icon size={14} strokeWidth={2.5} /> : undefined,
-            })),
-            selected: selected === 'all' ? [] : [selected],
-            onChange: (ids) => setSelected((ids[0] as 'all' | VeilleType) ?? 'all'),
-          },
-          {
-            id: 'saved',
-            label: 'Sauvegardés',
-            kind: 'toggle',
-            icon: <Bookmark size={14} strokeWidth={2.5} />,
-            value: showSavedOnly,
-            onChange: setShowSavedOnly,
-            count: savedIds.size || undefined,
-          },
-        ]}
+      {/* ── Page header ───────────────────────────────────────────────────
+          Le PageHero de l'app (h1 36, chapô 18 ink-700). Il était fait main :
+          h1 à 28, chapô à 16 au cran 500 des placeholders, collé à 2 px. */}
+      <PageHero
+        tone="flat"
+        title="Veille et actualités"
+        summary="Actus, tutoriels, dossiers et magazine : toute la veille TLS au même endroit."
       />
 
-      {/* ── Feed ────────────────────────────────────────────────────────── */}
-      <div className="flex flex-col gap-stack">
-        {/* Count + display mode toggle */}
-        <div className="flex items-center justify-between gap-stack">
-          <span className="text-caption text-ink-500 font-medium">
-            {filteredItems.length} résultat{filteredItems.length !== 1 ? 's' : ''}
-          </span>
-          <div className="flex items-center gap-stack-3xs">
-            <button
-              type="button"
-              onClick={() => setDisplayMode('grid')}
-              aria-label="Affichage grille"
-              aria-pressed={displayMode === 'grid'}
-              className={[
-                'inline-flex items-center justify-center p-1.5 rounded-md transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                displayMode === 'grid'
-                  ? 'bg-primary-100 text-primary-800 shadow-xs'
-                  : 'bg-white text-ink-600 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
-              ].join(' ')}
-            >
-              <Grid3x3 size={14} strokeWidth={2} />
-            </button>
-            <button
-              type="button"
-              onClick={() => setDisplayMode('list')}
-              aria-label="Affichage liste"
-              aria-pressed={displayMode === 'list'}
-              className={[
-                'inline-flex items-center justify-center p-1.5 rounded-md transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
-                displayMode === 'list'
-                  ? 'bg-primary-100 text-primary-800 shadow-xs'
-                  : 'bg-white text-ink-600 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
-              ].join(' ')}
-            >
-              <List size={14} strokeWidth={2} />
-            </button>
-          </div>
-        </div>
+      {/* ── La collection : titre (h2) → recherche → fil, 16 px ───────────
+          La page passait du h1 aux titres des publications. Le compte est
+          une donnée (méta 13 ink-600, il était au cran 500) ; le choix de
+          l'affichage est l'action de la section. */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader
+          title="Dernières publications"
+          meta={compte}
+          action={
+            <div className="flex items-center gap-stack-3xs">
+              <button
+                type="button"
+                onClick={() => setDisplayMode('grid')}
+                aria-label="Affichage grille"
+                aria-pressed={displayMode === 'grid'}
+                className={[
+                  'inline-flex items-center justify-center p-1.5 rounded-md transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                  displayMode === 'grid'
+                    ? 'bg-primary-100 text-primary-800 shadow-xs'
+                    : 'bg-white text-ink-600 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
+                ].join(' ')}
+              >
+                <Grid3x3 size={14} strokeWidth={2} />
+              </button>
+              <button
+                type="button"
+                onClick={() => setDisplayMode('list')}
+                aria-label="Affichage liste"
+                aria-pressed={displayMode === 'list'}
+                className={[
+                  'inline-flex items-center justify-center p-1.5 rounded-md transition-all duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500',
+                  displayMode === 'list'
+                    ? 'bg-primary-100 text-primary-800 shadow-xs'
+                    : 'bg-white text-ink-600 hover:text-ink-600 hover:bg-ink-50 border border-ink-200',
+                ].join(' ')}
+              >
+                <List size={14} strokeWidth={2} />
+              </button>
+            </div>
+          }
+        />
+
+        <SearchFilters
+          query={query}
+          onQueryChange={setQuery}
+          placeholder="Rechercher un sujet, auteur, catégorie…"
+          aria-label="Rechercher dans la veille"
+          filters={[
+            {
+              id: 'type',
+              label: 'Type',
+              multi: false,
+              options: TYPE_FILTERS.filter((f) => f.id !== 'all').map((f) => ({
+                id: f.id,
+                label: f.label,
+                count: counts[f.id as VeilleType],
+                icon: f.Icon ? <f.Icon size={14} strokeWidth={2.5} /> : undefined,
+              })),
+              selected: selected === 'all' ? [] : [selected],
+              onChange: (ids) => setSelected((ids[0] as 'all' | VeilleType) ?? 'all'),
+            },
+            {
+              id: 'saved',
+              label: 'Sauvegardés',
+              kind: 'toggle',
+              icon: <Bookmark size={14} strokeWidth={2.5} />,
+              value: showSavedOnly,
+              onChange: setShowSavedOnly,
+              count: savedIds.size || undefined,
+            },
+          ]}
+        />
 
         <VeilleCardFeed
           items={filteredItems}
@@ -229,23 +237,29 @@ export const Veille: React.FC = () => {
           savedIds={savedIds}
           onToggleSave={(id) => toggleBookmark(id)}
           onItemClick={handleOpen}
-          emptyMessage="Aucun résultat — essayez d'élargir vos filtres."
+          emptyMessage="Aucun résultat. Essayez d'élargir vos filtres."
         />
-      </div>
+      </section>
 
-      {/* ── Bande mailing — glassy minimale ──────────────────────────────── */}
-      <div className="rounded-lg border border-ink-200/60 bg-white/70 backdrop-blur-glass-medium px-stack-lg py-stack">
+      {/* ── Bande d'abonnement ────────────────────────────────────────────
+          Un conteneur posé dans la page : rayon 20, padding 24 (anatomie de
+          carte ; il était à 14 pour 16 de haut). Elle mesure SA largeur
+          (requête de conteneur) : sur une ligne à partir de 768 px de bande,
+          sinon trois rangées — la phrase, le champ et son bouton, le lien. À
+          375 px, tout tenait sur une ligne de 428 px dans 295 : « Gérer mes
+          préférences » sortait de la bande. */}
+      <div className="@container rounded-xl border border-ink-200/60 bg-white/70 backdrop-blur-glass-medium p-stack-lg">
         <form
           onSubmit={handleSubscribe}
-          className="flex flex-col sm:flex-row items-start sm:items-center gap-stack-xs"
+          className="flex flex-col gap-stack-sm @3xl:flex-row @3xl:items-center @3xl:gap-stack"
         >
-          <div className="flex items-center gap-stack-xs text-ink-600 shrink-0">
-            <Mail size={14} className="text-ink-600" />
-            <span className="font-body text-body">
-              Recevoir les actus veille dans ta boîte mail
-            </span>
-          </div>
-          <div className="flex items-center gap-stack-xs sm:ml-auto">
+          {/* La phrase porte l'offre : 16/600 ink-900 (elle était au cran 600
+              de la méta). L'icône se cale sur sa première ligne. */}
+          <p className="flex items-start gap-stack-xs font-body text-body font-semibold text-ink-900 @3xl:flex-1">
+            <Mail size={16} className="shrink-0 mt-[5px] text-ink-600" aria-hidden="true" />
+            Recevoir les actus veille dans ta boîte mail
+          </p>
+          <div className="flex items-center gap-stack-xs">
             <label htmlFor={emailId} className="sr-only">Votre adresse e-mail</label>
             <Input
               id={emailId}
@@ -255,19 +269,19 @@ export const Veille: React.FC = () => {
               size="sm"
               placeholder="votre@email.com"
               autoComplete="email"
-              className="w-48 sm:w-56"
+              className="flex-1 min-w-0 @3xl:flex-none @3xl:w-56"
             />
             <Button type="submit" emphasis="soft" size="sm">
               S'abonner
             </Button>
-            <button
-              type="button"
-              onClick={() => navigate('/veille/newsletter')}
-              className="inline-flex items-center min-h-6 py-1 -my-1 font-body text-caption text-ink-600 hover:text-primary-700 underline underline-offset-2 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
-            >
-              Gérer mes préférences
-            </button>
           </div>
+          <button
+            type="button"
+            onClick={() => navigate('/veille/newsletter')}
+            className="self-start @3xl:self-auto inline-flex items-center min-h-6 py-1 -my-1 font-body text-caption text-ink-600 hover:text-primary-800 underline underline-offset-2 transition-colors whitespace-nowrap focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+          >
+            Gérer mes préférences
+          </button>
         </form>
       </div>
 
