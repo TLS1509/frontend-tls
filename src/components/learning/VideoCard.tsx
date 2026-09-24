@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card } from '../core/Card';
-import { Badge } from '../ui/Badge';
 import { Button } from '../core/Button';
 import { MetaPill } from '../ui/MetaPill';
 import { Play, Bookmark, BookmarkCheck, Clock } from 'lucide-react';
@@ -48,7 +47,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
   return (
     <Card
       className={[
-        'group flex flex-col gap-stack-xs transition-all duration-slow ease-emphasis overflow-hidden',
+        'group flex flex-col gap-stack-sm transition-all duration-slow ease-emphasis overflow-hidden',
         TONE_HOVER_GLOW[tone],
         className,
       ]
@@ -72,21 +71,25 @@ export const VideoCard: React.FC<VideoCardProps> = ({
         >
           <Play size={28} fill="currentColor" className="ml-1" />
         </div>
-        <div className="absolute bottom-3 right-3 inline-flex items-center gap-tight px-2 py-1 rounded-pill bg-black/60 backdrop-blur-sm text-white text-micro font-bold">
+        {/* La durée est une donnée : le registre de MetaPill (11/500), sur le
+            voile sombre qui la garde lisible quel que soit le dégradé. */}
+        <div className="absolute bottom-3 right-3 inline-flex items-center gap-tight px-2 py-1 rounded-pill bg-black/60 backdrop-blur-sm text-white text-micro font-medium tabular-nums">
           <Clock size={14} />
           {duration}
         </div>
       </div>
 
-      <div className="flex flex-col gap-stack-xs">
-        <div className="flex items-center gap-stack-xs flex-wrap">
-          <Badge variant="neutral">{category}</Badge>
-        </div>
-        <h3 className="text-h3 text-ink-900 line-clamp-2">{title}</h3>
-        {author && <p className="m-0 text-caption text-ink-500">Par {author}</p>}
+      {/* Catégorie → titre 4 · titre → auteur 4 (passe typographique du
+          2026-09-24). La catégorie est une DONNÉE : MetaPill, jamais Badge
+          (arbitrage n°14). Les `mt-stack-3xs` remplacent la marge de base des
+          titres (0,75em), faite pour séparer des sections. */}
+      <div className="flex flex-col">
+        <MetaPill text={category} tone="neutral" className="w-fit" />
+        <h3 className="mt-stack-3xs text-h3 text-ink-900 line-clamp-2">{title}</h3>
+        {author && <p className="m-0 mt-stack-3xs text-caption text-ink-600">Par {author}</p>}
       </div>
 
-      <div className="flex gap-stack-xs pt-3 border-t border-ink-100">
+      <div className="flex gap-stack-xs mt-stack-xs pt-stack-sm border-t border-ink-100">
         <Button onClick={onClick} className="flex-1 justify-center">
           <Play size={14} fill="currentColor" />
           Regarder

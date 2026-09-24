@@ -5,8 +5,8 @@
  *
  * Layout (top → bottom):
  *   1. Icon bubble (top-right corner) with tone-aware gradient background
- *   2. Type badge + duration metadata
- *   3. Title (h4) + description (line-clamp-2)
+ *   2. Type (MetaPill) + duration metadata
+ *   3. Libellé 16/600 + description 16 (line-clamp-2) — vignette compacte
  *   4. Footer: level pill + theme tag
  *   5. Lock row (if inaccessible)
  *   6. CTA button (full-width)
@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 import { Card } from '../core/Card';
 import { buttonClasses } from '../core/Button';
-import { Badge } from '../ui/Badge';
+import { MetaPill } from '../ui/MetaPill';
 import type { ItemType, DreyfusLevel } from '../../types/learning';
 import { ITEM_TYPE_LABELS } from '../../data/items';
 
@@ -85,12 +85,6 @@ const ICON_BUBBLE_OUTLINE: Record<'brand' | 'warm' | 'sun', string> = {
   sun:   'bg-accent-100 text-accent-600',
 };
 
-const LEVEL_PILL_OUTLINE: Record<'brand' | 'warm' | 'sun', string> = {
-  brand: 'bg-primary-50 text-primary-800 border border-primary-200',
-  warm:  'bg-secondary-50 text-secondary-700 border border-secondary-200',
-  sun:   'bg-accent-50 text-accent-700 border border-accent-200',
-};
-
 const HOVER_BG_OUTLINE: Record<'brand' | 'warm' | 'sun', string> = {
   brand: 'hover:bg-primary-50',
   warm:  'hover:bg-secondary-50',
@@ -101,12 +95,6 @@ const ICON_BUBBLE: Record<'brand' | 'warm' | 'sun', string> = {
   brand: 'bg-gradient-to-br from-primary-100 to-primary-50 text-primary-600',
   warm:  'bg-gradient-to-br from-secondary-100 to-secondary-50 text-secondary-600',
   sun:   'bg-gradient-to-br from-accent-100 to-accent-50 text-accent-600',
-};
-
-const LEVEL_PILL: Record<'brand' | 'warm' | 'sun', string> = {
-  brand: 'bg-primary-50 text-primary-800 border-primary-200',
-  warm:  'bg-secondary-50 text-secondary-700 border-secondary-200',
-  sun:   'bg-accent-50 text-accent-700 border-accent-200',
 };
 
 /* ─── Props ──────────────────────────────────────────────────────────────── */
@@ -153,7 +141,6 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
   const borderClasses = isTinted ? BORDER_TONE[tone] : BORDER_OUTLINE[tone];
   const hoverClasses = !isTinted ? HOVER_BG_OUTLINE[tone] : '';
   const iconBubbleClasses = isTinted ? ICON_BUBBLE[tone] : ICON_BUBBLE_OUTLINE[tone];
-  const levelPillClasses = isTinted ? LEVEL_PILL[tone] : LEVEL_PILL_OUTLINE[tone];
   const shadowClasses = isTinted && (tone === 'sun' ? 'shadow-sun-sm' : tone === 'warm' ? 'shadow-warm-sm' : 'shadow-brand-sm');
 
   return (
@@ -189,48 +176,53 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
         </span>
       </div>
 
-      {/* ── Main content (flex column, better spacing) ── */}
-      <div className="flex flex-col gap-stack-xs pr-10">
-        {/* 1. Type badge + duration ── */}
-        <div className="flex items-center gap-stack-3xs flex-wrap text-micro">
-          <Badge variant={tone} size="compact">{ITEM_TYPE_LABELS[type]}</Badge>
-          <span className="text-ink-600">•</span>
-          <span className="text-ink-500 font-medium text-micro">{duration}</span>
+      {/* ── Contenu — vignette compacte (passe typographique du 2026-09-24) ──
+          Anatomie (doctrine § 5) : type + durée → libellé 4 · libellé → texte 8
+          · texte → niveau + thème 12. Le libellé est en 16/600, pas en h3
+          20/700 : la carte est une vignette de catalogue, quatre par rangée,
+          210 px de texte. Essayé au navigateur le 24/09 : à 20/700, cinq titres
+          sur neuf étaient tronqués à deux lignes (« Conduire son premier
+          entretien… ») — un titre coupé coûte plus qu'un titre plus petit.
+          La description passe de 13 px ink-500 à 16 px ink-700 : c'est le
+          texte qu'on lit pour choisir. Le type est une DONNÉE — MetaPill, plus
+          Badge (arbitrage n°15). */}
+      <div className="flex flex-col pr-10">
+        {/* 1. Type + durée ── */}
+        <div className="flex items-center gap-stack-xs flex-wrap">
+          <MetaPill text={ITEM_TYPE_LABELS[type]} tone={tone} />
+          <span className="text-caption text-ink-600">{duration}</span>
         </div>
 
-        {/* 2. Title + description ── */}
-        <div className="flex flex-col gap-stack-3xs">
-          <h3 className="font-display text-body font-semibold font-semibold text-ink-900 line-clamp-2">
+        {/* 2. Libellé + description ── */}
+        <div className="flex flex-col gap-stack-xs mt-stack-3xs">
+          <p className="m-0 font-body text-body font-semibold text-ink-900 line-clamp-2">
             {title}
-          </h3>
-          <p className="m-0 text-caption text-ink-500 line-clamp-2">
+          </p>
+          <p className="m-0 text-body text-ink-700 line-clamp-2">
             {description}
           </p>
         </div>
 
-        {/* 3. Footer: level + theme ── */}
-        <div className="flex items-center gap-stack-3xs text-micro">
-          {/* Le niveau Dreyfus est une DONNÉE, pas un état : vocabulaire MetaPill
-              (pilule, 11 px, graisse 500). Il portait `rounded` nu — 4 px — et
-              `py-1`, ce qui lui donnait 28 px de haut contre les 24 du système. */}
-          <span className={`px-2 py-0.5 rounded-pill text-micro font-medium border ${levelPillClasses}`}>
-            D{dreyfusLevel}
-          </span>
-          <span className="text-ink-600 text-micro">•</span>
-          <span className="text-ink-500 text-micro truncate">{theme}</span>
+        {/* 3. Niveau + thème ── */}
+        <div className="flex items-center gap-stack-xs mt-stack-sm min-w-0">
+          {/* Le niveau Dreyfus est une DONNÉE, pas un état : MetaPill. */}
+          <MetaPill text={`D${dreyfusLevel}`} tone={tone} />
+          <span className="text-caption text-ink-600 truncate">{theme}</span>
         </div>
       </div>
 
       {/* ── Lock row (if inaccessible) ── */}
       {!isAccessible && (
         <div className="mt-stack rounded-lg bg-ink-50 px-3 py-2 flex items-start gap-stack-xs">
-          <Lock size={14} className="text-ink-400 shrink-0 mt-px" aria-hidden />
+          <span className="flex items-center h-lh text-caption shrink-0" aria-hidden>
+            <Lock size={14} className="text-ink-500" />
+          </span>
           <div className="flex flex-col gap-tight">
-            <span className="text-caption text-ink-600 font-medium">
+            <span className="text-caption font-semibold text-ink-900">
               {denialReason === 'tier' ? 'Upgrade requis' : 'Pré-requis manquant'}
             </span>
             {denialMessage && (
-              <span className="text-micro text-ink-600">{denialMessage}</span>
+              <span className="text-caption text-ink-600">{denialMessage}</span>
             )}
           </div>
         </div>
@@ -266,7 +258,8 @@ export const LearningItemCard: React.FC<LearningItemCardProps> = ({
           variant: isAccessible ? (tone === 'brand' ? 'primary' : tone === 'warm' ? 'secondary' : 'accent') : 'secondary',
           size: 'sm',
           fullWidth: true,
-          className: `mt-stack ${!isAccessible ? 'opacity-disabled' : ''}`,
+          /* Contenu → action : 20 en dense, 24 au canon — le padding de la carte. */
+          className: `mt-stack-md sm:mt-stack-lg ${!isAccessible ? 'opacity-disabled' : ''}`,
         })}
       >
         {isCompleted ? 'Revoir' : isAccessible ? 'Accéder' : 'Verrouillé'}

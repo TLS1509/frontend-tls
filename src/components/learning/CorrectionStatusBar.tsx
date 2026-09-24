@@ -42,8 +42,10 @@ export const CorrectionStatusBar: React.FC<CorrectionStatusBarProps> = ({
     <div className={`flex flex-wrap items-center gap-stack-xs ${className}`}>
       <StatusBadge status={badgeStatus} />
 
+      {/* Valeur 16/600 ink-900 · méta 13 ink-600 · texte de marque au cran 800
+          (passe typographique du 2026-09-24). */}
       {competenceLabel && (
-        <span className="text-body font-semibold text-ink-700">
+        <span className="text-body font-semibold text-ink-900">
           {competenceLabel}
         </span>
       )}
@@ -51,14 +53,14 @@ export const CorrectionStatusBar: React.FC<CorrectionStatusBarProps> = ({
       {xpAwarded !== undefined && (
         <div className="flex items-center gap-tight">
           <Zap size={14} className="text-accent-400" />
-          <span className="text-body font-semibold text-accent-700">
+          <span className="text-body font-semibold text-accent-800 tabular-nums">
             +{xpAwarded} XP
           </span>
         </div>
       )}
 
       {iterationCount !== undefined && (
-        <span className="text-caption text-ink-500">
+        <span className="text-caption text-ink-600 tabular-nums">
           Itération {iterationCount}
         </span>
       )}

@@ -5,14 +5,14 @@
  *
  * Visual spec :
  *  - Tinted gradient background via Card variant="tinted" tone={tone}
- *  - Tone-colored title (primary teal / warm orange / sun yellow)
+ *  - Titre ink-900 (la couleur de marque ne porte pas un titre — doctrine § 2)
  *  - Title : full text (no truncate) + native tooltip
  *  - MetaPills : duration + lessons (always visible)
  *  - Description : up to 5 lines (line-clamp-5) + native tooltip if longer
  *  - InlineProgress bar tone-aware + bold % label
  *  - Full-width tone CTA button with hover lift + tone-aware focus outline
  *  - Radial top-glow overlay per tone on hover (decorative, aria-hidden)
- *  - Inter-card alignment via flex layout + min-h on description + flex-1 spacer
+ *  - Inter-card alignment : bloc progression + CTA poussé en bas (`mt-auto`)
  *
  * Usage : grid layouts (LearningPaths, Dashboard discovery section).
  */
@@ -50,12 +50,6 @@ const CTA_LABELS: Record<ParcoursStatus, string> = {
   'non commencé':   'Commencer le parcours',
 };
 
-const TITLE_TONE_CLASSES: Record<ParcoursTone, string> = {
-  primary: 'text-primary-600',
-  warm:    'text-secondary-600',
-  sun:     'text-accent-700',
-};
-
 /* ─── Outline variant (minimal, white background + colored border) ─────── */
 const BG_OUTLINE = 'bg-white';
 const BORDER_OUTLINE: Record<ParcoursTone, string> = {
@@ -70,8 +64,9 @@ const HOVER_BG_OUTLINE: Record<ParcoursTone, string> = {
   sun:     'hover:bg-accent-50',
 };
 
+/* Libellé en 700, la graisse de Button (passe typographique du 2026-09-24). */
 const CTA_BASE =
-  'flex items-center justify-center gap-stack-xs w-full h-11 rounded-lg px-4 cursor-pointer font-body text-body font-semibold whitespace-nowrap transition-[background-color,color,transform,box-shadow] duration-fast ease-emphasis active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2';
+  'flex items-center justify-center gap-stack-xs w-full h-11 rounded-lg px-stack-md cursor-pointer font-body text-body font-bold whitespace-nowrap transition-[background-color,color,transform,box-shadow] duration-fast ease-emphasis active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2';
 
 /* Tone-aware CTA classes — TINTED depuis le 2026-09-17 (verdict option D :
    l'app abandonne le solid). L'ancienne recette posait du blanc sur 500 —
@@ -147,43 +142,54 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
         />
       )}
 
-      <div className="relative flex flex-col gap-stack h-full min-w-0">
-        {/* Titre — pas de truncate, overflow-wrap:anywhere évite le dépassement sur longs mots,
-            hyphens-none désactive la césure automatique (évite "Communica-tion"), text-wrap:balance
-            pour wrap équilibré. */}
-        <h3
-          className={`font-display text-h3 font-bold leading-[1.15] [overflow-wrap:anywhere] hyphens-none max-md:text-h3 [text-wrap:balance] ${TITLE_TONE_CLASSES[tone]}`}
-          title={title}
-        >
-          {title}
-        </h3>
+      {/* Anatomie (passe typographique du 2026-09-24) :
+            titre h3 20/700 ink-900 → méta 8 → texte 12 · contenu → actions 24.
+          Le titre portait la couleur du ton au cran 600 (3,26:1 sur la carte
+          teintée, à peine au-dessus du 3:1 du grand texte ; la doctrine ne
+          donne une couleur de marque au texte qu'au cran 800, jamais pour
+          orner un titre) et un interligne écrit à côté du pas
+          (`leading-[1.15]`, 23 px) : le ton vit dans la carte, la barre et le
+          bouton, le titre reprend l'encre et l'interligne de son pas.
+          Le bloc d'actions descend au bas de la carte (`mt-auto`), avec 24 px
+          au moins au-dessus : les barres s'alignent d'une carte à l'autre. */}
+      <div className="relative flex flex-col gap-stack-lg h-full min-w-0">
+        <div className="flex flex-col gap-stack-sm">
+          <div className="flex flex-col gap-stack-xs">
+            {/* Titre — pas de truncate, overflow-wrap:anywhere évite le dépassement sur longs mots,
+                hyphens-none désactive la césure automatique (évite "Communica-tion"), text-wrap:balance
+                pour wrap équilibré. */}
+            <h3
+              className="font-display text-h3 text-ink-900 [overflow-wrap:anywhere] hyphens-none [text-wrap:balance]"
+              title={title}
+            >
+              {title}
+            </h3>
 
-        {/* MetaPills — rendered only when data present (no empty space reservation) */}
-        {hasMeta && (
-          <MetaPillGroup
-            items={[
-              ...(duration ? [{ icon: <Clock3 size={14} />, text: duration }] : []),
-              ...(lessons ? [{ icon: <BookOpen size={14} />, text: `${lessons} leçons` }] : []),
-            ]}
-            size="sm"
-            layout="horizontal"
-            gap="sm"
-          />
-        )}
+            {/* MetaPills — rendered only when data present (no empty space reservation) */}
+            {hasMeta && (
+              <MetaPillGroup
+                items={[
+                  ...(duration ? [{ icon: <Clock3 size={14} />, text: duration }] : []),
+                  ...(lessons ? [{ icon: <BookOpen size={14} />, text: `${lessons} leçons` }] : []),
+                ]}
+                size="sm"
+                layout="horizontal"
+                gap="sm"
+              />
+            )}
+          </div>
 
-        {/* Description — min-h réservé (3 lignes ≈ 72px) pour aligner inter-cards.
-            Full par défaut (jusqu'à 5 lignes), tooltip natif si plus long. */}
-        <p
-          className="font-body text-body text-ink-600 m-0 line-clamp-5 min-h-[4.5rem]"
-          title={description}
-        >
-          {description}
-        </p>
+          {/* Description — jusqu'à 5 lignes, tooltip natif si plus long. */}
+          <p
+            className="font-body text-body text-ink-700 m-0 line-clamp-5"
+            title={description}
+          >
+            {description}
+          </p>
+        </div>
 
-        {/* Spacer — pousse progress + CTA toujours au bas de la card */}
-        <div className="flex-1 min-h-2" />
-
-        <InlineProgress value={progress} tone={tone} showLabel={true} size="md" />
+        <div className="mt-auto flex flex-col gap-stack-sm">
+          <InlineProgress value={progress} tone={tone} showLabel={true} size="md" />
 
         {/* Une affordance, pas un contrôle — même motif que PromptCard.
             C'était un <button> qui rappelait le `onClick` de la carte après un
@@ -192,13 +198,14 @@ export const ParcoursCard: React.FC<ParcoursCardProps> = ({
             `role="button"`, ce qui est invalide. Un lecteur d'écran annonçait
             « bouton, <titre> » puis « bouton, Commencer le parcours ».
             L'apparence ne change pas ; seul le rôle disparaît. */}
-        <span
-          aria-hidden="true"
-          className={`${CTA_BASE} ${CTA_TONE_CLASSES[tone]}`}
-        >
-          <span>{CTA_LABELS[status]}</span>
-          <ArrowRight size={14} aria-hidden="true" />
-        </span>
+          <span
+            aria-hidden="true"
+            className={`${CTA_BASE} ${CTA_TONE_CLASSES[tone]}`}
+          >
+            <span>{CTA_LABELS[status]}</span>
+            <ArrowRight size={14} aria-hidden="true" />
+          </span>
+        </div>
       </div>
     </Card>
   );

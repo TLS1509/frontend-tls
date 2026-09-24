@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, Check, Lock, Clock } from 'lucide-react';
+import { Badge, type BadgeVariant } from '../ui/Badge';
 
 export interface StepLesson {
   id: string;
@@ -24,8 +25,8 @@ export interface StepCardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const STATUS_BADGE: Record<StepStatus, string> = {
   'not-started': 'bg-ink-100 text-ink-600 ring-2 ring-ink-200',
-  // Numéro d'étape en text-h3 (24 px) = grand texte, 3:1 : arrêt clair au 600
-  // (3,66). Parti du 500, il mesurait 2,94.
+  // Numéro d'étape en text-h3 (20 px, 700) = grand texte, 3:1 : arrêt clair au
+  // 600 (3,66). Parti du 500, il mesurait 2,94.
   'in-progress': 'bg-gradient-to-br from-primary-600 to-primary-700 text-white shadow-brand-sm ring-4 ring-primary-100',
   completed:     'bg-gradient-to-br from-success-base to-success-fg text-white shadow-success-sm ring-4 ring-success-bg',
   locked:        'bg-ink-50 text-ink-400 ring-2 ring-ink-200',
@@ -52,11 +53,14 @@ const STATUS_FILL: Record<StepStatus, string> = {
   locked:        'bg-ink-200',
 };
 
-const STATUS_LABEL: Record<StepStatus, { text: string; className: string }> = {
-  'not-started': { text: 'À commencer', className: 'bg-ink-100 text-ink-700' },
-  'in-progress': { text: 'En cours', className: 'bg-primary-50 text-primary-800' },
-  completed:     { text: 'Terminée', className: 'bg-success-bg text-success-fg' },
-  locked:        { text: 'Verrouillée', className: 'bg-ink-50 text-ink-500' },
+/* L'état de l'étape : le vrai Badge (passe typographique du 2026-09-24).
+   C'était une imitation faite main, en `tracking-wider` — et « Verrouillée »
+   y tombait en ink-500 sur ink-50. */
+const STATUS_LABEL: Record<StepStatus, { text: string; variant: BadgeVariant }> = {
+  'not-started': { text: 'À commencer', variant: 'neutral' },
+  'in-progress': { text: 'En cours', variant: 'brand' },
+  completed:     { text: 'Terminée', variant: 'success' },
+  locked:        { text: 'Verrouillée', variant: 'neutral' },
 };
 
 export const StepCard: React.FC<StepCardProps> = ({
@@ -87,7 +91,7 @@ export const StepCard: React.FC<StepCardProps> = ({
   const label = STATUS_LABEL[status];
 
   const classes = [
-    'relative bg-white border-2 rounded-xl p-6 flex flex-col gap-stack transition-[transform,box-shadow,border-color] duration-base ease-standard',
+    'relative bg-white border-2 rounded-xl p-stack-lg flex flex-col gap-stack transition-[transform,box-shadow,border-color] duration-base ease-standard',
     !isLocked && '',
     !isLocked && STATUS_HOVER_SHADOW[status],
     STATUS_BORDER[status],
@@ -113,20 +117,14 @@ export const StepCard: React.FC<StepCardProps> = ({
             stepNumber
           )}
         </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-stack-xs mb-1">
-            <span
-              className={[
-                'inline-flex items-center px-2 py-0.5 rounded-pill text-micro font-bold uppercase tracking-wider',
-                label.className,
-              ].join(' ')}
-            >
-              {label.text}
-            </span>
-          </div>
-          <h3 className="text-h3 font-display font-bold text-ink-900">{title}</h3>
+        {/* État → titre 4 · titre → méta 4 (doctrine § 5). Le `mt-stack-3xs`
+            du titre remplace la marge de base des titres (0,75em = 15 px),
+            faite pour séparer des sections : état et titre étaient à 19 px. */}
+        <div className="flex-1 min-w-0 flex flex-col items-start">
+          <Badge variant={label.variant}>{label.text}</Badge>
+          <h3 className="mt-stack-3xs text-h3 font-display text-ink-900">{title}</h3>
           {lessonCount !== undefined && (
-            <span className="inline-flex items-center gap-tight text-caption text-ink-500 mt-1">
+            <span className="inline-flex items-center gap-stack-3xs text-caption text-ink-600 mt-stack-3xs">
               <Clock size={14} className="text-ink-600" />
               {lessonCount} leçons
             </span>
@@ -135,7 +133,7 @@ export const StepCard: React.FC<StepCardProps> = ({
       </header>
 
       {description && (
-        <p className="m-0 text-body text-ink-500">{description}</p>
+        <p className="m-0 text-body text-ink-700 max-w-prose">{description}</p>
       )}
 
       {progress !== undefined && (
@@ -146,7 +144,7 @@ export const StepCard: React.FC<StepCardProps> = ({
               style={{ width: `${progress}%` }}
             />
           </div>
-          <span className="text-caption font-bold text-ink-900 min-w-9 text-right">
+          <span className="text-caption font-semibold text-ink-900 min-w-9 text-right tabular-nums">
             {progress}%
           </span>
         </div>
@@ -188,10 +186,10 @@ export const StepCard: React.FC<StepCardProps> = ({
                     >
                       {lesson.completed ? <Check size={14} strokeWidth={3} /> : '·'}
                     </span>
-                    <div className="text-body font-medium truncate">{lesson.title}</div>
+                    <div className="text-body font-semibold truncate">{lesson.title}</div>
                   </div>
                   {lesson.duration && (
-                    <span className="text-caption text-ink-500 shrink-0 inline-flex items-center gap-tight">
+                    <span className="text-caption text-ink-600 shrink-0 inline-flex items-center gap-stack-3xs tabular-nums">
                       <Clock size={14} />
                       {lesson.duration}
                     </span>

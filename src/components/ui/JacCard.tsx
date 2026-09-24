@@ -12,6 +12,7 @@ import React from 'react';
 import { AlertCircle, ChevronRight } from 'lucide-react';
 import { Card } from '../core/Card';
 import { Badge } from './Badge';
+import { MetaPill } from './MetaPill';
 import { Button } from '../core/Button';
 import { ProgressBar } from './ProgressBar';
 
@@ -34,10 +35,14 @@ export const JacCardPending: React.FC<JacCardPendingProps> = ({
   onRelancer,
 }) => (
   <Card variant="default" className="p-stack-md flex flex-col gap-stack-xs">
+    {/* Carte dense, lue comme une rangée forte : libellé 16/600 ink-900 (pas
+        un titre de 20), méta 13/400 ink-600 à 2 px (passe typographique du
+        2026-09-24). Le libellé était en League Spartan 600 — une graisse que
+        l'échelle des titres ne connaît pas. */}
     <div className="flex items-start justify-between gap-stack flex-wrap">
       <div className="flex flex-col gap-tight">
-        <span className="font-display font-semibold text-body text-ink-900">{title}</span>
-        <div className="flex items-center gap-stack-xs text-caption text-ink-600">
+        <span className="font-body font-semibold text-body text-ink-900">{title}</span>
+        <div className="flex items-center gap-stack-3xs text-caption text-ink-600">
           <AlertCircle size={14} aria-hidden />
           <span>
             Soumis il y a {submittedDaysAgo} j · en attente {waitingFor}
@@ -74,21 +79,27 @@ export const JacCardNextJalon: React.FC<JacCardNextJalonProps> = ({
   onPreparer,
 }) => (
   <Card variant="default" className="p-stack-md flex flex-col gap-stack-xs">
+    {/* Libellé 16/600 · niveau Dreyfus en MetaPill (une DONNÉE, pas un état :
+        arbitrages n°14-15) · exigences 16/400 ink-700 à 8 px · progression à
+        12 px. Les exigences étaient des légendes ink-500 : c'est pourtant ce
+        qu'il reste à faire, le texte qu'on vient lire. */}
     <div className="flex items-start justify-between gap-stack flex-wrap">
-      <div className="flex flex-col gap-tight flex-1 min-w-0">
+      <div className="flex flex-col gap-stack-xs flex-1 min-w-0">
         <div className="flex items-center gap-stack-xs flex-wrap">
-          <span className="font-display font-semibold text-body text-ink-900">{title}</span>
-          <Badge variant="brand" size="compact">{dreyfusLevel}</Badge>
+          <span className="font-body font-semibold text-body text-ink-900">{title}</span>
+          <MetaPill text={dreyfusLevel} tone="primary" />
         </div>
-        <ul className="m-0 pl-0 list-none flex flex-col gap-tight">
+        <ul className="m-0 pl-0 list-none flex flex-col gap-stack-3xs">
           {requirements.map((req) => (
-            <li key={req} className="flex items-center gap-stack-xs text-caption text-ink-500">
-              <span className="w-1 h-1 rounded-pill bg-ink-300 shrink-0" />
+            <li key={req} className="flex items-start gap-stack-xs text-body text-ink-700">
+              <span className="flex items-center h-lh shrink-0" aria-hidden>
+                <span className="w-1 h-1 rounded-pill bg-ink-400" />
+              </span>
               {req}
             </li>
           ))}
         </ul>
-        <div className="pt-tight">
+        <div className="pt-stack-3xs">
           <ProgressBar
             value={progress}
             max={100}

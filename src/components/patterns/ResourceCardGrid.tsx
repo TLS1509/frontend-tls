@@ -1,6 +1,8 @@
 import React from 'react';
+import { BookOpen, Video, Mic, Newspaper, GraduationCap, Library, Inbox } from 'lucide-react';
 import { GRID_CONTAINER, GRID_COLS_CONTENT } from '../../lib/grid-columns';
 import { ResourceCard } from '../ui/ResourceCard';
+import { IconChip } from '../ui/IconChip';
 import type { CardTone, CardBadgeConfig } from '../core/Card';
 
 export interface ResourceCardGridItem {
@@ -29,13 +31,21 @@ export interface ResourceCardGridProps {
 /* Colonnage : src/lib/grid-columns.ts — source unique, en largeur de conteneur. */
 const COLS = GRID_COLS_CONTENT;
 
-const TYPE_ICON: Record<string, string> = {
-  GUIDE: '📖',
-  VIDEO: '🎬',
-  PODCAST: '🎙️',
-  ARTICLE: '📰',
-  TUTORIAL: '🎓',
+/* Icônes Lucide par type — elles remplacent des emojis (passe du 2026-09-24).
+   La clé se lit sans casse ni accent : « Vidéo », « VIDEO » et « video »
+   désignent le même type. */
+const TYPE_ICON: Record<string, React.ReactNode> = {
+  GUIDE: <BookOpen size={20} />,
+  VIDEO: <Video size={20} />,
+  PODCAST: <Mic size={20} />,
+  ARTICLE: <Newspaper size={20} />,
+  TUTORIAL: <GraduationCap size={20} />,
+  TUTORIEL: <GraduationCap size={20} />,
 };
+const DEFAULT_ICON = <Library size={20} />;
+
+const typeKey = (type: string) =>
+  type.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase();
 
 export const ResourceCardGrid: React.FC<ResourceCardGridProps> = ({
   items,
@@ -52,7 +62,7 @@ export const ResourceCardGrid: React.FC<ResourceCardGridProps> = ({
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
         <div className="flex flex-col items-center gap-stack-xs text-ink-500">
           <div className="w-10 h-10 rounded-pill border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
-          <p className="m-0 text-body font-medium">Chargement…</p>
+          <p className="m-0 text-body text-ink-600">Chargement…</p>
         </div>
       </div>
     );
@@ -68,9 +78,11 @@ export const ResourceCardGrid: React.FC<ResourceCardGridProps> = ({
           .filter(Boolean)
           .join(' ')}
       >
-        <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
-          <p className="m-0 text-4xl">📭</p>
-          <p className="m-0 text-body font-medium">{emptyMessage}</p>
+        <div className="flex flex-col items-center gap-stack-xs text-center">
+          <IconChip size="lg" tone="neutral">
+            <Inbox strokeWidth={2} />
+          </IconChip>
+          <p className="m-0 text-body font-semibold text-ink-900">{emptyMessage}</p>
         </div>
       </div>
     );
@@ -82,7 +94,7 @@ export const ResourceCardGrid: React.FC<ResourceCardGridProps> = ({
       {items.map((item) => (
         <div key={item.id} role="gridcell">
           <ResourceCard
-            icon={item.icon || TYPE_ICON[item.type] || '📚'}
+            icon={item.icon || TYPE_ICON[typeKey(item.type)] || DEFAULT_ICON}
             resourceType={item.type}
             title={item.title}
             description={item.description}

@@ -128,44 +128,52 @@ export const VeilleFormatShortcutCards: React.FC<VeilleFormatShortcutCardsProps>
           type="button"
           onClick={() => navigate(href)}
           className={[
-            'group flex items-center gap-stack-xs p-4 rounded-lg border transition-all duration-base text-left focus-visible:outline-2 focus-visible:outline-offset-2',
+            'group flex items-start gap-stack-sm p-4 rounded-lg border transition-all duration-base text-left text-body focus-visible:outline-2 focus-visible:outline-offset-2',
             isDark
               ? 'bg-white/10 backdrop-blur-glass-medium border-white/20 hover:bg-white/15 focus-visible:outline-white/50'
               : `bg-white border-ink-100 ${hoverBorder ?? 'hover:border-ink-200'} focus-visible:outline-primary-500`,
           ].join(' ')}
         >
-          {/* Icon bubble — tone-aware background per format */}
-          <span className={[
-            'shrink-0 w-8 h-8 rounded-lg flex items-center justify-center',
-            isDark ? 'bg-white/8' : (iconBg ?? 'bg-ink-50'),
-          ].join(' ')}>
-            {icon}
+          {/* Icon bubble — tone-aware background per format. Posée dans une
+              boîte haute d'une ligne (`h-lh`) : elle se centre sur le libellé,
+              pas sur le bloc libellé + sous-titre. */}
+          <span className="flex items-center h-lh shrink-0">
+            <span className={[
+              'w-8 h-8 rounded-lg flex items-center justify-center',
+              isDark ? 'bg-white/8' : (iconBg ?? 'bg-ink-50'),
+            ].join(' ')}>
+              {icon}
+            </span>
           </span>
 
-          {/* Text */}
-          <span className="flex-1 min-w-0 flex flex-col gap-0">
+          {/* Vignette compacte : libellé 16/600 (pas un titre de carte),
+              sous-titre en légende 13 à 2 px (passe typographique du
+              2026-09-24 ; il était à 11 px, le pas des étiquettes). */}
+          <span className="flex-1 min-w-0 flex flex-col gap-tight">
             <span className={[
-              'font-body text-body font-bold',
+              'font-body text-body font-semibold',
               isDark ? 'text-white' : 'text-ink-900',
             ].join(' ')}>
               {title}
             </span>
             <span className={[
-              'font-body text-micro',
-              isDark ? 'text-white/60' : 'text-ink-600',
+              'font-body text-caption',
+              isDark ? 'text-white/70' : 'text-ink-600',
             ].join(' ')}>
               {subtitle}
             </span>
           </span>
 
           {/* Arrow */}
-          <ArrowRight
-            size={14}
-            className={[
-              'shrink-0 ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-base',
-              isDark ? 'text-white/40' : 'text-ink-400',
-            ].join(' ')}
-          />
+          <span className="flex items-center h-lh shrink-0 ml-auto">
+            <ArrowRight
+              size={14}
+              className={[
+                'opacity-0 group-hover:opacity-100 transition-opacity duration-base',
+                isDark ? 'text-white/40' : 'text-ink-400',
+              ].join(' ')}
+            />
+          </span>
         </button>
       ))}
     </div>

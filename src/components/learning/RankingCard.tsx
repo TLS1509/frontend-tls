@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from '../core/Card';
-import { Badge } from '../ui/Badge';
+import { MetaPill, type MetaPillTone } from '../ui/MetaPill';
 import { Button } from '../core/Button';
 import { Flame, Trophy, Medal as MedalIcon } from 'lucide-react';
 import type { BadgeVariant } from '../ui/Badge';
@@ -33,7 +33,9 @@ export const RankingCard: React.FC<RankingCardProps> = ({
   onViewProfile,
   className = '',
 }) => {
-  const badgeVariant: BadgeVariant =
+  /* Les points sont une DONNÉE : MetaPill, plus Badge (qui ne dit que des
+     états — passe typographique du 2026-09-24). Le ton reste celui du rang. */
+  const pillTone: MetaPillTone =
     rank === 1 ? 'sun' : rank === 2 ? 'warm' : variant || 'neutral';
 
   const isPodium = rank <= 3;
@@ -53,15 +55,17 @@ export const RankingCard: React.FC<RankingCardProps> = ({
         {isPodium ? <MedalIcon size={20} /> : `#${rank}`}
       </div>
 
+      {/* Rangée : nom 16/600 ink-900 (un libellé, plus un h3 en Nunito) ·
+          méta 13 à 4 px, valeurs au cran 800 du ton, chiffres tabulaires. */}
       <div className="flex-1 basis-32 min-w-0">
-        <h3 className="text-body font-semibold text-ink-900 truncate">{name}</h3>
-        <div className="flex items-center gap-stack-xs mt-1 flex-wrap">
-          <span className="inline-flex items-center gap-tight text-caption font-bold text-primary-700">
+        <p className="m-0 text-body font-semibold text-ink-900 truncate">{name}</p>
+        <div className="flex items-center gap-stack-xs mt-stack-3xs flex-wrap">
+          <span className="inline-flex items-center gap-stack-3xs text-caption font-semibold text-primary-800 tabular-nums">
             <Trophy size={14} />
             {points} pts
           </span>
           {streak !== undefined && (
-            <span className="inline-flex items-center gap-tight text-caption text-secondary-700 font-medium">
+            <span className="inline-flex items-center gap-stack-3xs text-caption text-secondary-800 tabular-nums">
               <Flame size={14} />
               {streak}j
             </span>
@@ -69,7 +73,7 @@ export const RankingCard: React.FC<RankingCardProps> = ({
         </div>
       </div>
 
-      <Badge variant={badgeVariant}>{points} pts</Badge>
+      <MetaPill text={`${points} pts`} tone={pillTone} />
 
       {onViewProfile && (
         <Button size="sm" emphasis="outline" onClick={onViewProfile} className="shrink-0">

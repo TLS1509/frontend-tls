@@ -1,5 +1,7 @@
 import React from 'react';
+import { Target } from 'lucide-react';
 import { StepCard } from '../learning/StepCard';
+import { IconChip } from '../ui/IconChip';
 
 export interface LearningPathGridItem {
   id: string;
@@ -54,7 +56,7 @@ export const LearningPathGrid: React.FC<LearningPathGridProps> = ({
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
         <div className="flex flex-col items-center gap-stack-xs text-ink-500">
           <div className="w-10 h-10 rounded-pill border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
-          <p className="m-0 text-body font-medium">Chargement des parcours…</p>
+          <p className="m-0 text-body text-ink-600">Chargement des parcours…</p>
         </div>
       </div>
     );
@@ -70,9 +72,12 @@ export const LearningPathGrid: React.FC<LearningPathGridProps> = ({
           .filter(Boolean)
           .join(' ')}
       >
-        <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
-          <p className="m-0 text-4xl">🎯</p>
-          <p className="m-0 text-body font-medium">{emptyMessage}</p>
+        {/* État vide : pastille Lucide (plus d'emoji) + phrase 16/600 ink-900. */}
+        <div className="flex flex-col items-center gap-stack-xs text-center">
+          <IconChip size="lg" tone="neutral">
+            <Target strokeWidth={2} />
+          </IconChip>
+          <p className="m-0 text-body font-semibold text-ink-900">{emptyMessage}</p>
         </div>
       </div>
     );

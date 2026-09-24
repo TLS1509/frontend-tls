@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardEyebrow, CardTitle, CardDesc, CardFooter } from '../core/Card';
 import { Button } from '../core/Button';
 import { MetaPillGroup } from '../ui/MetaPillGroup';
+import { MetaPill } from '../ui/MetaPill';
 import { Calendar, User, Clock, Bookmark, BookmarkCheck, ArrowRight } from 'lucide-react';
 
 export type ArticleTone = 'primary' | 'warm' | 'sun';
@@ -37,12 +38,6 @@ const TONE_ICON_CORE: Record<ArticleTone, string> = {
   primary: 'bg-gradient-to-br from-primary-50 to-primary-100 text-primary-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]',
   warm:    'bg-gradient-to-br from-secondary-50 to-secondary-100 text-secondary-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]',
   sun:     'bg-gradient-to-br from-accent-50 to-accent-100 text-accent-700 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]',
-};
-
-const TONE_CATEGORY: Record<ArticleTone, string> = {
-  primary: 'text-primary-700',
-  warm:    'text-secondary-700',
-  sun:     'text-accent-700',
 };
 
 // Sprint 3 hover glow
@@ -91,9 +86,11 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         .join(' ')}
       onClick={onClick}
     >
-      {/* Header: icon + meta + save */}
+      {/* En-tête : icône + (type · date) + enregistrer.
+          Le type d'article est une DONNÉE : MetaPill (arbitrage n°15), plus un
+          surtitre en capitales. La date passe en légende 13/400 ink-600. */}
       <div className="flex items-start justify-between gap-stack-xs">
-        <div className="flex items-center gap-stack-xs">
+        <div className="flex items-center gap-stack-sm">
           {icon && (
             // Double-bezel icon container
             <div className={TONE_ICON_SHELL[tone]} aria-hidden="true">
@@ -107,9 +104,9 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
               </div>
             </div>
           )}
-          <div className="flex flex-col gap-tight">
-            <CardEyebrow>{typeLabel}</CardEyebrow>
-            <span className="inline-flex items-center gap-tight text-micro text-ink-600 font-medium">
+          <div className="flex flex-col items-start gap-stack-3xs">
+            <MetaPill text={typeLabel} tone={tone} />
+            <span className="inline-flex items-center gap-stack-3xs text-caption text-ink-600">
               <Calendar size={14} aria-hidden="true" />
               {publishedAt}
             </span>
@@ -135,17 +132,20 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         )}
       </div>
 
-      {/* Category label */}
-      <span className={['inline-block text-caption font-medium', TONE_CATEGORY[tone]].join(' ')}>
-        {category}
-      </span>
-
-      <CardTitle>{title}</CardTitle>
+      {/* Anatomie de carte (doctrine § 5) : catégorie en surtitre → titre 4 ·
+          titre → texte 8 (le gap de la carte) · texte → pied 12, filet compris.
+          La catégorie était en 500 au cran 700 du ton : une couleur de marque
+          ne porte pas de texte sous le cran 800. Le `mt-stack-3xs` du titre
+          remplace la marge de base des titres (0,75em), faite pour les sections. */}
+      <div className="flex flex-col mt-stack-xs">
+        <CardEyebrow>{category}</CardEyebrow>
+        <CardTitle className="mt-stack-3xs">{title}</CardTitle>
+      </div>
 
       <CardDesc>{summary}</CardDesc>
 
       {/* Footer */}
-      <CardFooter className="flex items-center justify-between flex-wrap gap-stack-xs pt-3 border-t border-ink-100">
+      <CardFooter className="flex-wrap">
         <MetaPillGroup
           items={[
             { icon: <User size={14} />, text: author },

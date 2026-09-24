@@ -26,9 +26,13 @@ import {
   ArrowRight,
   ChevronLeft,
   ChevronRight,
+  Inbox,
   type LucideIcon,
 } from 'lucide-react';
 import { Button } from '../core/Button';
+import { Badge, type BadgeVariant } from '../ui/Badge';
+import { MetaPill, type MetaPillTone } from '../ui/MetaPill';
+import { IconChip } from '../ui/IconChip';
 
 export type VeilleCardTone = 'brand' | 'warm' | 'sun';
 export type VeilleCardSurface = 'card' | 'tinted' | 'glass';
@@ -82,17 +86,32 @@ const STRIPE_BG: Record<VeilleCardTone, string> = {
   sun:   'bg-accent-400',
 };
 
-const BADGE_STYLE: Record<VeilleCardTone, string> = {
-  brand: 'bg-primary-50 text-primary-800 border-primary-200',
-  warm:  'bg-secondary-50 text-secondary-700 border-secondary-200',
-  sun:   'bg-accent-50 text-accent-700 border-accent-200',
+/* Type et catégorie d'un contenu = des DONNÉES : MetaPill, jamais une
+   étiquette en capitales (arbitrages n°14 et 15, passe du 2026-09-24). */
+const PILL_TONE: Record<VeilleCardTone, MetaPillTone> = {
+  brand: 'primary',
+  warm:  'warm',
+  sun:   'sun',
 };
 
-const TONE_LINK: Record<VeilleCardTone, string> = {
-  brand: 'text-primary-700',
-  warm:  'text-secondary-700',
-  sun:   'text-accent-700',
+/* « À la une » est un état éditorial : le vrai Badge, au ton du contenu. */
+const FEATURED_BADGE: Record<VeilleCardTone, BadgeVariant> = {
+  brand: 'brand',
+  warm:  'warm',
+  sun:   'sun',
 };
+
+/* Lien « Lire » : cran 800 du ton (doctrine § 2). */
+const TONE_LINK: Record<VeilleCardTone, string> = {
+  brand: 'text-primary-800',
+  warm:  'text-secondary-800',
+  sun:   'text-accent-800',
+};
+
+/* La ligne de méta, partout la même : légende 13/400 ink-600, en casse
+   normale. Elle était en capitales espacées ink-500 au-dessus du titre de
+   la grille, en 11 px ink-500 dans la liste. */
+const META_LINE = 'flex flex-wrap items-center gap-x-stack-2xs gap-y-tight font-body text-caption text-ink-600';
 
 /* Rayons — remis d'aplomb le 2026-09-16.
 
@@ -197,10 +216,14 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
           </div>
         )}
 
-        {/* Type badge top-left (glass on tone bg) */}
-        <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase tracking-wider text-ink-900 shadow-sm">
-          <TypeIcon size={14} strokeWidth={2.5} /> {item.typeLabel}
-        </span>
+        {/* Type top-left : une donnée, donc MetaPill (opaque, lisible sur tous
+            les crans du dégradé). */}
+        <MetaPill
+          text={item.typeLabel}
+          icon={<TypeIcon strokeWidth={2.5} />}
+          tone="neutral"
+          className="absolute top-3 left-3"
+        />
 
         {/* Bookmark top-right glass */}
         {showSaveButton && onToggleSave && (
@@ -219,27 +242,34 @@ export const VeilleCard: React.FC<VeilleCardProps> = ({ item, surface, isSaved, 
         )}
       </div>
 
-      {/* Body content */}
-      <div className="flex flex-col gap-stack-xs p-stack-md flex-1">
-        <div className="inline-flex items-center gap-stack-2xs flex-wrap font-body text-micro font-semibold uppercase tracking-wider text-ink-500">
-          <span className="inline-flex items-center gap-tight"><User size={14} strokeWidth={2} />{item.author}</span>
-          <span aria-hidden>·</span>
-          <span>{item.category}</span>
-          <span aria-hidden>·</span>
-          <span>{item.publishedAt}</span>
-          <span aria-hidden>·</span>
-          <span className="inline-flex items-center gap-tight"><Clock size={14} strokeWidth={2} />{item.readTime}</span>
+      {/* Anatomie (passe typographique du 2026-09-24, doctrine § 5) :
+            méta → titre 4 · titre → texte 8 · contenu → pied 20 (carte dense).
+          Le `mt-stack-3xs` du titre remplace la marge de base des titres
+          (0,75em) : méta et titre étaient à 23 px l'un de l'autre. */}
+      <div className="flex flex-col gap-stack-md p-stack-md flex-1">
+        <div className="flex flex-col gap-stack-xs flex-1">
+          <div className="flex flex-col">
+            <div className={META_LINE}>
+              <span className="inline-flex items-center gap-stack-3xs"><User size={14} strokeWidth={2} />{item.author}</span>
+              <span aria-hidden>·</span>
+              <span>{item.category}</span>
+              <span aria-hidden>·</span>
+              <span>{item.publishedAt}</span>
+              <span aria-hidden>·</span>
+              <span className="inline-flex items-center gap-stack-3xs"><Clock size={14} strokeWidth={2} />{item.readTime}</span>
+            </div>
+
+            <h3 className="mt-stack-3xs font-display text-h3 text-ink-900 line-clamp-2">
+              {item.title}
+            </h3>
+          </div>
+
+          <p className="m-0 font-body text-body text-ink-700 line-clamp-2">
+            {item.summary}
+          </p>
         </div>
 
-        <h3 className="font-display text-h3 font-bold text-ink-900 line-clamp-2">
-          {item.title}
-        </h3>
-
-        <p className="m-0 font-body text-body text-ink-600 line-clamp-2 flex-1">
-          {item.summary}
-        </p>
-
-        <footer className="flex items-center justify-end pt-stack-xs border-t border-ink-100 mt-stack-xs">
+        <footer className="flex items-center justify-end pt-stack-sm border-t border-ink-100">
           <span className={['inline-flex items-center gap-tight font-body text-caption font-bold transition-transform group-hover:translate-x-0.5', TONE_LINK[tone]].join(' ')}>
             {isVideo ? <><Play size={14} fill="currentColor" /> Voir</> : <>Lire <ArrowRight size={14} /></>}
           </span>
@@ -285,36 +315,38 @@ export const VeilleCardListItem: React.FC<VeilleCardProps> = ({ item, surface, i
             </span>
           </div>
         )}
-        {/* Badge catégorie — overlaid en haut de l'image, glassy */}
+        {/* Type — overlaid en haut de l'image : une donnée, donc MetaPill. */}
         <span className="absolute top-2 left-0 right-0 flex justify-center pointer-events-none">
-          <span className="inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/90 border border-white text-micro font-bold uppercase tracking-wide text-ink-900">
-            <TypeIcon size={14} strokeWidth={2.5} /> {item.typeLabel}
-          </span>
+          <MetaPill text={item.typeLabel} icon={<TypeIcon strokeWidth={2.5} />} tone="neutral" />
         </span>
       </div>
 
-      {/* Body content — titre → meta → summary */}
-      <div className="flex-1 min-w-0 flex flex-col gap-tight p-4 @lg:p-stack-md justify-center">
-        <div className="flex items-start gap-stack-xs min-w-0">
-          {item.isNew && (
-            <span className="shrink-0 inline-flex px-2 py-0.5 rounded-pill bg-success-bg text-success-fg text-micro font-bold uppercase tracking-wide mt-px">
-              Nouveau
-            </span>
-          )}
-          <h3 className="font-display text-body @lg:text-h3 font-bold text-ink-900 line-clamp-2">
-            {item.title}
-          </h3>
+      {/* Rangée forte : titre → méta 2 · → texte 8 (passe typographique du
+          2026-09-24). Le résumé passait à 13 px sous `@lg` : du texte qu'on lit,
+          donc 16 partout. « Nouveau » est un état : le vrai Badge. */}
+      <div className="flex-1 min-w-0 flex flex-col gap-stack-xs p-stack @lg:p-stack-md justify-center">
+        <div className="flex flex-col gap-tight">
+          <div className="flex items-start gap-stack-xs min-w-0">
+            {item.isNew && (
+              <span className="flex items-center h-lh shrink-0 text-body @lg:text-h3">
+                <Badge variant="success" size="compact">Nouveau</Badge>
+              </span>
+            )}
+            <h3 className="font-display text-body @lg:text-h3 text-ink-900 line-clamp-2">
+              {item.title}
+            </h3>
+          </div>
+          <div className={META_LINE}>
+            <span className="inline-flex items-center gap-stack-3xs"><User size={14} strokeWidth={2} />{item.author}</span>
+            <span aria-hidden>·</span>
+            <span>{item.category}</span>
+            <span aria-hidden>·</span>
+            <span>{item.publishedAt}</span>
+            <span aria-hidden>·</span>
+            <span className="inline-flex items-center gap-stack-3xs"><Clock size={14} strokeWidth={2} />{item.readTime}</span>
+          </div>
         </div>
-        <div className="flex items-center gap-stack-2xs font-body text-micro text-ink-500 flex-wrap">
-          <span className="inline-flex items-center gap-tight"><User size={14} strokeWidth={2} />{item.author}</span>
-          <span aria-hidden>·</span>
-          <span>{item.category}</span>
-          <span aria-hidden>·</span>
-          <span>{item.publishedAt}</span>
-          <span aria-hidden>·</span>
-          <span className="inline-flex items-center gap-tight"><Clock size={14} strokeWidth={2} />{item.readTime}</span>
-        </div>
-        <p className="m-0 font-body text-caption @lg:text-body text-ink-600 line-clamp-2">
+        <p className="m-0 font-body text-body text-ink-700 line-clamp-2">
           {item.summary}
         </p>
       </div>
@@ -375,9 +407,9 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
         <div className="absolute inset-0 flex items-center justify-center">
           <TypeIcon size={96} strokeWidth={1.25} className="text-white/90 transition-transform duration-base group-hover:scale-110" />
         </div>
-        <span className="absolute top-4 left-4 inline-flex items-center gap-stack-2xs px-2.5 py-0.5 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold text-ink-900 shadow-sm uppercase tracking-label">
-          ✨ À la une
-        </span>
+        <Badge variant={FEATURED_BADGE[tone]} dot className="absolute top-4 left-4">
+          À la une
+        </Badge>
         {showSaveButton && onToggleSave && (
           <Button
             iconOnly
@@ -393,23 +425,28 @@ export const FeaturedSpotlight: React.FC<FeaturedSpotlightProps> = ({ item, isSa
         )}
       </div>
 
-      {/* Content (right) */}
-      <div className="flex flex-col gap-stack p-stack-lg justify-center">
-        <span className={['inline-flex items-center gap-stack-2xs self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
-          <TypeIcon size={14} strokeWidth={2.5} /> {item.typeLabel} · {item.category}
-        </span>
-        <h2 className="font-display text-h2 font-bold text-ink-900">
-          {item.title}
-        </h2>
-        <p className="m-0 font-body text-body text-ink-700 line-clamp-3">
-          {item.summary}
-        </p>
-        <div className="flex flex-wrap gap-stack-xs items-center text-caption text-ink-600">
-          <span className="inline-flex items-center gap-tight"><User size={14} />{item.author}</span>
-          <span aria-hidden>•</span>
-          <span className="inline-flex items-center gap-tight"><Clock size={14} />{item.readTime}</span>
-          <span aria-hidden>•</span>
-          <span>{item.publishedAt}</span>
+      {/* Content (right) — anatomie (doctrine § 5) : type → titre 4 · titre →
+          texte 8 · texte → méta 12 · contenu → action 24. Tout était à 16. */}
+      <div className="flex flex-col gap-stack-lg p-stack-lg justify-center">
+        <div className="flex flex-col gap-stack-sm">
+          <div className="flex flex-col gap-stack-xs">
+            <div className="flex flex-col items-start">
+              <MetaPill text={`${item.typeLabel} · ${item.category}`} icon={<TypeIcon strokeWidth={2.5} />} tone={PILL_TONE[tone]} />
+              <h2 className="mt-stack-3xs font-display text-h2 text-ink-900">
+                {item.title}
+              </h2>
+            </div>
+            <p className="m-0 font-body text-body text-ink-700 line-clamp-3 max-w-prose">
+              {item.summary}
+            </p>
+          </div>
+          <div className={META_LINE}>
+            <span className="inline-flex items-center gap-stack-3xs"><User size={14} />{item.author}</span>
+            <span aria-hidden>·</span>
+            <span className="inline-flex items-center gap-stack-3xs"><Clock size={14} />{item.readTime}</span>
+            <span aria-hidden>·</span>
+            <span>{item.publishedAt}</span>
+          </div>
         </div>
         <Button
           emphasis="soft"
@@ -477,9 +514,9 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
           <div className="absolute inset-0 flex items-center justify-center">
             <TypeIcon size={96} strokeWidth={1.25} className="text-white/90 transition-transform duration-slow" />
           </div>
-          <span className="absolute top-4 left-4 inline-flex items-center gap-stack-2xs px-2.5 py-0.5 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold text-ink-900 shadow-sm uppercase tracking-label">
-            ✨ À la une
-          </span>
+          <Badge variant={FEATURED_BADGE[tone]} dot className="absolute top-4 left-4">
+            À la une
+          </Badge>
           {showSaveButton && onToggleSave && (
             <Button
               iconOnly
@@ -530,27 +567,31 @@ export const FeaturedSpotlightCarousel: React.FC<FeaturedSpotlightCarouselProps>
 
         {/* Content (right) */}
         <div
-          className="flex flex-col gap-stack p-stack-lg justify-center cursor-pointer group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          className="flex flex-col gap-stack-lg p-stack-lg justify-center cursor-pointer group focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
           onClick={() => onClick?.(item)}
           tabIndex={0}
           role="button"
           onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onClick?.(item); }}
         >
-          <span className={['inline-flex items-center gap-stack-2xs self-start px-2.5 py-1 rounded-pill border text-micro font-bold uppercase tracking-wider', BADGE_STYLE[tone]].join(' ')}>
-            <TypeIcon size={14} strokeWidth={2.5} /> {item.typeLabel} · {item.category}
-          </span>
-          <h2 className="font-display text-h2 font-bold text-ink-900 group-hover:text-primary-700 transition-colors">
-            {item.title}
-          </h2>
-          <p className="m-0 font-body text-body text-ink-700 line-clamp-3">
-            {item.summary}
-          </p>
-          <div className="flex flex-wrap gap-stack-xs items-center text-caption text-ink-600">
-            <span className="inline-flex items-center gap-tight"><User size={14} />{item.author}</span>
-            <span aria-hidden>•</span>
-            <span className="inline-flex items-center gap-tight"><Clock size={14} />{item.readTime}</span>
-            <span aria-hidden>•</span>
-            <span>{item.publishedAt}</span>
+          <div className="flex flex-col gap-stack-sm">
+            <div className="flex flex-col gap-stack-xs">
+              <div className="flex flex-col items-start">
+                <MetaPill text={`${item.typeLabel} · ${item.category}`} icon={<TypeIcon strokeWidth={2.5} />} tone={PILL_TONE[tone]} />
+                <h2 className="mt-stack-3xs font-display text-h2 text-ink-900 group-hover:text-primary-800 transition-colors">
+                  {item.title}
+                </h2>
+              </div>
+              <p className="m-0 font-body text-body text-ink-700 line-clamp-3 max-w-prose">
+                {item.summary}
+              </p>
+            </div>
+            <div className={META_LINE}>
+              <span className="inline-flex items-center gap-stack-3xs"><User size={14} />{item.author}</span>
+              <span aria-hidden>·</span>
+              <span className="inline-flex items-center gap-stack-3xs"><Clock size={14} />{item.readTime}</span>
+              <span aria-hidden>·</span>
+              <span>{item.publishedAt}</span>
+            </div>
           </div>
           <Button
             emphasis="soft"
@@ -587,7 +628,7 @@ export const VeilleCardFeed: React.FC<VeilleCardFeedProps> = ({
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
         <div className="flex flex-col items-center gap-stack-xs text-ink-500">
           <div className="w-10 h-10 rounded-pill border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
-          <p className="m-0 text-body font-medium">Chargement…</p>
+          <p className="m-0 text-body text-ink-600">Chargement…</p>
         </div>
       </div>
     );
@@ -601,9 +642,11 @@ export const VeilleCardFeed: React.FC<VeilleCardFeedProps> = ({
           className,
         ].filter(Boolean).join(' ')}
       >
-        <div className="flex flex-col items-center gap-stack-xs text-ink-500 text-center">
-          <p className="m-0 text-4xl">📭</p>
-          <p className="m-0 text-body font-medium">{emptyMessage}</p>
+        <div className="flex flex-col items-center gap-stack-xs text-center">
+          <IconChip size="lg" tone="neutral">
+            <Inbox strokeWidth={2} />
+          </IconChip>
+          <p className="m-0 text-body font-semibold text-ink-900">{emptyMessage}</p>
         </div>
       </div>
     );
