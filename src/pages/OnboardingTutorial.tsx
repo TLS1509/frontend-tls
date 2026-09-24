@@ -46,7 +46,7 @@ const TUTORIAL_STEPS = [
   {
     id: 'communaute',
     title: 'La communauté SBO',
-    description: "Échange avec d'autres apprenants dans les espaces de collaboration, partage tes insights via le journal de bord, et consultez ensemble la veille professionnelle hebdomadaire. L'apprentissage social accélère la progression.",
+    description: "Échange avec d'autres apprenants dans les espaces de collaboration, partage tes insights via le journal de bord, et consulte avec eux la veille professionnelle hebdomadaire. L'apprentissage social accélère la progression.",
     icon: <MessageSquare size={20} />,
   },
 ];

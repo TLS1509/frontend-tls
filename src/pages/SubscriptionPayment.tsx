@@ -4,12 +4,18 @@
  * Flow : étape de l'onboarding après Positionnement, avant accès parcours.
  *
  * Structure :
- *  1. PageHeader centré « Choisis ta formule »
+ *  1. PageHeader centré « Choisissez votre formule »
  *  2. Plan selector — 4 cartes de formule en 2 × 2 (Gratuit / Plan 1 / 2 / 3)
  *     - Mensuel / Annuel toggle (économie 20%)
  *  3. Formulaire de paiement (carte) — visible une fois plan choisi
  *  4. CTA "Confirmer le paiement" + ConfirmModal récap
  *  5. Mention sécurité (Stripe) + politique de remboursement
+ *
+ * Voix (arbitrage n°23, 24/09) : « vous », comme l'achat de crédits. Un
+ * paiement est une transaction et un engagement (CGU, prélèvement reconduit),
+ * pas l'intimité de l'espace d'apprentissage ; PRODUCT.md décide par la nature
+ * de la surface, pas par sa place dans le parcours. Les étapes voisines de
+ * l'onboarding (chat, tutoriel), où l'apprenant parle de lui, tutoient.
  *
  * Route : /onboarding/payment
  */
@@ -226,8 +232,8 @@ export const SubscriptionPayment: React.FC = () => {
             align="center"
             variant="tight"
             eyebrow={{ text: 'Abonnement' }}
-            title="Choisis ta formule"
-            description="Démarre en quelques secondes. Annulable à tout moment, sans frais."
+            title="Choisissez votre formule"
+            description="Démarrez en quelques secondes. Annulable à tout moment, sans frais."
           />
 
           <div className="flex flex-col gap-stack-lg">
@@ -432,7 +438,7 @@ export const SubscriptionPayment: React.FC = () => {
 
             {/* Liens au cran 800 : le 700 tient 4,48:1 sur ce fond primary-50, sous le seuil. */}
             <p className="font-body text-caption text-ink-600 text-center">
-              En confirmant, tu acceptes les <a href="/website/cgv-cgu" target="_blank" rel="noopener noreferrer" className="text-primary-800 underline underline-offset-2 hover:no-underline">conditions d'utilisation</a> et la <a href="/website/cgv-cgu" target="_blank" rel="noopener noreferrer" className="text-primary-800 underline underline-offset-2 hover:no-underline">politique de remboursement</a> (14 jours).
+              En confirmant, vous acceptez les <a href="/website/cgv-cgu" target="_blank" rel="noopener noreferrer" className="text-primary-800 underline underline-offset-2 hover:no-underline">conditions d'utilisation</a> et la <a href="/website/cgv-cgu" target="_blank" rel="noopener noreferrer" className="text-primary-800 underline underline-offset-2 hover:no-underline">politique de remboursement</a> (14 jours).
             </p>
           </div>
         </div>
@@ -446,7 +452,7 @@ export const SubscriptionPayment: React.FC = () => {
         onConfirm={handleConfirmPayment}
         variant="info"
         title={`Confirmer l'abonnement ${currentPlan.name}`}
-        message={`Tu vas être prélevé de ${price} €${periodLabel}. Le prélèvement sera reconduit automatiquement. Continuer ?`}
+        message={`Vous allez être prélevé de ${price} €${periodLabel}. Le prélèvement sera reconduit automatiquement. Continuer ?`}
         confirmText="Confirmer & payer"
         cancelText="Revenir"
       />
