@@ -3,7 +3,6 @@ import { MessageSquare, Sparkles, Clock, ChevronRight } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
-import { Badge } from '../components/ui/Badge';
 import { FilterChip } from '../components/ui/FilterChip';
 import { EmptyState } from '../components/ui/EmptyState';
 import { Container, PageShell } from '../components/layout';
@@ -80,35 +79,40 @@ const FILTERS: { key: FilterKey; label: string }[] = [
 
 // ─── Sub-component ─────────────────────────────────────────────────────────────
 
-function ConversationCard({ item }: { item: ConversationItem }) {
+/* Une conversation est une RANGÉE de la liste, plus une carte (arbitrage n°5 :
+   une collection se rend en rangées dans une carte). Titre 16/600 et date en
+   méta sur la même ligne de base ; l'aperçu du dernier message est du texte
+   qu'on lit : 16 ink-700 (il était à 13 au cran 500) ; le nombre de messages
+   est une donnée — « 6 messages » en légende, plus « 6 msg » en Badge. */
+function ConversationRow({ item }: { item: ConversationItem }) {
   return (
-    <Card className="flex flex-col gap-stack-xs p-stack-md group">
-      <div className="flex items-start justify-between gap-stack">
-        <p className="text-body font-semibold text-ink-900 leading-snug flex-1 min-w-0 truncate">
+    <li className="group flex flex-col gap-stack-xs px-stack-lg py-stack">
+      <div className="flex items-baseline justify-between gap-stack">
+        <p className="font-body text-body font-semibold text-ink-900 flex-1 min-w-0 truncate">
           {item.title}
         </p>
-        <Badge variant="neutral" className="shrink-0 text-micro">
-          {item.messageCount} msg
-        </Badge>
+        <span className="shrink-0 inline-flex items-center gap-stack-3xs font-body text-caption text-ink-600 tabular-nums">
+          <Clock size={14} aria-hidden="true" className="self-center" />
+          {item.date}
+        </span>
       </div>
-      <p className="text-caption text-ink-500 line-clamp-2">
+      <p className="font-body text-body text-ink-700 line-clamp-2 max-w-prose">
         {item.lastMessage}
       </p>
-      <div className="flex items-center justify-between gap-stack mt-1">
-        <span className="flex items-center gap-tight text-micro text-ink-600">
-          <Clock size={14} />
-          {item.date}
+      <div className="flex items-center justify-between gap-stack">
+        <span className="font-body text-caption text-ink-600 tabular-nums">
+          {item.messageCount} message{item.messageCount > 1 ? 's' : ''}
         </span>
         <Button
           emphasis="outline"
           size="sm"
           trailingIcon={<ChevronRight size={14} />}
-          className="opacity-0 group-hover:opacity-100 transition-opacity duration-fast"
+          className="opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-fast"
         >
           Reprendre
         </Button>
       </div>
-    </Card>
+    </li>
   );
 }
 
@@ -131,9 +135,17 @@ export default function ChatHistoryPanel() {
         title="Historique des conversations"
         summary="Retrouvez toutes vos conversations avec l'assistant IA."
         tone="flat"
+        trailing={
+          /* L'action de la page vit dans son en-tête : elle n'était qu'en
+             bas, centrée sous la liste, sur un autre axe que le reste. */
+          <Button emphasis="soft" size="md" leadingIcon={<Sparkles size={16} />}>
+            Nouvelle conversation
+          </Button>
+        }
       />
 
-      <div className="flex flex-col gap-section">
+      {/* Les filtres et la liste : un même ensemble, 16 entre eux. */}
+      <div className="flex flex-col gap-stack">
 
         {/* Filter bar */}
         <div className="flex items-center gap-stack-xs flex-wrap">
@@ -149,11 +161,11 @@ export default function ChatHistoryPanel() {
 
         {/* Conversation list */}
         {filtered.length > 0 ? (
-          <div className="flex flex-col gap-stack">
+          <Card as="ul" className="flex flex-col gap-0 p-0 divide-y divide-ink-100">
             {filtered.map((item) => (
-              <ConversationCard key={item.id} item={item} />
+              <ConversationRow key={item.id} item={item} />
             ))}
-          </div>
+          </Card>
         ) : (
           <EmptyState
             icon={<MessageSquare size={32} />}
@@ -167,14 +179,6 @@ export default function ChatHistoryPanel() {
           />
         )}
 
-        {/* New conversation CTA */}
-        {filtered.length > 0 && (
-          <div className="flex justify-center pt-2">
-            <Button emphasis="soft" size="md" leadingIcon={<Sparkles size={16} />}>
-              Nouvelle conversation
-            </Button>
-          </div>
-        )}
       </div>
     </PageShell>
     </Container>

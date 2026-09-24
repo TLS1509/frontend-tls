@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Award, Flame, Trophy, Star, Zap, Target } from 'lucide-react';
+import { Award, Flame, Trophy, Star, ArrowRight } from 'lucide-react';
 import EditorialHero from '../components/patterns/EditorialHero';
-import SectionCard from '../components/patterns/SectionCard';
+import { SectionHeader } from '../components/patterns/SectionHeader';
+import { Card } from '../components/core/Card';
 import StatCard from '../components/ui/StatCard';
 import ProgressBar from '../components/ui/ProgressBar';
 import AchievementBadge from '../components/ui/AchievementBadge';
@@ -116,126 +117,135 @@ export default function DashboardAchievements() {
   );
   const currentRank = leaderboard.find((r) => r.isCurrentUser)?.rank;
 
+  /* Lien « voir tout » d'une section : la typographie des liens de l'app
+     (13/600 au cran 800 ; il était au 700, avec une flèche en caractère). */
+  const lienVoirTout = (label: string, to: string) => (
+    <button
+      type="button"
+      onClick={() => navigate(to)}
+      className="inline-flex items-center min-h-6 py-1 -my-1 gap-stack-3xs font-body text-caption font-semibold text-primary-800 hover:text-primary-900 bg-transparent border-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
+    >
+      {label}
+      <ArrowRight size={14} aria-hidden="true" />
+    </button>
+  );
+
+  /* Passe typographique du 24/09 — la page prend le rythme de PageShell (48
+     entre sections ; elle posait sa propre marge haute puis 32). Ses trois
+     blocs sont des sections : un h2 28 et sa phrase, puis leur contenu — ils
+     étaient trois cartes titrées en h3 et la page sautait du h1 au h3. Le
+     contenu de la gamification (série, XP, classement) n'est pas l'objet de
+     cette passe (arbitrage n°18). */
   return (
-    <PageShell width="wide" noPadTop className="pt-6 md:pt-8 lg:pt-10">
+    <PageShell width="wide">
       <EditorialHero
-        eyebrow="Dashboard · Réussites"
-        title="Mes Réussites"
+        eyebrow="Tableau de bord · Réussites"
+        title="Mes réussites"
         summary="Retrouve ici tous tes badges, ton streak actuel et ton rang dans le classement de la communauté."
         tone="flat"
       />
 
-      <div className="flex flex-col gap-section">
-        {/* Stat cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
-          <StatCard
-            label="Badges obtenus"
-            value={String(userBadges.length)}
-            sub="badges"
-            tone="neutral"
-            surface="tinted"
-            icon={<Award size={20} />}
-          />
-          <StatCard
-            label="Streak actuel"
-            value={String(streak.currentStreak)}
-            sub="jours"
-            tone="warm"
-            surface="tinted"
-            icon={<Flame size={20} />}
-            delta={`Meilleur : ${streak.longestStreak}j`}
-            deltaDirection={streak.currentStreak >= streak.longestStreak ? 'up' : 'down'}
-          />
-          <StatCard
-            label="Rang leaderboard"
-            value={currentRank ? `#${currentRank}` : ':'}
-            tone="neutral"
-            surface="card"
-            icon={<Trophy size={20} />}
-          />
-        </div>
+      {/* Stat cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-stack">
+        <StatCard
+          label="Badges obtenus"
+          value={String(userBadges.length)}
+          sub="badges"
+          tone="neutral"
+          surface="tinted"
+          icon={<Award size={20} />}
+        />
+        <StatCard
+          label="Streak actuel"
+          value={String(streak.currentStreak)}
+          sub="jours"
+          tone="warm"
+          surface="tinted"
+          icon={<Flame size={20} />}
+          delta={`Meilleur : ${streak.longestStreak} j`}
+          deltaDirection={streak.currentStreak >= streak.longestStreak ? 'up' : 'down'}
+        />
+        {/* Sans rang, un tiret de valeur absente (il affichait « : »). */}
+        <StatCard
+          label="Rang leaderboard"
+          value={currentRank ? `#${currentRank}` : '–'}
+          tone="neutral"
+          surface="card"
+          icon={<Trophy size={20} />}
+        />
+      </div>
 
-        {/* Récentes réussites */}
-        <SectionCard
+      {/* Récentes réussites */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader
           title="Récentes réussites"
-          titleIcon={<Star size={18} />}
-          description="Tes 5 derniers badges et accomplissements"
-          headerAction={
-            <button
-              type="button"
-              onClick={() => navigate('/gamification/badges')}
-              className="text-caption font-semibold text-primary-700 hover:text-primary-800 bg-transparent border-0 cursor-pointer p-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
-            >
-              Tout voir →
-            </button>
-          }
-        >
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-stack">
-            {recentAchievements.length === 0 ? (
-              <p className="text-caption text-ink-600 col-span-full">Aucun badge obtenu pour l'instant.</p>
-            ) : (
-              recentAchievements.map((a) => (
-                <button
-                  key={a.id}
-                  type="button"
-                  onClick={() => navigate(`/gamification/badge/${a.id}`)}
-                  className="bg-transparent border-0 p-0 cursor-pointer hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-lg"
-                >
-                  <AchievementBadge
-                    title={a.title}
-                    description={a.description}
-                    icon={a.icon}
-                    unlockedDate={a.unlockedDate}
-                    color={a.color}
-                    size="sm"
-                  />
-                </button>
-              ))
-            )}
-          </div>
-        </SectionCard>
-
-        {/* En progression */}
-        <SectionCard
-          title="En progression"
-          titleIcon={<Target size={18} />}
-          description="Objectifs en cours : continue pour débloquer ces badges"
-        >
-          <div className="flex flex-col gap-stack">
-            {inProgress.map((item) => (
-              <div key={item.id} className="flex flex-col gap-tight">
-                <div className="flex items-center justify-between">
-                  <span className="text-body font-semibold text-ink-800">{item.label}</span>
-                  <span className="text-caption text-ink-500">
-                    {item.current.toLocaleString('fr-FR')} / {item.target.toLocaleString('fr-FR')}
-                  </span>
-                </div>
-                <ProgressBar
-                  value={Math.min(item.fill, 100)}
-                  fill={item.fillColor}
+          subtitle="Tes 5 derniers badges et accomplissements"
+          action={lienVoirTout('Tout voir', '/gamification/badges')}
+        />
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-stack">
+          {recentAchievements.length === 0 ? (
+            <p className="font-body text-body text-ink-700 col-span-full">Aucun badge obtenu pour l'instant.</p>
+          ) : (
+            recentAchievements.map((a) => (
+              <button
+                key={a.id}
+                type="button"
+                onClick={() => navigate(`/gamification/badge/${a.id}`)}
+                /* `flex flex-col` : un <button> centre son contenu dans la
+                   hauteur de la rangée — les badges de hauteurs différentes
+                   partaient chacun de leur propre haut. Ils s'alignent en haut. */
+                className="flex flex-col bg-transparent border-0 p-0 cursor-pointer hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-lg"
+              >
+                <AchievementBadge
+                  title={a.title}
+                  description={a.description}
+                  icon={a.icon}
+                  unlockedDate={a.unlockedDate}
+                  color={a.color}
                   size="sm"
-                  valueLabel={`${Math.min(item.fill, 100)} %`}
                 />
-              </div>
-            ))}
-          </div>
-        </SectionCard>
+              </button>
+            ))
+          )}
+        </div>
+      </section>
 
-        {/* Classement */}
-        <SectionCard
+      {/* En progression */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader
+          title="En progression"
+          subtitle="Objectifs en cours : continue pour débloquer ces badges."
+        />
+        <Card className="flex flex-col gap-stack-lg">
+          {inProgress.map((item) => (
+            /* Libellé et valeur sur la même ligne de base ; la valeur est une
+               donnée tabulaire au cran 600 (elle était au 500). */
+            <div key={item.id} className="flex flex-col gap-stack-xs">
+              <div className="flex items-baseline justify-between gap-stack">
+                <span className="font-body text-body font-semibold text-ink-900">{item.label}</span>
+                <span className="font-body text-caption text-ink-600 tabular-nums shrink-0">
+                  {item.current.toLocaleString('fr-FR')} / {item.target.toLocaleString('fr-FR')}
+                </span>
+              </div>
+              <ProgressBar
+                value={Math.min(item.fill, 100)}
+                fill={item.fillColor}
+                size="sm"
+                valueLabel={`${Math.min(item.fill, 100)} %`}
+              />
+            </div>
+          ))}
+        </Card>
+      </section>
+
+      {/* Classement */}
+      <section className="flex flex-col gap-stack">
+        <SectionHeader
           title="Classement"
-          titleIcon={<Trophy size={18} />}
-          description="Top 5 apprenants de la communauté"
-          headerAction={
-            <button
-              type="button"
-              onClick={() => navigate('/leaderboard')}
-              className="text-caption font-semibold text-primary-700 hover:text-primary-800 bg-transparent border-0 cursor-pointer p-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-sm"
-            >
-              Voir tout →
-            </button>
-          }
-        >
+          subtitle="Top 5 apprenants de la communauté"
+          action={lienVoirTout('Voir tout', '/leaderboard')}
+        />
+        <Card>
           <ol className="flex flex-col divide-y divide-ink-100">
             {leaderboard.map((entry) => (
               <li
@@ -243,12 +253,8 @@ export default function DashboardAchievements() {
                 className={`flex items-center gap-stack py-3 ${entry.isCurrentUser ? 'bg-primary-50 -mx-4 px-stack rounded-md' : ''}`}
               >
                 <span
-                  className={`w-7 text-center text-body font-bold shrink-0 ${
-                    entry.rank === 1
-                      ? 'text-warning-fg'
-                      : entry.rank <= 3
-                        ? 'text-ink-600'
-                        : 'text-ink-600'
+                  className={`w-7 text-center font-body text-body font-bold tabular-nums shrink-0 ${
+                    entry.rank === 1 ? 'text-warning-fg' : 'text-ink-600'
                   }`}
                 >
                   #{entry.rank}
@@ -258,21 +264,23 @@ export default function DashboardAchievements() {
                   size="sm"
                   tint={entry.isCurrentUser ? 'brand' : 'ink'}
                 />
+                {/* Le nom : 600 et l'encre du texte, au cran 800 du teal
+                    pour soi (il était en 700 au cran 700). */}
                 <span
-                  className={`flex-1 text-body ${
-                    entry.isCurrentUser ? 'font-bold text-primary-700' : 'text-ink-800'
+                  className={`flex-1 font-body text-body ${
+                    entry.isCurrentUser ? 'font-semibold text-primary-800' : 'text-ink-900'
                   }`}
                 >
                   {entry.name}
                 </span>
-                <span className="text-body font-semibold text-ink-600">
+                <span className="font-body text-body font-semibold text-ink-700 tabular-nums">
                   {entry.xp.toLocaleString('fr-FR')} XP
                 </span>
               </li>
             ))}
           </ol>
-        </SectionCard>
-      </div>
+        </Card>
+      </section>
     </PageShell>
   );
 }

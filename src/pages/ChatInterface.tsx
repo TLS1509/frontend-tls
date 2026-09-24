@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Send, Sparkles, BookOpen, Target, FileText, Shield, ExternalLink } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
 import { ConversationalChat } from '../components/patterns/ConversationalChat';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
-import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import { AITransparencyLabel } from '../components/ui/AITransparencyLabel';
 import { useChatStore, MOCK_CHAT_SESSION_ID } from '../stores/persistence';
 import { simulateRAGResponse, CHAT_SUGGESTIONS, PRIVACY_BLOCKLIST } from '../data/chatbot';
@@ -28,21 +27,23 @@ function ConfidenceChip({ score }: { score: number }) {
         ? 'text-info-fg bg-info-bg border-info-border'
         : 'text-warning-fg bg-warning-bg border-warning-border';
   return (
-    <span className={`inline-flex items-center text-micro font-medium px-1.5 py-0.5 rounded-xs border ${cls}`}>
-      {pct}% confiance
+    /* Une donnée, au registre des puces : 11/500, pilule sous 28 px (elle
+       était un rectangle au rayon 4). */
+    <span className={`inline-flex items-center text-micro font-medium tabular-nums px-2 py-0.5 rounded-pill border ${cls}`}>
+      {pct}{'\u00A0'}% de confiance
     </span>
   );
 }
 
 function SourceChip({ source }: { source: ChatSourceCitation }) {
   const inner = (
-    <span className="inline-flex items-center gap-tight text-micro text-primary-800 bg-primary-50 border border-primary-100 px-1.5 py-0.5 rounded-xs font-medium hover:bg-primary-100 transition-colors duration-fast">
+    <span className="inline-flex items-center gap-stack-3xs text-micro text-primary-800 bg-primary-50 border border-primary-100 px-2 py-0.5 rounded-pill font-medium hover:bg-primary-100 transition-colors duration-fast">
       {source.title}
       {source.url && <ExternalLink size={14} aria-hidden />}
     </span>
   );
   return source.url
-    ? <a href={source.url} className="focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500 rounded-xs">{inner}</a>
+    ? <a href={source.url} className="focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-primary-500 rounded-pill">{inner}</a>
     : inner;
 }
 
@@ -93,9 +94,9 @@ function buildAiContent(m: ChatMessage): React.ReactNode {
       <div className="flex flex-col gap-tight">
         <p className="text-body text-ink-900">{m.content}</p>
         <div className="flex items-center gap-tight pt-tight border-t border-ink-100 mt-1">
-          <span className="inline-flex items-center gap-tight text-micro font-medium text-ink-500 bg-ink-50 border border-ink-200 px-1.5 py-0.5 rounded-xs">
+          <span className="inline-flex items-center gap-stack-3xs text-micro font-medium text-ink-600 bg-ink-50 border border-ink-200 px-2 py-0.5 rounded-pill">
             <Shield size={14} aria-hidden />
-            Filtré — confidentialité
+            Filtré (confidentialité)
           </span>
         </div>
       </div>
@@ -205,7 +206,8 @@ export default function ChatInterface() {
         summary="Posez vos questions sur vos formations, demandez de l'aide sur un concept ou explorez vos compétences."
         tone="flat"
         trailing={
-          <Badge variant="info" size="normal">RAG · Mistral</Badge>
+          /* Une donnée technique, pas un état : MetaPill (arbitrage n°14). */
+          <MetaPill text="RAG · Mistral" tone="info" />
         }
       />
 
@@ -234,7 +236,9 @@ export default function ChatInterface() {
             {/* Input area */}
             {/* Padding canon (24) : à 16, le champ (14) était à 17 du coin — évasé. */}
             <Card className="flex flex-col gap-stack-xs">
-              <div className="flex gap-stack items-end">
+              {/* Sous 640 px, le bouton passe sous le champ : côte à côte, le
+                  champ n'avait plus que 150 px et son texte se coupait. */}
+              <div className="flex flex-col sm:flex-row gap-stack-sm sm:gap-stack sm:items-end">
                 <textarea
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
@@ -252,57 +256,72 @@ export default function ChatInterface() {
                   loading={isTyping}
                   disabled={!inputValue.trim() || isTyping}
                   aria-label="Envoyer le message"
-                  className="shrink-0"
+                  className="shrink-0 self-end"
                 >
                   Envoyer
                 </Button>
               </div>
-              <p className="text-micro text-ink-600 pl-1">
+              {/* Aide sous le champ : légende 13 ink-600, calée sur le bord du
+                  champ (elle était en étiquette 11 px, décalée de 4 px). */}
+              <p className="font-body text-caption text-ink-600">
                 Ctrl+Entrée pour envoyer · Les réponses sont basées sur le contenu indexé de la plateforme.
               </p>
             </Card>
           </div>
 
-          {/* ── Suggestions sidebar ────────────────────────────────────── */}
-          <aside className="w-full lg:w-72 shrink-0">
-            <SectionCard
-              title="Suggestions"
-              description="Démarrez une conversation avec ces questions préparées."
-            >
-              <div className="flex flex-col gap-stack-xs">
+          {/* ── Suggestions sidebar ──────────────────────────────────────
+              « Suggestions » est une section de la page : h2 28 et sa phrase,
+              puis des rangées qui peuvent passer sur deux lignes (dans des
+              boutons `sm` de 36 px, les questions longues débordaient). Elle
+              était une carte titrée en h3 : la page sautait du h1 au h3. */}
+          <aside className="w-full lg:w-72 shrink-0 flex flex-col gap-section">
+            <section className="flex flex-col gap-stack" aria-labelledby="assistant-suggestions">
+              <div className="flex flex-col gap-stack-3xs">
+                <h2 id="assistant-suggestions" className="font-display text-h2 text-ink-900">Suggestions</h2>
+                <p className="font-body text-body text-ink-700">
+                  Démarrez une conversation avec ces questions préparées.
+                </p>
+              </div>
+              <ul className="flex flex-col gap-stack-xs">
                 {CHAT_SUGGESTIONS.map((s) => {
                   const icons: Record<string, React.ReactNode> = {
-                    formation: <BookOpen size={14} />,
-                    projects: <FileText size={14} />,
-                    passeport: <Target size={14} />,
+                    formation: <BookOpen size={16} />,
+                    projects: <FileText size={16} />,
+                    passeport: <Target size={16} />,
                   };
                   return (
-                    <Button
-                      key={s.id}
-                      emphasis="outline"
-                      size="sm"
-                      leadingIcon={icons[s.intent] ?? <Sparkles size={14} />}
-                      fullWidth
-                      className="justify-start text-left"
-                      onClick={() => setInputValue(s.label)}
-                    >
-                      {s.label}
-                    </Button>
+                    <li key={s.id}>
+                      <button
+                        type="button"
+                        onClick={() => setInputValue(s.label)}
+                        className="w-full min-h-touch flex items-start gap-stack-xs px-3 py-2.5 rounded-lg border border-ink-200 bg-white text-left font-body text-body text-ink-900 cursor-pointer transition-colors duration-base hover:bg-ink-50 hover:border-ink-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                      >
+                        {/* Calée sur la 1re ligne : (26 − 16) / 2. */}
+                        <span className="shrink-0 mt-[5px] text-primary-700" aria-hidden="true">
+                          {icons[s.intent] ?? <Sparkles size={16} />}
+                        </span>
+                        {/* Espace insécable avant « ? » : le point d'interrogation
+                            tombait seul à la ligne. */}
+                        {s.label.replace(/ \?/g, '\u00A0?')}
+                      </button>
+                    </li>
                   );
                 })}
-              </div>
-            </SectionCard>
+              </ul>
+            </section>
 
-            {/* Info card */}
-            <Card variant="tinted" tone="primary" className="mt-stack p-stack-md flex flex-col gap-tight">
-              <p className="text-caption font-semibold text-primary-900">À propos de cet assistant</p>
-              <p className="text-caption text-primary-700">
+            {/* Info card — un libellé (13/600), le texte au cran 700 (il était
+                au 700 du teal : une couleur de marque ne porte du texte qu'au
+                800), les périmètres en MetaPill (des données, plus des Badge). */}
+            <Card variant="tinted" tone="primary" className="p-stack-md flex flex-col gap-stack-xs">
+              <p className="font-body text-caption font-semibold text-primary-900">À propos de cet assistant</p>
+              <p className="font-body text-caption text-ink-700">
                 Les réponses sont générées uniquement depuis le contenu indexé de la plateforme (formations, Passeport, Coaching, Missions). Aucune donnée externe.
               </p>
-              <div className="flex flex-wrap gap-tight mt-1">
-                <Badge variant="info" size="compact">Contenu Formation</Badge>
-                <Badge variant="info" size="compact">Passeport</Badge>
-                <Badge variant="info" size="compact">Missions</Badge>
+              <div className="flex flex-wrap gap-stack-3xs mt-stack-3xs">
+                <MetaPill text="Contenu formation" tone="brand" />
+                <MetaPill text="Passeport" tone="brand" />
+                <MetaPill text="Missions" tone="brand" />
               </div>
             </Card>
           </aside>
