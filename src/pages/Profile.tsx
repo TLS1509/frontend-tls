@@ -414,7 +414,7 @@ export const Profile: React.FC = () => {
                   la méta, plus un Badge. */}
               <SectionHeader
                 title="Matrice de compétences"
-                subtitle="Évaluation par niveau (Novice → Maître) sur 5 paliers. Survolez une ligne pour voir le détail de progression."
+                subtitle="Évaluation par niveau (Novice → Maître) sur 5 paliers. Survole une ligne pour voir le détail de progression."
                 meta="5 compétences"
               />
 

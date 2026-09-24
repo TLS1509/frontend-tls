@@ -100,7 +100,7 @@ export default function OpenBadgesSection() {
       <EditorialHero
         eyebrow={{ label: 'Profil · Badges', icon: <Award size={14} /> }}
         title="Mes Open Badges"
-        summary="Vos certifications numériques vérifiables selon la norme Open Badges. Partagez vos badges sur LinkedIn ou exportez-les."
+        summary="Tes certifications numériques vérifiables selon la norme Open Badges. Partage tes badges sur LinkedIn ou exporte-les."
         tone="flat"
       />
 
@@ -158,7 +158,7 @@ export default function OpenBadgesSection() {
       <section className="flex flex-col gap-stack">
         <SectionHeader
           title="Connecter un wallet Open Badges"
-          subtitle="Importez des badges depuis des plateformes externes compatibles Open Badges. Vos certifications Credly, Badgr ou IMS Global seront consolidées dans votre profil."
+          subtitle="Importe des badges depuis des plateformes externes compatibles Open Badges. Tes certifications Credly, Badgr ou IMS Global seront consolidées dans ton profil."
         />
         <Card className="p-0 overflow-hidden">
           <ul className="divide-y divide-ink-100">
