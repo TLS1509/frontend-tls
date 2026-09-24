@@ -86,8 +86,8 @@ export default function CoachingSessionDetail() {
               </Button>
             )}
             {/* Seul, pour une session passée, il se cale sur le bord du texte
-                (`-ml-stack-md` rattrape le padding du ghost). */}
-            <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<Download size={16} />} className={isPlanned ? undefined : '-ml-stack-md'}>
+                (`flush="start"` rattrape le padding du ghost). */}
+            <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<Download size={16} />} flush={isPlanned ? undefined : 'start'}>
               Ajouter au calendrier
             </Button>
           </div>

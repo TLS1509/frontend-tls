@@ -58,10 +58,10 @@ export default function CoachHeatmap() {
         /* Une page de lecture : aucune action principale, donc aucun `solid`.
            Exporter et Actualiser sont des outils, en `ghost` neutre
            (arbitrage n°19) — « Actualiser » était l'action la plus appuyée de
-           la page. `-ml-stack-md` cale le premier sur le bord du texte. */
+           la page. `flush="start"` cale le premier sur le bord du texte. */
         trailing={
           <div className="flex items-center gap-stack-xs">
-            <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<Download size={16} />} className="-ml-stack-md">
+            <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<Download size={16} />} flush="start">
               Exporter
             </Button>
             <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<RefreshCw size={16} />}>

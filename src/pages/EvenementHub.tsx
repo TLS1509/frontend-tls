@@ -73,12 +73,12 @@ export default function EvenementHub() {
         title="Événements & Conférences"
         summary="Conférences, webinaires et ateliers ouverts à la communauté TLS. Certains événements sont réservés aux membres."
         /* S'abonner au calendrier est un outil : `ghost` (arbitrage n°19).
-           `-ml-stack-md` rend à son libellé le bord gauche du texte (le
+           `flush="start"` rend à son libellé le bord gauche du texte (le
            padding du ghost le décalait de 20 px). Le seul `solid` possible de
            la page est l'inscription à l'événement à la une ; déjà inscrit, la
            page n'en a plus. */
         trailing={
-          <Button emphasis="ghost" tone="brand" size="md" className="-ml-stack-md">
+          <Button emphasis="ghost" tone="brand" size="md" flush="start">
             S'abonner au calendrier
           </Button>
         }
@@ -119,7 +119,7 @@ export default function EvenementHub() {
               )}
               <div className="mt-stack-lg">
                 {eventsStore.getEventRegistration(MOCK_USER_ID, featured.id) ? (
-                  <Button emphasis="ghost" tone="neutral" size="md" disabled className="-ml-stack-md">
+                  <Button emphasis="ghost" tone="neutral" size="md" disabled flush="start">
                     <CheckCircle size={16} className="mr-1.5" /> Déjà inscrit(e)
                   </Button>
                 ) : (

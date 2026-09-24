@@ -10,6 +10,7 @@ import { IconChip } from '../components/ui/IconChip';
 import { Avatar } from '../components/ui/Avatar';
 import { DreyfusSlider } from '../components/ui/DreyfusSlider';
 import { FormGroup } from '../components/core/FormGroup';
+import { Input } from '../components/core/Input';
 import { PageShell } from '../components/layout';
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
@@ -77,10 +78,10 @@ export default function CoachCorrectionInterface() {
         ]}
         tone="flat"
         /* Arbitrage n°19 : le retour est un `ghost` neutre, calé sur le bord
-           du texte (`-ml-stack-md` rattrape son padding) ; le seul `solid`
+           du texte (`flush="start"` rattrape son padding) ; le seul `solid`
            de l'écran est l'envoi du feedback (puis « Exercice suivant »). */
         trailing={
-          <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<ChevronLeft size={16} />} className="-ml-stack-md">
+          <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<ChevronLeft size={16} />} flush="start">
             Retour à la file
           </Button>
         }
@@ -103,19 +104,17 @@ export default function CoachCorrectionInterface() {
             <section className="flex flex-col gap-stack">
               <SectionHeader title="Votre feedback" size="md" />
               <Card className="flex flex-col gap-stack-lg">
-                {/* FormGroup + zone de texte, et non `<Input multiline>` : ce
-                    dernier pose `h-touch` et `h-auto` sur le même cadre, le
-                    premier gagne (piège n°6) et le texte déborde d'un cadre
-                    resté à 96 px. Filet `ink-400`, celui de la famille champ
-                    (arbitrage n°7) — il était à ink-200. */}
+                {/* `Input multiline` : le cadre suit sa zone de texte depuis
+                    f5c99c2a. La zone faite main qui le contournait (quand le
+                    cadre restait à 96 px) n'a plus de raison d'être. */}
                 <FormGroup label="Commentaire général" id="feedback">
-                  <textarea
+                  <Input
                     id="feedback"
+                    multiline
+                    rows={6}
                     value={feedback}
                     onChange={(e) => setFeedback(e.target.value)}
-                    rows={6}
                     placeholder="Points forts, axes d'amélioration, conseils pratiques…"
-                    className="w-full rounded-lg border border-ink-400 px-stack py-3 text-body text-ink-900 placeholder:text-ink-500 focus:outline-none focus:border-primary-700 transition-colors duration-fast resize-none"
                   />
                 </FormGroup>
 

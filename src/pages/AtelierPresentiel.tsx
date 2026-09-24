@@ -153,7 +153,7 @@ export default function AtelierPresentiel() {
               key={idx}
               icon={<FileText size={16} />}
               label={res.label}
-              badge={<span className="shrink-0 text-caption text-ink-600">{res.type}</span>}
+              meta={res.type}
               /* L'action de la rangée : `soft` (arbitrage n°19). */
               action={
                 <Button emphasis="soft" tone="brand" iconOnly leadingIcon={<Download size={16} />} aria-label={`Télécharger ${res.label}`} />

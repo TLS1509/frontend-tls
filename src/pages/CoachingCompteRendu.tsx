@@ -177,9 +177,9 @@ export const CoachingCompteRendu: React.FC = () => {
       <EditorialHero
         tone="flat"
         trailing={
-          /* `ghost` calé sur le bord du texte : `-ml-stack-md` rattrape son
+          /* `ghost` calé sur le bord du texte : `flush="start"` rattrape son
              padding. */
-          <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(-1)} className="-ml-stack-md">
+          <Button emphasis="ghost" tone="neutral" size="md" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate(-1)} flush="start">
             Retour
           </Button>
         }

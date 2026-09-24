@@ -312,7 +312,7 @@ export default function PasseportRoadmap() {
                 </div>
                 <p className="text-body text-ink-700 max-w-prose">{s.detail}</p>
                 <div className="mt-stack-sm flex justify-end gap-stack-xs flex-wrap">
-                  <AIOverrideButton label="Ignorer" onOverride={(reason) => ignorer(s, reason)} size="sm" />
+                  <AIOverrideButton label="Ignorer" onOverride={(reason) => ignorer(s, reason)} size="sm" voix="tu" />
                   {/* L'action de la carte (`soft`), en pastille blanche sur
                       la carte teintée (`neutral`). */}
                   <Button emphasis="soft" tone="neutral" size="sm" trailingIcon={<ChevronRight size={14} />}>

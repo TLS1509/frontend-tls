@@ -289,6 +289,7 @@ export default function ProfilePrivacy() {
           </Alert>
 
           <AIOverrideButton
+            voix="tu"
             label="Rejeter la dernière recommandation IA"
             onOverride={() => {}}
             requireReason
