@@ -1,4 +1,4 @@
-<!-- @dsCard group="Atoms" height=560 subtitle="emphasis × tone, 4 tailles, icône seule, états" -->
+<!-- @dsCard group="Atoms" height=608 subtitle="emphasis × tone, 3 tailles, icône seule, états" -->
 <!doctype html>
 <html>
 <head>
@@ -35,14 +35,14 @@
         h(Button, { emphasis: 'solid', tone: 'sun' }, 'Sun'),
         h(Button, { emphasis: 'solid', tone: 'danger' }, 'Supprimer'),
         h(Button, { emphasis: 'solid', tone: 'neutral' }, 'Neutral')),
-      h(Row, { label: 'Tons, emphase soft — le niveau de l’app' },
+      h(Row, { label: 'Tons, emphase soft : l’action d’un contexte' },
         h(Button, { emphasis: 'soft', tone: 'brand' }, 'Brand'),
         h(Button, { emphasis: 'soft', tone: 'warm' }, 'Warm'),
         h(Button, { emphasis: 'soft', tone: 'sun' }, 'Sun'),
         h(Button, { emphasis: 'soft', tone: 'danger' }, 'Supprimer'),
         h(Button, { emphasis: 'soft', tone: 'neutral' }, 'Neutral')),
-      h(Row, { label: 'Tailles sm · md · lg · xl' },
-        ['sm', 'md', 'lg', 'xl'].map(function (s) { return h(Button, { key: s, size: s, leadingIcon: plus() }, 'Soumettre'); })),
+      h(Row, { label: 'Tailles sm 36 · md 44 · lg 52' },
+        ['sm', 'md', 'lg'].map(function (s) { return h(Button, { key: s, size: s, leadingIcon: plus() }, 'Soumettre'); })),
       h(Row, { label: 'Icône seule · états' },
         h(Button, { iconOnly: true, 'aria-label': 'Ajouter', size: 'sm' }, plus()),
         h(Button, { iconOnly: true, 'aria-label': 'Ajouter', emphasis: 'soft' }, plus()),

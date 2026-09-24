@@ -209,14 +209,13 @@ add('Stepper', 'Composites', 400, "étapes nommées, horizontal et vertical", ""
       h('div', null, Label('vertical'), h(Stepper, { items: steps, orientation: 'vertical' })));
   }""")
 
-add('SectionHeader', 'Headers & Sections', 470, "5 variantes, tons, tailles", """
+add('SectionHeader', 'Headers & Sections', 470, "3 variantes, tons, deux pas de titre", """
   var SectionHeader = DS.SectionHeader, Button = DS.Button;
   function App() {
     return h('div', { className: 'rows' },
-      h(SectionHeader, { variant: 'default', icon: I('calendar', 20), title: 'Tes prochaines sessions', subtitle: 'Pastille teintée (défaut)' }),
-      h(SectionHeader, { variant: 'solid', tone: 'warm', icon: I('users', 20), title: 'Coaching', subtitle: 'Pastille pleine, icône blanche', action: h(Button, { size: 'sm', emphasis: 'soft', tone: 'warm' }, 'Réserver') }),
+      h(SectionHeader, { variant: 'default', icon: I('calendar', 20), title: 'Tes prochaines sessions', subtitle: 'Section : titre h2, pastille teintée de 40 (défaut)' }),
+      h(SectionHeader, { variant: 'default', tone: 'warm', size: 'sm', icon: I('users', 20), title: 'Coaching', subtitle: 'Bloc : titre h3, pastille de 32, action ghost calée sur le bord', action: h(Button, { size: 'sm', emphasis: 'ghost', tone: 'warm' }, 'Voir tout') }),
       h(SectionHeader, { variant: 'minimal', tone: 'sun', icon: I('sparkles', 20), title: 'Réussites récentes', subtitle: 'Sans pastille' }),
-      h(SectionHeader, { variant: 'accent', title: 'Ressources', subtitle: 'Barre verticale', size: 'sm' }),
       h(SectionHeader, { variant: 'underline', title: 'Journal de la semaine', size: 'lg', divider: true }));
   }""")
 
@@ -244,7 +243,7 @@ add('StatCard', 'Cards', 380, "KPI : variantes, tons, tailles", """
       h('div', { className: 'grid3' },
         h(StatCard, { icon: I('book', 20), label: 'Pratiques validées', value: 12, sub: '/24', delta: '+3 ce mois', deltaDirection: 'up' }),
         h(StatCard, { variant: 'elevated', icon: I('clock', 20), label: 'Temps de pratique', value: '48', sub: 'h' }),
-        h(StatCard, { variant: 'warm', icon: I('flame', 20), label: 'Semaines actives', value: 7, delta: 'Record', deltaDirection: 'up' })),
+        h(StatCard, { variant: 'warm', icon: I('calendar', 20), label: 'Semaines actives', value: 3, sub: '/4 dernières' })),
       h('div', { className: 'grid3' },
         h(StatCard, { size: 'sm', tone: 'brand', label: 'sm', value: 86, unit: '%' }),
         h(StatCard, { size: 'md', tone: 'sun', label: 'md', value: 4, sub: '/5' }),
@@ -336,11 +335,28 @@ SHOW_JS = """
   var NAME = %s;
   function Fiche() { return DS.Showcase[NAME](); }
   function App() { return h(DS.MemoryRouter, null, h(Fiche)); }"""
+def sous_titre(c):
+    """Le sous-titre d'une carte : la première phrase de sa description si elle
+    tient en 90 signes, sinon sa première proposition (avant « : » ou « — »),
+    sinon la phrase coupée au dernier mot. Depuis les passes du 24/09, les
+    descriptions de la vitrine sont plus longues : retomber sur la
+    sous-catégorie (« Form fields ») faisait perdre leur sous-titre à 125
+    cartes sur 154."""
+    s = c['summary']
+    if 0 < len(s) <= 90:
+        return s
+    if not s:
+        return c['subCategory']
+    coupes = [i for i in (s.find(' : '), s.find(' — ')) if i >= 12]
+    if coupes and min(coupes) <= 90:
+        return s[:min(coupes)]
+    return s[:88].rsplit(' ', 1)[0].rstrip(',;') + '…'
+
 if os.path.exists(SHOW):
     for c in json.load(open(SHOW))['cards']:
         if c['id'] in C:
             continue
-        sub = c['summary'] if 0 < len(c['summary']) <= 90 else c['subCategory']
+        sub = sous_titre(c)
         sub = sub.replace('"', "'").replace('-->', '→')
         add(c['id'], c['group'], 600, sub, SHOW_JS % json.dumps(c['name'], ensure_ascii=False), width=1040)
 
