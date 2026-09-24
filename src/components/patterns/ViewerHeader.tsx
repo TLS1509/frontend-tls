@@ -7,10 +7,10 @@
  * Used by (target) : VideoViewer, FlashcardsViewer, AstucesViewer,
  *                    ComplementaryContentViewer, VideoReels, JournalDetail, CourseDetail
  *
- * Layout :
+ * Layout (révisé le 2026-09-24 — le titre d'abord, puis UNE ligne de méta) :
  *   ┌──────────────────────────────────────────────────────────────────┐
- *   │ [← Back]   Title eyebrow                  [< Prev] [Next >] [×] │
- *   │            Optional subtitle / meta                              │
+ *   │ [← Back]   Titre (16/600)                  [< Prev] [Next >] [×] │
+ *   │            Surtitre · sous-titre (13, ink-600)                   │
  *   │ ▓▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  (optional progress) │
  *   └──────────────────────────────────────────────────────────────────┘
  *
@@ -38,12 +38,24 @@ export interface ViewerHeaderProps {
   /** Back button callback (typically navigate(-1) or to parent route). */
   onBack?: () => void;
 
-  /** Optional small eyebrow text above the title (e.g. "Vidéo · Module 2"). */
+  /** Type ou contexte du contenu (e.g. "Vidéo · Module 2"). Rendu en tête de la
+   *  ligne de méta, SOUS le titre — plus en surtitre capitales au-dessus. */
   eyebrow?: React.ReactNode;
   /** Main title displayed in the toolbar — truncated if too long. */
   title?: React.ReactNode;
-  /** Optional secondary text under the title. */
+  /** Optional secondary text, sur la ligne de méta après le surtitre. */
   subtitle?: React.ReactNode;
+  /**
+   * Balise du titre — `p` par défaut depuis le 2026-09-24. Le titre d'une barre
+   * de lecteur est à 16 px : la doctrine veut que la taille suive le niveau, un
+   * h1 de 16 n'en est donc pas un. Le h1 de la page vit dans son contenu (c'est
+   * le cas de VideoViewer et de ComplementaryContentViewer, qui en avaient deux).
+   * `h1` reste possible pour un écran qui n'a pas d'autre titre — un écart
+   * assumé, que `check-typo` relève.
+   */
+  titleAs?: 'h1' | 'p';
+  /** id posé sur le titre, pour l'`aria-labelledby` d'un dialogue. */
+  titleId?: string;
 
   /** Optional progression : current index (1-based). */
   current?: number;
@@ -71,22 +83,18 @@ export interface ViewerHeaderProps {
   /** Make the header sticky to top (default true). */
   sticky?: boolean;
 
-  /** Color tone applied to eyebrow, counter accent, progress bar. */
+  /** Ton du compteur, de la barre de progression et de l'anneau de focus. */
   tone?: PageTone;
 
   className?: string;
 }
 
-const TONE_EYEBROW: Record<PageTone, string> = {
-  primary: 'text-primary-700',
-  warm:    'text-secondary-700',
-  sun:     'text-accent-700',
-};
-
+/* Une couleur de marque ne porte du texte qu'au cran 800 (doctrine, rôle des
+   couleurs) : le compteur passe de 700 à 800. */
 const TONE_COUNTER_ACCENT: Record<PageTone, string> = {
-  primary: 'text-primary-700',
-  warm:    'text-secondary-700',
-  sun:     'text-accent-700',
+  primary: 'text-primary-800',
+  warm:    'text-secondary-800',
+  sun:     'text-accent-800',
 };
 
 const TONE_PROGRESS_FILL: Record<PageTone, string> = {
@@ -118,6 +126,8 @@ export const ViewerHeader: React.FC<ViewerHeaderProps> = ({
   trailing,
   sticky = true,
   tone = 'primary',
+  titleAs: TitleTag = 'p',
+  titleId,
   className = '',
 }) => {
   const prevDisabled = !onPrev || disablePrev;
@@ -151,31 +161,29 @@ export const ViewerHeader: React.FC<ViewerHeaderProps> = ({
           </button>
         )}
 
-        {/* Title block (center, flex-1, truncate) */}
+        {/* Title block (center, flex-1, truncate) — révisé le 2026-09-24.
+            Le titre à 16/600 : c'est la barre d'un lecteur, le contenu mène.
+            Il était à 20/700 en League Spartan, SOUS un surtitre de 11 px en
+            capitales et AU-DESSUS d'un sous-titre : trois lignes, deux registres
+            de méta. Le surtitre (un type de contenu : une donnée, pas un état)
+            rejoint le sous-titre sur une seule ligne de méta, à 13 px. */}
         {(title || eyebrow || subtitle) && (
           <div className="flex-1 min-w-0 flex flex-col items-start sm:items-center">
-            {eyebrow && (
-              <span
-                className={[
-                  'font-body text-micro font-bold uppercase tracking-wider truncate w-full text-left sm:text-center',
-                  TONE_EYEBROW[tone],
-                ].join(' ')}
-              >
-                {eyebrow}
-              </span>
-            )}
             {title && (
-              <h1
-                className="font-display text-h3 font-bold text-ink-900 truncate w-full text-left sm:text-center"
+              <TitleTag
+                id={titleId}
+                className="font-body text-body font-semibold text-ink-900 truncate w-full text-left sm:text-center"
                 title={typeof title === 'string' ? title : undefined}
               >
                 {title}
-              </h1>
+              </TitleTag>
             )}
-            {subtitle && (
-              <span className="font-body text-caption text-ink-500 truncate w-full text-left sm:text-center">
+            {(eyebrow || subtitle) && (
+              <p className="font-body text-caption text-ink-600 truncate w-full text-left sm:text-center">
+                {eyebrow && <span className="font-semibold text-ink-700">{eyebrow}</span>}
+                {eyebrow && subtitle && <span aria-hidden> · </span>}
                 {subtitle}
-              </span>
+              </p>
             )}
           </div>
         )}

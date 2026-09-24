@@ -114,6 +114,7 @@ export const Positionnement: React.FC = () => {
     return (
       <div className="min-h-[100dvh] bg-gradient-page-ambient flex flex-col">
         <ViewerHeader
+          titleAs="h1"
           onBack={() => navigate(`/learning-paths/${id}`)}
           backLabel="Retour au parcours"
           eyebrow="Positionnement"
@@ -185,6 +186,7 @@ export const Positionnement: React.FC = () => {
   return (
     <div className="min-h-[100dvh] bg-surface flex flex-col">
       <ViewerHeader
+        titleAs="h1"
         onBack={() => navigate(`/learning-paths/${id}`)}
         backLabel="Retour au parcours"
         eyebrow="Positionnement"

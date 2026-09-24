@@ -46,10 +46,12 @@ export interface TableOfContentsProps {
   className?: string;
 }
 
+/* Texte de l'item actif au cran 800 : une couleur de marque ne porte du texte
+   qu'à ce cran (doctrine, rôle des couleurs). Il était au 700. */
 const ACTIVE_TEXT: Record<TocTone, string> = {
-  brand:   'text-primary-700',
-  warm:    'text-secondary-700',
-  sun:     'text-accent-700',
+  brand:   'text-primary-800',
+  warm:    'text-secondary-800',
+  sun:     'text-accent-800',
   neutral: 'text-ink-900',
 };
 
@@ -69,7 +71,7 @@ const ACTIVE_BAR: Record<TocTone, string> = {
 
 const COMPLETED_BG: Record<TocTone, string> = {
   brand:   'bg-primary-100 text-primary-800',
-  warm:    'bg-secondary-100 text-secondary-700',
+  warm:    'bg-secondary-100 text-secondary-800',
   sun:     'bg-accent-100 text-accent-800',
   neutral: 'bg-success-bg text-success-fg',
 };
@@ -128,13 +130,20 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({
       aria-label={title}
       className={['flex flex-col gap-stack-xs', className].join(' ')}
     >
+      {/* Libellé de groupe : 13/600 ink-600, casse normale — la cible des
+          libellés de groupe de navigation (2026-09-24). Il était en 500 et en
+          ink-500, le cran des placeholders. */}
       {title && (
-        <span className="px-3 font-body text-caption font-medium text-ink-500">
+        <span className="px-3 font-body text-caption font-semibold text-ink-600">
           {title}
         </span>
       )}
 
-      <ol className="m-0 p-0 list-none flex flex-col gap-tight">
+      {/* Sommaire au corps 16 : il vit dans une colonne latérale de lecture, à
+          côté d'un texte de 16, et ses entrées sont peu nombreuses. 8 px entre
+          deux entrées, comme dans la barre latérale : `gap-tight` (2) ne sépare
+          pas deux rangées, leurs fonds de survol se touchaient presque. */}
+      <ol className="m-0 p-0 list-none flex flex-col gap-stack-xs">
         {items.map((item, index) => {
           const isActive = item.id === activeId;
           const numberLabel = String(index + 1).padStart(2, '0');
@@ -164,12 +173,14 @@ export const TableOfContents: React.FC<TableOfContentsProps> = ({
                   ].join(' ')}
                 />
 
-                {/* Number badge or check */}
+                {/* Numéro ou coche. 13/600 en chiffres tabulaires : le pas 11
+                    (`micro`) est celui des étiquettes de `Badge`, pas des
+                    numéros. */}
                 <span
                   aria-hidden
                   className={[
                     'shrink-0 inline-flex items-center justify-center',
-                    'w-6 h-6 rounded-pill text-micro font-bold',
+                    'w-6 h-6 rounded-pill text-caption font-semibold tabular-nums',
                     item.completed
                       ? COMPLETED_BG[tone]
                       : isActive

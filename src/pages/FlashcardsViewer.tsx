@@ -254,6 +254,7 @@ export const FlashcardsViewer: React.FC = () => {
     >
       {/* ── Header (sticky, no shrink) ────────────────────────────────── */}
       <ViewerHeader
+        titleAs="h1"
         tone={tone}
         eyebrow="Flashcards"
         title={lessonCtx ? lessonCtx.lesson.title : "Flashcards d'apprentissage"}

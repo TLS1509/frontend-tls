@@ -64,17 +64,19 @@ export const ReaderContextStrip: React.FC<ReaderContextStripProps> = ({
         <button
           type="button"
           onClick={onBack}
-          className="shrink-0 inline-flex items-center gap-stack-2xs min-h-touch px-2 font-body text-caption font-semibold text-ink-700 hover:text-primary-700 bg-transparent border-0 cursor-pointer rounded-sm transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+          className="shrink-0 inline-flex items-center gap-stack-2xs min-h-touch px-2 font-body text-caption font-semibold text-ink-700 hover:text-primary-800 bg-transparent border-0 cursor-pointer rounded-sm transition-colors duration-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
         >
           <ArrowLeft size={14} aria-hidden />
           {backLabel}
         </button>
 
-        {/* ── Article title — fades in after scroll threshold ── */}
+        {/* ── Article title — fades in after scroll threshold ──
+            16/600 en ink-900 : la typographie du titre de `ViewerHeader`, l'autre
+            barre de lecteur (2026-09-24). Il était en ink-800. */}
         <p
           aria-hidden={!titleVisible}
           className={[
-            'flex-1 min-w-0 m-0 font-body text-body font-semibold text-ink-800 truncate',
+            'flex-1 min-w-0 font-body text-body font-semibold text-ink-900 truncate',
             'transition-opacity duration-slow',
             titleVisible ? 'opacity-100' : 'opacity-0 pointer-events-none',
           ].join(' ')}

@@ -3,7 +3,7 @@
  *
  * Track the scroll progress of a target element (or the document) and render :
  *   - <ReadingProgressBar />        : thin gradient bar fixed top, 100% width
- *   - <ReadingProgressRing />       : circular SVG ring (40px), shows %
+ *   - <ReadingProgressRing />       : circular SVG ring (44px), shows % from 44px up
  *
  * Both subscribe to the same hook `useReadingProgress(targetRef?)`. Pass a
  * ref to a specific article element to measure only its scroll; omit to use
@@ -137,19 +137,29 @@ const RING_STROKE: Record<ReadingProgressTone, string> = {
   neutral: 'stroke-ink-600',
 };
 
+/* Texte au cran 800 : une couleur de marque ne porte du texte qu'à ce cran. */
 const RING_TEXT: Record<ReadingProgressTone, string> = {
-  brand:   'text-primary-700',
-  warm:    'text-secondary-700',
-  sun:     'text-accent-700',
+  brand:   'text-primary-800',
+  warm:    'text-secondary-800',
+  sun:     'text-accent-800',
   neutral: 'text-ink-700',
 };
+
+/* Le pourcentage s'écrit à 13 px (`caption`) — il était à 11, le pas des
+   étiquettes de `Badge`. À ce corps, « 100 % » fait 35 px : il ne tient dans
+   l'anneau qu'à partir de 44 px de diamètre (38 d'intérieur). En dessous — et
+   toutes les pages posent l'anneau à 32 — l'anneau se lit seul : sa part pleine
+   dit la progression, `aria-valuenow` la donne en chiffres. Un « 0 » nu, essayé,
+   se lisait comme un compteur de notifications. */
+const LIBELLE_DES = 44;
 
 export interface ReadingProgressRingProps {
   targetRef?: React.RefObject<HTMLElement | null>;
   tone?: ReadingProgressTone;
-  /** Diameter in px (default 40). */
+  /** Diameter in px (default 44). */
   size?: number;
-  /** Show "%" inside the ring (default true). */
+  /** Écrit le pourcentage dans l'anneau (défaut : oui) — à partir de 44 px de
+   *  diamètre seulement, sous ce seuil il ne tient pas à 13 px. */
   showLabel?: boolean;
   className?: string;
 }
@@ -157,7 +167,7 @@ export interface ReadingProgressRingProps {
 export const ReadingProgressRing: React.FC<ReadingProgressRingProps> = ({
   targetRef,
   tone = 'brand',
-  size = 40,
+  size = 44,
   showLabel = true,
   className = '',
 }) => {
@@ -206,15 +216,15 @@ export const ReadingProgressRing: React.FC<ReadingProgressRingProps> = ({
           ].join(' ')}
         />
       </svg>
-      {showLabel && (
+      {showLabel && size >= LIBELLE_DES && (
         <span
           className={[
             'absolute inset-0 inline-flex items-center justify-center',
-            'font-body font-bold text-micro',
+            'font-body text-caption font-semibold tabular-nums',
             RING_TEXT[tone],
           ].join(' ')}
         >
-          {Math.round(progress)}%
+          {`${Math.round(progress)}\u202F%`}
         </span>
       )}
     </span>

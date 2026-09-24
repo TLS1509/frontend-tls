@@ -184,6 +184,8 @@ export const AstucesViewer: React.FC = () => {
     >
       {/* ── Header (sticky, no shrink) ────────────────────────────────── */}
       <ViewerHeader
+        titleAs="h1"
+        titleId="astuces-title"
         tone={tone}
         eyebrow="Astuces pratiques"
         title={lessonCtx ? lessonCtx.lesson.title : '💡 Astuces Pratiques'}
