@@ -93,7 +93,9 @@ export default function Passeport() {
     { id: 'event-2', date: '2026-02-10', type: 'session' as const, label: 'Session de coaching avec Sophie', description: 'Discussion sur les compétences de leadership et la délégation' },
     { id: 'event-3', date: '2026-03-05', type: 'badge' as const, label: 'Obtenu : Badge Prompt Master', description: 'Certification avancée en prompt engineering' },
     { id: 'event-4', date: '2026-03-20', type: 'milestone' as const, label: 'Niveau Dreyfus 4 atteint', description: 'Maîtrise avancée en Leadership' },
-    { id: 'event-5', date: '2026-04-12', type: 'achievement' as const, label: "Série d'apprentissage : 30 jours", description: "Engagement quotidien constant avec les contenus d'apprentissage" },
+    // « Série d'apprentissage : 30 jours — engagement quotidien constant » est
+    // sorti avec l'arbitrage n°18 : plus de série quotidienne dans l'app
+    // apprenant, et une série ne prouve aucune compétence.
   ];
 
   // Suggested skills to develop (AI-generated alternatives based on current profile)
