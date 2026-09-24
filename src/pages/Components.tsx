@@ -1172,6 +1172,44 @@ const ModalDemo: React.FC = () => {
   );
 };
 
+/* NotificationCard cliquable : la rangée est un vrai <button>. La légende dit
+   ce qui a été ouvert, pour qu'on voie qu'Entrée et Espace l'activent. */
+const NotificationCardClicDemo: React.FC = () => {
+  const [ouverte, setOuverte] = useState<string | null>(null);
+  const [lues, setLues] = useState<string[]>([]);
+  const notifications = [
+    { id: 'correction', tone: 'brand' as const, icon: <CheckCircle2 size={18} />, title: 'Correction reçue', body: 'Sophie Martin a corrigé ton exercice « Concevoir une séquence ».', time: 'Il y a 20 min' },
+    { id: 'message', tone: 'warm' as const, icon: <MessageSquare size={18} />, title: 'Nouveau message', body: 'Marc Dubois : « On garde jeudi pour le point d’étape ? »', time: 'Il y a 1 h' },
+  ];
+  return (
+    <div className="flex flex-col gap-stack-xs">
+      <Card className="p-0 overflow-hidden">
+        <ul className="flex flex-col divide-y divide-ink-100">
+          {notifications.map((n) => (
+            <li key={n.id}>
+              <NotificationCard
+                variant="row"
+                tone={n.tone}
+                icon={n.icon}
+                title={n.title}
+                body={n.body}
+                time={n.time}
+                unread={!lues.includes(n.id)}
+                onClick={() => { setOuverte(n.title); setLues((l) => [...l, n.id]); }}
+                onMarkRead={() => setLues((l) => [...l, n.id])}
+                onDelete={() => {}}
+              />
+            </li>
+          ))}
+        </ul>
+      </Card>
+      <p className="font-body text-caption text-ink-600" aria-live="polite">
+        {ouverte ? `Ouverte : « ${ouverte} »` : 'Aucune notification ouverte.'}
+      </p>
+    </div>
+  );
+};
+
 const PaginationDemo: React.FC = () => {
   const [page, setPage] = useState(3);
   return (
@@ -2650,9 +2688,9 @@ const COMPONENTS: ComponentEntry[] = [
     // (clés de variantes incohérentes) → réparés (Badge +dot=false, TrendingBadge +hasCount=false).
     name: 'Badge',
     codeName: 'ui/Badge.tsx',
-    description: "L'état qui crie : 11 px en capitales, graisse 700, serrage positif (`tracking-label`), bordure, pilule. Sept variantes (brand · neutral · warm · sun · success · danger · info) ; trois tailles, toutes au corps de 11 — compact et normal font 20 px (padding 8 ou 10), large 24 px (padding 12). Jusqu'au 24/09, large parlait en 13, plus fort que tous les états de l'app. Un point `dot` fixe, à 4 px de son libellé (arbitrage n°16 : pas de mouvement permanent pour dire un état). StatusBadge, dans le même fichier, dit les cinq états d'une leçon avec leur icône — Verrouillé, Disponible, En cours, Terminé, Échoué — au même corps de 11 px ; sa prop `label` prête l'icône d'un état à un autre domaine, avec son propre mot — nom accessible, et libellé visible avec `showLabel` : « En attente de correction » dans CorrectionStatusBar. Une donnée n'est pas un état : catégorie, type ou durée vont en MetaPill (arbitrages n°14-15).",
-    keywords: ['status', 'état', 'label', 'brand', 'warm', 'sun', 'success', 'danger', 'info', 'dot', 'compact', 'normal', 'large', 'locked', 'completed', 'statusbadge', 'showLabel', '24'],
-    usedBy: ['LessonCard', 'ParcoursCard', 'VeilleCardFeed', 'Dashboard'],
+    description: "L'état qui crie : 11 px en capitales, graisse 700, serrage positif (`tracking-label`), bordure, pilule. Sept variantes (brand · neutral · warm · sun · success · danger · info) ; trois tailles, toutes au corps de 11 — compact et normal font 20 px (padding 8 ou 10), large 24 px (padding 12). Jusqu'au 24/09, large parlait en 13, plus fort que tous les états de l'app. Un point `dot` fixe, à 4 px de son libellé (arbitrage n°16 : pas de mouvement permanent pour dire un état). StatusBadge, dans le même fichier, dit les cinq états d'une leçon avec leur icône — Verrouillé, Disponible, En cours, Terminé, Échoué — au même corps de 11 px ; sa prop `label` prête l'icône d'un état à un autre domaine, avec son propre mot — nom accessible, et libellé visible avec `showLabel` : « En attente de correction » dans CorrectionStatusBar. StatusBadge ne porte plus `role=\"status\"` (24/09) : ce rôle fait d'un élément une zone vivante, qu'un lecteur d'écran annonce à chaque changement, et une liste de leçons devenait autant de zones qui parlent. Sans libellé, la pastille est une image nommée (`role=\"img\"` et son `aria-label`, le motif d'IconChip) ; avec libellé, le mot se lit tel quel et l'icône est décorative. Une donnée n'est pas un état : catégorie, type ou durée vont en MetaPill (arbitrages n°14-15).",
+    keywords: ['status', 'état', 'label', 'brand', 'warm', 'sun', 'success', 'danger', 'info', 'dot', 'compact', 'normal', 'large', 'locked', 'completed', 'statusbadge', 'showLabel', '24', 'role', 'img', 'aria-live', 'accessibilité'],
+    usedBy: ['VeilleCardFeed', 'ResumeLessonCard', 'LearningPathDetail', 'LessonPlayer', 'et 71 autres fichiers : 13 composants, 58 pages (24/09)', 'StatusBadge : CorrectionStatusBar'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         {/* Badge — sémantique */}
@@ -3036,9 +3074,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'StatCard',
     codeName: 'ui/StatCard.tsx',
-    usedBy: ['Dashboard (hero pre-Phase 10)', 'LearningPaths (Phase 10 KPI row)', 'Coaching', 'Journal', 'Notifications'],
-    description: "Un chiffre mis en avant, en carte : pastille d'icône, 12 px, la valeur en League Spartan 700 — 28 en sm, `stat-value` (32 → 44) en md, `stat-value-lg` (40 → 56) en lg —, 4 px, puis le libellé en légende 13/600 ink-600 (ce n'est plus un micro-libellé en capitales). Unité en 13 sur la ligne de base ; delta en 13/600, coloré selon `polarity` (ajoutée le 24/09 : une baisse peut être une bonne nouvelle). Tons neutral · brand · warm · sun sur quatre surfaces, ou les variantes héritées ; `square` pour les grilles. Rayon 20, padding 20 (24 en lg).",
-    keywords: ['metric', 'kpi', 'stat', 'chiffre', 'valeur', 'dashboard', 'square', 'size', 'polarity', 'delta'],
+    usedBy: ['CoachAnalytics', 'EnterpriseAnalyticsDashboard', 'PasseportRoadmap', 'et 30 autres pages (24/09)'],
+    description: "Un chiffre mis en avant, en carte : pastille d'icône, 12 px, la valeur en League Spartan 700 — 28 en sm, `stat-value` (32 → 44) en md, `stat-value-lg` (40 → 56) en lg —, 4 px, puis le libellé en légende 13/600 ink-600 (ce n'est plus un micro-libellé en capitales). Unité en 13 sur la ligne de base ; delta en 13/600, coloré selon `polarity` (ajoutée le 24/09 : une baisse peut être une bonne nouvelle). Tons neutral · brand · warm · sun sur quatre surfaces, ou les variantes héritées ; `square` pour les grilles. Rayon 20, padding 20 (24 en lg). La pastille est l'IconChip du système depuis le 24/09 (arbitrage n°3) : 32 · 40 · 48 px de sm à lg, au rayon 10 · 10 · 14, glyphe au cran 800. Sur une surface teintée du ton (tinted, glass, frosted et les variantes héritées brand · warm · sun), elle monte au cran 100, pour ne pas prendre le fond exact de la carte (arbitrage n°10) ; le neutre est ink-100, glyphe ink-700, sans filet. Elle était faite main : 36 · 44 · 48 px au rayon 20 de la carte, un galet presque rond, et en neutre un fond ink-50 qui n'existait que par son filet (1,05:1).",
+    keywords: ['metric', 'kpi', 'stat', 'chiffre', 'valeur', 'dashboard', 'square', 'size', 'polarity', 'delta', 'IconChip', 'pastille'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         {/* Variants with icons */}
@@ -4171,8 +4209,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'CompetencyMatrix',
     codeName: 'ui/CompetencyMatrix.tsx',
-    description: "Tableau de compétences sur les cinq niveaux Dreyfus — Novice, Apprenant, Compétent, Expert, Maître —, pris à la source unique `DREYFUS_LABELS` depuis le 24/09 : ils étaient en anglais, et sur une autre échelle. En-têtes 13/600 ink-600 avec une icône par niveau, colonne « Compétence », noms 16/600 ink-900, cellules rondes de 40 px au filet 2 px, pleines une fois le niveau atteint (cran 700 ; l'or au 400, à l'encre accent-900), infobulle « Pas encore atteint » sinon. Couleur par compétence ; `maxLevel`, `labels`, `onSkillHover`. Aucune marge extérieure : elle portait un `mt-stack-lg` que le profil devait annuler.",
-    keywords: ['competency', 'matrix', 'skills', 'levels', 'table', 'assessment', 'dreyfus', 'DREYFUS_LABELS'],
+    description: "Tableau de compétences sur les cinq niveaux Dreyfus — Novice, Apprenant, Compétent, Expert, Maître —, pris à la source unique `DREYFUS_LABELS` depuis le 24/09 : ils étaient en anglais, et sur une autre échelle. En-têtes 13/600 ink-600 avec une icône par niveau, colonne « Compétence », noms 16/600 ink-900, cellules rondes de 40 px au filet 2 px, pleines une fois le niveau atteint (cran 700 ; l'or au 400, à l'encre accent-900), infobulle « Pas encore atteint » sinon. Les cellules se lisent, elles ne s'activent pas : depuis le 24/09, ni curseur main ni agrandissement au survol (40 → 44 px), les deux promesses d'un contrôle qu'aucune action ne tenait — ni gestionnaire, ni rôle, ni tabindex. Couleur par compétence ; `maxLevel`, `labels`, `onSkillHover` (branché nulle part). Aucune marge extérieure : elle portait un `mt-stack-lg` que le profil devait annuler. ⚠️ Une cellule ne dit son niveau que par l'infobulle `title` : rien pour un lecteur d'écran.",
+    keywords: ['competency', 'matrix', 'skills', 'levels', 'table', 'assessment', 'dreyfus', 'DREYFUS_LABELS', 'lecture', 'non interactif'],
+    usedBy: ['Profile (onglet Compétences)'],
     render: () => (
       /* Les libellés par défaut sont ceux du Passeport : la démo n'en passe plus. */
       <CompetencyMatrix
@@ -4468,14 +4507,14 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'FilterBar',
     codeName: 'forms/FilterBar.tsx',
-    usedBy: ['LearningPaths (glass variant in hero Search)', 'Veille (filter type drawer)', 'Recherche (4 types sticky)', 'Notifications (à venir)', 'Listings n-1 (Actus/Tutoriels/Dossiers à venir)'],
-    description: "Barre de filtres en pastilles, pour une barre d'outils (dans le `filtersSlot` de Search) ou entre un hero et une liste : choix multiple ou unique, compteurs, « Tout effacer », quatre tons, variantes solid · glass · glass-inverse, surfaces tinted · plain, tailles sm et md. Le nom du groupe (`label`) a la voix d'un libellé de champ depuis le 24/09 : 16/600, casse normale, ink-900 — blanc sur les variantes verre ; il était en étiquette, 11 px capitales ink-500, la voix d'un Badge. ⚠️ Le bouton « Effacer », fait main, est encore en 11/700 ink-500.",
-    keywords: ['filter', 'pills', 'chips', 'toolbar', 'multi-select', 'count', 'clear-all', 'glass', 'label', 'groupe'],
+    usedBy: ['Help (sm, « Sujets populaires »)', 'Messages (sm)', 'Recherche'],
+    description: "Barre de filtres en pastilles, pour une barre d'outils (dans le `filtersSlot` de Search) ou entre un hero et une liste : choix multiple ou unique, compteurs, « Effacer », quatre tons, variantes solid · glass · glass-inverse, surfaces tinted · plain, tailles sm et md. Le nom du groupe (`label`) a la voix d'un libellé de champ : 16/600, casse normale, ink-900 — blanc sur les variantes verre ; il était en étiquette, 11 px capitales ink-500, la voix d'un Badge. « Effacer » parle la voix de la barre depuis le 24/09 : un Button neutre, icône X, qui n'apparaît qu'avec une sélection — `link` en 13 dans la barre sm (pastilles de 28 px) : sans boîte, il ne la fait pas grandir ; `ghost` en 16 dans la barre md, à la hauteur des pastilles (44 px) ; `ghost onDark`, blanc, sur les variantes verre, le `link` n'ayant pas de version sur fond sombre. C'était un bouton fait main en 11/700 ink-500, plus faible que les filtres qu'il efface. ⚠️ En verre sm, ce ghost de 36 px fait passer la barre de 28 à 36 px dès qu'un filtre est actif (la démo sur le hero le montre ; aucune page n'emploie cette variante).",
+    keywords: ['filter', 'pills', 'chips', 'toolbar', 'multi-select', 'count', 'clear-all', 'glass', 'label', 'groupe', 'Effacer', 'link', 'ghost', 'onDark'],
     render: () => {
       const FilterBarDemo: React.FC = () => {
         const [s1, setS1] = useState<string[]>(['all']);
         const [s2, setS2] = useState<string[]>(['unread', 'mention']);
-        const [s3, setS3] = useState<string[]>([]);
+        const [s3, setS3] = useState<string[]>(['int']);
         const [s4, setS4] = useState<string[]>(['en cours']);
         return (
           <div className="flex flex-col gap-stack-lg">
@@ -4500,7 +4539,7 @@ const COMPONENTS: ComponentEntry[] = [
             </div>
 
             <div>
-              <p className="text-caption font-semibold text-ink-600 mb-3">Choix multiple · warm · plain · avec icônes</p>
+              <p className="text-caption font-semibold text-ink-600 mb-3">Choix multiple · warm · plain · avec icônes · md : « Effacer » en ghost 16</p>
               <FilterBar
                 tone="warm"
                 label="Filtrer"
@@ -4516,7 +4555,7 @@ const COMPONENTS: ComponentEntry[] = [
             </div>
 
             <div>
-              <p className="text-caption font-semibold text-ink-600 mb-3">Choix multiple · sun · taille sm</p>
+              <p className="text-caption font-semibold text-ink-600 mb-3">Choix multiple · sun · taille sm : « Effacer » en lien 13</p>
               <FilterBar
                 tone="sun"
                 size="sm"
@@ -4532,7 +4571,7 @@ const COMPONENTS: ComponentEntry[] = [
             </div>
 
             <div className="rounded-xl p-stack-lg bg-gradient-to-r from-primary-700 to-primary-800">
-              <p className="text-caption font-semibold text-white mb-3">Variante glass · sur un hero en dégradé</p>
+              <p className="text-caption font-semibold text-white mb-3">Variante glass · sur un hero en dégradé : « Effacer » en ghost onDark</p>
               <FilterBar
                 tone="brand"
                 variant="glass"
@@ -5708,13 +5747,13 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'RatingModal',
     codeName: 'patterns/RatingModal.tsx',
     showcaseOnly: true,
-    description: "Notation en cinq étoiles avec un commentaire, pour une session, une leçon ou un contenu. Malgré son nom, ce n'est pas un dialogue — ni rôle, ni voile, ni piège de focus — mais un panneau au rayon 24 à poser dans un Modal : titre h2 au pas du titre de dialogue, 20/26/700, comme Modal (il était au pas d'une section de page, 28/36), description 16 ink-700, étoiles de 56 px, sens de la note en pastille 13, commentaire, puis Annuler en outline neutre et « Envoyer mon avis » en solid (arbitrage n°19).",
-    keywords: ['rating', 'stars', 'feedback', 'review', 'evaluation'],
+    description: "Notation en cinq étoiles avec un commentaire, pour une session, une leçon ou un contenu. Malgré son nom, ce n'est pas un dialogue — ni rôle, ni voile, ni piège de focus — mais un panneau au rayon 24 à poser dans un Modal : titre h2 au pas du titre de dialogue, 20/26/700, comme Modal (il était au pas d'une section de page, 28/36), description 16 ink-700, étoiles de 56 px, sens de la note en pastille 13, puis le commentaire, et Annuler en outline neutre et « Envoyer mon avis » en solid (arbitrage n°19). Le commentaire est le champ du système depuis le 24/09 : `Input multiline`, quatre lignes, libellé « Commentaire (optionnel) », filet ink-400 de la famille champ (3,01:1, arbitrage n°7) et son focus, filet primary-500 et halo. La zone de texte était faite main, au filet ink-300 : 1,47:1 sur le blanc du panneau, sous le 3:1 d'un contrôle (SC 1.4.11) ; on ne voyait pas où écrire. Hors d'un Modal, il n'y a ni voile ni page inerte. ⚠️ L'aide du champ (« Partagez vos impressions… ») et les textes par défaut vouvoient, sans prop de voix : posé sur une surface de l'apprenant, qui tutoie, il mêlerait les deux. La démo vouvoie donc.",
+    keywords: ['rating', 'stars', 'feedback', 'review', 'evaluation', 'Input', 'multiline', 'commentaire'],
     render: () => (
       <div className="max-w-md">
         <RatingModal
-          title="Note cette session"
-          description="Comment évalues-tu cette session de coaching avec Sophie ?"
+          title="Notez cette session"
+          description="Comment évaluez-vous cette session de coaching avec Sophie ?"
           onSubmit={() => {}}
           onCancel={() => {}}
         />
@@ -5970,8 +6009,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'AuthShell',
     codeName: 'patterns/AuthShell.tsx',
     usedBy: ['Login', 'Signup', 'ForgotPassword', 'ResetPassword', 'VerifyEmail', 'MagicLink'],
-    description: "La coque des pages d'authentification, sur un dégradé primary-700 → 900 où trois halos d'ambiance au cran 700 donnent la profondeur sans éclaircir ce que le texte blanc a besoin de sombre : carte en verre de 480 px au rayon 20 (l'étage conteneur), voile blanc à 5 % — il était à 10 %, et ramenait le blanc à 4,12:1 sur le haut du dégradé —, filet blanc/20 ; en-tête en h1 36/44/700 blanc et sous-titre 16. L'encart `aside` prend le même rayon 20. La famille Auth* est la primitive de cette surface : AuthField (Input glass lg, 52 px, libellé 16/600 blanc), AuthPasswordField (bascule de visibilité), AuthPrimaryButton et AuthGhostButton (52 px, 16/700, rayon 14), AuthSocialButton, AuthCheckbox (20 px, calée sur la première ligne), AuthDivider (13/400), AuthInlineLink, AuthSuccess. Réservée à la surface glass-dark : ne pas l'employer ailleurs.",
-    keywords: ['auth', 'login', 'signup', 'shell', 'glass-dark', 'AuthField', 'AuthPasswordField', 'AuthPrimaryButton', 'AuthGhostButton', 'AuthCheckbox', 'form', 'aside'],
+    description: "La coque des pages d'authentification, sur un dégradé primary-700 → 900 où trois halos d'ambiance au cran 700 donnent la profondeur sans éclaircir ce que le texte blanc a besoin de sombre : carte en verre de 480 px au rayon 20 (l'étage conteneur), voile blanc à 5 % — il était à 10 %, et ramenait le blanc à 4,12:1 sur le haut du dégradé —, filet blanc/20 ; en-tête en h1 36/44/700 blanc et sous-titre 16. L'encart `aside` prend le même rayon 20. La famille Auth* est la primitive de cette surface : AuthField (Input glass lg, 52 px, libellé 16/600 blanc), AuthPasswordField (bascule de visibilité), AuthPrimaryButton, AuthGhostButton et AuthSocialButton (52 px, 16/700, rayon 14), AuthCheckbox (20 px, calée sur la première ligne), AuthDivider (13/400), AuthInlineLink, AuthSuccess. La coque n'a qu'un aplat : AuthPrimaryButton, blanc plein à encre ink-900, l'action principale (arbitrage n°19). Depuis le 24/09, les boutons de fournisseur (Google, LinkedIn) partagent le niveau contour d'AuthGhostButton : fond transparent, filet et libellé blancs — ils portaient le même blanc plein que l'action principale, qui ne s'en distinguait plus que par son ombre. Le filet est à blanc/70, le contrat de `Button onDark outline` : à blanc/30 il mesurait 1,88 à 2,01:1 contre la coque, sous le 3:1 d'un contour (SC 1.4.11) ; il tient désormais 3,6 à 4,4:1. Au survol, le fond fonce d'un voile primary-900 et le filet se ferme au blanc plein : un voile blanc faisait tomber le libellé sous 4,5:1. Réservée à la surface glass-dark : ne pas l'employer ailleurs.",
+    keywords: ['auth', 'login', 'signup', 'shell', 'glass-dark', 'AuthField', 'AuthPasswordField', 'AuthPrimaryButton', 'AuthGhostButton', 'AuthSocialButton', 'AuthCheckbox', 'form', 'aside', 'Google', 'LinkedIn', 'contour', 'fournisseur'],
     render: () => <AuthShellDemo />,
   },
   {
@@ -6685,27 +6724,43 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ResourceListItem',
     codeName: 'learning/ResourceListItem.tsx',
     usedBy: ['MasterclassReplay', 'AtelierPresentiel'],
-    description: "Rangée de ressource complémentaire : icône, libellé 16/600 ink-900 tronqué, puis `meta` — une donnée sur la ressource (type, poids, durée), en légende 13 ink-600 —, et l'action à droite ; fond ink-50, rayon 14, padding 16. `badge` est déprécié depuis le 24/09 : son nom invitait à poser une donnée dans un Badge, réservé aux états (la donnée chuchote, l'état crie). Rendue en `<button>` avec `onClick` — son intérieur n'est fait que de `<span>`, le seul contenu qu'un bouton admet —, en `<div>` sinon. Dans les colonnes « Matériaux » et « Ressources » des lecteurs de masterclass et d'atelier.",
-    keywords: ['resource', 'list', 'item', 'download', 'file', 'material', 'sidebar', 'meta', 'donnée'],
-    render: () => (
-      <div className="flex flex-col gap-stack-xs max-w-sm">
-        <ResourceListItem
-          icon={<FileText size={16} />}
-          label="Support de l'atelier"
-          meta="PDF"
-          action={<Button emphasis="soft" iconOnly leadingIcon={<Download />} aria-label="Télécharger le support de l'atelier" />}
-        />
-        <ResourceListItem
-          icon={<Video size={16} />}
-          label="Replay vidéo de la session"
-          meta="45 min"
-          onClick={() => {}}
-        />
-        <ResourceListItem
-          label="Fiche mémo stress & récupération"
-        />
-      </div>
-    ),
+    description: "Rangée de ressource complémentaire : icône, libellé 16/600 ink-900, puis `meta` — une donnée sur la ressource (type, poids, durée), en légende 13 ink-600 —, et l'action à droite ; fond ink-50, rayon 14, padding 16. La rangée mesure sa propre largeur (`@container`, 24/09) : au-dessus de 20rem de contenu (`@xs`), une ligne, le libellé abrégé et la méta à sa suite sur la ligne de base ; en dessous (une rangée de moins de 352 px), la méta passe sous le libellé, et le libellé se coupe sur deux lignes avant de s'abréger — dans une colonne étroite, la méta ne cédait rien et le nom disparaissait (« Supp… » à 375 px). Les rangées d'une liste ont la même largeur : elles basculent ensemble. L'icône se centre sur la première ligne. `badge` est déprécié depuis le 24/09 : son nom invitait à poser une donnée dans un Badge, réservé aux états (la donnée chuchote, l'état crie). Rendue en `<button>` avec `onClick` — son intérieur n'est fait que de `<span>`, le seul contenu qu'un bouton admet —, en `<div>` sinon. Dans les colonnes « Matériaux » et « Ressources » des lecteurs de masterclass et d'atelier.",
+    keywords: ['resource', 'list', 'item', 'download', 'file', 'material', 'sidebar', 'meta', 'donnée', 'container', '@xs', 'colonne étroite'],
+    render: () => {
+      const rangees = (
+        <>
+          <ResourceListItem
+            icon={<FileText size={16} />}
+            label="Support de l'atelier"
+            meta="PDF"
+            action={<Button emphasis="soft" iconOnly leadingIcon={<Download />} aria-label="Télécharger le support de l'atelier" />}
+          />
+          <ResourceListItem
+            icon={<Video size={16} />}
+            label="Replay vidéo de la session"
+            meta="45 min"
+            onClick={() => {}}
+          />
+          <ResourceListItem
+            label="Fiche mémo stress & récupération"
+          />
+        </>
+      );
+      return (
+        <div className="flex flex-wrap items-start gap-section">
+          <div className="flex flex-col gap-stack-xs w-full max-w-sm">
+            <p className="text-caption font-semibold text-ink-600">Colonne de 384 px · une ligne, la méta à la suite</p>
+            {rangees}
+          </div>
+          {/* Sous 20rem de contenu, la méta descend : c'est la rangée qui
+              mesure sa place, pas la fenêtre. */}
+          <div className="flex flex-col gap-stack-xs w-full max-w-[260px]">
+            <p className="text-caption font-semibold text-ink-600">Colonne de 260 px · la méta sous le libellé</p>
+            {rangees}
+          </div>
+        </div>
+      );
+    },
   },
 
   {
@@ -7002,8 +7057,8 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'ui/ModalForm.tsx',
     showcaseOnly: true,
     subCategory: 'Form groups',
-    description: "Formulaire en dialogue natif (`<dialog>`) au rayon 24 : en-tête — titre en h2 au pas h3 (20/700), description 16 ink-700 —, corps (24 · 20 · 16), puis les actions à 24 px, toutes en Button sm : l'action destructive à gauche, en ghost danger — en solid danger quand il n'y a pas de soumission —, Annuler en outline neutre et la soumission en solid à droite (arbitrage n°19). Largeur xs 320 · sm 384 · md 448 · lg 512 ; fermeture par le voile ou Échap. Le dialogue est nommé par son titre (`aria-labelledby`) et décrit par sa description (`aria-describedby`), sur des identifiants `useId` : sans eux, un `<dialog>` n'a pas de nom, et un lecteur d'écran annonçait « dialogue » sans dire lequel. ⚠️ Le pied ne passe pas à la ligne : à 375 px, où la boîte prend tout l'écran, « Supprimer le compte », Annuler et Enregistrer débordent de 7 px (mesuré sur la démo).",
-    keywords: ['modal', 'dialog', 'form', 'formulaire', 'popup', 'overlay', 'submit', 'aria-labelledby', 'nom accessible'],
+    description: "Formulaire en dialogue natif (`<dialog>` ouvert par `showModal()`) au rayon 24 : en-tête — titre en h2 au pas h3 (20/700), description 16 ink-700 —, corps (24 · 20 · 16), puis les actions à 24 px, toutes en Button sm : l'action destructive à gauche, en ghost danger calé sur le bord du texte (`flush`) — en solid danger quand il n'y a pas de soumission —, Annuler en outline neutre et la soumission en solid à droite (arbitrage n°19). Le pied passe à la ligne quand ses actions ne tiennent pas (24/09) : la paire Annuler / soumission descend et reste calée à droite, dans l'ordre du clavier ; « Supprimer le compte », Annuler et Enregistrer demandent 356 px quand la boîte sm en offre 334, et débordaient de 7 px à 375. Largeur xs 320 · sm 384 · md 448 · lg 512 ; fermeture par le voile ou Échap. Dialogue modal du navigateur : le reste du document est inerte tant qu'il est ouvert (vérifié : un bouton de la page ne prend plus le focus). Il est nommé par son titre (`aria-labelledby`) et décrit par sa description (`aria-describedby`), sur des identifiants `useId`.",
+    keywords: ['modal', 'dialog', 'form', 'formulaire', 'popup', 'overlay', 'submit', 'aria-labelledby', 'nom accessible', 'flush', 'wrap', 'showModal', 'inert'],
     render: () => {
       const [open, setOpen] = React.useState(false);
       const [submitting, setSubmitting] = React.useState(false);
@@ -7155,8 +7210,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'NotificationCard',
     codeName: 'cards/NotificationCard.tsx',
     usedBy: ['Notifications'],
-    description: "Une notification, sous deux formes (`variant`). `row`, celle de la page Notifications : une rangée sans rayon ni filet, posée dans UNE carte qui clippe ses coins et sépare par `divide-y` (arbitrage n°5, une collection se rend en rangées) ; retrait 20 puis 24 dès 640 px. `card`, le défaut : un item isolé qui porte sa coque, rayon 20, padding 12 (16 à l'horizontale dès 640 px). Pastille de 40 px carrée arrondie (`rounded-md`, 10 — elle était ronde ; arbitrage n°3), au cran 100 du ton ; titre 16/600 ink-900 sur une ligne, texte 16 ink-700 sur deux au plus, méta 13 ink-600 (`meta`, puis l'heure), 4 px entre chaque, la première ligne centrée sur la pastille. Non lue : un fond du ton au cran 50 et un point de 6 px, sans changer la graisse. « Marquer comme lu » et « Supprimer » en Button iconOnly sm ghost neutre, qui n'apparaissent qu'au survol ou au focus dès 640 px et restent visibles en dessous. Cinq tons (brand · warm · sun · success · neutral). ⚠️ Avec `onClick`, la notification devient un `div role=\"button\"` focalisable, mais sans gestion du clavier : Entrée et Espace n'y font rien.",
-    keywords: ['notification', 'feed', 'row', 'rangée', 'unread', 'non lu', 'tone', 'actions', 'collection'],
+    description: "Une notification, sous deux formes (`variant`). `row`, celle de la page Notifications : une rangée sans rayon ni filet, posée dans UNE carte qui clippe ses coins et sépare par `divide-y` (arbitrage n°5, une collection se rend en rangées) ; retrait 20 puis 24 dès 640 px. `card`, le défaut : un item isolé qui porte sa coque, rayon 20, padding 12 (16 à l'horizontale dès 640 px). Pastille de 40 px carrée arrondie (`rounded-md`, 10 — elle était ronde ; arbitrage n°3), au cran 100 du ton ; titre 16/600 ink-900 sur une ligne, texte 16 ink-700 sur deux au plus, méta 13 ink-600 (`meta`, puis l'heure), 4 px entre chaque, la première ligne centrée sur la pastille. Non lue : un fond du ton au cran 50 et un point de 6 px, sans changer la graisse. « Marquer comme lu » et « Supprimer » en Button iconOnly sm ghost neutre, qui n'apparaissent qu'au survol ou au focus dès 640 px et restent visibles en dessous. Cinq tons (brand · warm · sun · success · neutral). Avec `onClick`, la notification s'ouvre (24/09) : pastille, titre, texte et méta vivent dans un vrai `<button>`, en `<span>` seulement, qu'Entrée et Espace activent — c'était un `div role=\"button\"` sans clavier, qui contenait les deux boutons d'action. Son pseudo-élément couvre la rangée : un clic dans le padding ouvre, un clic sur Supprimer n'ouvre pas, les actions restant ses sœurs. Focus : l'anneau bicolore des cartes sur l'item isolé, un anneau ink-900 intérieur sur la rangée, que la carte parente rogne. « Non lu » est un texte masqué, lu avec le titre. `meta` passe alors dans le bouton : elle doit rester non interactive.",
+    keywords: ['notification', 'feed', 'row', 'rangée', 'unread', 'non lu', 'tone', 'actions', 'collection', 'onClick', 'button', 'clavier', 'focus'],
     render: () => (
       <div className="flex flex-col gap-section max-w-2xl">
         <div className="flex flex-col gap-stack-xs">
@@ -7202,6 +7257,10 @@ const COMPONENTS: ComponentEntry[] = [
           </Card>
         </div>
         <div className="flex flex-col gap-stack-xs">
+          <p className="text-caption font-semibold text-ink-600">onClick · la rangée devient un bouton, qu'Entrée et Espace ouvrent</p>
+          <NotificationCardClicDemo />
+        </div>
+        <div className="flex flex-col gap-stack-xs">
           <p className="text-caption font-semibold text-ink-600">variant="card" · un item isolé, qui porte sa coque</p>
           <NotificationCard
             tone="success"
@@ -7221,8 +7280,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'JournalChatCompose',
     codeName: 'ui/JournalChatCompose.tsx',
-    description: "La saisie rapide du journal, en bulle (Card au rayon 20, filet primary-100, queue en bas à gauche) : le repère d'écriture — l'icône PenLine, 20 px au cran 700, centrée dans une boîte de 44, la hauteur du bouton ; c'était l'émoji ✍️, dont le dessin change d'un système à l'autre —, une zone de texte à 16, le Button md « Continuer » en solid — l'envoi, l'action principale de la saisie (arbitrage n°19) —, puis une aide en 13 ink-600 et le raccourci ⌘ ou Ctrl + Entrée. En haut de la page Journal.",
-    keywords: ['journal', 'compose', 'chat', 'textarea', 'quick-entry', 'speech-bubble', 'send', 'PenLine'],
+    description: "La saisie rapide du journal, en bulle (Card au rayon 20, filet primary-100, queue en bas à gauche) : le repère d'écriture — l'icône PenLine, 20 px au cran 700, centrée dans une boîte de 44, la hauteur du bouton ; c'était l'émoji ✍️, dont le dessin change d'un système à l'autre —, une zone de texte à 16, le Button md « Continuer » en solid — l'envoi, l'action principale de la saisie (arbitrage n°19) —, puis une aide en 13 ink-600 et le raccourci ⌘ ou Ctrl + Entrée. La zone de texte n'a ni filet ni contour, c'est la bulle qui fait le champ : depuis le 24/09, quand elle prend le focus au clavier, la bulle prend celui de la famille champ (Input) — filet primary-500 et halo de 2 px à 20 %, la queue suivant le filet. Rien ne changeait avant (filet primary-100, 1,16:1 contre la page). Limité à la zone de texte (`has-[textarea:focus-visible]`) : « Continuer » garde son propre anneau, et la bulle ne s'allume pas pour lui. En haut de la page Journal.",
+    keywords: ['journal', 'compose', 'chat', 'textarea', 'quick-entry', 'speech-bubble', 'send', 'PenLine', 'focus', 'focus-visible', 'has'],
     usedBy: ['Journal'],
     render: () => {
       const [value, setValue] = React.useState('');
@@ -7937,8 +7996,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'CorrectionStatusBar',
     codeName: 'learning/CorrectionStatusBar.tsx',
     showcaseOnly: true,
-    description: "Bandeau d'état d'une correction : StatusBadge, la compétence en 16/600, « Itération N » en 13 ink-600. Une correction emprunte l'icône d'un état de leçon mais dit son propre mot, passé par la prop `label` de StatusBadge : en attente — cercle vide, « En attente de correction » ; en cours — lecture, « En cours de révision » ; terminé — coche ; échoué — croix. Jusqu'au 24/09, la correspondance était décalée d'un cran : « en attente » s'affichait avec le cadenas et se lisait « Verrouillé ». La pastille ne montre que l'icône : le mot en est le nom accessible. « +N XP » (`xpAwarded`, 16/600 accent-800) relève de ce que l'arbitrage n°18 retire de l'app apprenant ; la démo ne le montre pas.",
-    keywords: ['correction', 'statut', 'jac', 'validation', 'xp', 'iteration', 'bandeau', 'StatusBadge', 'label'],
+    description: "Bandeau d'état d'une correction : StatusBadge, la compétence en 16/600, « Itération N » en 13 ink-600. Une correction emprunte l'icône d'un état de leçon mais dit son propre mot, passé par la prop `label` de StatusBadge : en attente — cercle vide, « En attente de correction » ; en cours — lecture, « En cours de révision » ; terminé — coche ; échoué — croix. Jusqu'au 24/09, la correspondance était décalée d'un cran : « en attente » s'affichait avec le cadenas et se lisait « Verrouillé ». Le mot de l'état s'affiche désormais à côté de l'icône (`showLabel`), au registre du Badge : l'état ne se lisait qu'à la couleur et au dessin, un cercle vide et une flèche de lecture qu'on ne devine pas. ⚠️ La prop `xpAwarded` affiche encore « +N XP » : l'arbitrage n°18 retire l'XP de l'app apprenant et interdit d'en montrer à côté d'un niveau. Aucune page ne la passe, la démo non plus ; elle reste à retirer du composant.",
+    keywords: ['correction', 'statut', 'jac', 'validation', 'iteration', 'bandeau', 'StatusBadge', 'label', 'showLabel'],
     render: () => (
       <div className="flex flex-col gap-stack-xs">
         <CorrectionStatusBar status="pending" competenceLabel="Concevoir une séquence" />
