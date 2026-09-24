@@ -105,7 +105,7 @@ export function FilterableCardGrid<T>({
       )}
 
       {(normalised || activeCategory) && (
-        <p className="text-caption text-ink-500 -mt-2">{filtered.length} résultat{filtered.length !== 1 ? 's' : ''}</p>
+        <p className="text-caption text-ink-600 tabular-nums -mt-2">{filtered.length} résultat{filtered.length !== 1 ? 's' : ''}</p>
       )}
 
       {filtered.length === 0 ? (

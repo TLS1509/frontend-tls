@@ -56,7 +56,7 @@ export interface NotificationCardProps {
   variant?: NotificationCardVariant;
   /** Visual tone — semantic meaning. */
   tone?: NotificationTone;
-  /** Lucide icon (size 14-16 recommended). */
+  /** Lucide icon (size 16-18 recommended, pastille de 40 px). */
   icon: React.ReactNode;
   /** Title — single line, bold. */
   title: string;
@@ -118,7 +118,7 @@ const UNREAD_BORDER: Record<NotificationTone, string> = {
    horizontal 20 puis 24, jamais sous le rayon de la carte : au coin, un seul
    des deux retraits est sous le rayon, le contenu longe un bord droit. */
 const SHELL: Record<NotificationCardVariant, string> = {
-  card: 'px-3 py-3 sm:px-4 sm:py-3.5 rounded-xl border border-transparent',
+  card: 'p-stack-sm sm:px-stack rounded-xl border border-transparent',
   row:  'px-stack-md py-stack-sm sm:px-stack-lg',
 };
 
@@ -166,11 +166,13 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
         .filter(Boolean)
         .join(' ')}
     >
-      {/* Icon bubble (tone-aware) — 48px (w-12 h-12) for visual consistency */}
+      {/* Pastille de 40 px, le cran des rangées de fil (ActivityFeed) : à 48 —
+          le cran d'une carte à titre de 20 px — elle pesait plus lourd que le
+          titre de 16 qu'elle accompagne. */}
       <div
         className={[
           'shrink-0 inline-flex items-center justify-center',
-          'w-12 h-12 rounded-pill',
+          'w-10 h-10 rounded-pill',
           ICON_BUBBLE[tone],
         ].join(' ')}
         aria-hidden
@@ -178,18 +180,19 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
         {icon}
       </div>
 
-      {/* Content */}
-      <div className="flex-1 min-w-0 flex flex-col gap-tight">
+      {/* Anatomie de rangée (passe typographique du 2026-09-24) :
+          titre 16/600 ink-900 · texte 16/400 ink-700, deux lignes au plus ·
+          méta 13/400 ink-600 — 4 px entre chaque. Le corps était une légende
+          grise de 13 px : c'est pourtant ce qu'on lit d'une notification.
+          `pt-stack-2xs` recentre la première ligne sur la pastille (6 + 13 =
+          19, contre 20). Le non-lu se dit par le point et le fond teinté, plus
+          par la graisse : lu ou non, le titre garde son pas. */}
+      <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs pt-stack-2xs">
         {/* Title + unread dot */}
         <div className="flex items-center gap-stack-xs min-w-0">
-          <h4
-            className={[
-              'font-body text-body truncate',
-              unread ? 'font-bold text-ink-900' : 'font-semibold text-ink-800',
-            ].join(' ')}
-          >
+          <p className="m-0 font-body text-body font-semibold text-ink-900 truncate">
             {title}
-          </h4>
+          </p>
           {unread && (
             <span
               className={`shrink-0 inline-block w-1.5 h-1.5 rounded-pill ${DOT[tone]}`}
@@ -200,13 +203,13 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
 
         {/* Body */}
         {body && (
-          <p className="m-0 font-body text-caption text-ink-500 line-clamp-2">
+          <p className="m-0 font-body text-body text-ink-700 line-clamp-2">
             {body}
           </p>
         )}
 
         {/* Meta + time */}
-        <div className="mt-1 flex items-center gap-stack-xs flex-wrap font-body text-micro text-ink-600">
+        <div className="flex items-center gap-stack-xs flex-wrap font-body text-caption text-ink-600">
           {meta}
           {meta && <span aria-hidden>·</span>}
           <span>{time}</span>

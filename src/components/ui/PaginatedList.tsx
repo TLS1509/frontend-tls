@@ -39,7 +39,7 @@ export function PaginatedList<T>({
       {/* Pagination controls */}
       {totalPages > 1 && (
         <div className="flex items-center justify-between gap-stack-xs pt-3 border-t border-ink-100">
-          <span className="text-caption text-ink-500 font-medium">
+          <span className="text-caption text-ink-600 tabular-nums">
             {start + 1}–{Math.min(start + pageSize, items.length)} / {items.length} {itemLabel}
           </span>
 
@@ -65,7 +65,7 @@ export function PaginatedList<T>({
                     onClick={() => setPage(i)}
                     aria-current={i === page ? 'page' : undefined}
                     className={[
-                      'inline-flex items-center justify-center w-9 h-9 rounded-pill text-caption font-bold transition-all duration-fast',
+                      'inline-flex items-center justify-center w-9 h-9 rounded-pill text-caption font-bold tabular-nums transition-all duration-fast',
                       i === page
                         ? 'bg-primary-700 text-white shadow-sm'
                         : 'border border-ink-200 text-ink-600 hover:bg-primary-50 hover:border-primary-300 hover:text-primary-700',
@@ -76,7 +76,7 @@ export function PaginatedList<T>({
                 ))}
             </div>
 
-            <span className="sm:hidden text-caption font-semibold text-ink-700">
+            <span className="sm:hidden text-caption font-semibold text-ink-700 tabular-nums">
               {page + 1} / {totalPages}
             </span>
 

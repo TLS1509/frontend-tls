@@ -68,7 +68,7 @@ export function FilteredList<T>({
 
       {/* Count */}
       {showCount && normalised && (
-        <p className="text-caption text-ink-500 -mt-2">
+        <p className="text-caption text-ink-600 tabular-nums -mt-2">
           {filtered.length} {itemLabel}
         </p>
       )}

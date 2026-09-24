@@ -61,7 +61,7 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
         <div className="flex flex-col items-center gap-stack-xs text-ink-500">
           <div className="w-10 h-10 rounded-pill border-[3px] border-ink-200 border-t-primary-500 animate-spin" />
-          <p className="m-0 text-body font-medium">Chargement des coachs…</p>
+          <p className="m-0 text-body text-ink-600">Chargement des coachs…</p>
         </div>
       </div>
     );
@@ -74,7 +74,7 @@ export const CoachCardGrid: React.FC<CoachCardGridProps> = ({
           <IconChip size="lg" tone="neutral">
             <Users strokeWidth={2} />
           </IconChip>
-          <p className="m-0 text-body font-medium">{emptyMessage}</p>
+          <p className="m-0 text-body font-semibold text-ink-900">{emptyMessage}</p>
         </div>
       </div>
     );

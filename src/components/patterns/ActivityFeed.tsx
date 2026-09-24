@@ -239,20 +239,27 @@ const ActivityRow: React.FC<{
         )}
       </div>
 
-      <div className="flex-1 min-w-0 pt-1 pb-1">
-        <header className="flex items-start justify-between gap-stack-xs flex-wrap">
-          <h3 className="text-body font-semibold text-ink-900 leading-snug">{item.title}</h3>
-          <time className="text-micro text-ink-600 font-medium whitespace-nowrap shrink-0 mt-0.5 tabular-nums">
+      {/* Anatomie de rangée (passe typographique du 2026-09-24) : titre 16/600
+          ink-900 · texte 16/400 ink-700, deux lignes au plus · méta 13/400
+          ink-600 sur la ligne de base du titre. Le retrait du haut recentre la
+          première ligne (26 px) sur la pastille : 4 + 13 = 17 pour une pastille
+          de 36 (fil), 6 + 13 = 19 pour 40 (liste, cartes) — à 1 px près.
+          Le titre n'est plus un `h3` : un libellé de rangée en Nunito 600 n'est
+          pas un titre, et le `h3` de base lui donnait League Spartan. */}
+      <div className={['flex-1 min-w-0 pb-stack-3xs', layout === 'timeline' ? 'pt-stack-3xs' : 'pt-stack-2xs'].join(' ')}>
+        <header className="flex items-baseline justify-between gap-stack-xs flex-wrap">
+          <p className="m-0 text-body font-semibold text-ink-900">{item.title}</p>
+          <time className="text-caption text-ink-600 whitespace-nowrap shrink-0 tabular-nums">
             {formatTimestamp(item.timestamp, timeFormat)}
           </time>
         </header>
 
         {item.description && (
-          <p className="m-0 mt-1 text-caption text-ink-600">{item.description}</p>
+          <p className="m-0 mt-stack-3xs text-body text-ink-700 line-clamp-2">{item.description}</p>
         )}
 
         {(item.actor || (item.actionLabel && item.onActionClick)) && (
-          <div className="flex items-center gap-stack-xs mt-2 flex-wrap">
+          <div className="flex items-center gap-stack-xs mt-stack-xs flex-wrap">
             {item.actor && (
               <span className="inline-flex items-center gap-stack-2xs">
                 <Avatar
@@ -261,14 +268,14 @@ const ActivityRow: React.FC<{
                   src={item.actor.avatar}
                   shape="circle"
                 />
-                <span className="text-caption text-ink-600 font-medium">{item.actor.name}</span>
+                <span className="text-caption text-ink-600">{item.actor.name}</span>
               </span>
             )}
             {item.actionLabel && item.onActionClick && (
               <button
                 type="button"
                 onClick={item.onActionClick}
-                className="inline-flex items-center min-h-6 py-1 -my-1 gap-stack-3xs text-caption font-semibold text-primary-700 hover:text-primary-800 cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
+                className="inline-flex items-center min-h-6 py-1 -my-1 gap-stack-3xs text-caption font-semibold text-primary-800 hover:text-primary-900 cursor-pointer transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500"
               >
                 {item.actionLabel}
                 <ArrowRight size={14} strokeWidth={2.5} aria-hidden="true" />
@@ -313,7 +320,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
       <div className={['flex items-center justify-center p-12', className].filter(Boolean).join(' ')}>
         <div className="flex flex-col items-center gap-stack-xs text-ink-500">
           <Loader2 className="w-8 h-8 animate-spin text-primary-500" strokeWidth={2.5} />
-          <p className="m-0 text-body font-medium">Chargement des activités…</p>
+          <p className="m-0 text-body text-ink-600">Chargement des activités…</p>
         </div>
       </div>
     );
@@ -333,8 +340,8 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
           <IconChip size="lg" tone="neutral">
             <Inbox strokeWidth={2} />
           </IconChip>
-          <p className="m-0 text-body font-medium text-ink-700">{emptyMessage}</p>
-          <p className="m-0 text-caption text-ink-600 max-w-[280px]">Vos prochaines activités apparaîtront ici dès que vous commencerez à apprendre.</p>
+          <p className="m-0 text-body font-semibold text-ink-900">{emptyMessage}</p>
+          <p className="m-0 text-body text-ink-700 max-w-sm">Vos prochaines activités apparaîtront ici dès que vous commencerez à apprendre.</p>
         </div>
       </div>
     );
@@ -356,8 +363,10 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({
     <div className={['relative', className].filter(Boolean).join(' ')}>
       {buckets.map((bucket, bIdx) => (
         <div key={bucket.label ?? bIdx} className={bIdx > 0 ? 'mt-stack-lg' : ''}>
+          {/* Libellé de groupe (« Aujourd'hui », « Hier ») : 13/600 ink-600, en
+              casse normale — l'en-tête de table, pas un surtitre en capitales. */}
           {bucket.label && (
-            <p className="m-0 mb-3 text-caption font-bold uppercase tracking-[0.08em] text-ink-500">
+            <p className="m-0 mb-stack-sm text-caption font-semibold text-ink-600">
               {bucket.label}
             </p>
           )}

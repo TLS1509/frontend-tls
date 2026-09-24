@@ -76,17 +76,24 @@ export const ActivityItem: React.FC<ActivityItemProps> = ({
         )}
       </div>
 
-      <div className="flex-1 min-w-0 pt-1 pb-1">
-        <header className="flex items-start justify-between gap-stack-xs flex-wrap">
-          <h4 className="text-body font-semibold text-ink-900 leading-snug">{title}</h4>
+      {/* Anatomie de rangée (passe typographique du 2026-09-24) :
+          titre 16/600 ink-900 · texte 16/400 ink-700, deux lignes au plus ·
+          méta 13/400 ink-600, sur la ligne de base du titre.
+          Le `pt-stack-3xs` recentre la première ligne (26 px) sur la pastille
+          (36 px) : 4 + 13 = 17, contre 18 — à 1 px près.
+          Le titre n'est plus un `h4` : un libellé de rangée n'est pas un titre
+          de section, et un h4 en Nunito 600 contredisait l'échelle des titres. */}
+      <div className="flex-1 min-w-0 pt-stack-3xs pb-stack-3xs">
+        <header className="flex items-baseline justify-between gap-stack-xs flex-wrap">
+          <p className="m-0 text-body font-semibold text-ink-900">{title}</p>
           {timestamp && (
-            <time className="text-micro text-ink-600 font-medium whitespace-nowrap shrink-0 mt-0.5 tabular-nums">
+            <time className="text-caption text-ink-600 whitespace-nowrap shrink-0 tabular-nums">
               {timestamp}
             </time>
           )}
         </header>
         {description && (
-          <p className="m-0 mt-1 text-caption text-ink-600">{description}</p>
+          <p className="m-0 mt-stack-3xs text-body text-ink-700 line-clamp-2">{description}</p>
         )}
       </div>
     </article>

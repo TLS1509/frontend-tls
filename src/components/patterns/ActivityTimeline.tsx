@@ -80,23 +80,29 @@ export const ActivityTimeline: React.FC<ActivityTimelineProps> = ({
                 )}
               </div>
 
-              <div className="flex-1 min-w-0 pb-1">
+              {/* Rangée de fil (passe typographique du 2026-09-24) : titre 16/600,
+                  texte 16/400 ink-700, date 13/400 ink-600 sur la ligne de base.
+                  `pt-stack-2xs` recentre la première ligne sur la pastille de
+                  40 px (6 + 13 = 19, contre 20) — le point de 12 px, posé à 14,
+                  a le même centre. Un jalon « à venir » passe à ink-600, pas
+                  ink-500 : ce cran est réservé aux textes indicatifs. */}
+              <div className="flex-1 min-w-0 pt-stack-2xs pb-stack-3xs">
                 <div className="flex items-baseline justify-between gap-stack-xs flex-wrap">
-                  <h3
+                  <p
                     className={[
-                      'text-body font-semibold leading-snug',
-                      isPending ? 'text-ink-500' : 'text-ink-900',
+                      'm-0 text-body font-semibold',
+                      isPending ? 'text-ink-600' : 'text-ink-900',
                     ].join(' ')}
                   >
                     {item.title}
-                  </h3>
-                  <time className="text-micro text-ink-600 font-medium whitespace-nowrap">
+                  </p>
+                  <time className="text-caption text-ink-600 whitespace-nowrap tabular-nums">
                     {item.timestamp}
                   </time>
                 </div>
 
                 {item.description && (
-                  <p className="m-0 mt-1 text-caption text-ink-500">
+                  <p className="m-0 mt-stack-3xs text-body text-ink-700">
                     {item.description}
                   </p>
                 )}

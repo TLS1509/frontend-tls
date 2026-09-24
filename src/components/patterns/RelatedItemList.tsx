@@ -40,7 +40,7 @@ export const RelatedItemList: React.FC<RelatedItemListProps> = ({
         const inner = (
           <article
             className={[
-              'group/item flex items-start gap-stack-xs rounded-md border border-ink-200 bg-white p-3 transition-colors',
+              'group/item flex items-start gap-stack-sm rounded-md border border-ink-200 bg-white p-3 transition-colors',
               interactive ? 'hover:border-primary-300 hover:bg-primary-50/40 cursor-pointer' : '',
             ]
               .filter(Boolean)
@@ -51,26 +51,32 @@ export const RelatedItemList: React.FC<RelatedItemListProps> = ({
                 {item.icon}
               </IconChip>
             )}
-            <div className="flex-1 min-w-0">
+            {/* Anatomie de rangée (passe typographique du 2026-09-24) : méta
+                13/400 ink-600 à 4 px au-dessus du titre · titre 16/600 ink-900 ·
+                texte 16/400 ink-700, deux lignes au plus. Sans méta, le bloc
+                descend de 6 px pour que la première ligne tombe sur le centre
+                de la pastille (6 + 13 = 19, contre 20). */}
+            <div className={['flex-1 min-w-0', item.icon && !item.meta ? 'pt-stack-2xs' : ''].join(' ')}>
               {item.meta && (
-                <span className="block mb-0.5 text-caption font-medium text-ink-500">
+                <span className="block mb-stack-3xs text-caption text-ink-600">
                   {item.meta}
                 </span>
               )}
-              <strong className="block font-body text-body font-semibold text-ink-900 leading-snug">
+              <strong className="block font-body text-body font-semibold text-ink-900">
                 {item.title}
               </strong>
               {item.description && (
-                <p className="m-0 mt-0.5 text-caption text-ink-500">
+                <p className="m-0 mt-stack-3xs text-body text-ink-700 line-clamp-2">
                   {item.description}
                 </p>
               )}
             </div>
+            {/* Le chevron désigne toute la rangée : centré sur elle. */}
             {interactive && showArrow && (
               <ChevronRight
                 size={16}
                 strokeWidth={2.25}
-                className="shrink-0 mt-1 text-ink-400 transition-[transform,opacity,color] duration-fast ease-emphasis opacity-0 -translate-x-1 group-hover/item:opacity-100 group-hover/item:translate-x-0 group-hover/item:text-primary-600"
+                className="shrink-0 self-center text-ink-400 transition-[transform,opacity,color] duration-fast ease-emphasis opacity-0 -translate-x-1 group-hover/item:opacity-100 group-hover/item:translate-x-0 group-hover/item:text-primary-600"
               />
             )}
           </article>
