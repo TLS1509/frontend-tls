@@ -8169,19 +8169,27 @@ const SEMANTIC_TOKENS: TokenEntry[] = [
   { name: 'success-base', cssVar: '--color-success-base', value: '#9DBEBA', group: 'Sémantique', type: 'color' },
   { name: 'success-bg', cssVar: '--color-success-bg', value: '#E8F2F0', group: 'Sémantique', type: 'color' },
   { name: 'success-fg', cssVar: '--color-success-fg', value: '#335A56', group: 'Sémantique', type: 'color' },
+  // Les quatre filets d'état (7576e78a, 24/09) : ils ne vivaient que dans
+  // design-tokens.css, et les classes `border-*-border` ne généraient rien — le
+  // filet prenait `currentColor`, le texte de l'état. La vignette les pose sur
+  // le fond de leur état, là où ils servent.
+  { name: 'success-border', cssVar: '--color-success-border', value: 'rgba(157, 190, 186, 0.30) — le filet clair d’une surface success', group: 'Sémantique', type: 'color' },
   { name: 'success-vivid', cssVar: '--color-success-vivid', value: '#347572', group: 'Sémantique', type: 'color' },
   { name: 'success-bright', cssVar: '--color-success-bright', value: '#228B55', group: 'Sémantique', type: 'color' },
   { name: 'warning-base', cssVar: '--color-warning-base', value: '#F8B044', group: 'Sémantique', type: 'color' },
   { name: 'warning-bg', cssVar: '--color-warning-bg', value: '#FFF9EE', group: 'Sémantique', type: 'color' },
   { name: 'warning-fg', cssVar: '--color-warning-fg', value: '#2f1c13', group: 'Sémantique', type: 'color' },
+  { name: 'warning-border', cssVar: '--color-warning-border', value: 'rgba(248, 176, 68, 0.30) — le filet clair d’une surface warning', group: 'Sémantique', type: 'color' },
   { name: 'danger-base', cssVar: '--color-danger-base', value: '#F28559', group: 'Sémantique', type: 'color' },
   { name: 'danger-bg', cssVar: '--color-danger-bg', value: '#FEF4F0', group: 'Sémantique', type: 'color' },
   { name: 'danger-fg', cssVar: '--color-danger-fg', value: '#8F2A0E', group: 'Sémantique', type: 'color' },
+  { name: 'danger-border', cssVar: '--color-danger-border', value: 'rgba(242, 133, 89, 0.25) — le filet clair d’une surface danger', group: 'Sémantique', type: 'color' },
   { name: 'danger-strong', cssVar: '--color-danger-strong', value: '#C0432A', group: 'Sémantique', type: 'color' },
   { name: 'danger-deep', cssVar: '--color-danger-deep', value: '#9B2F1B', group: 'Sémantique', type: 'color' },
   { name: 'info-base', cssVar: '--color-info-base', value: '#55A1B4', group: 'Sémantique', type: 'color' },
   { name: 'info-bg', cssVar: '--color-info-bg', value: '#E8F4F7', group: 'Sémantique', type: 'color' },
   { name: 'info-fg', cssVar: '--color-info-fg', value: '#1F3E45', group: 'Sémantique', type: 'color' },
+  { name: 'info-border', cssVar: '--color-info-border', value: 'rgba(85, 161, 180, 0.25) — le filet clair d’une surface info', group: 'Sémantique', type: 'color' },
   { name: 'brown-editorial', cssVar: '--color-brown-editorial', value: '#2f1c13', group: 'Sémantique', type: 'color' },
 ];
 
@@ -8493,6 +8501,10 @@ function useLiveTokenValue(cssVar: string | undefined, fallback: string): string
 const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
   const liveValue = useLiveTokenValue(t.cssVar, t.value);
   if (t.type === 'color' || t.type === 'role') {
+    /* Un filet d'état (`--color-success-border`…) est translucide : peint en
+       aplat sur du blanc, il ne dit rien. On le montre en filet, épaissi pour
+       qu'il se lise, sur le fond de son état (`--color-success-bg`…). */
+    const filetEtat = t.type === 'color' && /^--color-(success|warning|danger|info)-border$/.test(t.cssVar);
     return (
       <div className="token-card">
         <div
@@ -8501,9 +8513,12 @@ const Swatch: React.FC<{ t: TokenEntry }> = ({ t }) => {
             // liveValue, jamais t.value : les échelles en dur de COLOR_TOKENS
             // avaient dérivé (l'échelle ink y était encore teintée teal) et la
             // vitrine montrait des gris que l'app ne rend nulle part.
-            background: t.type === 'role' && t.cssVar.startsWith('--border')
+            background: filetEtat
+              ? `var(${t.cssVar.replace('-border', '-bg')})`
+              : t.type === 'role' && t.cssVar.startsWith('--border')
               ? `linear-gradient(45deg, transparent 49%, ${liveValue} 49%, ${liveValue} 51%, transparent 51%)`
               : liveValue,
+            boxShadow: filetEtat ? `inset 0 0 0 4px ${liveValue}` : undefined,
             border: t.cssVar.includes('surface') || liveValue.toUpperCase() === '#FFFFFF' ? '1px solid var(--border)' : undefined,
           }}
         />
