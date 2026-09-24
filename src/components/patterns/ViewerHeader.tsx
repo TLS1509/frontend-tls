@@ -4,8 +4,9 @@
  * Pattern audit Phase 10 : 6+ viewer pages reproduisent la même UI manuelle
  * (back btn + title + prev/next chevrons + close). Ce composant l'unifie.
  *
- * Used by (target) : VideoViewer, FlashcardsViewer, AstucesViewer,
- *                    ComplementaryContentViewer, VideoReels, JournalDetail, CourseDetail
+ * Used by (relevé le 2026-09-24) : LessonPlayer, FlashcardsViewer, AstucesViewer,
+ *   ComplementaryContentViewer, VideoViewer, Positionnement (deux états).
+ *   La liste citait VideoReels, JournalDetail et CourseDetail, qui ne l'emploient pas.
  *
  * Layout (révisé le 2026-09-24 — le titre d'abord, puis UNE ligne de méta) :
  *   ┌──────────────────────────────────────────────────────────────────┐
@@ -16,7 +17,7 @@
  *
  * Features :
  *  - Sticky top-0 z-sticky glass background
- *  - Back button (gauche)
+ *  - Back button (gauche) — un `Button` ghost : libellé dès 640 px, icône seule en dessous
  *  - Title + optional subtitle / meta (centré, truncate)
  *  - Prev / Next chevrons (droite) — disabled at boundaries
  *  - Close button optionnel (X — typically navigate to parent route)
@@ -83,7 +84,7 @@ export interface ViewerHeaderProps {
   /** Make the header sticky to top (default true). */
   sticky?: boolean;
 
-  /** Ton du compteur, de la barre de progression et de l'anneau de focus. */
+  /** Ton du compteur et de la barre de progression. */
   tone?: PageTone;
 
   className?: string;
@@ -101,12 +102,6 @@ const TONE_PROGRESS_FILL: Record<PageTone, string> = {
   primary: 'bg-gradient-to-r from-primary-500 to-primary-700',
   warm:    'bg-gradient-to-r from-secondary-500 to-secondary-700',
   sun:     'bg-gradient-to-r from-accent-300 to-accent-500',
-};
-
-const TONE_FOCUS_OUTLINE: Record<PageTone, string> = {
-  primary: 'focus-visible:outline-primary-500',
-  warm:    'focus-visible:outline-secondary-500',
-  sun:     'focus-visible:outline-accent-400',
 };
 
 export const ViewerHeader: React.FC<ViewerHeaderProps> = ({
@@ -133,7 +128,6 @@ export const ViewerHeader: React.FC<ViewerHeaderProps> = ({
   const prevDisabled = !onPrev || disablePrev;
   const nextDisabled = !onNext || disableNext;
   const hasNav = !!onPrev || !!onNext;
-  const focusOutline = TONE_FOCUS_OUTLINE[tone];
 
   const wrapperClasses = [
     'bg-white/85 backdrop-blur-glass-light border-b border-ink-200',
@@ -141,24 +135,44 @@ export const ViewerHeader: React.FC<ViewerHeaderProps> = ({
     className,
   ].filter(Boolean).join(' ');
 
+  /* Pas de `role="banner"` (retiré le 2026-09-24) : la barre vit dans le
+     <main> de la page, et un bandeau de site n'a qu'une place, au premier
+     niveau, celle de la coque. Posé ici, il ajoutait un landmark `banner`
+     DANS `main` sur les six lecteurs. Un <header> dans <main> n'a pas de
+     rôle : c'est ce qu'il faut. */
   return (
-    <header className={wrapperClasses} role="banner">
+    <header className={wrapperClasses}>
       <div className="flex items-center gap-stack px-4 sm:px-6 lg:px-8 py-2">
-        {/* Back button (left) */}
+        {/* Retour : un `Button` ghost (2026-09-24), comme le précédent, le
+            suivant et la fermeture de la même barre — il était fait main, sur
+            un fond ink-50. Dès 640 px, le libellé en `sm` (13/700, cible
+            tactile de 44) : en 16/700, il pèserait plus que le titre qu'il
+            accompagne (16/600). En dessous, l'icône seule, un cercle de 44
+            comme ses voisins. `max-sm:hidden` et `sm:hidden` — des variantes,
+            donc émises après le `inline-flex` du bouton, qu'elles battent. */}
         {onBack && (
-          <button
-            type="button"
-            onClick={onBack}
-            aria-label={typeof backLabel === 'string' ? backLabel : 'Retour'}
-            className={[
-              'shrink-0 inline-flex items-center gap-stack-xs min-h-touch px-3 py-1.5 rounded-lg bg-ink-50 hover:bg-ink-100 text-ink-700 hover:text-ink-900 transition-colors text-caption font-bold',
-              'focus-visible:outline-2 focus-visible:outline-offset-2',
-              focusOutline,
-            ].join(' ')}
-          >
-            <ArrowLeft size={14} strokeWidth={2.5} />
-            <span className="hidden sm:inline">{backLabel}</span>
-          </button>
+          <>
+            <Button
+              emphasis="ghost"
+              tone="neutral"
+              size="sm"
+              onClick={onBack}
+              leadingIcon={<ArrowLeft strokeWidth={2.5} />}
+              className="shrink-0 max-sm:hidden"
+            >
+              {backLabel}
+            </Button>
+            <Button
+              iconOnly
+              emphasis="ghost"
+              tone="neutral"
+              onClick={onBack}
+              aria-label={backLabel}
+              className="shrink-0 sm:hidden"
+            >
+              <ArrowLeft strokeWidth={2.5} />
+            </Button>
+          </>
         )}
 
         {/* Title block (center, flex-1, truncate) — révisé le 2026-09-24.
