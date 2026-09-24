@@ -9,9 +9,10 @@
 >   ligne depuis janvier et quatre clients bêta l'utilisent (C8) ;
 > - la Learning App est un **outil d'ancrage offert**, pas un pilier de revenus
 >   (D11) : 6 mois d'accès offerts avec tout achat des piliers 2 et 3 (D19) ;
-> - **quatre piliers** : Tech · Upskilling · Studio · Transverse (D14) ; le mot
->   « conseil » est abandonné pour « **studio** » (D8) ; l'offre **STRIDE est
->   gelée**, cible 2028 (D10) — la méthode reste, comme preuve de méthode ;
+> - **trois piliers d'offre** : Tech, SaaS & Marketplace · Upskilling & Formation ·
+>   Studio & Intégration (D9) ; le mot « conseil » est abandonné pour « **studio** »
+>   (D8) ; l'offre **STRIDE est gelée**, cible 2028 (D10) — la méthode reste, comme
+>   preuve de méthode ; **pas de prix public** pour l'instant (D6, reconduit le 24/09) ;
 > - le **Match** est spécifié, pas livré : il s'écrit **au futur** (D5).
 >
 > **Où vit ce qui fait foi** : les faits datés dans

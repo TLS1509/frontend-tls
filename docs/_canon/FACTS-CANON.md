@@ -55,8 +55,9 @@
 > questions) a tranché **après** cette réunion, et **remplace** deux de ses lignes :
 > - **D13** (ticket minimum 3 000 €) est remplacé par **Q46** : « 750 € HT, et non
 >   3 000 € » → **D15** ;
-> - **D9** (trois piliers) est remplacé par **Q9 + QS7** : quatre piliers, dont
->   « Transverse » → **D14**.
+> - ~~**D9** (trois piliers) est remplacé par **Q9 + QS7**~~ — **corrigé le même
+>   jour** : le « Transverse » du journal est un axe de classement interne, pas un
+>   pilier d'offre, et Chloé ne le reconnaît pas. D9 reste ; voir la note sous §1.
 >
 > Et la note « deux règles de paiement coexistent sans arbitrage » tombe : **Q47**
 > (05/09, ferme) est postérieure à l'acompte de 50 % du 31/08, et QS26 (18/09) la
@@ -65,7 +66,7 @@
 >
 > Côté code : **C1 est résolu** — le site dit « Studio expert en Skills-Based
 > Organization » depuis le 16/09 (commit `c54dd5ab`), conforme à D8. **La violation
-> X10 est toujours vivante** (revérifiée le 24/09).
+> X10 est corrigée** (commit `9c9e8b76`), et **D6 est reconduit** par Chloé.
 >
 > Ce que ce registre **ne reprend pas** du journal : l'organisation interne de
 > Notion et des agents (bases, schémas, n8n, Telegram), les chiffres financiers
@@ -91,13 +92,13 @@ au moins un doc ou une page du repo.
 | X9 | ⛔ **Aucun membre d'équipe fictif.** L'équipe est Mimault + Dennery | — |
 | X10 | ⛔ **Ne pas parler de la formation « Formateur Augmenté »** — plus d'actualité, sujet clos | Le **métier** de formateur augmenté reste un sujet éditorial légitime : c'est l'**offre de formation** qui est close |
 
-> **🔴 Violation vivante au 2026-09-16 — X10.** Relevé en auditant `src/` contre ce
-> registre : [`src/data/marketingArticles.ts:2175`](../../src/data/marketingArticles.ts)
-> publie « *C-Campus est l'organisme partenaire de The Learning Society pour la
-> certification de la formation « Formateur Augmenté par l'IA »* ». L'attribution à
-> C-Campus est correcte (X1 respecté) ; c'est la mention de l'offre close qui ne
-> l'est pas. **Non corrigé à ce jour** (revérifié le 24/09 : la phrase est toujours
-> à la ligne 2175).
+> **✅ Violation X10 corrigée le 2026-09-24** (commit `9c9e8b76`, demandé par Chloé).
+> Relevée le 16/09 : l'article « Le Passeport de Compétences »
+> ([`src/data/marketingArticles.ts`](../../src/data/marketingArticles.ts)) présentait
+> C-Campus comme le partenaire de certification de la formation « Formateur Augmenté
+> par l'IA », avec ses sept modules et un appel à l'inscription éligible OPCO. La
+> section garde sa thèse (C-Campus, organisme certifié Qualiopi, délivre ses propres
+> Open Badges — formulation X1) sans l'offre close. Plus aucune occurrence dans `src/`.
 >
 > Le reste de l'audit est propre : aucune occurrence de Qualiopi revendiqué par TLS,
 > de CPF, d'« Open Badge 2.0 » ni de « L'Académie » dans `src/`.
@@ -119,15 +120,15 @@ au moins un doc ou une page du repo.
 | D3 | Siège social : **26 bis, rue Olivier Noyer, 75014 Paris** | 28/07 |
 | D4 | Équipe affichée : **Chloé Mimault** et **Pierre-Armand Dennery**, personne d'autre | 10/06 |
 | D5 | Le **Match** est une brique **spécifiée, non livrée** → le formuler **au futur** partout | 28/07 |
-| D6 | **Pas de prix public** sur le site V1. Business model non figé | 10/06, tenu le 28/07 |
+| D6 | **Pas de prix public** sur le site, pour l'instant — **reconduit par Chloé le 24/09**, alors que le catalogue est désormais chiffré (D18) | 10/06 · 28/07 · 24/09 |
 | D7 | Newsletter : **La Vigie IA**, nom provisoire, susceptible de changer | 28/07 |
 | D8 | Le mot **« conseil » est abandonné** au profit de **« studio »**. Verbatim : « *on n'arrivera pas à le vendre […] on va l'appeler plutôt studio, ce qui nous donne le truc de l'artisan qui vient le faire pour toi* » | 31/08 |
-| ~~D9~~ | ~~Trois piliers : 1 — Tech, SaaS & Marketplace · 2 — Upskilling & Formation · 3 — Studio & Intégration~~ → **remplacé par D14** (le journal ajoute un quatrième pilier, « Transverse ») | 31/08 |
+| D9 | Trois piliers d'offre : **1 — Tech, SaaS & Marketplace** · **2 — Upskilling & Formation** · **3 — Studio & Intégration** | 31/08 |
 | D10 | **STRIDE / SBO Global (30 000 € HT) est gelée** — « pour 2027, cible 2028 » | 31/08 |
 | D11 | La **Learning App est un outil d'ancrage offert**, pas un pilier de revenus. Verbatim : « *Tout ce qui est vente par abonnement, on s'en tape, c'est du bonus* ». ~40 k€ visés sur l'année | 31/08 |
 | D12 | Le **lancement de la Learning App et du site vitrine est arrêté** ; leur planning sera révisé **après validation du planning du projet Agents**. Réponse Q1, option A | 31/08 |
 | ~~D13~~ | ~~Ticket minimum 3 000 € HT sur toute prestation sur mesure~~ → **remplacé par D15** (Q46 : « 750 € HT, et non 3 000 € ») | 31/08 |
-| D14 | **Quatre piliers : Tech · Upskilling · Studio · Transverse** — écrire « **Transverse** », jamais « Transversal ». Le mot **« pilier » est réservé aux piliers de revenu** ; les **piliers éditoriaux** sont une autre notion : WIL/EDRA · SBO/Dreyfus · IA/Out-Skills · Retours Terrain | Q9, Q10 (05/09) · QS7 (18/09) |
+| D14 | **Piliers éditoriaux** (une autre notion que les piliers d'offre) : WIL/EDRA · SBO/Dreyfus · IA/Out-Skills · Retours Terrain. Le mot « pilier » seul désigne les piliers d'offre (D9) | Q10 (05/09) |
 | D15 | **Ticket minimum : 750 € HT**, et non 3 000 € (contre-exemple cité : 750 € → 1 350 € → 20 000 €) | Q46 (05/09) |
 | D16 | **Échéancier : 30 % au démarrage · 40 % à 70 % des jalons réalisés · solde à la livraison**, sauf pilier 1 et formations. Le premier versement de 30 % est encaissé avant démarrage | Q47 (05/09) · QS26 (18/09) |
 | D17 | **On vend au forfait, pas au jour.** Le TJM peut apparaître dans le discours commercial, **jamais sur un devis** | Q43 (05/09) |
@@ -137,11 +138,21 @@ au moins un doc ou une page du repo.
 | D21 | **Contenus et compétences, l'état réel** : l'écart de production pédagogique est confirmé, plus élevé que supposé (« quasiment produit, 70 % » est invalidé) ; le référentiel de compétences est à 30 %, il vit dans **`referentiel.json` en git** (204 compétences, 85 avec descripteurs Dreyfus) et **aucun JAC n'existe encore** | Q59, Q60 (05/09) · QS19 (18/09) |
 | D22 | **RGPD** : la conformité entre dans le périmètre et doit y être résolue ; **pas d'avocat** pour la valider (réserve R14 du journal : la phrase est ambiguë sur l'existence des documents) | Q76 (05/09) · QS27 (18/09) |
 
-> **⚠️ D6 est à reconfirmer, pas à hériter.** « Pas de prix public » a été décidé le
-> 10/06 et tenu le 28/07 **parce que le business model n'était pas figé**. Il l'est
-> depuis le 31/08 : le catalogue compte **douze lignes chiffrées**. La décision peut
-> très bien tenir — beaucoup de sites B2B n'affichent pas leurs prix — mais elle ne
-> repose plus sur sa raison d'origine. **Seule Chloé peut la reconduire.**
+> **✅ D6 reconduit le 24/09.** « Pas de prix public » avait été décidé le 10/06 et
+> tenu le 28/07 parce que le business model n'était pas figé ; il l'est depuis le
+> 31/08 (catalogue chiffré, validé le 05/09). La raison d'origine avait disparu :
+> Chloé a reconduit la décision sur sa nouvelle base — « pas de prix public pour
+> l'instant ».
+>
+> **⚠️ « Transverse » n'est pas un pilier d'offre — à vérifier dans le journal.**
+> Le journal des décisions (Q9, 05/09) écrit « Quatre piliers : Tech · Upskilling ·
+> Studio · Transversal », et QS7 (18/09) fige le mot « Transverse » en ajoutant une
+> case « Pilier de revenu » à la base Notion `Piliers`. C'est un **axe de classement
+> interne** du projet Agents (il sert à ventiler tâches, agents et coûts, pour
+> `ANALYTICS-01` et `FIN-03`), pas une offre. Le journal lui-même note que QS7
+> « s'appuie sur des décisions D9/D10 introuvables » (réserve R1), et **Chloé ne
+> reconnaît pas ce quatrième pilier (24/09)**. Ce registre garde donc D9 pour l'offre ;
+> la ligne Q9 du journal est à relire par Chloé.
 >
 > ✅ ~~Deux règles de paiement coexistent sans arbitrage~~ — **levé le 24/09.**
 > L'acompte de 50 % à la signature venait de la session 3 du 31/08 ; **Q47** (05/09,
@@ -188,7 +199,7 @@ secondaires ou d'une génération IA. Rien de tout cela n'est publiable en l'ét
 | **Analyse concurrentielle** | Idem. L'ancien brief listait 360Learning, Didask, Degreed, Gloat, Eightfold, Cornerstone — à refaire sur vos études |
 | **Voix de marque** | À écrire par TLS. L'ancienne doctrine était une production IA, pas une décision |
 | **Positionnement détaillé, personas** | Idem |
-| ~~**Catalogue d'offres**~~ | ✅ **Reconstruit le 31/08/2026** — douze offres, avec prix, unité, pilier et statut — puis **validé le 05/09** (Q41, deux prix ajoutés). Voir D14 à D19 et la fiche **Tarifs** de la base Notion « Website pages » |
+| ~~**Catalogue d'offres**~~ | ✅ **Reconstruit le 31/08/2026** — douze offres, avec prix, unité, pilier et statut — puis **validé le 05/09** (Q41, deux prix ajoutés). Voir D9 et D15 à D19, et la fiche **Tarifs** de la base Notion « Website pages » |
 | ~~**Pricing**~~ | ✅ **Dégelé le 31/08/2026.** Les prix existent. Ce qui reste ouvert est l'**affichage public**, qui est une autre question — voir la note sous D6 |
 | **Stratégie de contenu et SEO** | Le pilier précédent est abandonné, tout est à repenser sur le positionnement SBO |
 | **Stratégie LinkedIn** | Idem |
