@@ -135,7 +135,12 @@ export const FloatingNavButton: React.FC<FloatingNavButtonProps> = ({
           TONE_BG[tone],
         ].join(' ')}
       >
-        <span className={['inline-flex transition-[transform] duration-base ease-emphasis', isOpen ? 'rotate-45' : ''].join(' ')}>
+        {/* Une icône par état, sans rotation — corrigé le 2026-09-24. Le span
+            tournait de 45° à l'ouverture, héritage d'un « + » qui pivotait pour
+            faire une croix ; mais l'icône est AUSSI remplacée par `closeIcon`
+            (une croix) : la croix tournée se relisait « + », et le bouton
+            ouvert affichait le même signe que fermé. */}
+        <span className="inline-flex">
           {isOpen ? closeIcon : icon}
         </span>
       </button>
