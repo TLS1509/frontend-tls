@@ -196,7 +196,6 @@ import { ProgressDots } from '../components/ui/ProgressDots';
 import { SelectCheckboxFloating } from '../components/ui/SelectCheckboxFloating';
 import { CoachRow } from '../components/patterns/CoachRow';
 import { ReaderContextStrip } from '../components/patterns/ReaderContextStrip';
-import { CorrectionStatusBar } from '../components/learning/CorrectionStatusBar';
 import { ErrorPage } from '../components/patterns/ErrorPage';
 import { CompletionModal } from '../components/modals/CompletionModal';
 import { AuthSuccess } from '../components/patterns/AuthShell';
@@ -2629,9 +2628,9 @@ const COMPONENTS: ComponentEntry[] = [
     // (clés de variantes incohérentes) → réparés (Badge +dot=false, TrendingBadge +hasCount=false).
     name: 'Badge',
     codeName: 'ui/Badge.tsx',
-    description: "L'état qui crie : 11 px en capitales, graisse 700, serrage positif (`tracking-label`), bordure, pilule. Sept variantes (brand · neutral · warm · sun · success · danger · info) ; trois tailles, toutes au corps de 11 — compact et normal font 20 px (padding 8 ou 10), large 24 px (padding 12). Jusqu'au 24/09, large parlait en 13, plus fort que tous les états de l'app. Un point `dot` fixe, à 4 px de son libellé (arbitrage n°16 : pas de mouvement permanent pour dire un état). StatusBadge, dans le même fichier, dit les cinq états d'une leçon avec leur icône — Verrouillé, Disponible, En cours, Terminé, Échoué — au même corps de 11 px ; sa prop `label` prête l'icône d'un état à un autre domaine, avec son propre mot — nom accessible, et libellé visible avec `showLabel` : « En attente de correction » dans CorrectionStatusBar. StatusBadge ne porte plus `role=\"status\"` (24/09) : ce rôle fait d'un élément une zone vivante, qu'un lecteur d'écran annonce à chaque changement, et une liste de leçons devenait autant de zones qui parlent. Sans libellé, la pastille est une image nommée (`role=\"img\"` et son `aria-label`, le motif d'IconChip) ; avec libellé, le mot se lit tel quel et l'icône est décorative. Une donnée n'est pas un état : catégorie, type ou durée vont en MetaPill (arbitrages n°14-15).",
+    description: "L'état qui crie : 11 px en capitales, graisse 700, serrage positif (`tracking-label`), bordure, pilule. Sept variantes (brand · neutral · warm · sun · success · danger · info) ; trois tailles, toutes au corps de 11 — compact et normal font 20 px (padding 8 ou 10), large 24 px (padding 12). Jusqu'au 24/09, large parlait en 13, plus fort que tous les états de l'app. Un point `dot` fixe, à 4 px de son libellé (arbitrage n°16 : pas de mouvement permanent pour dire un état). StatusBadge, dans le même fichier, dit les cinq états d'une leçon avec leur icône — Verrouillé, Disponible, En cours, Terminé, Échoué — au même corps de 11 px ; sa prop `label` prête l'icône d'un état à un autre domaine, avec son propre mot — nom accessible, et libellé visible avec `showLabel` : « En attente de correction » sur l'icône « Disponible ». Son seul emploi, CorrectionStatusBar, est supprimé le 24/09 (aucun usage produit) : StatusBadge n'a plus de consommateur, et reste pour le vocabulaire des états de leçon. StatusBadge ne porte plus `role=\"status\"` (24/09) : ce rôle fait d'un élément une zone vivante, qu'un lecteur d'écran annonce à chaque changement, et une liste de leçons devenait autant de zones qui parlent. Sans libellé, la pastille est une image nommée (`role=\"img\"` et son `aria-label`, le motif d'IconChip) ; avec libellé, le mot se lit tel quel et l'icône est décorative. Une donnée n'est pas un état : catégorie, type ou durée vont en MetaPill (arbitrages n°14-15).",
     keywords: ['status', 'état', 'label', 'brand', 'warm', 'sun', 'success', 'danger', 'info', 'dot', 'compact', 'normal', 'large', 'locked', 'completed', 'statusbadge', 'showLabel', '24', 'role', 'img', 'aria-live', 'accessibilité'],
-    usedBy: ['VeilleCardFeed', 'ResumeLessonCard', 'LearningPathDetail', 'LessonPlayer', 'et 71 autres fichiers : 13 composants, 58 pages (24/09)', 'StatusBadge : CorrectionStatusBar'],
+    usedBy: ['VeilleCardFeed', 'ResumeLessonCard', 'LearningPathDetail', 'LessonPlayer', 'et 71 autres fichiers : 13 composants, 58 pages (24/09)', 'StatusBadge : aucun (CorrectionStatusBar, son seul consommateur, supprimé le 24/09)'],
     render: () => (
       <div className="flex flex-col gap-stack-lg">
         {/* Badge — sémantique */}
@@ -7680,21 +7679,6 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-stack">
         <CoachRow coachName="Marie Lecomte" coachRole="Coach pédagogique" coachInitials="ML" onMessage={() => {}} />
         <CoachRow coachName="Thomas Rivière" coachRole="Coach SBO" coachInitials="TR" tint="warm" />
-      </div>
-    ),
-  },
-  {
-    name: 'CorrectionStatusBar',
-    codeName: 'learning/CorrectionStatusBar.tsx',
-    showcaseOnly: true,
-    description: "Bandeau d'état d'une correction : StatusBadge, la compétence en 16/600, « Itération N » en 13 ink-600. Une correction emprunte l'icône d'un état de leçon mais dit son propre mot, passé par la prop `label` de StatusBadge : en attente — cercle vide, « En attente de correction » ; en cours — lecture, « En cours de révision » ; terminé — coche ; échoué — croix. Jusqu'au 24/09, la correspondance était décalée d'un cran : « en attente » s'affichait avec le cadenas et se lisait « Verrouillé ». Le mot de l'état s'affiche désormais à côté de l'icône (`showLabel`), au registre du Badge : l'état ne se lisait qu'à la couleur et au dessin, un cercle vide et une flèche de lecture qu'on ne devine pas. Plus d'XP : la prop `xpAwarded` et son « +N XP » sont retirés le 24/09 (arbitrage n°18 — pas d'XP dans l'app apprenant, jamais à côté d'un niveau).",
-    keywords: ['correction', 'statut', 'jac', 'validation', 'iteration', 'bandeau', 'StatusBadge', 'label', 'showLabel'],
-    render: () => (
-      <div className="flex flex-col gap-stack-xs">
-        <CorrectionStatusBar status="pending" competenceLabel="Concevoir une séquence" />
-        <CorrectionStatusBar status="in-progress" competenceLabel="Concevoir une séquence" iterationCount={2} />
-        <CorrectionStatusBar status="completed" competenceLabel="Concevoir une séquence" />
-        <CorrectionStatusBar status="failed" competenceLabel="Concevoir une séquence" iterationCount={3} />
       </div>
     ),
   },

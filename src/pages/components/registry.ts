@@ -180,7 +180,6 @@ export const CATALOG: Record<string, CatalogMeta> = {
   ResumeLessonSkeleton:   { category: 'Feedback', subCategory: 'Status messages' },
   SelectCheckboxFloating: { category: 'Search & Filters', subCategory: 'Filter controls' },
   CoachRow:               { category: 'Lists & Feeds', subCategory: 'Lists (vertical)' },
-  CorrectionStatusBar:    { category: 'Learning', subCategory: 'Competence' },
   ReaderContextStrip:     { category: 'Headers & Sections', subCategory: 'Page headers' },
   ErrorPage:              { category: 'Pages & Templates', subCategory: 'États d\'erreur' },
   CoachCardGrid:          { category: 'Lists & Feeds', subCategory: 'Grids' },

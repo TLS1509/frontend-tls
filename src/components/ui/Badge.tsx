@@ -261,4 +261,8 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
    Badge mais encode les cinq états d'une leçon — verrouillée, disponible, en
    cours, terminée, échouée — avec leur icône. C'est du vocabulaire de domaine,
    dont l'app aura besoin quand le corpus de formation arrivera. Le retirer pour
-   économiser un usage échangerait un concept contre des lignes. */
+   économiser un usage échangerait un concept contre des lignes.
+
+   2026-09-24 : ce consommateur unique, CorrectionStatusBar, est supprimé
+   (aucun usage produit). StatusBadge n'en a plus aucun ; la raison ci-dessus
+   ne dépendait pas de lui. */

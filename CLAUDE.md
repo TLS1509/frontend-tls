@@ -45,7 +45,10 @@ Les trois sont supprimés.
 `StatusBadge` reste malgré son unique consommateur : il n'est pas un doublon de
 `Badge` mais encode les cinq états d'une leçon avec leur icône. C'est du
 vocabulaire de domaine, dont l'app aura besoin quand le corpus arrivera —
-le retirer échangerait un concept contre des lignes.
+le retirer échangerait un concept contre des lignes. *(24/09/2026 : ce
+consommateur, `CorrectionStatusBar`, est supprimé faute d'usage produit ;
+`StatusBadge` n'en a plus aucun. La raison de le garder ne dépendait pas de
+lui.)*
 
 ⚠️ **Taille par défaut de `MetaPill` et `MetaPillGroup` : `sm`, pas `md`** (décidé
 le 2026-09-14). Mesuré au navigateur : au cran `md`, la pastille faisait 30 px de
