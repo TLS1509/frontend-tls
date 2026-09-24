@@ -923,8 +923,8 @@ const ChartDetailModalDemo: React.FC = () => {
 };
 
 /* Les deux configurations de la modale : seule (« Retour à l'espace »), ou
-   avec le contenu suivant (« Suivant » et « Retour »). Plus de `xpEarned` :
-   la prop est sans effet depuis l'arbitrage n°18. */
+   avec le contenu suivant (« Suivant » et « Retour »). Plus d'XP : la prop
+   `xpEarned` est retirée du composant (arbitrage n°18). */
 const CompletionModalDemo2: React.FC = () => {
   const [ouverte, setOuverte] = useState<'seule' | 'suite' | null>(null);
   const fermer = () => setOuverte(null);
@@ -7814,7 +7814,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'CorrectionStatusBar',
     codeName: 'learning/CorrectionStatusBar.tsx',
     showcaseOnly: true,
-    description: "Bandeau d'état d'une correction : StatusBadge, la compétence en 16/600, « Itération N » en 13 ink-600. Une correction emprunte l'icône d'un état de leçon mais dit son propre mot, passé par la prop `label` de StatusBadge : en attente — cercle vide, « En attente de correction » ; en cours — lecture, « En cours de révision » ; terminé — coche ; échoué — croix. Jusqu'au 24/09, la correspondance était décalée d'un cran : « en attente » s'affichait avec le cadenas et se lisait « Verrouillé ». Le mot de l'état s'affiche désormais à côté de l'icône (`showLabel`), au registre du Badge : l'état ne se lisait qu'à la couleur et au dessin, un cercle vide et une flèche de lecture qu'on ne devine pas. ⚠️ La prop `xpAwarded` affiche encore « +N XP » : l'arbitrage n°18 retire l'XP de l'app apprenant et interdit d'en montrer à côté d'un niveau. Aucune page ne la passe, la démo non plus ; elle reste à retirer du composant.",
+    description: "Bandeau d'état d'une correction : StatusBadge, la compétence en 16/600, « Itération N » en 13 ink-600. Une correction emprunte l'icône d'un état de leçon mais dit son propre mot, passé par la prop `label` de StatusBadge : en attente — cercle vide, « En attente de correction » ; en cours — lecture, « En cours de révision » ; terminé — coche ; échoué — croix. Jusqu'au 24/09, la correspondance était décalée d'un cran : « en attente » s'affichait avec le cadenas et se lisait « Verrouillé ». Le mot de l'état s'affiche désormais à côté de l'icône (`showLabel`), au registre du Badge : l'état ne se lisait qu'à la couleur et au dessin, un cercle vide et une flèche de lecture qu'on ne devine pas. Plus d'XP : la prop `xpAwarded` et son « +N XP » sont retirés le 24/09 (arbitrage n°18 — pas d'XP dans l'app apprenant, jamais à côté d'un niveau).",
     keywords: ['correction', 'statut', 'jac', 'validation', 'iteration', 'bandeau', 'StatusBadge', 'label', 'showLabel'],
     render: () => (
       <div className="flex flex-col gap-stack-xs">
@@ -7935,7 +7935,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'CompletionModal',
     codeName: 'modals/CompletionModal.tsx',
     usedBy: ['AstucesViewer', 'FlashcardsViewer'],
-    description: "Fin d'un contenu des lecteurs (astuces, flashcards) : elle dit calmement ce qui s'est passé, puis propose la suite. Un bandeau au dégradé 700 → 800 — pastille, « Étape validée » en h2 au pas h3 (20), titre de l'élément et description en 16, tout en blanc —, puis, s'il y en a un, le contenu suivant en carte (« Continuer avec » en 13/600, titre 16/600, type et durée en 13) et des Button md : Suivant en solid, Retour en ghost ; seul, « Retour à l'espace » est le solid (arbitrage n°19), à 24 px du bandeau comme du bas. Plus d'XP (arbitrage n°18) : l'encart doré « +50 XP gagnés » et son étincelle décorative sont retirés ; `xpEarned` reste dans l'interface, dépréciée et sans effet ; plus aucun appel ne la passe (24/09). Pas de confettis, pas de « ! ». Dialogue `useDialog`, comme Modal : focus piégé, Échap, et la page derrière inerte pendant l'ouverture.",
+    description: "Fin d'un contenu des lecteurs (astuces, flashcards) : elle dit calmement ce qui s'est passé, puis propose la suite. Un bandeau au dégradé 700 → 800 — pastille, « Étape validée » en h2 au pas h3 (20), titre de l'élément et description en 16, tout en blanc —, puis, s'il y en a un, le contenu suivant en carte (« Continuer avec » en 13/600, titre 16/600, type et durée en 13) et des Button md : Suivant en solid, Retour en ghost ; seul, « Retour à l'espace » est le solid (arbitrage n°19), à 24 px du bandeau comme du bas. Plus d'XP (arbitrage n°18) : l'encart doré « +50 XP gagnés » et son étincelle décorative sont retirés , et la prop `xpEarned` avec eux (24/09 : plus aucun appel ne la passait). Pas de confettis, pas de « ! ». Dialogue `useDialog`, comme Modal : focus piégé, Échap, et la page derrière inerte pendant l'ouverture.",
     keywords: ['completion', 'modal', 'fin', 'lecon', 'suite', 'celebration', 'étape validée', 'useDialog', 'inert'],
     render: () => <CompletionModalDemo2 />,
   },

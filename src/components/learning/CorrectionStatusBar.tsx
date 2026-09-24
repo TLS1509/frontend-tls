@@ -1,13 +1,11 @@
 import React from 'react';
 import { StatusBadge, type StatusBadgeStatus } from '../ui/Badge';
-import { Zap } from 'lucide-react';
 
 export type CorrectionStatus = 'pending' | 'in-progress' | 'completed' | 'failed';
 
 export interface CorrectionStatusBarProps {
   status: CorrectionStatus;
   competenceLabel?: string;
-  xpAwarded?: number;
   iterationCount?: number;
   className?: string;
 }
@@ -15,7 +13,9 @@ export interface CorrectionStatusBarProps {
 /**
  * CorrectionStatusBar — Reusable status display for corrections
  *
- * Shows: status badge + competence label + XP awarded + iteration count.
+ * Shows: status badge + competence label + iteration count. Plus d'XP : la
+ * prop `xpAwarded` et son « +N XP » sont retirés le 2026-09-24 (arbitrage
+ * n°18 — pas d'XP dans l'app apprenant, jamais à côté d'un niveau).
  * Extracted from CorrectionDetailLearner lines 77–91 (Phase 19.1).
  * Reusable across: corrections list, coach queue, detail pages.
  *
@@ -41,7 +41,6 @@ const ETATS: Record<CorrectionStatus, { icone: StatusBadgeStatus; libelle?: stri
 export const CorrectionStatusBar: React.FC<CorrectionStatusBarProps> = ({
   status,
   competenceLabel,
-  xpAwarded,
   iterationCount,
   className = '',
 }) => {
@@ -63,15 +62,6 @@ export const CorrectionStatusBar: React.FC<CorrectionStatusBarProps> = ({
         <span className="text-body font-semibold text-ink-900">
           {competenceLabel}
         </span>
-      )}
-
-      {xpAwarded !== undefined && (
-        <div className="flex items-center gap-tight">
-          <Zap size={14} className="text-accent-400" />
-          <span className="text-body font-semibold text-accent-800 tabular-nums">
-            +{xpAwarded} XP
-          </span>
-        </div>
       )}
 
       {iterationCount !== undefined && (

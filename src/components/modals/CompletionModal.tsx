@@ -5,7 +5,8 @@
  *
  * Arbitrage n°18 (2026-09-24) : plus d'XP dans l'app apprenant. La modale
  * affichait « +50 XP gagnés » par défaut, avec une étincelle décorative ; le
- * bloc est retiré, et `xpEarned` n'a plus d'effet (voir la prop).
+ * bloc est retiré, et la prop `xpEarned` avec lui (plus aucun appel ne la
+ * passait).
  *
  * Usage:
  *   <CompletionModal
@@ -33,12 +34,6 @@ export interface CompletionModalProps {
   onClose: () => void;
   /** Title of the completed item. */
   itemTitle?: string;
-  /**
-   * @deprecated Sans effet depuis l'arbitrage n°18 (2026-09-24) : l'app
-   * apprenant n'affiche plus d'XP. Gardée le temps que la vitrine cesse de la
-   * passer, puis à retirer.
-   */
-  xpEarned?: number;
   /** Optional next suggested item. */
   nextItem?: CompletionNextItem;
   /** Called when user clicks "Voir le prochain". */
