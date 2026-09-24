@@ -3,26 +3,42 @@
  *
  * Mix de la version épurée (white surface, borders fins, pas de glass) avec
  * la richesse fonctionnelle de la version pré-Phase 10 : tabs de navigation
- * (Vue d'ensemble / Activité / Badges / Compétences) avec contenu adapté.
+ * (Vue d'ensemble / Activité / Compétences) avec contenu adapté.
+ *
+ * Arbitrage n°18 (2026-09-24, option « Reconnaissances ») : plus d'XP, de
+ * série ni de niveau d'XP sur le profil. La vue d'ensemble porte la section
+ * « Reconnaissances » (`#reconnaissances`) — les Open Badges adossés aux
+ * niveaux VALIDÉS du Passeport, puis le rythme hebdomadaire. Les six routes
+ * de gamification (/gamification, /gamification/badges, /gamification/xp,
+ * /gamification/streaks, /leaderboard, /dashboard/achievements) y redirigent.
  *
  * Composants DS utilisés :
- *  - Tabs (variant underline) : navigation 4 sections
+ *  - Tabs (variant underline) : navigation 3 sections
  *  - SkillBar : overview (top compétences)
  *  - CompetencyMatrix : onglet Compétences (5 skills × 5 niveaux)
- *  - Badge + Button core
+ *  - MetaPill + IconChip + Button core
  *  - SectionHeader (light usage, no decorations)
  */
 
-import React, { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { useGamificationStore } from '../stores/persistence';
-import { getBadgeDefById } from '../data/gamification';
+import {
+  useCardReviewStore,
+  useCoachingStore,
+  useGamificationStore,
+  useJournalStore,
+  useLessonProgressStore,
+  usePasseportStore,
+} from '../stores/persistence';
 import { MOCK_USER_ID } from '../data/passeport';
+import { instantsActivite, phraseRythme, reconnaissances, semainesActives } from '../lib/reconnaissances';
 import { Button } from '../components/core/Button';
 import { Card } from '../components/core/Card';
+import { MetaPill } from '../components/ui/MetaPill';
 import { MetaPillGroup } from '../components/ui/MetaPillGroup';
 import { IconChip } from '../components/ui/IconChip';
+import { EmptyState } from '../components/ui/EmptyState';
 import { SkillBar } from '../components/ui/SkillBar';
 import { Tabs } from '../components/ui/Tabs';
 import type { TabItem } from '../components/ui/Tabs';
@@ -38,25 +54,20 @@ import {
   Edit3,
   Share2,
   ArrowRight,
-  Lock,
-  Trophy,
+  ChevronRight,
+  UserRound,
   TrendingUp,
   Award,
   Zap,
   BookOpen,
-  Flame,
   Target,
   Clock3,
   Users,
-  Bot,
-  Star,
-  Compass,
-  Lightbulb,
 } from 'lucide-react';
 
 /* ─── Mock data ──────────────────────────────────────────────────────────── */
 
-type TabId = 'overview' | 'activity' | 'badges' | 'skills';
+type TabId = 'overview' | 'activity' | 'skills';
 
 const USER = {
   name: 'Alexandre Padennery',
@@ -66,23 +77,24 @@ const USER = {
   location: 'Paris, France',
   joinDate: 'Janvier 2024',
   initials: 'AP',
-  level: 12,
   bio: "Passionné par l'IA générative et la pédagogie innovante. Je crée des expériences d'apprentissage qui transforment la formation professionnelle.",
   interests: ['IA Générative', 'Pédagogie', 'Prompt Engineering', 'Formation', 'Innovation'],
 };
 
+/* La série et les points XP sont sortis du bandeau (arbitrage n°18) ; le
+   troisième chiffre, les niveaux validés, se lit en direct dans le Passeport. */
 const HERO_STATS = [
   { value: '12',    label: 'Cours terminés' },
   { value: '86h',   label: "Temps d'apprentissage" },
-  { value: '7j',    label: 'Streak en cours' },
-  { value: '2 450', label: 'Points XP' },
 ];
 
 const WEEK_KPIS = [
   { icon: <Target />, value: '3/5',  label: 'Objectifs atteints' },
   { icon: <Clock3 />, value: '12h',  label: "Temps d'étude" },
-  { icon: <Zap />,    value: '+450', label: 'XP gagnés' },
 ];
+
+const formatDate = (iso: string) =>
+  new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
 
 const SKILLS: { id: string; label: string; value: number; tone: 'brand' | 'warm' | 'sun' }[] = [
   { id: 's1', label: 'Prompt Engineering',   value: 95, tone: 'brand' },
@@ -92,26 +104,16 @@ const SKILLS: { id: string; label: string; value: number; tone: 'brand' | 'warm'
   { id: 's5', label: 'Veille Technologique', value: 85, tone: 'warm'  },
 ];
 
+/* Le badge « +150 XP » et la « série de 7 jours maintenue » sont sortis du fil
+   (arbitrage n°18) : les reconnaissances ont leur section, datée par le
+   Passeport, dans la vue d'ensemble. */
 const ACTIVITY = [
   { id: 'a1', title: 'Formation GPT-4 Avancé terminée',     date: "Aujourd'hui",   meta: "4h30 d'étude", icon: <BookOpen size={14} />, tone: 'success' as const },
-  { id: 'a2', title: 'Badge « Expert GPT » débloqué',       date: 'Hier',          meta: '+150 XP',       icon: <Award size={14} />,    tone: 'sun'     as const },
-  { id: 'a3', title: 'Série de 7 jours maintenue',          date: 'Il y a 2 jours', meta: 'Personal best', icon: <Flame size={14} />,    tone: 'warm'    as const },
   { id: 'a4', title: 'Session coaching avec Sophie Martin', date: 'Il y a 3 jours', meta: '45 min',        icon: <Users size={14} />,    tone: 'brand'   as const },
 ];
 
-const BADGES = [
-  { id: 'b1', label: 'Pionnier IA',    icon: <Bot size={32} strokeWidth={1.5} />,       earned: true,  date: '15 Jan 2024' },
-  { id: 'b2', label: 'Streak Master',  icon: <Flame size={32} strokeWidth={1.5} />,     earned: true,  date: '20 Jan 2024' },
-  { id: 'b3', label: 'Expert GPT',     icon: <Zap size={32} strokeWidth={1.5} />,       earned: true,  date: '25 Jan 2024' },
-  { id: 'b4', label: 'Contributeur',   icon: <Star size={32} strokeWidth={1.5} />,      earned: true,  date: '1 Fév 2024' },
-  { id: 'b5', label: 'Mentor',         icon: <Compass size={32} strokeWidth={1.5} />,   earned: false, progress: 60 },
-  { id: 'b6', label: 'Innovateur',     icon: <Lightbulb size={32} strokeWidth={1.5} />, earned: false, progress: 40 },
-];
-
-const ACTIVITY_TONE: Record<'brand' | 'warm' | 'sun' | 'success', string> = {
+const ACTIVITY_TONE: Record<'brand' | 'success', string> = {
   brand:   'bg-primary-50 text-primary-800 border-primary-100',
-  warm:    'bg-secondary-50 text-secondary-700 border-secondary-100',
-  sun:     'bg-accent-50 text-accent-700 border-accent-100',
   success: 'bg-success-bg text-success-fg border-success-border',
 };
 
@@ -120,47 +122,50 @@ const ACTIVITY_TONE: Record<'brand' | 'warm' | 'sun' | 'success', string> = {
 export const Profile: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [activeTab, setActiveTab] = useState<TabId>('overview');
 
-  const gamifStore = useGamificationStore();
-  const totalXP = gamifStore.getTotalXP(MOCK_USER_ID);
-  const streak = gamifStore.getStreak(MOCK_USER_ID);
-  const earnedBadges = gamifStore.getBadges(MOCK_USER_ID);
+  /* `/profile#reconnaissances` — l'adresse des six anciennes routes de
+     gamification — ouvre la vue d'ensemble, où vit la section ; `ScrollToTop`
+     défile ensuite jusqu'à l'ancre. La clé suit chaque navigation, y compris
+     un second lien vers la même ancre. */
+  useEffect(() => {
+    if (location.hash === '#reconnaissances') setActiveTab('overview');
+  }, [location.key, location.hash]);
 
   const displayName = user?.name ?? USER.name;
   const displayEmail = user?.email ?? USER.email;
 
-  // Map earned badges from store to display format
-  const badges = useMemo(() => {
-    const earned = earnedBadges.map((ub) => {
-      const def = getBadgeDefById(ub.badgeId);
-      return {
-        id: ub.badgeId,
-        label: def?.name ?? ub.badgeId,
-        icon: <Award size={32} strokeWidth={1.5} />,
-        earned: true as const,
-        date: new Date(ub.earnedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }),
-      };
-    });
-    // Append locked badges from BADGES for display completeness
-    const lockedBadges = BADGES.filter((b) => !b.earned && !earned.some((e) => e.id === b.id));
-    return [...earned, ...lockedBadges];
-  }, [earnedBadges]);
+  /* ── Reconnaissances : lues dans les stores au rendu (pas d'instantané) ── */
+  const passeport = usePasseportStore();
+  const gamification = useGamificationStore();
+  const journal = useJournalStore();
+  const coaching = useCoachingStore();
+  const lecons = useLessonProgressStore((s) => s.lessons);
+  const revisions = useCardReviewStore((s) => s.reviews);
 
-  const earnedCount = badges.filter((b) => b.earned).length;
+  const competences = passeport.getCompetencies(MOCK_USER_ID);
+  const preuves = passeport.evidence[MOCK_USER_ID] ?? [];
+  const openBadges = reconnaissances(gamification.getBadges(MOCK_USER_ID), competences, preuves);
+  const niveauxValides = competences.filter((c) => c.currentLevel != null).length;
+  const rythme = semainesActives(
+    instantsActivite({
+      lecons,
+      revisions,
+      entreesJournal: journal.getEntries(MOCK_USER_ID),
+      sessionsCoaching: coaching.getSessions(MOCK_USER_ID),
+      preuves,
+    }),
+  );
 
-  // Dynamic hero stats from store
-  const heroStats = useMemo(() => [
-    HERO_STATS[0],
-    HERO_STATS[1],
-    { value: `${streak.currentStreak}j`, label: 'Streak en cours' },
-    { value: totalXP.toLocaleString('fr-FR'), label: 'Points XP' },
-  ], [streak.currentStreak, totalXP]);
+  const heroStats = [
+    ...HERO_STATS,
+    { value: String(niveauxValides), label: 'Niveaux validés' },
+  ];
 
   const TABS: TabItem[] = [
-    { id: 'overview', icon: <Trophy size={14} />,     label: "Vue d'ensemble" },
+    { id: 'overview', icon: <UserRound size={14} />,  label: "Vue d'ensemble" },
     { id: 'activity', icon: <TrendingUp size={14} />, label: 'Activité' },
-    { id: 'badges',   icon: <Award size={14} />,      label: 'Badges',     badge: earnedCount },
     { id: 'skills',   icon: <Zap size={14} />,        label: 'Compétences' },
   ];
 
@@ -189,14 +194,12 @@ export const Profile: React.FC = () => {
 
         {/* ── Identity header (épuré) ──────────────────────────── */}
         <header className="flex flex-col sm:flex-row sm:items-start gap-stack-lg">
-          {/* Avatar */}
-          <div className="relative shrink-0">
+          {/* Avatar — sans pastille « Lv 12 » : un niveau d'XP n'a plus cours
+              (arbitrage n°18) ; les niveaux qui comptent sont ceux du Passeport. */}
+          <div className="shrink-0">
             <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-pill bg-ink-100 text-ink-700 flex items-center justify-center font-display font-bold text-h3" aria-hidden="true">
               {USER.initials}
             </div>
-            <span className="absolute -bottom-1 -right-1 inline-flex items-center justify-center min-w-7 h-7 px-1.5 rounded-pill bg-ink-900 text-white font-body font-bold text-micro border-2 border-white">
-              Lv {USER.level}
-            </span>
           </div>
 
           {/* Identity — le nom est le h1 de la page : 36 (il était à 28, le pas
@@ -252,7 +255,7 @@ export const Profile: React.FC = () => {
               {/* Stats compact strip — valeur → libellé 4 ; le libellé est une
                   légende (ink-600). Le token porte la graisse et le serrage du
                   h3 : `tracking-headline` écrasait le sien. */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-stack p-stack-lg rounded-xl bg-ink-50 border border-ink-100">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-stack p-stack-lg rounded-xl bg-ink-50 border border-ink-100">
                 {heroStats.map((s) => (
                   <div key={s.label} className="flex flex-col gap-stack-3xs">
                     <span className="font-display text-h3 text-ink-900 leading-none tabular-nums">
@@ -298,6 +301,91 @@ export const Profile: React.FC = () => {
                   </Card>
                 </section>
               </div>
+
+              {/* ── Reconnaissances (arbitrage n°18) ──────────────────
+                  Ce qui se célèbre : un niveau VALIDÉ, en Open Badge, puis le
+                  rythme des dernières semaines. Une collection du même type :
+                  des rangées dans une carte (arbitrage n°5). L'ancre dégage le
+                  bouton de menu mobile (52 px) quand on y arrive par un lien. */}
+              <section id="reconnaissances" aria-label="Reconnaissances" className="flex flex-col gap-stack scroll-mt-16">
+                <SectionHeader
+                  title="Reconnaissances"
+                  subtitle="Chaque Open Badge atteste un niveau validé par ton coach ou ton manager, sur preuves."
+                  action={
+                    <Button emphasis="ghost" size="sm" trailingIcon={<ArrowRight size={14} />} to="/passeport">
+                      Voir mon Passeport
+                    </Button>
+                  }
+                />
+                <div className="flex flex-col gap-section">
+                  {openBadges.length > 0 ? (
+                    <Card className="p-0 gap-0 overflow-hidden">
+                      <ul className="divide-y divide-ink-100">
+                        {openBadges.map((r) => (
+                          <li key={r.badgeId}>
+                            {/* La rangée entière mène au détail du badge (preuves,
+                                émetteur, date). Pastille de 32 calée sur la
+                                première ligne (26) : 3 px. */}
+                            <Link
+                              to={`/gamification/badge/${r.badgeId}`}
+                              className="flex items-start gap-stack-sm px-stack-lg py-stack transition-colors duration-base hover:bg-ink-50 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-500"
+                            >
+                              <IconChip size="sm" tone="brand">
+                                <Award />
+                              </IconChip>
+                              <span className="flex-1 min-w-0 flex flex-col gap-stack-3xs mt-[3px]">
+                                <span className="flex flex-wrap items-center gap-x-stack-xs gap-y-stack-3xs">
+                                  <span className="text-body font-semibold text-ink-900">{r.competence}</span>
+                                  <MetaPill text={`D${r.niveau} · ${r.niveauLabel}`} tone="brand" />
+                                </span>
+                                <span className="text-caption text-ink-600">
+                                  {r.validation
+                                    ? `Validé par ${r.validation.par} le ${formatDate(r.validation.le)}`
+                                    : `Open Badge obtenu le ${formatDate(r.obtenuLe)}`}
+                                </span>
+                              </span>
+                              <ChevronRight size={16} className="shrink-0 self-center text-ink-500" aria-hidden="true" />
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </Card>
+                  ) : (
+                    <EmptyState
+                      icon={<Award size={32} />}
+                      title="Pas encore d'Open Badge"
+                      description="Il arrive quand ton coach ou ton manager valide un niveau dans ton Passeport."
+                    />
+                  )}
+
+                  {/* Le rythme : quatre cases, sans compte à rebours, la plus
+                      ancienne à gauche. Pleine au cran 700, une semaine active ;
+                      grise, une semaine sans activité — pas un cadre vide, qui
+                      se lisait comme une case à cocher. La phrase porte
+                      l'information : les cases ne la répètent pas au lecteur
+                      d'écran. */}
+                  <div className="flex flex-col gap-stack-xs">
+                    <h3 className="font-display text-h3 text-ink-900">Ton rythme</h3>
+                    <div className="flex flex-wrap items-center gap-x-stack-sm gap-y-stack-xs">
+                      <span className="inline-flex items-center gap-stack-2xs" aria-hidden="true">
+                        {rythme.map((active, i) => (
+                          <span
+                            key={i}
+                            className={[
+                              'w-4 h-4 rounded-xs',
+                              active ? 'bg-primary-700' : 'bg-ink-200',
+                            ].join(' ')}
+                          />
+                        ))}
+                      </span>
+                      <p className="font-body text-body text-ink-900">{phraseRythme(rythme)}</p>
+                    </div>
+                    <p className="font-body text-caption text-ink-600 max-w-prose">
+                      Une semaine compte dès qu'une leçon, une révision, une entrée de journal ou une session de coaching y a eu lieu.
+                    </p>
+                  </div>
+                </div>
+              </section>
 
               {/* Top compétences (preview) */}
               <section className="flex flex-col gap-stack">
@@ -357,53 +445,6 @@ export const Profile: React.FC = () => {
               <Button emphasis="ghost" size="sm" trailingIcon={<ArrowRight size={14} />} className="self-start mt-stack-xs">
                 Voir toute l'historique
               </Button>
-            </section>
-          )}
-
-          {activeTab === 'badges' && (
-            <section className="flex flex-col gap-stack">
-              <SectionHeader title="Badges" meta={`${earnedCount}/${badges.length} débloqués`} />
-              <div className="grid grid-cols-3 sm:grid-cols-6 gap-stack-xs">
-                {badges.map((badge) => (
-                  <div
-                    key={badge.id}
-                    className={[
-                      'relative flex flex-col items-center text-center px-2 py-stack-md rounded-lg border',
-                      badge.earned
-                        ? 'bg-white border-ink-100 hover:border-ink-200 transition-colors'
-                        : 'bg-ink-50 border-ink-100',
-                    ].join(' ')}
-                  >
-                    <span
-                      aria-hidden
-                      className={[
-                        'inline-flex items-center justify-center mb-stack-xs',
-                        badge.earned ? 'text-primary-600' : 'opacity-30',
-                      ].join(' ')}
-                    >
-                      {badge.icon}
-                    </span>
-                    {/* Nom → date 4 ; la date est une légende 13 (l'étiquette
-                        11 est le registre des seuls Badge). */}
-                    <p className="font-body text-caption font-semibold text-ink-900">
-                      {badge.label}
-                    </p>
-                    {badge.earned ? (
-                      <p className="mt-stack-3xs font-body text-caption text-ink-600">{badge.date}</p>
-                    ) : (
-                      <>
-                        <p className="mt-stack-3xs font-body text-caption text-ink-600 tabular-nums">{badge.progress}%</p>
-                        <span
-                          aria-label="Verrouillé"
-                          className="absolute top-2 right-2 inline-flex items-center justify-center w-5 h-5 rounded-pill bg-white text-ink-600 border border-ink-200"
-                        >
-                          <Lock size={14} />
-                        </span>
-                      </>
-                    )}
-                  </div>
-                ))}
-              </div>
             </section>
           )}
 
