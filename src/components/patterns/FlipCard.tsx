@@ -5,8 +5,11 @@
  * de carte recto/verso avec animation CSS 3D.
  *
  * Structure :
- *  - Recto : image de fond + overlay gradient + icône emoji + catégorie pill + titre
+ *  - Recto : image de fond + overlay gradient + icône + catégorie (MetaPill) + titre (20/26/700)
  *  - Verso  : fond dégradé tone-aware + icône + contenu + détails optionnels
+ *  Chaque face est un <button> : il n'admet que du contenu phrasé, donc tout
+ *  ce qu'il contient est en <span> (2026-09-24 — il portait des <div>, des <p>
+ *  et un <h2>, du HTML invalide). Les classes d'affichage donnent le rendu.
  *
  * Mécanique :
  *  - `perspective: 1500px` sur le container (inline style — valeur calculée)
@@ -113,46 +116,53 @@ export const FlipCard: React.FC<FlipCardProps> = ({
           }}
         >
           {/* Background image + gradient overlay */}
-          <div className="absolute inset-0">
+          <span className="absolute inset-0">
             <img
               src={front.image}
               alt=""
               className="w-full h-full object-cover"
               loading="lazy"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60" />
-          </div>
+            <span className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60" />
+          </span>
 
           {/* Front content */}
-          <div className="relative z-base flex flex-col items-center justify-center h-full p-section gap-stack text-center">
+          <span className="relative z-base flex flex-col items-center justify-center h-full p-section gap-stack text-center">
             {/* Icon bubble */}
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-lg bg-white/20 backdrop-blur-glass-light border-2 border-white/30">
+            <span className="inline-flex items-center justify-center w-16 h-16 rounded-lg bg-white/20 backdrop-blur-glass-light border-2 border-white/30">
               <span className="inline-flex items-center justify-center" aria-hidden>{front.icon}</span>
-            </div>
+            </span>
 
             {/* Catégorie — une DONNÉE : MetaPill (arbitrage n°14), opaque donc
                 lisible sur la photo. Elle était en capitales espacées 700.
                 Catégorie → titre 8 : le titre appartient à sa catégorie. La
                 marge de base des titres (0,75em) s'ajoutait au gap : 37 px
                 au-dessus du titre, 16 en dessous. */}
-            <div className="flex flex-col items-center">
+            <span className="flex flex-col items-center">
               <MetaPill text={front.category} tone="neutral" size="md" />
 
-              {/* Title */}
-              <h2 className="mt-stack-xs font-display text-h3 sm:text-h2 font-bold text-white max-w-prose text-balance [text-shadow:0_2px_10px_rgba(0,0,0,0.3)]">
+              {/* Titre de la carte : 20/26/700, le pas d'un titre de bloc — le
+                  jeton porte la graisse. C'était un <h2> en 20 puis 28 dès
+                  640 px (`sm:text-h2`) et `font-bold` : un titre de section
+                  pour nommer une carte. Ce n'est plus un élément de titre :
+                  un titre n'a pas sa place dans un <button> (le HTML n'y admet
+                  que du texte courant) et le rôle bouton rend ses enfants
+                  présentatifs — il n'était exposé comme titre à personne,
+                  mais comptait dans le plan de la page. */}
+              <span className="block mt-stack-xs font-display text-h3 text-white max-w-prose text-balance [text-shadow:0_2px_10px_rgba(0,0,0,0.3)]">
                 {front.title}
-              </h2>
-            </div>
+              </span>
+            </span>
 
             {/* Flip hint */}
             {/* Voile CLAIR + encre foncée : blanc sur blanc/15 tombait sous 4,5 sur l'or 700. */}
-            <div className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-pill bg-white/90 backdrop-blur-glass-light border border-white/30">
+            <span className="inline-flex items-center gap-stack-xs px-4 py-2 rounded-pill bg-white/90 backdrop-blur-glass-light border border-white/30">
               <RotateCw size={16} className="text-ink-900" />
               <span className="font-body text-caption font-semibold text-ink-900">
                 Cliquez pour voir la réponse
               </span>
-            </div>
-          </div>
+            </span>
+          </span>
         </button>
 
         {/* ── Back face ──────────────────────────────────────── */}
@@ -167,26 +177,26 @@ export const FlipCard: React.FC<FlipCardProps> = ({
             transform: 'rotateY(180deg)',
           }}
         >
-          <div className="flex flex-col justify-center items-center h-full text-white text-center gap-stack-lg">
+          <span className="flex flex-col justify-center items-center h-full text-white text-center gap-stack-lg">
             {/* Icon bubble (smaller on back) */}
-            <div className="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-white/20 backdrop-blur-glass-light border-2 border-white/30">
+            <span className="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-white/20 backdrop-blur-glass-light border-2 border-white/30">
               <span className="inline-flex items-center justify-center" aria-hidden>{front.icon}</span>
-            </div>
+            </span>
 
             {/* Réponse — le chapô (18/28, 600) : du texte qu'on lit, en Nunito,
                 plus un 20 px avec le tracking des titres et un interligne écrit
                 à côté (`leading-relaxed`). Largeur de lecture : `max-w-prose`. */}
-            <p className="m-0 font-body text-body-lg font-semibold max-w-prose">
+            <span className="block font-body text-body-lg font-semibold max-w-prose">
               {back.content}
-            </p>
+            </span>
 
             {/* Optional details */}
             {back.details && (
-              <p className="m-0 font-body text-body max-w-prose">
+              <span className="block font-body text-body max-w-prose">
                 {back.details}
-              </p>
+              </span>
             )}
-          </div>
+          </span>
         </button>
       </div>
     </div>
