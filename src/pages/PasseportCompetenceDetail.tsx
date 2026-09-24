@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Target, TrendingUp, BookOpen, Flame, ArrowLeft, Brain, Scale, ShieldCheck, PenLine } from 'lucide-react';
+import { Target, TrendingUp, BookOpen, ArrowLeft, Brain, Scale, ShieldCheck, PenLine } from 'lucide-react';
 import { EditorialHero } from '../components/patterns/EditorialHero';
 import { SectionCard } from '../components/patterns/SectionCard';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
-import { ProgressBar } from '../components/ui/ProgressBar';
 import { SkillBar } from '../components/ui/SkillBar';
 import { AtrophieIndicator } from '../components/ui/AtrophieIndicator';
 import { CompetencyRadar } from '../components/ui/CompetencyRadar';
@@ -44,15 +43,12 @@ export default function PasseportCompetenceDetail() {
   const currentLevel = competencyLevel(lc);
   const levelValidated = isValidatedLevel(lc);
   const targetLevel = lc?.targetLevel ?? currentLevel;
-  const points = lc?.points ?? 0;
-  const nextLevelPoints = lc?.nextLevelPoints ?? 100;
   const daysSinceActivity = lc?.daysSinceActivity ?? 0;
   const domain = (ref?.domain ?? 'Soft') as CompetenceDomain;
   const label = ref?.label ?? (id ?? 'Compétence');
   const description = ref?.description ?? '';
 
   const progressPct = Math.round((currentLevel / targetLevel) * 100);
-  const xpPct = Math.round((points / nextLevelPoints) * 100);
 
   // Progressions for this competency (activity tab)
   const competencyProgressions = progressions
@@ -99,21 +95,17 @@ export default function PasseportCompetenceDetail() {
 
       <Container width="wide" padding={false} className="px-stack md:px-section flex flex-col gap-section">
 
-        {/* KPI row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-stack">
+        {/* KPI row — sans XP depuis le 2026-09-24 : « 320 XP · 180 pour D4 »
+            faisait monter un niveau Dreyfus avec des points, ce que contredit la
+            calibration juste en dessous (le niveau ne se valide qu'humainement)
+            et PRODUCT.md. Le reste de la gamification est un arbitrage en cours. */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-stack">
           <StatCard
             value={`D${currentLevel}`}
             label={levelValidated ? 'Niveau validé' : 'Niveau auto-évalué'}
             delta={`→ D${targetLevel}`}
             deltaDirection="up"
             variant="brand"
-            size="sm"
-          />
-          <StatCard
-            value={`${points} XP`}
-            label="Points accumulés"
-            delta={`${nextLevelPoints - points} pour D${currentLevel < 5 ? currentLevel + 1 : 5}`}
-            deltaDirection="up"
             size="sm"
           />
           <StatCard
@@ -142,6 +134,14 @@ export default function PasseportCompetenceDetail() {
             </p>
           </div>
         )}
+
+        {/* Signal d'inactivité (> 90 j) : il vivait dans la carte « Progression XP ». */}
+        <AtrophieIndicator
+          daysSinceActivity={daysSinceActivity}
+          currentLevel={currentLevel}
+          size="md"
+          className="self-start"
+        />
 
         {/* Dreyfus scale */}
         <SectionCard
@@ -198,21 +198,9 @@ export default function PasseportCompetenceDetail() {
         </div>
 
         {activeTab === 'progress' && (
-          <div className="grid md:grid-cols-2 gap-section">
-            <SectionCard title="Radar compétences" titleIcon={<Target size={18} />}>
-              <CompetencyRadar axes={siblingCompetencies.length > 2 ? siblingCompetencies : [{ label, current: currentLevel, target: targetLevel }]} size="md" showLegend />
-            </SectionCard>
-            <SectionCard title="Progression XP" titleIcon={<Flame size={18} />}>
-              <div className="flex flex-col gap-stack">
-                <div className="flex items-center justify-between">
-                  <span className="text-body-sm text-ink-600">Niveau D{currentLevel} → D{currentLevel < 5 ? currentLevel + 1 : 5}</span>
-                  <span className="text-caption font-semibold text-primary-700">{points} / {nextLevelPoints} XP</span>
-                </div>
-                <ProgressBar value={xpPct} fill="brand" size="md" showLabel />
-                <AtrophieIndicator daysSinceActivity={daysSinceActivity} currentLevel={currentLevel} />
-              </div>
-            </SectionCard>
-          </div>
+          <SectionCard title="Radar compétences" titleIcon={<Target size={18} />}>
+            <CompetencyRadar axes={siblingCompetencies.length > 2 ? siblingCompetencies : [{ label, current: currentLevel, target: targetLevel }]} size="md" showLegend />
+          </SectionCard>
         )}
 
         {activeTab === 'skills' && (
