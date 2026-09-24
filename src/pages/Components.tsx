@@ -1202,7 +1202,8 @@ const SidebarDemo: React.FC = () => {
         </Button>
         <span>La barre passe de 260 à 72 px.</span>
       </div>
-      <div className="h-[480px] rounded-xl border border-ink-200 flex bg-white relative">
+      {/* Un écran, pas une carte : coins droits, comme la fenêtre où vit la barre. */}
+      <div className="h-[480px] border border-ink-200 flex bg-white relative">
         {/* Glass dropdown — floats to the right of the sidebar */}
         {menuOpen && (
           <DropdownMenu
@@ -1244,7 +1245,7 @@ const SidebarDemo: React.FC = () => {
             />
           ))}
         </Sidebar>
-        <div className="flex-1 p-stack-lg bg-gradient-to-br from-ink-50 to-white overflow-hidden rounded-r-xl">
+        <div className="flex-1 p-stack-lg bg-gradient-to-br from-ink-50 to-white overflow-hidden">
           <p className="text-body text-ink-700">Active : <strong className="text-ink-900">{items.find(i => i.id === active)?.label}</strong></p>
           <p className="text-caption text-ink-600 mt-1">La carte utilisateur, en bas, ouvre le menu du compte. Sous 768 px, la barre devient un tiroir.</p>
         </div>
@@ -2569,13 +2570,13 @@ const COMPONENTS: ComponentEntry[] = [
               <Card variant="tinted" tone="sun" title="tinted · sun" description="Dégradé du 100 au 50." />
             </div>
             <div className="grid gap-stack [grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))]">
-              <div className="rounded-xl bg-gradient-to-br from-primary-100 to-primary-200 p-1">
+              <div className="rounded-2xl bg-gradient-to-br from-primary-100 to-primary-200 p-1">
                 <Card variant="glass" title="glass" description="Verre clair, sur un fond coloré." />
               </div>
-              <div className="rounded-xl bg-gradient-to-br from-primary-50 to-white p-1">
+              <div className="rounded-2xl bg-gradient-to-br from-primary-50 to-white p-1">
                 <Card variant="glass-brand" title="glass-brand" description="Voile teal, sur un fond clair." />
               </div>
-              <div className="rounded-xl bg-gradient-to-br from-primary-800 to-primary-900 p-1">
+              <div className="rounded-2xl bg-gradient-to-br from-primary-800 to-primary-900 p-1">
                 <Card variant="glass-dark">
                   <p className="font-display text-h3 text-white">glass-dark</p>
                 </Card>
@@ -2780,7 +2781,7 @@ const COMPONENTS: ComponentEntry[] = [
           <div className="flex flex-col gap-stack-xs">
             <p className="text-caption font-semibold text-ink-600 m-0">Variantes</p>
             <Search placeholder="default — blanc et filet ink-400" shortcut="⌘K" />
-            <div className="bg-gradient-to-r from-primary-700 to-primary-800 p-stack rounded-xl">
+            <div className="bg-gradient-to-r from-primary-700 to-primary-800 p-stack-lg rounded-xl">
               <Search variant="glass" placeholder="glass — sur fond coloré / hero…" shortcut="⌘K" />
             </div>
           </div>
@@ -3906,7 +3907,7 @@ const COMPONENTS: ComponentEntry[] = [
             <IconFeatureCard square surface="tinted" tone="warm" iconStyle="bubble" iconSize="md" icon={<MapIcon size={22} strokeWidth={1.75} />} title="tinted" onClick={() => {}} className="w-[140px]" />
           </div>
           {/* glass + frosted sur fond gradient */}
-          <div className="rounded-2xl bg-gradient-to-br from-primary-700 via-primary-800 to-secondary-700 p-stack">
+          <div className="rounded-2xl bg-gradient-to-br from-primary-700 via-primary-800 to-secondary-700 p-stack-lg">
             <div className="flex flex-wrap gap-stack">
               <IconFeatureCard square surface="glass" tone="brand" iconStyle="plain" iconSize="md" icon={<Layers size={32} strokeWidth={1.75} />} title="glass" onClick={() => {}} className="w-[140px]" />
               <IconFeatureCard square surface="frosted" tone="sun" iconStyle="plain" iconSize="md" icon={<Star size={32} strokeWidth={1.75} />} title="frosted" onClick={() => {}} className="w-[140px]" />
@@ -4021,7 +4022,7 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
 
         <p className="text-caption font-semibold text-ink-600 m-0 mt-stack">Surfaces · glass / frosted (sur fond coloré pour visualiser le blur)</p>
-        <div className="rounded-2xl bg-gradient-to-br from-primary-700 via-primary-800 to-secondary-700 p-stack flex flex-col gap-stack">
+        <div className="rounded-2xl bg-gradient-to-br from-primary-700 via-primary-800 to-secondary-700 p-stack-lg flex flex-col gap-stack">
           <SessionCard
             surface="glass"
             title="Session glass"
@@ -4911,7 +4912,7 @@ const COMPONENTS: ComponentEntry[] = [
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
               <span className="absolute top-3 left-3 inline-flex items-center gap-tight px-2.5 py-1 rounded-pill bg-white/95 backdrop-blur-glass-light text-micro font-bold uppercase text-ink-900 shadow-sm"><FolderOpen size={11} strokeWidth={2.5} /> {item.typeLabel}</span>
               <div className="absolute inset-x-0 bottom-0 p-stack-md text-white flex flex-col gap-tight">
-                <span className="font-body text-caption font-semibold text-white/80">{item.category} · {item.publishedAt}</span>
+                <span className="font-body text-caption font-semibold text-white">{item.category} · {item.publishedAt}</span>
                 <h3 className="font-display text-h3 font-bold text-white">{item.title}</h3>
                 <div className="flex justify-between items-center text-caption text-white/90 mt-tight">
                   <span><User size={12} className="inline" /> {item.author} · ⏱ {item.readTime}</span>
@@ -4934,7 +4935,7 @@ const COMPONENTS: ComponentEntry[] = [
               <button className="absolute top-3 right-3 inline-flex items-center justify-center w-9 h-9 rounded-pill bg-white/90 text-ink-900 backdrop-blur-glass-medium border border-white/30 hover:bg-white">
                 <Bookmark size={15} />
               </button>
-              <div className="absolute inset-x-3 bottom-3 rounded-xl bg-white/85 backdrop-blur-glass-heavy border border-white/60 p-stack flex flex-col gap-tight shadow-lg">
+              <div className="absolute inset-x-3 bottom-3 rounded-lg bg-white/85 backdrop-blur-glass-heavy border border-white/60 p-stack flex flex-col gap-tight shadow-lg">
                 <span className="font-body text-caption font-semibold text-ink-600">{item.category} · {item.publishedAt}</span>
                 <h3 className="font-display text-h3 text-ink-900">{item.title}</h3>
                 <div className="flex items-center gap-stack-xs mt-1 font-body text-caption text-ink-600">
@@ -5318,7 +5319,7 @@ const COMPONENTS: ComponentEntry[] = [
       <div className="flex flex-col gap-section max-w-2xl">
         <div>
           <p className="text-caption font-semibold text-ink-600 mb-stack-xs">Contexte : chatbot</p>
-          <div className="flex flex-col gap-stack p-stack bg-ink-50 rounded-xl border border-ink-200">
+          <div className="flex flex-col gap-stack p-stack-lg bg-ink-50 rounded-xl border border-ink-200">
             <MessageBubble
               variant="user"
               content="Comment développer mes compétences en leadership ?"
@@ -5351,7 +5352,7 @@ const COMPONENTS: ComponentEntry[] = [
         </div>
         <div>
           <p className="text-caption font-semibold text-ink-600 mb-stack-xs">Contexte : messaging (coaching)</p>
-          <div className="flex flex-col gap-stack p-stack bg-white rounded-xl border border-ink-200">
+          <div className="flex flex-col gap-stack p-stack-lg bg-white rounded-xl border border-ink-200">
             <MessageBubble
               variant="user"
               content="Bonjour ! J'ai une question sur notre prochaine session de coaching."
@@ -5426,7 +5427,7 @@ const COMPONENTS: ComponentEntry[] = [
     description: '⭐ Logo officiel The Learning Society — SVG inline avec wordmark + mark. Atom critique réutilisé app-wide (sidebar header + auth pages + brand bar de tout le flow onboarding). ⚠️ **Pas de similar** — composant unique.',
     keywords: ['logo', 'brand', 'mark', 'wordmark', 'tls'],
     render: () => (
-      <div className="flex flex-col gap-stack p-stack rounded-xl bg-white border border-ink-200 max-w-md">
+      <div className="flex flex-col gap-stack p-stack-lg rounded-xl bg-white border border-ink-200 max-w-md">
         <p className="text-caption font-semibold text-ink-600 m-0">Sur fond blanc</p>
         <TlsLogo />
         <p className="text-caption font-semibold text-ink-600 m-0 mt-stack">Sur fond brand (gradient)</p>
@@ -6484,7 +6485,7 @@ const COMPONENTS: ComponentEntry[] = [
       const [pos, setPos] = React.useState(3);
       const total = 7;
       return (
-        <div className="max-w-2xl mx-auto p-stack-md rounded-2xl bg-white shadow-sm border border-ink-100">
+        <div className="max-w-2xl mx-auto p-stack-lg rounded-2xl bg-white shadow-sm border border-ink-100">
           <LessonNavigation
             tone="primary"
             current={pos}
@@ -7451,8 +7452,10 @@ const COMPONENTS: ComponentEntry[] = [
     cssBase: 'Tailwind (no BEM)',
     description: "Rangée de réglage : pastille d'icône (IconChip md), libellé 16/600 ink-900 (danger-fg si `danger`), 4 px, description 16 ink-700 à la largeur de lecture, et le contrôle à droite. SettingsToggleRow, dans le même fichier, y pose un Switch. Brique des pages Compte, Facturation et Confidentialité.",
     keywords: ['settings', 'reglage', 'row', 'compte', 'preferences', 'toggle', 'danger'],
+    /* Les rangées dans UNE carte (arbitrage n°5), et la carte porte le padding :
+       SettingsRow n'en a pas à l'horizontale. */
     render: () => (
-      <div className="flex flex-col rounded-xl border border-ink-200 bg-white divide-y divide-ink-100">
+      <div className="flex flex-col rounded-xl border border-ink-200 bg-white divide-y divide-ink-100 p-stack-lg">
         <SettingsRow icon={<Bell size={18} />} label="Notifications par e-mail" description="Un résumé hebdomadaire, jamais le week-end">
           <Switch defaultChecked />
         </SettingsRow>
