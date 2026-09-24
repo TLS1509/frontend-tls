@@ -81,10 +81,15 @@ export const LessonNavigation: React.FC<LessonNavigationProps> = ({
     className,
   ].filter(Boolean).join(' ');
 
+  /* Arbitrage n°19 — dans un lecteur, avancer est l'action principale de
+     l'écran : « Suivant » (ou « Terminer ») est le `solid`, au ton de la page.
+     « Précédent » passe en `ghost` : revenir en arrière reste possible, sans
+     disputer la place. Les deux étaient en `soft`, de deux tons différents —
+     deux boutons de même poids aux deux bouts de la barre. */
   return (
     <nav className={wrapperClasses} aria-label="Navigation de la leçon">
       <Button
-        emphasis="soft" tone="warm"
+        emphasis="ghost" tone="neutral"
         size="md"
         leadingIcon={<ChevronLeft size={16} />}
         onClick={onPrev}
@@ -104,7 +109,7 @@ export const LessonNavigation: React.FC<LessonNavigationProps> = ({
       />
 
       <Button
-        emphasis="soft"
+        emphasis="solid"
         tone={PAGE_TONE_TO_BUTTON[tone]}
         size="md"
         trailingIcon={showFinish ? <Check size={16} /> : <ChevronRight size={16} />}

@@ -135,11 +135,14 @@ export const MultiStepForm: React.FC<MultiStepFormProps> = ({
         {children || step?.content}
       </Card>
 
+      {/* Arbitrage n°19 : l'étape suivante est l'action principale de
+          l'écran (`solid`), le retour un `ghost`. Ils étaient en `soft`
+          warm et en `soft` brand (par le `variant` déprécié implicite). */}
       <div className="flex justify-between gap-stack-xs">
-        <Button onClick={onBack} disabled={currentStep === 1} emphasis="soft" tone="warm">
+        <Button onClick={onBack} disabled={currentStep === 1} emphasis="ghost" tone="neutral">
           ← Précédent
         </Button>
-        <Button onClick={onNext} disabled={currentStep === steps.length}>
+        <Button emphasis="solid" onClick={onNext} disabled={currentStep === steps.length}>
           {currentStep === steps.length ? 'Valider' : 'Suivant'} →
         </Button>
       </div>

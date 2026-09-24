@@ -139,19 +139,24 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
             </div>
           </div>
 
-          {/* Optional CTA */}
+          {/* Optional CTA — une action de contexte, dans l'étape : `soft` au
+              ton du tutoriel (arbitrage n°19 ; elle était en `outline`,
+              réservé à Annuler). « Suivant » garde le `solid`. */}
           {step.cta && step.onCta && (
-            <Button emphasis="outline" size="md" onClick={step.onCta} className="self-start mt-stack-lg">
+            <Button emphasis="soft" tone={PAGE_TONE_TO_BUTTON[tone]} size="md" onClick={step.onCta} className="self-start mt-stack-lg">
               {step.cta}
             </Button>
           )}
         </div>
       </div>
 
-      {/* Navigation */}
+      {/* Navigation — arbitrage n°19 : « Suivant / Compris » est l'action
+          principale de l'écran (`solid`), « Précédent » un `ghost`. Ils
+          étaient en `soft` et en `outline`. */}
       <div className="flex items-center justify-between">
         <Button
-          emphasis="outline"
+          emphasis="ghost"
+          tone="neutral"
           size="md"
           leadingIcon={<ChevronLeft size={16} />}
           onClick={handlePrev}
@@ -181,7 +186,7 @@ export const StepTutorial: React.FC<StepTutorialProps> = ({
         </div>
 
         <Button
-          emphasis="soft"
+          emphasis="solid"
           tone={PAGE_TONE_TO_BUTTON[tone]}
           size="md"
           trailingIcon={isLast ? <Check size={16} /> : <ChevronRight size={16} />}
