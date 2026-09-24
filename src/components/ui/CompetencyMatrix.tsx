@@ -1,5 +1,6 @@
 import React from 'react';
 import { Lightbulb, Brain, Rocket, Zap, Crown } from 'lucide-react';
+import { DREYFUS_LABELS } from '../../data/competencies';
 
 export type SkillColor = 'primary' | 'warm' | 'sun' | 'success';
 
@@ -16,7 +17,11 @@ export interface CompetencyMatrixProps {
   onSkillHover?: (skill: SkillEntry | null) => void;
 }
 
-const DEFAULT_LABELS = ['', 'Novice', 'Beginner', 'Intermediate', 'Advanced', 'Expert'];
+/* Libellés Dreyfus, depuis la source unique (`data/competencies.ts`,
+   DREYFUS_LABELS) — 2026-09-24. Ils étaient en anglais et sur une autre
+   échelle (« Beginner », « Intermediate », « Advanced ») : la matrice ne
+   parlait pas la langue du Passeport. Index 0 vide : les niveaux partent de 1. */
+const DEFAULT_LABELS = ['', DREYFUS_LABELS[1], DREYFUS_LABELS[2], DREYFUS_LABELS[3], DREYFUS_LABELS[4], DREYFUS_LABELS[5]];
 const ICON_COMPONENTS = [null, Lightbulb, Brain, Rocket, Zap, Crown];
 const COLOR_KEYS: SkillColor[] = ['primary', 'warm', 'sun', 'success'];
 
@@ -40,14 +45,17 @@ export const CompetencyMatrix: React.FC<CompetencyMatrixProps> = ({
     colorAssignment[skill.name] = skill.color || COLOR_KEYS[idx % COLOR_KEYS.length];
   });
 
+  /* Aucune marge externe (piège n°12) : elle portait un `mt-stack-lg` que la
+     page du profil devait annuler (`[&>*]:mt-0`). C'est le parent qui pose le
+     rythme. */
   return (
-    <div className="overflow-x-auto mt-stack-lg">
+    <div className="overflow-x-auto">
       <table className="w-full border-collapse font-body">
         <thead>
           <tr>
             {/* En-têtes 13/600 ink-600 (passe typographique du 2026-09-24). */}
             <th className="p-4 text-left text-caption font-semibold text-ink-600 border-b-2 border-ink-200">
-              Skill
+              Compétence
             </th>
             {labels.slice(1).map((level, idx) => {
               const IconComponent = ICON_COMPONENTS[idx + 1];
@@ -81,7 +89,7 @@ export const CompetencyMatrix: React.FC<CompetencyMatrixProps> = ({
                 return (
                   <td key={lvl} className="p-4 text-center">
                     <div
-                      title={isAchieved ? labels[lvl] : 'Not yet achieved'}
+                      title={isAchieved ? labels[lvl] : 'Pas encore atteint'}
                       className={[
                         'w-10 h-10 mx-auto rounded-pill inline-flex items-center justify-center border-2 cursor-pointer transition-transform',
                         'hover:scale-110',

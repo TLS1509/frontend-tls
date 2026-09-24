@@ -411,16 +411,14 @@ export const Profile: React.FC = () => {
                   la méta, plus un Badge. */}
               <SectionHeader
                 title="Matrice de compétences"
-                subtitle="Évaluation par niveau (Novice → Expert) sur 5 paliers. Survolez une ligne pour voir le détail de progression."
+                subtitle="Évaluation par niveau (Novice → Maître) sur 5 paliers. Survolez une ligne pour voir le détail de progression."
                 meta="5 compétences"
               />
 
-              {/* Matrice — padding symétrique (24). `CompetencyMatrix` pose une
-                  marge haute de 24 sur sa racine (piège n°12) ; la page la
-                  compensait par un padding haut réduit (16 + 24 en haut, 24 en
-                  bas). On l'annule ici, en attendant que le composant la
-                  retire. */}
-              <Card className="overflow-x-auto [&>*]:mt-0">
+              {/* Matrice — padding symétrique (24). Le composant ne pose plus
+                  de marge sur sa racine (piège n°12, retirée le 24/09) : plus
+                  rien à annuler ici. */}
+              <Card className="overflow-x-auto">
                 <CompetencyMatrix skills={skillsForMatrix} />
               </Card>
 
