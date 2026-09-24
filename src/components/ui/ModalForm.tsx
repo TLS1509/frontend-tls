@@ -125,21 +125,31 @@ export const ModalForm: React.FC<ModalFormProps> = ({
             à côté d'une soumission en `soft` : le bouton le plus fort de la
             modale était celui qu'on n'était pas venu presser. Sans
             soumission, la modale ne sert plus que la suppression : elle
-            reprend le `solid` danger. */}
-        <div className="flex items-center justify-between gap-stack-xs px-stack-lg pb-stack-md pt-stack-3xs">
+            reprend le `solid` danger.
+            Le pied passe à la ligne quand ses actions ne tiennent pas
+            (2026-09-24) : « Supprimer le compte », Annuler et Enregistrer
+            demandent 356 px quand la boîte `sm` en offre 334. Il débordait —
+            de 7 px hors de l'écran à 375 px, et sur le padding droit (3 px du
+            bord) à 1440. La paire Annuler / soumission descend alors d'une
+            ligne et reste calée à droite (`ml-auto`) ; l'ordre visuel reste
+            celui du clavier. Le `ghost` destructif, seul en début de ligne,
+            cale son libellé sur le bord du texte (`flush="start"`) : son
+            padding le décalait de 16 px du champ au-dessus de lui. */}
+        <div className="flex flex-wrap items-center justify-between gap-stack-xs px-stack-lg pb-stack-md pt-stack-3xs">
           <div>
             {destructiveLabel && onDestructive && (
               <Button
                 type="button"
                 emphasis={onSubmit ? 'ghost' : 'solid'} tone="danger"
                 size="sm"
+                flush="start"
                 onClick={onDestructive}
               >
                 {destructiveLabel}
               </Button>
             )}
           </div>
-          <div className="flex items-center gap-stack-xs">
+          <div className="flex flex-wrap items-center justify-end gap-stack-xs ml-auto">
             <Button type="button" emphasis="outline" tone="neutral" size="sm" onClick={onClose}>
               Annuler
             </Button>
