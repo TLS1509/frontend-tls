@@ -205,32 +205,36 @@ export const SearchWithSuggestions: React.FC<SearchWithSuggestionsProps> = ({
                       }
                     `}
                   >
+                    {/* Des <span> : un <button> n'admet que du contenu phrasé
+                        (il portait trois <div> et deux <p>, 2026-09-24). Les
+                        enfants directs du bouton, flex, sont des blocs ; la
+                        description garde son `line-clamp`, qui pose l'affichage. */}
                     {/* Icon */}
-                    <div
+                    <span
                       className={`
                         mt-0.5 flex-shrink-0 p-1.5 rounded-md
                         ${COLOR_MAP[suggestion.type]}
                       `}
                     >
                       {ICON_MAP[suggestion.type]}
-                    </div>
+                    </span>
 
                     {/* Text content */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-stack-xs flex-wrap">
-                        <p className="text-body font-semibold text-ink-900 truncate">
+                    <span className="flex-1 min-w-0">
+                      <span className="flex items-center gap-stack-xs flex-wrap">
+                        <span className="text-body font-semibold text-ink-900 truncate">
                           {suggestion.label}
-                        </p>
+                        </span>
                         <span className={`text-micro font-medium px-2 py-0.5 rounded-pill whitespace-nowrap ${COLOR_MAP[suggestion.type]}`}>
                           {LABEL_MAP[suggestion.type]}
                         </span>
-                      </div>
+                      </span>
                       {suggestion.description && (
-                        <p className="text-caption text-ink-600 mt-0.5 line-clamp-1">
+                        <span className="text-caption text-ink-600 mt-0.5 line-clamp-1">
                           {suggestion.description}
-                        </p>
+                        </span>
                       )}
-                    </div>
+                    </span>
 
                     {/* Keyboard hint */}
                     {highlightedIdx === idx && (

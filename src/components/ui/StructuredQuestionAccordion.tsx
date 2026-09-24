@@ -73,15 +73,17 @@ export const StructuredQuestionAccordion: React.FC<StructuredQuestionAccordionPr
                 className="w-full flex items-center justify-between gap-stack-xs px-4 py-3 bg-white hover:bg-ink-50 transition-colors text-left min-h-touch"
               >
                 {/* Question 16 / 600, sa consigne 13 / 400 ink-600 à 4 px dessous
-                    (titre → texte d'un même groupe). */}
-                <div className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
-                  <p className="font-body text-body font-semibold text-ink-900">
+                    (titre → texte d'un même groupe). Des <span> : un <button>
+                    n'admet que du contenu phrasé (il portait un <div> et deux
+                    <p>, 2026-09-24) ; la colonne flex donne le même rendu. */}
+                <span className="flex-1 min-w-0 flex flex-col gap-stack-3xs">
+                  <span className="font-body text-body font-semibold text-ink-900">
                     {q.title}
-                  </p>
+                  </span>
                   {!isOpen && (
-                    <p className="font-body text-caption text-ink-600">{q.description}</p>
+                    <span className="font-body text-caption text-ink-600">{q.description}</span>
                   )}
-                </div>
+                </span>
                 <ChevronDown
                   size={18}
                   className={[

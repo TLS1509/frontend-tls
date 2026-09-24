@@ -37,8 +37,13 @@ export const RelatedItemList: React.FC<RelatedItemListProps> = ({
     <div className={['flex flex-col gap-stack-xs', className].filter(Boolean).join(' ')}>
       {items.map((item, idx) => {
         const interactive = Boolean(item.href || item.onClick);
+        /* Dans un <button>, un <span> (2026-09-24) : le bouton n'admet que du
+           contenu phrasé, il portait un <article>, un <div> et un <p>. Le lien
+           et la rangée simple gardent leur <article>. Même rendu : la rangée
+           est en flex, le texte en `block` ou en `line-clamp`. */
+        const Rangee = item.onClick && !item.href ? 'span' : 'article';
         const inner = (
-          <article
+          <Rangee
             className={[
               'group/item flex items-start gap-stack-sm rounded-md border border-ink-200 bg-white p-3 transition-colors',
               interactive ? 'hover:border-primary-300 hover:bg-primary-50/40 cursor-pointer' : '',
@@ -56,7 +61,7 @@ export const RelatedItemList: React.FC<RelatedItemListProps> = ({
                 texte 16/400 ink-700, deux lignes au plus. Sans méta, le bloc
                 descend de 6 px pour que la première ligne tombe sur le centre
                 de la pastille (6 + 13 = 19, contre 20). */}
-            <div className={['flex-1 min-w-0', item.icon && !item.meta ? 'pt-stack-2xs' : ''].join(' ')}>
+            <span className={['flex-1 min-w-0', item.icon && !item.meta ? 'pt-stack-2xs' : ''].join(' ')}>
               {item.meta && (
                 <span className="block mb-stack-3xs text-caption text-ink-600">
                   {item.meta}
@@ -66,11 +71,11 @@ export const RelatedItemList: React.FC<RelatedItemListProps> = ({
                 {item.title}
               </strong>
               {item.description && (
-                <p className="m-0 mt-stack-3xs text-body text-ink-700 line-clamp-2">
+                <span className="mt-stack-3xs text-body text-ink-700 line-clamp-2">
                   {item.description}
-                </p>
+                </span>
               )}
-            </div>
+            </span>
             {/* Le chevron désigne toute la rangée : centré sur elle. */}
             {interactive && showArrow && (
               <ChevronRight
@@ -79,7 +84,7 @@ export const RelatedItemList: React.FC<RelatedItemListProps> = ({
                 className="shrink-0 self-center text-ink-400 transition-[transform,opacity,color] duration-fast ease-emphasis opacity-0 -translate-x-1 group-hover/item:opacity-100 group-hover/item:translate-x-0 group-hover/item:text-primary-600"
               />
             )}
-          </article>
+          </Rangee>
         );
 
         const key = item.id ?? idx;

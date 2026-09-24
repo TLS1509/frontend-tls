@@ -129,9 +129,11 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
                           }
                         `}
                       >
-                        <div className="flex items-center gap-stack-xs flex-1">
+                        {/* Des <span> : un <button> n'admet que du contenu
+                            phrasé (il portait deux <div>, 2026-09-24). */}
+                        <span className="flex items-center gap-stack-xs flex-1">
                           {/* Radio dot */}
-                          <div
+                          <span
                             className={`
                               w-5 h-5 rounded-pill border-2 flex items-center justify-center
                               transition-all duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]
@@ -145,7 +147,7 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
                             {isSelected && (
                               <span className="w-2 h-2 bg-white rounded-pill" />
                             )}
-                          </div>
+                          </span>
                           <span
                             className={`text-body transition-colors duration-200 ${
                               isSelected ? 'text-ink-900' : 'text-ink-700'
@@ -153,7 +155,7 @@ export const SelectCheckboxCategory: React.FC<SelectCheckboxCategoryProps> = ({
                           >
                             {cat.label}
                           </span>
-                        </div>
+                        </span>
 
                         {/* Expand arrow for subcategories */}
                         {cat.subcategories && cat.subcategories.length > 0 && (

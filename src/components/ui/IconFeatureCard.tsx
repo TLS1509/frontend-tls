@@ -273,7 +273,7 @@ export const IconFeatureCard: React.FC<IconFeatureCardProps> = ({
   let iconInner: React.ReactNode;
   if (iconStyle === 'bubble') {
     iconInner = (
-      <div
+      <span
         className={[
           'inline-flex items-center justify-center rounded-xl transition-transform group-hover:scale-110',
           BUBBLE_SIZE[iconSize],
@@ -282,11 +282,11 @@ export const IconFeatureCard: React.FC<IconFeatureCardProps> = ({
         aria-hidden="true"
       >
         {icon}
-      </div>
+      </span>
     );
   } else if (iconStyle === 'filled') {
     iconInner = (
-      <div
+      <span
         className={[
           'inline-flex items-center justify-center transition-transform group-hover:scale-110',
           surSombre ? 'text-white [&_svg]:fill-current' : TONE_FILLED[tone],
@@ -294,12 +294,12 @@ export const IconFeatureCard: React.FC<IconFeatureCardProps> = ({
         aria-hidden="true"
       >
         {icon}
-      </div>
+      </span>
     );
   } else {
     // plain
     iconInner = (
-      <div
+      <span
         className={[
           'inline-flex items-center justify-center transition-transform group-hover:scale-110',
           surSombre ? 'text-white' : TONE_PLAIN[tone],
@@ -307,20 +307,23 @@ export const IconFeatureCard: React.FC<IconFeatureCardProps> = ({
         aria-hidden="true"
       >
         {icon}
-      </div>
+      </span>
     );
   }
 
   /* Wrapper icon zone — hauteur fixée pour alignement cross-card.
      Centre l'icon (peu importe son iconStyle) dans une zone uniforme. */
   const iconNode = (
-    <div className={['flex items-center justify-center', ICON_ZONE[iconSize]].join(' ')}>
+    <span className={['flex items-center justify-center', ICON_ZONE[iconSize]].join(' ')}>
       {iconInner}
-    </div>
+    </span>
   );
 
   /* Dans un <button>, le titre est un <span> : un titre n'est pas un contenu
      valide de bouton (HTML), et il faussait le plan de la page. Même style.
+     Les enveloppes de l'icône et du texte sont des <span> dans les deux cas
+     (2026-09-24 ; elles étaient des <div>, invalides dans le bouton) : leurs
+     classes flex donnent le même rendu.
      La description est une phrase courte, centrée comme la tuile : `text-balance`
      équilibre ses deux lignes. Au-delà de deux lignes, préférer une carte
      alignée à gauche (doctrine § 3). */
@@ -329,14 +332,14 @@ export const IconFeatureCard: React.FC<IconFeatureCardProps> = ({
   const body = (
     <>
       {iconNode}
-      <div className={['flex flex-col', TEXT_GAP[iconSize]].join(' ')}>
+      <span className={['flex flex-col', TEXT_GAP[iconSize]].join(' ')}>
         <TitleTag className={`block font-display ${TITLE_SIZE[iconSize]} text-balance ${surSombre ? 'text-white' : 'text-ink-900'}`}>
           {title}
         </TitleTag>
         {description && (
           <DescTag className={`block font-body text-body text-balance ${surSombre ? 'text-white' : 'text-ink-700'}`}>{description}</DescTag>
         )}
-      </div>
+      </span>
     </>
   );
 

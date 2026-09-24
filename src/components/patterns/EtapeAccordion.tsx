@@ -32,6 +32,9 @@ export interface EtapeAccordionProps {
    * Custom header content — fully replaces the default title/duration layout.
    * Use for tone-aware headers that include icon boxes, badges, or progress bars.
    * The chevron is always appended after this content.
+   * ⚠️ Rendu DANS un <button> : du contenu phrasé seulement (`<span>` avec ses
+   * classes d'affichage, pas de `<div>`, `<p>` ni titre) — le HTML n'admet rien
+   * d'autre dans un bouton (2026-09-24).
    */
   header?: React.ReactNode;
   /** Body content shown when open and not locked */

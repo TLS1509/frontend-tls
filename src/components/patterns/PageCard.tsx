@@ -101,8 +101,18 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
 }) => {
   const tone: NonNullable<PageCardItem['tone']> = item.tone || 'primary';
 
+  /* Dans un <button> (carte cliquable sans lien), des <span> seulement : le
+     bouton n'admet que du contenu phrasé — il portait des <div>, un <h3> et un
+     <p> (2026-09-24). Chaque bloc garde ses classes : les enveloppes sont en
+     flex, ou éléments d'une colonne flex, donc des blocs. Le lien et la carte
+     simple gardent leurs éléments. */
+  const enBouton = !item.href && Boolean(item.onClick);
+  const Bloc = enBouton ? 'span' : 'div';
+  const Titre = enBouton ? 'span' : 'h3';
+  const Texte = enBouton ? 'span' : 'p';
+
   const card = (
-    <div
+    <Bloc
       className={[
         'group relative flex flex-col overflow-hidden bg-white border border-ink-200 rounded-lg transition-all duration-base',
         CARD_HOVER[tone],
@@ -110,18 +120,18 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
     >
       {/* Thumbnail */}
       {showThumbnail && item.thumbnail && (
-        <div className="relative w-full aspect-[16/10] overflow-hidden bg-ink-50">
+        <Bloc className="relative w-full aspect-[16/10] overflow-hidden bg-ink-50">
           <img
             src={item.thumbnail}
             alt=""
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
-        </div>
+        </Bloc>
       )}
 
       {/* Status + Badge row */}
       {(item.status || item.badge) && (
-        <div className="flex items-center gap-stack-xs px-stack-md pt-stack flex-wrap">
+        <Bloc className="flex items-center gap-stack-xs px-stack-md pt-stack flex-wrap">
           {item.status && (
             <span
               className={[
@@ -146,38 +156,38 @@ export const PageCard: React.FC<{ item: PageCardItem; showThumbnail?: boolean }>
               {item.badge.label}
             </Badge>
           )}
-        </div>
+        </Bloc>
       )}
 
       {/* Icon (when no thumbnail) */}
       {!item.thumbnail && item.icon && (
-        <div className="px-stack-md pt-stack-md">
+        <Bloc className="px-stack-md pt-stack-md">
           <span className={`inline-flex items-center justify-center w-12 h-12 rounded-xl ${TONE_ICON_BUBBLE[tone]}`}>
             {item.icon}
           </span>
-        </div>
+        </Bloc>
       )}
 
       {/* Content — titre h3 · 8 · description 16 ink-700 · 12 · méta */}
-      <div className="flex-1 flex flex-col gap-stack-xs px-stack-md py-stack">
-        <h3 className="font-display text-h3 text-ink-900">
+      <Bloc className="flex-1 flex flex-col gap-stack-xs px-stack-md py-stack">
+        <Titre className="font-display text-h3 text-ink-900">
           {item.title}
-        </h3>
+        </Titre>
         {item.description && (
-          <p className="font-body text-body text-ink-700 max-w-prose">
+          <Texte className="font-body text-body text-ink-700 max-w-prose">
             {item.description}
-          </p>
+          </Texte>
         )}
         {item.tag && (
           <MetaPill text={item.tag} className="self-start mt-stack-3xs" />
         )}
-      </div>
+      </Bloc>
 
       {/* Hover arrow */}
-      <div className={`flex items-center justify-end px-stack-md pb-stack opacity-0 -translate-x-2 transition-all duration-base group-hover:opacity-100 group-hover:translate-x-0 ${TONE_ARROW[tone]}`}>
+      <Bloc className={`flex items-center justify-end px-stack-md pb-stack opacity-0 -translate-x-2 transition-all duration-base group-hover:opacity-100 group-hover:translate-x-0 ${TONE_ARROW[tone]}`}>
         <ArrowRight size={18} strokeWidth={2.25} />
-      </div>
-    </div>
+      </Bloc>
+    </Bloc>
   );
 
   if (item.href) {

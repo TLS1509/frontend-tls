@@ -52,7 +52,9 @@ export const SelectableOptionCard: React.FC<SelectableOptionCardProps> = ({
         className,
       ].join(' ')}
     >
-      <div
+      {/* Des <span> seulement : un <button> n'admet que du contenu phrasé
+          (2026-09-24, il portait deux <div>). Les classes flex donnent le rendu. */}
+      <span
         className={[
           // Pastille d'icône 32/40 : `rounded-md`, l'étage proportionnel (arbitrage n°3).
           'rounded-md flex items-center justify-center shrink-0',
@@ -61,18 +63,18 @@ export const SelectableOptionCard: React.FC<SelectableOptionCardProps> = ({
         ].join(' ')}
       >
         {icon}
-      </div>
+      </span>
 
       {/* Libellé 16 / 600 aux deux tailles : c'est le nom de l'option, pas une
           légende ; le compact ne se distingue que par l'absence de description. */}
-      <div className={['flex flex-col', isCompact ? 'items-center' : 'gap-stack-3xs'].join(' ')}>
+      <span className={['flex flex-col', isCompact ? 'items-center' : 'gap-stack-3xs'].join(' ')}>
         <span className="text-body font-semibold text-ink-900">
           {label}
         </span>
         {!isCompact && description && (
           <span className="text-caption text-ink-600">{description}</span>
         )}
-      </div>
+      </span>
 
       {!isCompact && selected && <Badge variant="info" size="compact">Sélectionné</Badge>}
     </button>

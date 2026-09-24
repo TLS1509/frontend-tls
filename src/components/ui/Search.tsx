@@ -304,16 +304,19 @@ export const Search: React.FC<SearchProps> = ({
               ].join(' ')}
             >
               {suggestion.icon && <span className="inline-flex shrink-0">{suggestion.icon}</span>}
-              <div className="flex-1 min-w-0">
-                <div className={`text-body truncate ${isGlass ? 'text-white' : 'text-ink-900'}`}>
+              {/* Des <span> : un <button> n'admet que du contenu phrasé (il
+                  portait trois <div>, 2026-09-24). `block` garde la coupure
+                  en « … » de `truncate`, qui ne joue que sur un bloc. */}
+              <span className="flex-1 min-w-0">
+                <span className={`block text-body truncate ${isGlass ? 'text-white' : 'text-ink-900'}`}>
                   {renderSuggestion ? renderSuggestion(suggestion) : suggestion.label}
-                </div>
+                </span>
                 {suggestion.metadata && (
-                  <div className={`text-caption truncate ${isGlass ? 'text-white/80' : 'text-ink-600'}`}>
+                  <span className={`block text-caption truncate ${isGlass ? 'text-white/80' : 'text-ink-600'}`}>
                     {suggestion.metadata}
-                  </div>
+                  </span>
                 )}
-              </div>
+              </span>
             </button>
           ))}
         </div>
