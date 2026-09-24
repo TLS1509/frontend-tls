@@ -73,11 +73,14 @@ const JournalBubbleNudge: React.FC<JournalBubbleNudgeProps> = ({ navigate, hasUp
     <div className="flex flex-col gap-stack">
       {/* Une section de la page : h2 28 (passe typographique du 24/09). Elle
           était un h3 20 fait main, à la taille d'un titre de carte. */}
+      {/* « Mon journal » mène ailleurs, comme « Voir tout » : `ghost`
+          (arbitrage n°19). Il était en `outline`, réservé à Annuler dans une
+          paire ; l'écriture elle-même passe par la bulle, en dessous. */}
       <SectionHeader
         title="Écrire aujourd'hui"
         action={
           <Button
-            emphasis="outline"
+            emphasis="ghost"
             size="sm"
             leadingIcon={<PenLine size={14} />}
             onClick={() => navigate('/journal')}
@@ -157,11 +160,13 @@ const ActivitySection: React.FC<ActivitySectionProps> = ({ navigate }) => {
   const feedItems = useMemo(() => makeFeedItems(navigate), [navigate]);
   return (
     <div className="flex flex-col gap-stack">
+      {/* Un « Voir tout » de section : `ghost` (arbitrage n°19). Le seul
+          aplat de l'accueil reste « Reprendre ». */}
       <SectionHeader
         title="Activité & veille"
         action={
           <Button
-            emphasis="outline"
+            emphasis="ghost"
             size="sm"
             trailingIcon={<ArrowRight size={14} />}
             onClick={() => navigate('/veille')}

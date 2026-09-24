@@ -74,7 +74,9 @@ export default function DashboardCompetenceDetail() {
         summary={`Niveau Dreyfus D${COMPETENCE.currentLevel} → objectif D${COMPETENCE.targetLevel} · ${COMPETENCE.progress} % de progression`}
         tone="flat"
         trailing={
-          <Button emphasis="soft" size="md" leadingIcon={<Target size={16} />}>
+          /* Aller voir ailleurs, comme « Voir tout » : `ghost` (arbitrage
+             n°19). L'aplat de l'écran est « Continuer ma progression ». */
+          <Button emphasis="ghost" size="md" leadingIcon={<Target size={16} />}>
             Voir le passeport complet
           </Button>
         }
@@ -150,8 +152,10 @@ export default function DashboardCompetenceDetail() {
         </div>
       </section>
 
+      {/* L'action principale de l'écran, et la seule en aplat (arbitrage
+          n°19) : la fiche d'une compétence sert à reprendre sa progression. */}
       <div>
-        <Button emphasis="soft" size="lg" leadingIcon={<BookOpen size={18} />}>
+        <Button emphasis="solid" size="lg" leadingIcon={<BookOpen size={18} />}>
           Continuer ma progression
         </Button>
       </div>
