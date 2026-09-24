@@ -75,6 +75,20 @@ const ROLE_OPTIONS: SelectOption[] = [
   { value: 'admin',  label: 'Admin' },
 ];
 
+/* Maturité de démonstration, fixe (voir `heatmapData`). */
+const HEATMAP_SKILLS = ['Communication', 'Technique', 'Leadership', 'Gestion', 'Stratégie', 'Innovation'];
+const HEATMAP_TEAMS: ReadonlyArray<readonly [string, readonly number[]]> = [
+  //              Comm. Tech. Lead. Gest. Strat. Innov.
+  ['Direction',   [4,    2,    5,    4,    5,     3]],
+  ['Tech',        [2,    5,    3,    3,    2,     4]],
+  ['Commerciale', [4,    2,    3,    2,    3,     2]],
+  ['Support',     [4,    3,    2,    3,    1,     2]],
+  ['Finance',     [2,    3,    2,    5,    3,     1]],
+  ['RH',          [5,    1,    3,    4,    2,     2]],
+  ['Marketing',   [4,    2,    2,    3,    3,     4]],
+  ['Ops',         [3,    3,    2,    4,    2,     2]],
+];
+
 /* ── Component ──────────────────────────────────────────────────────────── */
 
 export const Enterprise: React.FC = () => {
@@ -89,28 +103,18 @@ export const Enterprise: React.FC = () => {
 
   const activeMembers = members.filter((m) => m.status === 'active');
 
-  // Mock team-skill competency data for heatmap (8 teams × 6 skills, 1-5 Dreyfus scale)
-  const heatmapData: HeatmapDataPoint[] = useMemo(() => {
-    const skills = ['Communication', 'Technique', 'Leadership', 'Gestion', 'Stratégie', 'Innovation'];
-    const teams = [
-      'Direction',
-      'Tech',
-      'Commerciale',
-      'Support',
-      'Finance',
-      'RH',
-      'Marketing',
-      'Ops',
-    ];
-
-    return teams.flatMap((team) =>
-      skills.map((skill) => ({
-        x: skill,
-        y: team,
-        value: Math.floor(Math.random() * 5) + 1,
-      }))
-    );
-  }, []);
+  // Maturité par équipe × compétence (échelle Dreyfus 1-5), 8 équipes × 6
+  // compétences. Données FIXES : la matrice était tirée par `Math.random()` à
+  // chaque rendu, donc un rechargement changeait le diagnostic (« Commerciale »
+  // passait de D4 D1 D1 D4 D3 D1 à D4 D4 D4 D2…) — impossible à montrer à un
+  // CLO. Retiré le 2026-09-24. Ordre des colonnes = `HEATMAP_SKILLS`.
+  const heatmapData: HeatmapDataPoint[] = useMemo(
+    () =>
+      HEATMAP_TEAMS.flatMap(([team, levels]) =>
+        HEATMAP_SKILLS.map((skill, i) => ({ x: skill, y: team, value: levels[i] })),
+      ),
+    [],
+  );
 
   // Mock team rankings data for bar chart (sorted by average score 0-100)
   const teamRankingsData: BarChartDataPoint[] = useMemo(() => {
