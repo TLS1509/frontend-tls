@@ -25,7 +25,7 @@
 2026-09-24, cette ligne le disait encore « ré-export »). **Utiliser `<Breadcrumb variant="nav">`.**
 
 ### Famille Pills — wrappers sur Chip primitive (Phase 19.A · 2026-05-26, révisée le 2026-09-10)
-Depuis Phase 19.A, les 4 chips consomment **`ui/Chip.tsx`** (primitive interne) qui owne les style tokens partagés : `CHIP_BASE`, `CHIP_SIZE`, `CHIP_TONE_SOLID`, `CHIP_TONE_SOLID_ACTIVE`, `CHIP_TONE_HOVER`, `CHIP_SURFACE_MAP`, `CHIP_INTERACTIVE`. Helper `resolveChipClasses({size, tone, surface, interactive, hover})` retourne la chaîne complète.
+Depuis Phase 19.A, les 4 chips consomment **`ui/Chip.tsx`** (primitive interne) qui owne les style tokens partagés : `CHIP_BASE_SANS_RAYON`, `CHIP_RAYON`, `CHIP_SIZE`, `CHIP_TONE_SOLID`, `CHIP_TONE_SOLID_ACTIVE`, `CHIP_TONE_HOVER`, `CHIP_SURFACE_MAP`, `CHIP_INTERACTIVE`. Helper `resolveChipClasses({size, tone, surface, interactive, hover})` retourne la chaîne complète. ⚠️ **Le rayon dépend de la taille** (24/09, règle du seuil) : pilule sous 28 px (`sm`), 14 au-dessus (`md`, `lg`) — d'où `CHIP_RAYON[size]`. `CHIP_BASE` (pilule à toutes les tailles) est déprécié, sans consommateur.
 
 **Wrappers publics conservés** (APIs spécialisées, pas de fusion) — `Pill` et `Tag` ne figurent plus dans cette table, supprimés le 2026-09-10 :
 
