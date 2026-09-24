@@ -25,7 +25,6 @@ export { Signup } from './Signup';
 export { ForgotPassword } from './ForgotPassword';
 export { Notifications } from './Notifications';
 export { Messages } from './Messages';
-export { Leaderboard } from './Leaderboard';
 export { Veille } from './Veille';
 export { Journal } from './Journal';
 export { ArticleDetail } from './ArticleDetail';
@@ -129,7 +128,6 @@ export { default as ProjectTask } from './ProjectTask';
 export { default as ProjectTeam } from './ProjectTeam';
 export { default as BadgeGallery } from './BadgeGallery';
 export { default as XPDashboard } from './XPDashboard';
-export { default as DashboardAchievements } from './DashboardAchievements';
 export { default as NotificationPreferences } from './NotificationPreferences';
 // Phase 16 — 17 sitemap gap pages (P0 + P1 from FO_SCREENS_CONSOLIDATION)
 export { default as PerplexityContentDetail } from './PerplexityContentDetail';
