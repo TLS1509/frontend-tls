@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence, MotionConfig } from 'framer-motion';
-import { BookOpen, MessageSquare, NotebookPen, Compass, Sparkles } from 'lucide-react';
+import { BookOpen, MessageSquare, NotebookPen, Compass, Award, MousePointerClick } from 'lucide-react';
 import { TlsLogo } from '../../ui/TlsLogo';
 import { MetaPill } from '../../ui/MetaPill';
 
@@ -48,10 +48,12 @@ const ParcoursPanel: React.FC = () => (
         className="rounded-lg bg-primary-50 border border-primary-100 p-3 flex flex-col gap-tight"
       >
         {/* Libellé de donnée : légende 13/600 à l'encre de marque au cran 800
-            (6,31:1 sur primary-50). Il était en capitales, 700, au cran 700 :
-            4,48:1, sous le seuil AA. L'XP lui-même relève de l'arbitrage n°18. */}
-        <span className="text-caption font-semibold text-primary-800">XP gagnés</span>
-        <span className="font-display text-h3 font-bold text-ink-900 tabular-nums">+340</span>
+            (6,31:1 sur primary-50). La maquette montre le produit tel qu'il
+            est depuis l'arbitrage n°18 : elle affichait « XP gagnés +340 »
+            et « Streak 12 j », que l'app n'a plus. Elle montre un niveau
+            validé et le rythme hebdomadaire. */}
+        <span className="text-caption font-semibold text-primary-800">Niveau validé</span>
+        <span className="font-display text-h3 font-bold text-ink-900 tabular-nums">D3</span>
       </motion.div>
       <motion.div
         initial={{ scale: 0.85, opacity: 0 }}
@@ -59,8 +61,8 @@ const ParcoursPanel: React.FC = () => (
         transition={{ delay: 0.6, type: 'spring', stiffness: 260, damping: 18 }}
         className="rounded-lg bg-accent-50 border border-accent-100 p-3 flex flex-col gap-tight"
       >
-        <span className="text-caption font-semibold text-warning-fg">Streak</span>
-        <span className="font-display text-h3 font-bold text-ink-900 tabular-nums">12 j</span>
+        <span className="text-caption font-semibold text-warning-fg">Semaines actives</span>
+        <span className="font-display text-h3 font-bold text-ink-900 tabular-nums">3 sur 4</span>
       </motion.div>
     </div>
     <motion.div
@@ -69,9 +71,11 @@ const ParcoursPanel: React.FC = () => (
       transition={{ delay: 0.75 }}
       className="rounded-lg bg-gradient-to-br from-accent-50 to-accent-100/40 border border-accent-200 p-3 flex items-center gap-stack-xs"
     >
-      <Sparkles size={16} className="text-warning-fg shrink-0" />
+      {/* Un Open Badge adossé à un niveau validé, dit calmement : plus de
+          « Nouveau badge débloqué » sous une étincelle (réservée à l'IA). */}
+      <Award size={16} className="text-warning-fg shrink-0" aria-hidden="true" />
       <span className="font-body text-caption font-semibold text-ink-800">
-        Nouveau badge débloqué <span className="font-bold">Prompt Apprenti</span>
+        Open Badge obtenu <span className="font-bold">Prompting · D3</span>
       </span>
     </motion.div>
   </motion.div>
@@ -292,7 +296,7 @@ export const InteractiveAppMockup: React.FC<Props> = ({
         {/* hint — full variant only, since compact has no tab-switcher to hint at */}
         {!compact && (
           <div className="pt-2 border-t border-ink-100 flex items-center justify-center gap-stack-2xs">
-            <Sparkles size={14} className="text-warning-fg" />
+            <MousePointerClick size={14} className="text-warning-fg" aria-hidden="true" />
             <span className="font-body text-caption text-ink-600">Clique sur les onglets pour explorer</span>
           </div>
         )}
