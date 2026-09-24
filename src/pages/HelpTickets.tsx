@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HelpCircle, Plus, Calendar, MessageSquare } from 'lucide-react';
-import { EditorialHero } from '../components/patterns/EditorialHero';
+import { Plus, Calendar, MessageSquare } from 'lucide-react';
+import { PageHero } from '../components/patterns/EditorialHero';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
@@ -39,11 +39,17 @@ export default function HelpTickets() {
   const formatDate = (iso: string) =>
     new Date(iso).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' });
 
+  /* Passe typographique du 2026-09-24 : l'en-tête vivait HORS de
+     `PageShell` (collé au haut de la fenêtre, sur un autre bord que la liste) ;
+     les onglets et la liste forment un bloc ; les demandes sont des rangées
+     dans une carte (arbitrage n°5), leur objet en Nunito 16 / 600 (il était
+     en League Spartan à 16, sous le seuil de la famille display), leur date
+     en légende ink-600. */
   return (
-    <div className="flex flex-col gap-section">
-      <EditorialHero
-        eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Support' }}
-        title="Mes Tickets"
+    <PageShell width="page">
+      <PageHero
+        eyebrow="Centre d'aide"
+        title="Mes tickets"
         summary="Suivez l'état de vos demandes de support et échangez avec notre équipe."
         tone="flat"
         trailing={
@@ -53,8 +59,8 @@ export default function HelpTickets() {
         }
       />
 
-      <PageShell width="page" noPadTop className="pt-6 md:pt-8 lg:pt-10 pb-page">
-        <Tabs items={TAB_ITEMS} value={tab} onChange={setTab} variant="underline" />
+      <div className="flex flex-col gap-stack-lg">
+        <Tabs items={TAB_ITEMS} value={tab} onChange={setTab} variant="underline" label="Tickets" />
 
         {displayed.length === 0 ? (
           <EmptyState
@@ -67,16 +73,16 @@ export default function HelpTickets() {
             icon={<MessageSquare size={32} />}
           />
         ) : (
-          <div className="flex flex-col gap-stack">
-            {displayed.map((ticket) => {
-              const badge = STATUS_BADGE[ticket.status] ?? { label: ticket.status, variant: 'neutral' as BadgeVariant };
-              return (
-                <Card key={ticket.id}>
-                  <div className="flex items-center gap-stack">
-                    <div className="flex flex-col gap-tight flex-1 min-w-0">
-                      <span className="font-display font-semibold text-body text-ink-900">{ticket.subject}</span>
-                      <span className="flex items-center gap-tight text-caption text-ink-500">
-                        <Calendar size={14} />
+          <Card className="p-0 overflow-hidden">
+            <ul className="flex flex-col divide-y divide-ink-100" aria-label={tab === 'open' ? 'Tickets ouverts' : 'Tickets résolus'}>
+              {displayed.map((ticket) => {
+                const badge = STATUS_BADGE[ticket.status] ?? { label: ticket.status, variant: 'neutral' as BadgeVariant };
+                return (
+                  <li key={ticket.id} className="flex flex-wrap items-center gap-x-stack gap-y-stack-xs px-stack-md sm:px-stack-lg py-stack">
+                    <div className="flex flex-col gap-stack-3xs flex-1 min-w-48">
+                      <span className="font-body text-body font-semibold text-ink-900">{ticket.subject}</span>
+                      <span className="flex items-center gap-stack-3xs text-caption text-ink-600">
+                        <Calendar size={14} aria-hidden="true" />
                         {formatDate(ticket.createdAt)}
                       </span>
                     </div>
@@ -84,17 +90,18 @@ export default function HelpTickets() {
                     <Button
                       emphasis="outline"
                       size="sm"
+                      aria-label={`Voir le ticket : ${ticket.subject}`}
                       onClick={() => navigate(`/help/tickets/${ticket.id}`)}
                     >
                       Voir
                     </Button>
-                  </div>
-                </Card>
-              );
-            })}
-          </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </Card>
         )}
-      </PageShell>
-    </div>
+      </div>
+    </PageShell>
   );
 }

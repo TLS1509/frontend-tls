@@ -1,13 +1,12 @@
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { HelpCircle, ArrowLeft, ArrowRight, List, CheckCircle, Circle, ChevronRight } from 'lucide-react';
-import { EditorialHero } from '../components/patterns/EditorialHero';
-import { SectionCard } from '../components/patterns/SectionCard';
+import { ArrowLeft, ArrowRight, CheckCircle, Circle, ChevronRight } from 'lucide-react';
+import { PageHero } from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Badge } from '../components/ui/Badge';
-import { ProgressBar } from '../components/ui/ProgressBar';
-import { Container } from '../components/layout';
+import { PageShell } from '../components/layout';
 import { useHelpcenterStore } from '../stores/persistence';
 
 const STATUS_CONFIG: Record<StepStatus, { badge: string; variant: 'success' | 'brand' | 'neutral' }> = {
@@ -32,19 +31,19 @@ export default function HelpTutorialStep() {
 
   if (!tutorial || tutorial.sections.length === 0) {
     return (
-      <div className="flex flex-col gap-section">
-        <EditorialHero
-          eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Tutoriel' }}
+      <PageShell width="content">
+        <PageHero
+          eyebrow="Centre d'aide"
           title="Tutoriel introuvable"
           summary="Ce tutoriel n'existe pas ou a été déplacé."
           tone="flat"
         />
-        <Container width="page" padding={false} className="px-stack pb-page">
+        <div>
           <Button emphasis="outline" leadingIcon={<ArrowLeft size={16} />} onClick={() => navigate('/help/tutorials')}>
             Tous les tutoriels
           </Button>
-        </Container>
-      </div>
+        </div>
+      </PageShell>
     );
   }
 
@@ -55,45 +54,46 @@ export default function HelpTutorialStep() {
   const fillPercent = Math.round((current / total) * 100);
   const goTo = (step: number) => navigate(`/help/tutorials/${tutorial.id}/step/${step}`);
 
+  /* Passe typographique du 2026-09-24 :
+     - une colonne de lecture (768), le retour au-dessus du titre ;
+     - la progression est celle de l'en-tête (« Étape 1 sur 3 » et sa barre) :
+       elle vivait dans un bloc à part, en légende ink-500 et pourcentage teal ;
+     - l'étape est une section : son titre h2 à 28 (dessiné en 20), le numéro
+       centré sur sa première ligne, le texte à la largeur de lecture — sans
+       carte autour d'un titre et d'un paragraphe ;
+     - l'emplacement gris de 560 px « Illustration de l'étape » est retiré :
+       une étape n'a pas d'image (seulement `imageAlt`), et un cadre vide
+       n'est pas un contenu ;
+     - le plan : rangées dans une carte, une seule marque par état (le barré
+       doublait « Terminé »), le texte en encre et plus en teal. */
   return (
-    <div className="flex flex-col gap-section">
-      <EditorialHero
-        eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Tutoriel' }}
-        title={`Tutoriel : ${tutorial.title}`}
-        summary={`Étape ${current} sur ${total} : ${section.title}`}
+    <PageShell width="content">
+      <PageHero
+        backLink={{ label: 'Tous les tutoriels', onClick: () => navigate('/help/tutorials') }}
+        eyebrow="Centre d'aide · Tutoriel"
+        title={tutorial.title}
         tone="flat"
+        progress={fillPercent}
+        progressLabel={`Étape ${current} sur ${total}`}
       />
 
-      <Container width="page" padding={false} className="px-stack flex flex-col gap-section pb-page">
-        <div className="flex flex-col gap-stack-xs">
-          <div className="flex items-center justify-between text-caption text-ink-500">
-            <span>Progression du tutoriel</span>
-            <span className="font-semibold text-primary-700">{fillPercent} %</span>
-          </div>
-          <ProgressBar value={fillPercent} fill="brand" size="sm" valueLabel={false} />
-        </div>
-
-        <Card>
-          <div className="flex flex-col gap-stack-lg">
-            <div className="flex flex-col gap-stack-xs">
-              <div className="flex items-center gap-stack-xs">
-                <span className="inline-flex items-center justify-center w-8 h-8 rounded-pill bg-primary-700 text-white font-display font-bold text-body shrink-0">
-                  {current}
-                </span>
-                <h2 className="font-display text-h3 text-ink-900">
-                  {section.title}
-                </h2>
-              </div>
-              <p className="text-body text-ink-700 m-0">
-                {section.text}
-              </p>
-            </div>
-
-            <div className="w-full aspect-video bg-ink-100 rounded-lg flex items-center justify-center">
-              <span className="text-body text-ink-600">{section.imageAlt ?? `Illustration de l'étape ${current}`}</span>
-            </div>
-          </div>
-        </Card>
+      {/* L'étape et sa navigation : un bloc (32 px). */}
+      <div className="flex flex-col gap-section">
+        <section className="flex flex-col gap-stack-sm" aria-labelledby="etape-titre">
+          <h2 id="etape-titre" className="flex items-start gap-stack-sm font-display text-h2 text-ink-900 text-balance">
+            {/* Une ligne de haut : la pastille (32) se centre sur la première
+                ligne du titre (36). */}
+            <span className="shrink-0 inline-flex items-center h-lh" aria-hidden="true">
+              <span className="inline-flex items-center justify-center w-8 h-8 rounded-pill bg-primary-700 text-white font-body font-bold text-body tabular-nums">
+                {current}
+              </span>
+            </span>
+            <span className="min-w-0">{section.title}</span>
+          </h2>
+          <p className="text-body-lg text-ink-700 max-w-prose">
+            {section.text}
+          </p>
+        </section>
 
         <div className="flex flex-wrap items-center justify-between gap-stack">
           <Button
@@ -114,12 +114,12 @@ export default function HelpTutorialStep() {
             </Button>
           )}
         </div>
+      </div>
 
-        <SectionCard
-          title="Plan du tutoriel"
-          titleIcon={<List size={18} />}
-        >
-          <div className="flex flex-col gap-stack-xs">
+      <section className="flex flex-col gap-stack">
+        <SectionHeader title="Plan du tutoriel" meta={`${total} étapes`} />
+        <Card className="p-0 overflow-hidden">
+          <ol className="flex flex-col divide-y divide-ink-100">
             {tutorial.sections.map((sec, index) => {
               const step = {
                 id: index + 1,
@@ -128,40 +128,39 @@ export default function HelpTutorialStep() {
               };
               const config = STATUS_CONFIG[step.status];
               return (
-                <div
+                <li
                   key={step.id}
+                  aria-current={step.status === 'current' ? 'step' : undefined}
                   className={[
-                    'flex items-center gap-stack p-3 rounded-lg transition-all duration-base',
-                    step.status === 'current'
-                      ? 'bg-primary-50 border border-primary-200'
-                      : 'hover:bg-ink-50',
+                    'flex items-center gap-stack px-stack-md sm:px-stack-lg py-stack',
+                    step.status === 'current' ? 'bg-primary-50' : '',
                   ].join(' ')}
                 >
-                  <span className="shrink-0 text-ink-600">
+                  <span className="shrink-0 inline-flex" aria-hidden="true">
                     {step.status === 'completed'
-                      ? <CheckCircle size={18} className="text-success-base" />
+                      ? <CheckCircle size={18} className="text-success-fg" />
                       : step.status === 'current'
-                      ? <ChevronRight size={18} className="text-primary-600" />
-                      : <Circle size={18} />
+                      ? <ChevronRight size={18} className="text-primary-700" />
+                      : <Circle size={18} className="text-ink-400" />
                     }
                   </span>
                   <span
                     className={[
                       'flex-1 text-body',
-                      step.status === 'current'   ? 'font-semibold text-primary-800'
-                      : step.status === 'completed' ? 'text-ink-500 line-through'
-                      : 'text-ink-700',
+                      step.status === 'current' ? 'font-semibold text-ink-900'
+                      : step.status === 'completed' ? 'text-ink-700'
+                      : 'text-ink-900',
                     ].join(' ')}
                   >
                     {step.id}. {step.title}
                   </span>
                   <Badge variant={config.variant}>{config.badge}</Badge>
-                </div>
+                </li>
               );
             })}
-          </div>
-        </SectionCard>
-      </Container>
-    </div>
+          </ol>
+        </Card>
+      </section>
+    </PageShell>
   );
 }

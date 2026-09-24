@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HelpCircle, Send, X } from 'lucide-react';
-import { EditorialHero } from '../components/patterns/EditorialHero';
+import { Send, X } from 'lucide-react';
+import { PageHero } from '../components/patterns/EditorialHero';
 import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { Input } from '../components/core/Input';
@@ -49,70 +49,67 @@ export default function HelpTicketNew() {
     navigate(`/help/tickets/${ticket.id}`);
   };
 
+  /* Passe typographique du 2026-09-24 : haut de page au padding de
+     `PageShell`, colonne de formulaire (768) au lieu de 1 024 ; le titre de
+     carte « Nouvelle demande de support » redisait le h1 : retiré. */
   return (
-    <PageShell width="medium" noPadTop={true} className="pt-6 md:pt-8 lg:pt-10">
-      <EditorialHero
-        eyebrow={{ icon: <HelpCircle size={14} />, label: 'Aide · Nouveau ticket' }}
+    <PageShell width="content">
+      <PageHero
+        eyebrow="Centre d'aide"
         title="Contacter le support"
         summary="Notre équipe répond généralement dans un délai de 24 h ouvrées."
         tone="flat"
       />
 
-      <Card>
-        <div className="flex flex-col gap-stack-lg">
-          <h2 className="font-display text-h3 text-ink-900">
-            Nouvelle demande de support
-          </h2>
+      <Card className="flex flex-col gap-stack-lg">
+        <div className="flex flex-col gap-stack">
+          <FormGroup label="Catégorie" required>
+            <Select
+              options={categoryOptions}
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
+            />
+          </FormGroup>
 
-          <div className="flex flex-col gap-stack">
-            <FormGroup label="Catégorie" required>
-              <Select
-                options={categoryOptions}
-                value={categoryId}
-                onChange={(e) => setCategoryId(e.target.value)}
-              />
-            </FormGroup>
+          <FormGroup label="Objet" required>
+            <Input
+              placeholder="Résumez votre problème en une ligne…"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+            />
+          </FormGroup>
 
-            <FormGroup label="Objet" required>
-              <Input
-                placeholder="Résumez votre problème en une ligne…"
-                value={subject}
-                onChange={(e) => setSubject(e.target.value)}
-              />
-            </FormGroup>
+          <FormGroup label="Priorité">
+            <Select
+              options={PRIORITY_OPTIONS}
+              value={priority}
+              onChange={(e) => setPriority(e.target.value as 'low' | 'medium' | 'high')}
+            />
+          </FormGroup>
 
-            <FormGroup label="Priorité">
-              <Select
-                options={PRIORITY_OPTIONS}
-                value={priority}
-                onChange={(e) => setPriority(e.target.value as 'low' | 'medium' | 'high')}
-              />
-            </FormGroup>
+          <FormGroup label="Description détaillée" required>
+            <Input
+              multiline
+              rows={6}
+              placeholder="Décrivez votre problème en détail : contexte, étapes pour le reproduire, messages d'erreur éventuels…"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </FormGroup>
+        </div>
 
-            <FormGroup label="Description détaillée" required>
-              <Input
-                multiline
-                rows={6}
-                placeholder="Décrivez votre problème en détail : contexte, étapes pour le reproduire, messages d'erreur éventuels…"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </FormGroup>
-          </div>
-
-          <div className="flex flex-wrap gap-stack-xs">
-            <Button
-              emphasis="soft"
-              leadingIcon={<Send size={16} />}
-              disabled={!subject.trim() || !description.trim() || !categoryId}
-              onClick={handleSubmit}
-            >
-              Envoyer la demande
-            </Button>
-            <Button emphasis="outline" leadingIcon={<X size={16} />} onClick={() => navigate('/help/tickets')}>
-              Annuler
-            </Button>
-          </div>
+        <div className="flex flex-wrap gap-stack-xs">
+          <Button
+            emphasis="soft"
+            leadingIcon={<Send size={16} />}
+            disabled={!subject.trim() || !description.trim() || !categoryId}
+            onClick={handleSubmit}
+          >
+            Envoyer la demande
+          </Button>
+          <Button emphasis="outline" leadingIcon={<X size={16} />} onClick={() => navigate('/help/tickets')}>
+            Annuler
+          </Button>
         </div>
       </Card>
     </PageShell>

@@ -8,20 +8,19 @@ import { Card } from '../components/core/Card';
 import { Button } from '../components/core/Button';
 import { IconChip } from '../components/ui/IconChip';
 import { Badge } from '../components/ui/Badge';
+import { MetaPill } from '../components/ui/MetaPill';
 import { Search as SearchInput } from '../components/ui/Search';
 import { FilterBar } from '../components/forms/FilterBar';
-import { EditorialHero } from '../components/patterns/EditorialHero';
+import { PageHero } from '../components/patterns/EditorialHero';
+import { SectionHeader } from '../components/patterns/SectionHeader';
 import { PageShell } from '../components/layout';
-import type { BadgeVariant } from '../components';
 import {
   ChevronDown,
-  ChevronUp,
   Bot,
   Send,
   Mail,
   MessageCircle,
   BookOpen,
-  HelpCircle,
   Sparkles,
 } from 'lucide-react';
 
@@ -66,30 +65,29 @@ const CHAT_DEMO = [
   { role: 'ai'   as const, text: 'Votre historique est disponible dans "Mon profil > Activité". Vous y retrouvez tous les modules terminés, le temps passé et vos notes de journal associées.' },
 ];
 
+/* Le délai et le volume sont des données (`MetaPill`) ; « En ligne » est un
+   état (`Badge`). Les trois étaient des Badge en capitales. */
 const CONTACT_OPTIONS = [
   {
     icon: Mail,
     title: 'E-mail',
     desc: 'Réponse sous 24 h ouvrées. Idéal pour les questions détaillées ou les demandes techniques.',
     action: 'Envoyer un e-mail',
-    badge: '24 h',
-    badgeVariant: 'neutral' as BadgeVariant,
+    meta: 'Sous 24 h',
   },
   {
     icon: MessageCircle,
     title: 'Chat en direct',
-    desc: 'Disponible du lundi au vendredi, 9 h – 18 h. Un conseiller vous répond en quelques minutes.',
+    desc: 'Disponible du lundi au vendredi, de 9 h à 18 h. Un conseiller vous répond en quelques minutes.',
     action: 'Ouvrir le chat',
-    badge: 'En ligne',
-    badgeVariant: 'success' as BadgeVariant,
+    status: 'En ligne',
   },
   {
     icon: BookOpen,
     title: 'Documentation',
     desc: 'Guides complets, tutoriels vidéo et FAQ avancée pour explorer toutes les fonctionnalités.',
     action: 'Consulter les docs',
-    badge: '80+ articles',
-    badgeVariant: 'neutral' as BadgeVariant,
+    meta: 'Plus de 80 articles',
   },
 ];
 
@@ -117,19 +115,29 @@ export const Help: React.FC = () => {
 
   const toggleFaq = (id: string) => setOpenFaq((prev) => (prev === id ? null : id));
 
+  // Le nom de la catégorie, pas son code interne (« CAT-01 » ne disait rien).
+  const categoryName = (id: string) =>
+    helpcenterStore.categories.find((c) => c.id === id)?.name ?? id;
+
+  /* Passe typographique du 2026-09-24 : haut de page au padding de
+     `PageShell` ; le surtitre « Support & aide » redisait le titre ; les trois
+     titres de section étaient des h2 faits main à 20 px (la taille d'un titre
+     de carte) : ils prennent `SectionHeader`, 28 px ; les huit questions sont
+     des rangées dans une carte (plus huit cartes empilées), leur code interne
+     devient le nom de la catégorie, et la réponse passe du gris des
+     placeholders (ink-500) à ink-700, à la largeur de lecture. */
   return (
-    <PageShell width="medium" noPadTop className="pt-6 md:pt-8 lg:pt-10">
+    <PageShell width="medium">
 
         {/* ── Hero ─────────────────────────────────────────────── */}
-        <EditorialHero
+        <PageHero
           tone="flat"
-          eyebrow={{ icon: <HelpCircle size={14} />, label: 'Support & aide' }}
           title="Centre d'aide"
           summary="Trouvez rapidement des réponses, discutez avec l'assistant IA ou contactez notre équipe."
         />
 
         {/* ── Search + topic filters ────────────────────────────── */}
-        <section aria-label="Recherche et filtres" className="flex flex-col gap-stack-xs">
+        <section aria-label="Recherche et filtres" className="flex flex-col gap-stack-sm">
           <SearchInput
             placeholder="Rechercher dans le centre d'aide…"
             value={searchValue}
@@ -146,82 +154,68 @@ export const Help: React.FC = () => {
         </section>
 
         {/* FAQ */}
-        <section>
-          <h2 className="mb-stack font-display text-h3 font-bold text-ink-900 tracking-headline">
-            Questions fréquentes
-          </h2>
-          <div className="flex flex-col gap-stack-xs">
-            {faqItems.map((item) => {
-              const isOpen = openFaq === item.id;
-              return (
-                <div
-                  key={item.id}
-                  className={[
-                    'rounded-xl overflow-hidden transition-all duration-200',
-                    isOpen
-                      ? 'border border-primary-300 bg-gradient-to-br from-primary-50 to-white shadow-sm'
-                      : 'border border-ink-200 bg-white',
-                  ].join(' ')}
-                >
-                  <button
-                    type="button"
-                    aria-expanded={isOpen}
-                    onClick={() => toggleFaq(item.id)}
-                    className="w-full flex items-center justify-between gap-stack px-stack-md py-stack bg-transparent border-0 cursor-pointer text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500 rounded-t-xl"
-                  >
-                    <div className="flex items-center gap-stack-xs">
-                      <Badge variant={isOpen ? 'brand' : 'neutral'}>{item.topic}</Badge>
-                      <span className="font-body text-body font-semibold text-ink-900">
-                        {item.question}
+        <section className="flex flex-col gap-stack">
+          <SectionHeader title="Questions fréquentes" meta={`${faqItems.length} questions`} />
+          <Card className="p-0 overflow-hidden">
+            <ul className="flex flex-col divide-y divide-ink-100">
+              {faqItems.map((item) => {
+                const isOpen = openFaq === item.id;
+                return (
+                  <li key={item.id}>
+                    <button
+                      type="button"
+                      aria-expanded={isOpen}
+                      onClick={() => toggleFaq(item.id)}
+                      className="w-full flex items-start justify-between gap-stack px-stack-md sm:px-stack-lg py-stack bg-transparent border-0 cursor-pointer text-left transition-colors hover:bg-ink-50 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-500"
+                    >
+                      <span className="flex flex-col gap-stack-3xs min-w-0">
+                        <span className="font-body text-body font-semibold text-ink-900">
+                          {item.question}
+                        </span>
+                        <MetaPill text={categoryName(item.topic)} tone="neutral" className="self-start" />
                       </span>
-                    </div>
-                    <span className="text-primary-500 shrink-0">
-                      {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
-                    </span>
-                  </button>
-                  {isOpen && (
-                    <div className="px-stack-md pb-stack-md pt-stack border-t border-ink-200 font-body text-body text-ink-500">
-                      {item.answer}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                      {/* Une ligne de haut : le chevron se centre sur la première
+                          ligne de la question. */}
+                      <span className="shrink-0 inline-flex items-center h-lh text-primary-700" aria-hidden="true">
+                        <ChevronDown size={18} className={['transition-transform duration-base', isOpen ? 'rotate-180' : ''].join(' ')} />
+                      </span>
+                    </button>
+                    {isOpen && (
+                      <p className="px-stack-md sm:px-stack-lg pb-stack-lg font-body text-body text-ink-700 max-w-prose">
+                        {item.answer}
+                      </p>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </Card>
         </section>
 
         {/* Assistant IA */}
-        <section>
-          <div className="flex items-center gap-stack-xs mb-stack">
-            <h2 className="font-display text-h3 font-bold text-ink-900 tracking-tight">
-              Assistant IA
-            </h2>
-            <Badge variant="brand">
-              <Bot size={14} className="mr-1 align-middle" />
-              Démo interactive
-            </Badge>
-          </div>
+        <section className="flex flex-col gap-stack">
+          <SectionHeader title="Assistant IA" meta="Démo interactive" />
 
-          <Card className="border border-primary-200 bg-white overflow-hidden flex flex-col">
+          <Card className="p-0 border border-primary-200 bg-white overflow-hidden flex flex-col">
             {/* Chat header */}
-            <div className="flex items-center gap-stack-xs px-stack-md py-stack border-b border-ink-200 bg-gradient-to-br from-primary-50 to-white">
-              <div className="w-10 h-10 rounded-lg bg-primary-100 text-primary-800 flex items-center justify-center shrink-0">
-                <Bot size={20} />
-              </div>
-              <div>
-                <p className="m-0 font-body text-body font-bold text-ink-900">Assistant TLS</p>
-                <p className="m-0 font-body text-caption text-primary-800 flex items-center gap-tight">
-                  <Sparkles size={14} /> En ligne · répond instantanément
+            <div className="flex items-center gap-stack-sm px-stack-md sm:px-stack-lg py-stack border-b border-ink-200 bg-gradient-to-br from-primary-50 to-white">
+              <IconChip size="md" tone="brand" surface="tinted">
+                <Bot />
+              </IconChip>
+              <div className="flex flex-col gap-stack-3xs">
+                <p className="font-body text-body font-semibold text-ink-900">Assistant TLS</p>
+                <p className="font-body text-caption text-primary-800 flex items-center gap-stack-3xs">
+                  <Sparkles size={14} aria-hidden="true" /> En ligne · répond instantanément
                 </p>
               </div>
             </div>
 
             {/* Chat messages */}
-            <div className="flex flex-col gap-stack-xs p-stack-md min-h-[260px]">
+            <div className="flex flex-col gap-stack-xs p-stack-md sm:p-stack-lg min-h-[260px]">
               {CHAT_DEMO.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={[
-                    'max-w-[72%] px-stack py-3 font-body text-body shadow-xs',
+                    'max-w-[72%] px-stack py-stack-sm font-body text-body',
                     msg.role === 'user'
                       ? 'rounded-xl rounded-br-sm bg-primary-700 text-white'
                       : 'rounded-xl rounded-bl-sm bg-primary-50 text-ink-900',
@@ -233,19 +227,19 @@ export const Help: React.FC = () => {
             </div>
 
             {/* Chat input */}
-            <div className="flex items-center gap-stack-xs px-stack py-3 border-t border-ink-200 bg-ink-50">
+            <div className="flex items-center gap-stack-xs px-stack py-stack-sm border-t border-ink-200 bg-ink-50">
               <input
                 type="text"
                 value={chatInput}
                 onChange={(e) => setChatInput(e.target.value)}
                 placeholder="Posez votre question…"
                 aria-label="Message pour l'assistant"
-                className="flex-1 border border-ink-200 rounded-lg px-stack py-3 bg-white text-ink-900 font-body text-body outline-none transition-colors focus:border-primary-400 h-auto placeholder:text-ink-500"
+                className="flex-1 min-w-0 border border-ink-400 rounded-lg px-stack h-touch bg-white text-ink-900 font-body text-body outline-none transition-colors focus:border-primary-700 placeholder:text-ink-500"
               />
               <Button
                 emphasis="soft"
-                size="sm"
-                leadingIcon={<Send size={14} />}
+                size="md"
+                leadingIcon={<Send size={16} />}
                 onClick={() => setChatInput('')}
               >
                 Envoyer
@@ -255,26 +249,28 @@ export const Help: React.FC = () => {
         </section>
 
         {/* Contacter le support */}
-        <section>
-          <h2 className="mb-stack font-display text-h3 font-bold text-ink-900 tracking-tight">
-            Contacter le support
-          </h2>
-          <div className="grid grid-cols-1 gap-stack-lg sm:grid-cols-3">
+        <section className="flex flex-col gap-stack">
+          <SectionHeader title="Contacter le support" />
+          <div className="grid grid-cols-1 gap-stack sm:grid-cols-3">
             {CONTACT_OPTIONS.map((opt) => {
               const Icon = opt.icon;
               return (
-                <Card key={opt.title} className="p-stack-lg flex flex-col gap-stack border border-ink-200 bg-white shadow-sm">
-                  <div className="flex items-start justify-between">
-                    <IconChip size="lg" tone="brand">
-                      <Icon />
-                    </IconChip>
-                    <Badge variant={opt.badgeVariant}>{opt.badge}</Badge>
+                /* Anatomie de carte : pastille, titre 20, texte 16 ink-700 à 8,
+                   action à 24 du contenu. Plus d'ombre (S2). */
+                <Card key={opt.title} className="flex flex-col gap-stack-lg">
+                  <div className="flex flex-col gap-stack-sm">
+                    <div className="flex items-start justify-between gap-stack-xs">
+                      <IconChip size="lg" tone="brand">
+                        <Icon />
+                      </IconChip>
+                      {opt.status ? <Badge variant="success" dot>{opt.status}</Badge> : <MetaPill text={opt.meta ?? ''} tone="neutral" />}
+                    </div>
+                    <div className="flex flex-col gap-stack-xs">
+                      <h3 className="font-display text-h3 text-ink-900">{opt.title}</h3>
+                      <p className="font-body text-body text-ink-700">{opt.desc}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="m-0 mb-stack-xs font-display text-h3 font-bold text-ink-900">{opt.title}</p>
-                    <p className="m-0 font-body text-caption text-ink-500">{opt.desc}</p>
-                  </div>
-                  <Button emphasis="soft" tone="warm" size="sm" className="mt-auto">
+                  <Button emphasis="soft" tone="warm" size="sm" className="mt-auto self-start">
                     {opt.action}
                   </Button>
                 </Card>
