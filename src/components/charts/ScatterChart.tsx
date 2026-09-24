@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from 'recharts';
-import { CHART_AXIS, CHART_TOOLTIP, CHART_LEGEND } from './chartTheme';
+import { CHART_AXIS, CHART_AXIS_LABEL_CLASS, CHART_TOOLTIP, CHART_LEGEND } from './chartTheme';
 
 export interface ScatterChartDataPoint {
   label: string;
@@ -105,6 +105,14 @@ export const ScatterChart: React.FC<ScatterChartProps> = ({
       transition={{ duration: 0.6, ease: 'easeOut' }}
     >
       <ResponsiveContainer width="100%" height={height}>
+        {/* Titres d'axe dessinés depuis le 2026-09-24 : `xAxisLabel` et
+            `yAxisLabel` n'alimentaient que l'info-bulle et le nom accessible —
+            sur /coach/dashboard, rien ne disait quel axe portait la compétence
+            et lequel l'engagement. Même habillage que ComposedChart : 13 px
+            ink-600, le titre vertical à gauche des graduations, l'horizontal
+            sous elles. L'axe horizontal s'agrandit pour le loger : Recharts
+            pose la légende juste sous la boîte de l'axe, et un titre placé
+            hors de cette boîte tombait dans la légende. */}
         <RechartsScatterChart
           accessibilityLayer={false}
           margin={{ top: 20, right: 30, bottom: 20, left: 30 }}
@@ -113,16 +121,19 @@ export const ScatterChart: React.FC<ScatterChartProps> = ({
           <XAxis
             type="number"
             dataKey="x"
-            name={xAxisLabel || 'X'}
+            name={nomX}
             {...CHART_AXIS}
             domain={xDomain}
+            height={xAxisLabel ? 52 : undefined}
+            label={xAxisLabel ? { value: xAxisLabel, position: 'insideBottom', offset: 8, className: CHART_AXIS_LABEL_CLASS } : undefined}
           />
           <YAxis
             type="number"
             dataKey="y"
-            name={yAxisLabel || 'Y'}
+            name={nomY}
             {...CHART_AXIS}
             domain={yDomain}
+            label={yAxisLabel ? { value: yAxisLabel, angle: -90, position: 'insideLeft', className: CHART_AXIS_LABEL_CLASS } : undefined}
           />
           {/* Info-bulle écrite ici plutôt que celle de Recharts (2026-09-23) : un
               nuage de points n'a pas d'axe de catégories, donc pas de « label »
