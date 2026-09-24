@@ -182,6 +182,9 @@ export const SubscriptionPayment: React.FC = () => {
     <div className="relative min-h-[100dvh] overflow-x-hidden">
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
 
+      {/* Gouttière standard : PageShell la délègue au <main> d'AppLayout, et
+          cette page est rendue hors de la coque — elle touchait le bord à 375 px. */}
+      <div className="px-4 sm:px-6 lg:px-10">
       <PageShell width="content" className="pt-6 md:pt-8 lg:pt-10 relative z-base gap-section" noPadTop>
 
         {/* Brand bar */}
@@ -402,6 +405,7 @@ export const SubscriptionPayment: React.FC = () => {
         </div>
 
       </PageShell>
+      </div>
 
       <ConfirmModal
         isOpen={showConfirm}

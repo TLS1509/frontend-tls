@@ -127,6 +127,9 @@ const OnboardingQuestionnaire: React.FC = () => {
       <main className="relative min-h-[100dvh] overflow-x-hidden">
         <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
         <AmbientBlobs intensity="subtle" />
+        {/* Gouttière standard : PageShell la délègue au <main> d'AppLayout, et
+            cette page est rendue hors de la coque — elle touchait le bord à 375 px. */}
+        <div className="px-4 sm:px-6 lg:px-10">
         <PageShell width="page" className="relative z-base gap-section-lg max-w-3xl" noPadTop>
 
           {/* Brand bar */}
@@ -167,6 +170,7 @@ const OnboardingQuestionnaire: React.FC = () => {
             onComplete={(ans, elab) => persistAndContinue(ans, elab)}
           />
         </PageShell>
+        </div>
 
         {/* Sélecteur de variante — outil de labo, DEV seulement : en production
             il recouvrait le bouton d'envoi du chat (audit du 23/09). */}
@@ -200,6 +204,9 @@ const OnboardingQuestionnaire: React.FC = () => {
     <main className="relative min-h-[100dvh] overflow-x-hidden">
       <div className="fixed inset-0 -z-10 bg-gradient-page-ambient-warm" aria-hidden />
       <AmbientBlobs intensity="subtle" />
+      {/* Gouttière standard : PageShell la délègue au <main> d'AppLayout, et
+          cette page est rendue hors de la coque — elle touchait le bord à 375 px. */}
+      <div className="px-4 sm:px-6 lg:px-10">
       <PageShell width="page" className="relative z-base gap-section-lg max-w-3xl" noPadTop>
 
         {/* Brand bar */}
@@ -276,6 +283,7 @@ const OnboardingQuestionnaire: React.FC = () => {
           </Button>
         </div>
       </PageShell>
+      </div>
     </main>
   );
 };
