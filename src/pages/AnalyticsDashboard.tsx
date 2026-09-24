@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react';
 import {
   Download,
   RefreshCw,
-  Flame,
   AlertCircle,
   CheckCircle,
 } from 'lucide-react';
@@ -17,39 +16,12 @@ import { FilterChip } from '../components/ui/FilterChip';
 import { Tabs } from '../components/ui/Tabs';
 import { DataTable } from '../components/patterns/DataTable';
 import { PageShell } from '../components/layout';
-import { LineChart } from '../components/charts/LineChart';
 import { ComposedChart } from '../components/charts/ComposedChart';
 import { AreaChart } from '../components/charts/AreaChart';
 import { PieChart } from '../components/charts/PieChart';
 import { MOCK_LEARNER_PROFILES, MOCK_COACH_TEAM_STATS } from '../data/analytics';
 
 // ─── Mock Data Generation ────────────────────────────────────────────────────
-
-/**
- * Generate 12 weeks of XP progression data
- */
-const generateXpProgressionData = () => {
-  const data = [];
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() - 84); // 12 weeks back
-
-  for (let i = 0; i < 12; i++) {
-    const weekStart = new Date(startDate);
-    weekStart.setDate(weekStart.getDate() + i * 7);
-    const weekLabel = `S${i + 1}`;
-
-    // Generate cumulative XP for top 4 learners
-    const baseXpPerWeek = [280, 260, 140, 75];
-    data.push({
-      label: weekLabel,
-      'Nadia Ferreira': Math.round(280 * (i + 1) + Math.random() * 50),
-      'Camille Durand': Math.round(260 * (i + 1) + Math.random() * 60),
-      'Sophie Martin': Math.round(140 * (i + 1) + Math.random() * 30),
-      'Pierre Bernard': Math.round(75 * (i + 1) + Math.random() * 15),
-    });
-  }
-  return data;
-};
 
 /**
  * Generate 12 weeks of activity vs performance data
@@ -118,40 +90,27 @@ const generateLearnerStatusData = () => {
 export default function AnalyticsDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
   const [activePeriod, setActivePeriod] = useState('month');
-  const [sortByLearners, setSortByLearners] = useState<'xp' | 'streak' | 'level'>('xp');
 
   // Memoized data generation
-  const xpProgressionData = useMemo(() => generateXpProgressionData(), []);
   const activityPerformanceData = useMemo(() => generateActivityPerformanceData(), []);
   const learningHoursData = useMemo(() => generateLearningHoursData(), []);
   const learnerStatusData = useMemo(() => generateLearnerStatusData(), []);
 
-  // Sort learners based on selected metric
-  const sortedLearners = useMemo(() => {
-    const sorted = [...MOCK_LEARNER_PROFILES];
-    if (sortByLearners === 'xp') {
-      sorted.sort((a, b) => b.totalXp - a.totalXp);
-    } else if (sortByLearners === 'streak') {
-      sorted.sort((a, b) => b.streak - a.streak);
-    } else {
-      sorted.sort((a, b) => b.dreyfusAvg - a.dreyfusAvg);
-    }
-    return sorted;
-  }, [sortByLearners]);
+  /* Arbitrage n°18, étendu au pilotage le 24/09 : plus de classement nominatif.
+     Le rang, l'XP total, la série, le tri par XP ou par série et le podium
+     « Les trois premiers » sortent, sans remplaçant (Chloé : le coach et le
+     manager n'en ont pas besoin). Reste la liste des apprenants, par ordre
+     alphabétique : l'ordre qui ne se lit pas comme un rang. */
+  const learners = useMemo(
+    () => [...MOCK_LEARNER_PROFILES].sort((a, b) => a.name.localeCompare(b.name, 'fr')),
+    [],
+  );
 
-  // Learner ranking table rows — des chiffres en encre, alignés à droite ; le
+  // Rangées de la table — des chiffres en encre, alignés à droite ; le
   // niveau est une donnée (plus un `Badge` coloré selon un seuil non écrit).
-  const learnerTableRows = sortedLearners.map((learner, idx) => ({
-    rank: <span className="tabular-nums">{idx + 1}</span>,
+  const learnerTableRows = learners.map((learner) => ({
     name: <span className="font-semibold text-ink-900">{learner.name}</span>,
     level: <span className="tabular-nums text-ink-900">{dreyfusFr(learner.dreyfusAvg)}</span>,
-    xp: <span className="tabular-nums text-ink-900">{learner.totalXp}</span>,
-    streak: (
-      <span className="inline-flex items-center gap-stack-3xs">
-        <Flame size={14} className="text-secondary-700" aria-hidden="true" />
-        <span className="tabular-nums">{learner.streak}</span>
-      </span>
-    ),
     status: (
       <Badge
         variant={
@@ -175,11 +134,8 @@ export default function AnalyticsDashboard() {
   }));
 
   const learnerTableColumns = [
-    { key: 'rank', label: 'Rang', sortable: false, align: 'right' as const },
     { key: 'name', label: 'Apprenant', sortable: false },
     { key: 'level', label: 'Niveau', sortable: false, align: 'right' as const },
-    { key: 'xp', label: 'XP total', sortable: false, align: 'right' as const },
-    { key: 'streak', label: 'Série', sortable: false },
     { key: 'status', label: 'Statut', sortable: false },
     { key: 'progress', label: 'Progression', sortable: false },
   ];
@@ -206,8 +162,8 @@ export default function AnalyticsDashboard() {
      - chaque graphique est une section à h2, dans UNE carte (il était dans une
        `SectionCard` puis dans un `ChartContainer` : deux coques) ;
      - légendes et axes en français (S1…S12, « Sur la bonne voie ») ;
-     - les chiffres en encre : le teal et l'orange ne disent pas qu'un XP ou
-       une série compte plus ; le titre « Compétences en retard » était en
+     - les chiffres en encre : le teal et l'orange ne disent pas qu'un
+       chiffre compte plus ; le titre « Compétences en retard » était en
        `warning-base` (#F8B044), illisible sur fond clair. */
   return (
     <PageShell width="wide">
@@ -296,26 +252,6 @@ export default function AnalyticsDashboard() {
         {activeTab === 'overview' && (
           <div className="flex flex-col gap-page">
 
-            {/* XP Progression Chart */}
-            <section className="flex flex-col gap-stack">
-              <SectionHeader title="Progression XP cumulée" meta="12 dernières semaines, les 4 premiers du classement" />
-              <Card>
-                <LineChart
-                  data={xpProgressionData}
-                  series={[
-                    { key: 'Nadia Ferreira', label: 'Nadia Ferreira', color: '#55A1B4', strokeWidth: 3 },
-                    { key: 'Camille Durand', label: 'Camille Durand', color: '#ED843A', strokeWidth: 3 },
-                    { key: 'Sophie Martin', label: 'Sophie Martin', color: '#F8B044', strokeWidth: 2 },
-                    { key: 'Pierre Bernard', label: 'Pierre Bernard', color: '#9DBEBA', strokeWidth: 2, strokeDasharray: '5 5' },
-                  ]}
-                  size="lg"
-                  showLegend
-                  smooth
-                  showDots
-                />
-              </Card>
-            </section>
-
             {/* Activity vs Performance Composed Chart */}
             <section className="flex flex-col gap-stack">
               <SectionHeader title="Activité et taux de réussite" meta="12 dernières semaines" />
@@ -390,51 +326,9 @@ export default function AnalyticsDashboard() {
         {activeTab === 'learners' && (
           <div className="flex flex-col gap-page">
 
-            {/* Learner Rankings Table, avec son tri */}
             <section className="flex flex-col gap-stack">
-              <SectionHeader title="Classement des apprenants" meta={`${sortedLearners.length} apprenants`} />
-              <div className="flex flex-col gap-stack-xs" role="group" aria-labelledby="analyse-tri">
-                <span id="analyse-tri" className={FILTER_GROUP_LABEL}>Trier par</span>
-                <div className="flex gap-stack-xs flex-wrap">
-                  {(['xp', 'streak', 'level'] as const).map((metric) => (
-                    <FilterChip
-                      key={metric}
-                      label={metric === 'xp' ? 'XP total' : metric === 'streak' ? 'Série' : 'Niveau'}
-                      active={sortByLearners === metric}
-                      onClick={() => setSortByLearners(metric)}
-                    />
-                  ))}
-                </div>
-              </div>
+              <SectionHeader title="Apprenants" meta={`${learners.length} apprenants`} />
               <DataTable columns={learnerTableColumns} rows={learnerTableRows} />
-            </section>
-
-            {/* Top Performers Cards */}
-            <section className="flex flex-col gap-stack">
-              <SectionHeader title="Les trois premiers" />
-              <div className="grid md:grid-cols-3 gap-stack">
-                {sortedLearners.slice(0, 3).map((learner, idx) => (
-                  /* Anatomie de carte : surtitre 4 · titre 8 · méta 12 · chiffres. */
-                  <Card key={learner.userId} className="flex flex-col gap-stack-lg">
-                    <div className="flex flex-col gap-stack-3xs">
-                      <p className="text-caption font-semibold text-ink-600">{idx === 0 ? '1er' : `${idx + 1}e`}</p>
-                      <h3 className="font-display text-h3 text-ink-900">{learner.name}</h3>
-                      <p className="text-caption text-ink-600">{learner.role} · Niveau {dreyfusFr(learner.dreyfusAvg)}</p>
-                    </div>
-                    <dl className="flex gap-section">
-                      <div className="flex flex-col gap-stack-3xs">
-                        <dt className="text-caption font-semibold text-ink-600">XP</dt>
-                        <dd className="font-display text-h3 text-ink-900 tabular-nums">{learner.totalXp}</dd>
-                      </div>
-                      <div className="flex flex-col gap-stack-3xs">
-                        <dt className="text-caption font-semibold text-ink-600">Série</dt>
-                        <dd className="font-display text-h3 text-ink-900 tabular-nums">{learner.streak}</dd>
-                      </div>
-                    </dl>
-                    <ProgressBar value={learner.progressPercent} fill="brand" size="md" label="Progression" />
-                  </Card>
-                ))}
-              </div>
             </section>
 
           </div>
