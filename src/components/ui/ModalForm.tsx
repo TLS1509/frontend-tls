@@ -118,13 +118,20 @@ export const ModalForm: React.FC<ModalFormProps> = ({
           {children}
         </div>
 
-        {/* Footer — les actions à 24 px du contenu (20 du corps + 4). */}
+        {/* Footer — les actions à 24 px du contenu (20 du corps + 4).
+            Arbitrage n°19, un formulaire dans une modale : la soumission est
+            le `solid`, Annuler un `outline` neutre. L'action destructive,
+            seconde, passe en `ghost` danger — elle était en `solid` danger,
+            à côté d'une soumission en `soft` : le bouton le plus fort de la
+            modale était celui qu'on n'était pas venu presser. Sans
+            soumission, la modale ne sert plus que la suppression : elle
+            reprend le `solid` danger. */}
         <div className="flex items-center justify-between gap-stack-xs px-stack-lg pb-stack-md pt-stack-3xs">
           <div>
             {destructiveLabel && onDestructive && (
               <Button
                 type="button"
-                emphasis="solid" tone="danger"
+                emphasis={onSubmit ? 'ghost' : 'solid'} tone="danger"
                 size="sm"
                 onClick={onDestructive}
               >
@@ -133,13 +140,13 @@ export const ModalForm: React.FC<ModalFormProps> = ({
             )}
           </div>
           <div className="flex items-center gap-stack-xs">
-            <Button type="button" emphasis="outline" size="sm" onClick={onClose}>
+            <Button type="button" emphasis="outline" tone="neutral" size="sm" onClick={onClose}>
               Annuler
             </Button>
             {onSubmit && (
               <Button
                 type="submit"
-                emphasis="soft"
+                emphasis="solid"
                 size="sm"
                 loading={submitting}
                 disabled={submitting}

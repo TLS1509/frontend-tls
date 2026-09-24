@@ -133,14 +133,17 @@ export const RatingModal: React.FC<RatingModalProps> = ({
         />
       </div>
 
+      {/* Un formulaire (arbitrage n°19) : « Envoyer mon avis » est le
+          `solid`, Annuler un `outline` neutre (ils étaient en `soft` warm et
+          `soft` brand). */}
       <div className="flex justify-end gap-stack-xs pt-1">
         {onCancel && (
-          <Button emphasis="soft" tone="warm" onClick={onCancel} disabled={isSubmitting}>
+          <Button emphasis="outline" tone="neutral" onClick={onCancel} disabled={isSubmitting}>
             Annuler
           </Button>
         )}
         <Button
-          emphasis="soft"
+          emphasis="solid"
           onClick={handleSubmit}
           disabled={rating === 0 || isSubmitting}
         >

@@ -102,15 +102,18 @@ export const FormLayout: React.FC<FormLayoutProps> = ({
         ))}
       </div>
 
+      {/* La paire d'un formulaire (arbitrage n°19) : l'envoi est le `solid`,
+          Annuler un `outline` neutre. Ils étaient en `soft` warm et `soft`
+          brand — deux boutons de même poids, séparés par leur seule couleur. */}
       {(onSubmit || onCancel) && (
         <div className="flex justify-end gap-stack-xs pt-stack-lg border-t border-ink-200">
           {onCancel && (
-            <Button emphasis="soft" tone="warm" onClick={onCancel} disabled={isSubmitting}>
+            <Button emphasis="outline" tone="neutral" onClick={onCancel} disabled={isSubmitting}>
               {cancelLabel}
             </Button>
           )}
           {onSubmit && (
-            <Button emphasis="soft" onClick={onSubmit} disabled={isSubmitting}>
+            <Button emphasis="solid" onClick={onSubmit} disabled={isSubmitting}>
               {isSubmitting ? 'Envoi…' : submitLabel}
             </Button>
           )}

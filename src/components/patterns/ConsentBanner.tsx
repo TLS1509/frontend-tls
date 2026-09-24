@@ -127,20 +127,27 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = ({
             </div>
           </div>
 
-          {/* Action buttons */}
+          {/* Action buttons — une EXCEPTION à l'arbitrage n°19, écrite :
+              « Tout refuser » et « Tout accepter » gardent le même poids, niveau
+              ET ton (`soft` brand), parce que la CNIL exige que refuser soit
+              aussi simple et aussi visible qu'accepter. Ce n'est pas une paire
+              Annuler / Confirmer, et aucun des deux n'est l'action principale :
+              le bandeau ne pose pas de `solid`. « Tout refuser » était en
+              `soft` warm — un orange d'avertissement face au teal de
+              l'acceptation. « Personnaliser » ouvre le panneau : `ghost`. */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-stack-xs shrink-0">
             <Button
-              emphasis="outline"
+              emphasis="ghost"
               size="sm"
               onClick={() => setShowCustomize((v) => !v)}
               trailingIcon={showCustomize ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
             >
               Personnaliser
             </Button>
-            <Button emphasis="soft" tone="warm" size="sm" onClick={onRejectAll}>
+            <Button emphasis="soft" tone="brand" size="sm" onClick={onRejectAll}>
               Tout refuser
             </Button>
-            <Button emphasis="soft" size="sm" onClick={onAcceptAll}>
+            <Button emphasis="soft" tone="brand" size="sm" onClick={onAcceptAll}>
               Tout accepter
             </Button>
           </div>
@@ -177,8 +184,10 @@ export const ConsentBanner: React.FC<ConsentBannerProps> = ({
                 </div>
               ))}
             </div>
+            {/* Enregistrer ses choix : le même poids que les deux autres
+                (`soft`), pour ne pas pousser un chemin plutôt qu'un autre. */}
             <div className="flex justify-end mt-stack-xs">
-              <Button emphasis="soft" size="sm" onClick={handleSaveCustom}>
+              <Button emphasis="soft" tone="brand" size="sm" onClick={handleSaveCustom}>
                 Enregistrer mes préférences
               </Button>
             </div>

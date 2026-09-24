@@ -87,8 +87,11 @@ export const JournalChatCompose: React.FC<JournalChatComposeProps> = ({
             className="w-full resize-none border-0 outline-none bg-transparent font-body text-body text-ink-900 placeholder:text-ink-500 h-auto min-h-[44px] focus:outline-none"
           />
         </div>
+        {/* L'envoi d'un formulaire, et sur le Journal — son seul consommateur —
+            l'action principale de l'écran, « Nouvelle entrée » (arbitrage
+            n°19, qui la cite en exemple) : `solid`. */}
         <Button
-          emphasis="soft"
+          emphasis="solid"
           size="md"
           onClick={onSubmit}
           aria-label="Continuer l'entrée"
