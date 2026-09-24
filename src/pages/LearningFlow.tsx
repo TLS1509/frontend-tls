@@ -12,7 +12,7 @@
  */
 
 import React from 'react';
-import { BookOpen, Search, Play, Brain, Trophy, Target, Check } from 'lucide-react';
+import { BookOpen, Search, Play, Brain, Award, Target, Check } from 'lucide-react';
 import { PageShell } from '../components/layout';
 import { Button } from '../components/core/Button';
 import { Card } from '../components/core/Card';
@@ -53,7 +53,7 @@ const LEARNING_FLOW: FlowStep[] = [
   {
     id: 'reflection',
     title: 'Reflection',
-    description: 'Journaliser l\'apprentissage, accumuler des badges, suivre la progression sur le passeport de compétences.',
+    description: 'Journaliser l\'apprentissage et suivre sa progression sur le passeport de compétences.',
     icon: <Brain size={24} />,
     route: '/journal',
   },
@@ -64,19 +64,21 @@ const LEARNING_FLOW: FlowStep[] = [
     icon: <Target size={24} />,
     route: '/projects',
   },
+  /* Arbitrage n°18 (2026-09-24) : l'étape « Achievement » (badges gagnés,
+     leaderboard) devient la reconnaissance des niveaux validés. */
   {
-    id: 'achievement',
-    title: 'Achievement',
-    description: 'Célébrer les résultats, afficher les badges gagnés, consulter le leaderboard, partager les accomplissements.',
-    icon: <Trophy size={24} />,
-    route: '/dashboard/badges',
+    id: 'recognition',
+    title: 'Recognition',
+    description: 'Reconnaître calmement ce qui est validé : des Open Badges adossés aux niveaux du Passeport, et un rythme hebdomadaire, dans le profil.',
+    icon: <Award size={24} />,
+    route: '/profile#reconnaissances',
   },
 ];
 
 const PRINCIPES: { terme: string; texte: string }[] = [
   { terme: 'Progressive disclosure', texte: 'Révéler les fonctionnalités au fur et à mesure du parcours' },
   { terme: 'Micro-content', texte: 'Leçons courtes, astuces pratiques, flashcards pour la rétention' },
-  { terme: 'Motivation', texte: "Badges, points XP, leaderboard pour gamifier l'apprentissage" },
+  { terme: 'Reconnaissance', texte: 'Des Open Badges adossés aux niveaux validés et un rythme hebdomadaire calme : ni série, ni XP, ni classement' },
   { terme: 'Application réelle', texte: 'Projets, missions et évaluations pour valider les compétences' },
 ];
 

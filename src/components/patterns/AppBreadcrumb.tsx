@@ -166,6 +166,16 @@ const ROUTE_MAP: Array<{
 
   // Account family
   { test: /^\/profile\/?$/, build: () => [{ label: 'Profil' }] },
+  // Détail d'un Open Badge : il revient à la section Reconnaissances du profil
+  // (arbitrage n°18 ; les routes de gamification y redirigent).
+  {
+    test: /^\/gamification\/badge\//,
+    build: () => [
+      { label: 'Profil', href: '/profile' },
+      { label: 'Reconnaissances', href: '/profile#reconnaissances' },
+      { label: 'Open Badge' },
+    ],
+  },
   { test: /^\/account\/?$/, build: () => [{ label: 'Mon compte' }] },
   {
     test: /^\/account\/billing\/?$/,
@@ -191,7 +201,6 @@ const ROUTE_MAP: Array<{
   // Communauté
   { test: /^\/notifications\/?$/, build: () => [{ label: 'Notifications' }] },
   { test: /^\/messages\/?$/, build: () => [{ label: 'Messages' }] },
-  { test: /^\/leaderboard\/?$/, build: () => [{ label: 'Leaderboard' }] },
   { test: /^\/collaboration\/?$/, build: () => [{ label: 'Collaboration' }] },
 
   // Entreprise / Help / Onboarding

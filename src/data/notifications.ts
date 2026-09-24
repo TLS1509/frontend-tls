@@ -18,16 +18,6 @@ export const MOCK_IN_APP_NOTIFICATIONS: InAppNotification[] = [
     createdAt: '2026-05-15T08:05:00Z',
   },
   {
-    id: 'notif-2',
-    userId: MOCK_USER_ID,
-    eventType: 'badge_earned',
-    title: 'Nouveau badge débloqué',
-    body: "Tu as débloqué le badge « Expert en Prompt Engineering ».",
-    isRead: false,
-    deepLink: '/badges',
-    createdAt: '2026-05-14T16:30:00Z',
-  },
-  {
     id: 'notif-3',
     userId: MOCK_USER_ID,
     eventType: 'lesson_published',
@@ -76,6 +66,22 @@ export const MOCK_IN_APP_NOTIFICATIONS: InAppNotification[] = [
     isRead: true,
     deepLink: '/passeport',
     createdAt: '2026-05-10T11:30:00Z',
+  },
+  // Arbitrage n°18 : un badge ne se « débloque » plus, il atteste un niveau
+  // validé. Cette notification annonçait un badge « Expert en Prompt
+  // Engineering » que rien ne portait, et menait à /badges, une route qui
+  // n'existe pas. Elle dit désormais l'Open Badge que les données portent
+  // (Communication & Influence, D4, émis le 3 mai : MOCK_USER_BADGES) et mène
+  // à la section Reconnaissances du profil.
+  {
+    id: 'notif-2',
+    userId: MOCK_USER_ID,
+    eventType: 'badge_earned',
+    title: 'Nouvel Open Badge',
+    body: 'Ton niveau D4 en Communication & Influence est validé. Son Open Badge rejoint tes reconnaissances.',
+    isRead: false,
+    deepLink: '/profile#reconnaissances',
+    createdAt: '2026-05-03T14:05:00Z',
   },
 ];
 

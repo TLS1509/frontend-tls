@@ -37,7 +37,6 @@ import {
   BarChart3,
   LogOut,
   Menu,
-  Trophy,
   MessageSquare,
   Users,
   Palette,
@@ -81,7 +80,6 @@ import {
   VerifyEmail,
   MagicLink,
   Passeport,
-  Gamification,
   CoachDashboard,
   ManagerEnterprise,
   ManagerCohort,
@@ -97,7 +95,6 @@ import {
   CoachCorrectionInterface,
   CoachApprenants,
   BadgeDetail,
-  ProfileBadgesCompetences,
   ManagerAlerts,
   ManagerExport,
   DashboardCompetenceDetail,
@@ -145,9 +142,6 @@ import {
   ProjectSkillGaps,
   ProjectTask,
   ProjectTeam,
-  BadgeGallery,
-  XPDashboard,
-  DashboardAchievements,
   NotificationPreferences,
   // Phase 16 — Sitemap gap pages (17 from FO_SCREENS_CONSOLIDATION)
   PerplexityContentDetail,
@@ -160,7 +154,6 @@ import {
   ItemRecommendations,
   PasseportHistorique,
   PurchaseCredits,
-  StreakDetail,
   CoachEngagement,
   CoachEnterpriseDashboard,
   ManagerViewsBuilder,
@@ -174,7 +167,6 @@ import {
   ForgotPassword,
   Notifications,
   Messages,
-  Leaderboard,
   Veille,
   Journal,
   ArticleDetail,
@@ -212,7 +204,6 @@ import {
 } from './pages';
 import ChatInterface from './pages/ChatInterface';
 import ChatHistoryPanel from './pages/ChatHistoryPanel';
-import OpenBadgesSection from './pages/OpenBadgesSection';
 import CoachProfileView from './pages/CoachProfileView';
 import WebhooksManagement from './pages/WebhooksManagement';
 import OnboardingPreview from './pages/OnboardingPreview';
@@ -456,7 +447,6 @@ const AppLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           <DropdownItem icon={<BarChart3 size={16} />} badge="pro" onClick={goTo('/enterprise')}>Espace Entreprise</DropdownItem>
           <DropdownSeparator />
           <DropdownLabel>Communauté</DropdownLabel>
-          <DropdownItem icon={<Trophy size={16} />} onClick={goTo('/leaderboard')}>Leaderboard</DropdownItem>
           <DropdownItem icon={<Users size={16} />} onClick={goTo('/collaboration')}>Collaboration</DropdownItem>
           <DropdownItem icon={<MessageSquare size={16} />} onClick={goTo('/messages')}>Messages</DropdownItem>
           <DropdownSeparator />
@@ -685,6 +675,20 @@ function App() {
                   <Route path="/" element={<Dashboard />} />
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/profile" element={<Profile />} />
+                  {/* Arbitrage n°18 (2026-09-24, « Reconnaissances ») : plus de
+                      série, d'XP ni de classement nominatif dans l'app apprenant.
+                      Les six routes de gamification deviennent la section
+                      « Reconnaissances » du profil, et les deux listes de badges
+                      du profil s'y fondent (sans doublon). Seul le détail d'un
+                      Open Badge garde sa page, /gamification/badge/:id. */}
+                  <Route path="/gamification" element={<Navigate to="/profile#reconnaissances" replace />} />
+                  <Route path="/gamification/badges" element={<Navigate to="/profile#reconnaissances" replace />} />
+                  <Route path="/gamification/xp" element={<Navigate to="/profile#reconnaissances" replace />} />
+                  <Route path="/gamification/streaks" element={<Navigate to="/profile#reconnaissances" replace />} />
+                  <Route path="/leaderboard" element={<Navigate to="/profile#reconnaissances" replace />} />
+                  <Route path="/dashboard/achievements" element={<Navigate to="/profile#reconnaissances" replace />} />
+                  <Route path="/profile/badges/competences" element={<Navigate to="/profile#reconnaissances" replace />} />
+                  <Route path="/profile/open-badges" element={<Navigate to="/profile#reconnaissances" replace />} />
                   <Route path="/settings" element={<Navigate to="/account" replace />} />
                   <Route path="/components" element={<Suspense fallback={<ShowcaseFallback />}><Components /></Suspense>} />
                   <Route path="/components/:categorySlug" element={<Suspense fallback={<ShowcaseFallback />}><Components /></Suspense>} />
@@ -698,7 +702,6 @@ function App() {
                   <Route path="/pages-index" element={<PagesIndex />} />
                   <Route path="/notifications" element={<Notifications />} />
                   <Route path="/messages" element={<Messages />} />
-                  <Route path="/leaderboard" element={<Leaderboard />} />
                   <Route path="/veille" element={<Veille />} />
                   <Route path="/veille/article/:id" element={<ArticleDetail />} />
                   <Route path="/veille/dossier/:id" element={<Dossier />} />
@@ -725,7 +728,6 @@ function App() {
                   <Route path="/account/billing" element={<Billing />} />
                   {/* Phase 11 — MVP pages */}
                   <Route path="/passeport" element={<Passeport />} />
-                  <Route path="/gamification" element={<Gamification />} />
                   <Route path="/coach/dashboard" element={<CoachDashboard />} />
                   <Route path="/manager/enterprise" element={<ManagerEnterprise />} />
                   <Route path="/manager/cohort" element={<ManagerCohort />} />
@@ -739,7 +741,6 @@ function App() {
                   <Route path="/coach/correction/:id" element={<CoachCorrectionInterface />} />
                   <Route path="/coach/apprenants" element={<CoachApprenants />} />
                   <Route path="/gamification/badge/:id" element={<BadgeDetail />} />
-                  <Route path="/profile/badges/competences" element={<ProfileBadgesCompetences />} />
                   <Route path="/manager/alerts" element={<ManagerAlerts />} />
                   <Route path="/manager/export" element={<ManagerExport />} />
                   <Route path="/dashboard/competence/:id" element={<DashboardCompetenceDetail />} />
@@ -788,9 +789,6 @@ function App() {
                   <Route path="/project/:id/skill-gaps" element={<ProjectSkillGaps />} />
                   <Route path="/project/:id/task/:taskId" element={<ProjectTask />} />
                   <Route path="/project/:id/team" element={<ProjectTeam />} />
-                  <Route path="/gamification/badges" element={<BadgeGallery />} />
-                  <Route path="/gamification/xp" element={<XPDashboard />} />
-                  <Route path="/dashboard/achievements" element={<DashboardAchievements />} />
                   <Route path="/notifications/preferences" element={<NotificationPreferences />} />
                   {/* Phase 16 — Sitemap gap pages (P0 + P1 from FO_SCREENS_CONSOLIDATION) */}
                   <Route path="/veille/perplexity/:id" element={<PerplexityContentDetail />} />
@@ -803,7 +801,6 @@ function App() {
                   <Route path="/passeport/historique" element={<PasseportHistorique />} />
                   <Route path="/account/billing/credits/buy" element={<PurchaseCredits />} />
                   <Route path="/profile/credits/buy" element={<Navigate to="/account/billing/credits/buy" replace />} />
-                  <Route path="/gamification/streaks" element={<StreakDetail />} />
                   <Route path="/coach/engagement" element={<CoachEngagement />} />
                   <Route path="/coach/enterprise-dashboard" element={<CoachEnterpriseDashboard />} />
                   <Route path="/manager/views/builder" element={<ManagerViewsBuilder />} />
@@ -820,7 +817,6 @@ function App() {
                   <Route path="/veille/video/:id" element={<VideoViewer />} />
                   <Route path="/assistant" element={<ChatInterface />} />
                   <Route path="/assistant/history" element={<ChatHistoryPanel />} />
-                  <Route path="/profile/open-badges" element={<OpenBadgesSection />} />
                   <Route path="/profile/credits" element={<Navigate to="/account/billing" replace />} />
                   <Route path="/coaching/coach/:id" element={<CoachProfileView />} />
                   <Route path="/enterprise/webhooks" element={<WebhooksManagement />} />
