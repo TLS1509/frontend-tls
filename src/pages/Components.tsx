@@ -76,7 +76,6 @@ import {
   Tabs,
   Stepper,
   Breadcrumb,
-  Pagination,
   DropdownMenu,
   DropdownItem,
   DropdownLabel,
@@ -251,7 +250,6 @@ import { RadioGroup } from '../components/ui/RadioGroup';
 import { CheckboxGroup } from '../components/ui/CheckboxGroup';
 import { FormSection } from '../components/ui/FormSection';
 import { InputGroup } from '../components/ui/InputGroup';
-import { SimpleTable } from '../components/ui/SimpleTable';
 import { PaginatedList } from '../components/ui/PaginatedList';
 import { FilteredList } from '../components/ui/FilteredList';
 import { StepIndicator } from '../components/ui/StepIndicator';
@@ -1199,15 +1197,6 @@ const NotificationCardClicDemo: React.FC = () => {
       <p className="font-body text-caption text-ink-600" aria-live="polite">
         {ouverte ? `Ouverte : « ${ouverte} »` : 'Aucune notification ouverte.'}
       </p>
-    </div>
-  );
-};
-
-const PaginationDemo: React.FC = () => {
-  const [page, setPage] = useState(3);
-  return (
-    <div className="flex flex-col gap-stack">
-      <Pagination page={page} totalPages={12} onChange={setPage} info={`Page ${page} sur 12`} />
     </div>
   );
 };
@@ -3770,14 +3759,6 @@ const COMPONENTS: ComponentEntry[] = [
         <AccountFamilyNav active="billing" />
       </div>
     ),
-  },
-  {
-    name: 'Pagination',
-    codeName: 'ui/Pagination.tsx',
-    showcaseOnly: true,
-    description: "Navigation numérotée des longues listes : boutons de 44 × 44 au rayon 14, chiffres 16/600 tabulaires, page courante en dégradé 700 → 800 à chiffre blanc. Troncature automatique autour de la page (`siblings`), précédent et suivant, et une information optionnelle en légende 13 ink-600. Son seul consommateur, le classement, a disparu avec l'arbitrage n°18 : aucune page ne l'emploie. DataTable pagine avec ses propres boutons ghost.",
-    keywords: ['pagination', 'pages', 'nav', 'numbered', 'prev', 'next'],
-    render: () => <PaginationDemo />,
   },
   {
     name: 'DropdownMenu',
@@ -6900,48 +6881,11 @@ const COMPONENTS: ComponentEntry[] = [
   },
 
   {
-    name: 'SimpleTable',
-    codeName: 'ui/SimpleTable.tsx',
-    subCategory: 'List composites',
-    showcaseOnly: true,
-    description: "Table sémantique à colonnes déclaratives (`ColumnDef` : en-tête, accesseur, alignement, largeur). En-têtes 13/600 ink-600 en casse normale, cellules 16 × 12, chiffres tabulaires, filets ink-100. Options : `striped`, `onRowClick`, `emptyLabel`, `caption` (13 ink-600). Défilement horizontal sur mobile.",
-    keywords: ['table', 'données', 'colonnes', 'lignes', 'rows', 'sort', 'striped', 'data'],
-    render: () => {
-      type User = { id: string; name: string; role: string; score: number; status: string };
-      const data: User[] = [
-        { id: '1', name: 'Marie Dupont', role: 'Apprenante', score: 94, status: 'Actif' },
-        { id: '2', name: 'Jean Martin', role: 'Manager', score: 78, status: 'Actif' },
-        { id: '3', name: 'Sophie Bernard', role: 'Apprenante', score: 61, status: 'Inactif' },
-        { id: '4', name: 'Lucas Petit', role: 'Coach', score: 87, status: 'Actif' },
-      ];
-      const columns = [
-        { key: 'name', header: 'Nom', accessor: (r: User) => <span className="font-semibold">{r.name}</span> },
-        { key: 'role', header: 'Rôle', accessor: (r: User) => r.role },
-        { key: 'score', header: 'Progression', accessor: (r: User) => `${r.score} %`, align: 'center' as const },
-        /* Un statut est un état : Badge, pas une pastille faite main. */
-        { key: 'status', header: 'Statut', accessor: (r: User) => (
-          <Badge variant={r.status === 'Actif' ? 'success' : 'neutral'} size="compact">{r.status}</Badge>
-        )},
-      ];
-      return (
-        <div className="flex flex-col gap-section">
-          <p className="text-caption font-semibold text-ink-600 m-0">Par défaut</p>
-          <SimpleTable columns={columns} rows={data} keyExtractor={(r) => r.id} />
-          <p className="text-caption font-semibold text-ink-600 m-0">Rayée, rangées cliquables</p>
-          <SimpleTable columns={columns} rows={data} keyExtractor={(r) => r.id} striped onRowClick={() => {}} />
-          <p className="text-caption font-semibold text-ink-600 m-0">Vide</p>
-          <SimpleTable columns={columns} rows={[]} keyExtractor={(r) => r.id} emptyLabel="Aucun membre dans cette équipe" />
-        </div>
-      );
-    },
-  },
-
-  {
     name: 'PaginatedList',
     codeName: 'ui/PaginatedList.tsx',
     showcaseOnly: true,
     subCategory: 'List composites',
-    description: "Pagination d'une liste quelconque : `items`, `renderItem`, `pageSize` (10), `itemLabel`. Boutons ronds de 36 px aux numéros 13/700 tabulaires, plage « 1–10 / 42 » en 13 ink-600, contrôles réduits (n / N) sur mobile. Elle double `ui/Pagination`, qui tient l'échelle des contrôles.",
+    description: "Pagination d'une liste quelconque : `items`, `renderItem`, `pageSize` (10), `itemLabel`. Boutons ronds de 36 px aux numéros 13/700 tabulaires, plage « 1–10 / 42 » en 13 ink-600, contrôles réduits (n / N) sur mobile. Elle doublait `ui/Pagination`, supprimé le 24/09 faute d'usage : c'est désormais, avec la pagination intégrée de DataTable, la seule pagination du système.",
     keywords: ['pagination', 'pages', 'liste', 'navigation', 'next', 'prev', 'parcours'],
     render: () => {
       const ITEMS = Array.from({ length: 23 }, (_, i) => ({ id: String(i + 1), title: `Parcours ${i + 1}`, category: i % 3 === 0 ? 'Leadership' : i % 3 === 1 ? 'IA & Data' : 'Communication' }));

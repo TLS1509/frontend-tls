@@ -73,9 +73,6 @@ export type {
   SearchFilterOption,
 } from './patterns/SearchFilters';
 
-export { Pagination } from './ui/Pagination';
-export type { PaginationProps } from './ui/Pagination';
-
 /* ============================================================================
  * UI — Learning
  * ============================================================================ */

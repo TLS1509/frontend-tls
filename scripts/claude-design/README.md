@@ -8,11 +8,11 @@ Suivi et historique : `docs/_audits/SYNC-CLAUDE-DESIGN-2026-09-16.md`.
 
 | Fichier | Rôle |
 |---|---|
-| `entries.json` | Les 28 cartes **écrites à la main** : fichier source, exports, cartes. Leur aperçu est dans `gen_previews.py` (ou `apercus-manuels/`), leur fiche d'usage est rédigée dans l'artefact. |
+| `entries.json` | Les 27 cartes **écrites à la main** : fichier source, exports, cartes. Leur aperçu est dans `gen_previews.py` (ou `apercus-manuels/`), leur fiche d'usage est rédigée dans l'artefact. |
 | `showcase.mjs` | L'inventaire de la **vitrine** `/components` : lit le tableau `COMPONENTS` de `src/pages/Components.tsx` (AST TypeScript) et le classement de `src/pages/components/registry.ts`. Chaque fiche qui n'est ni une convention ni une carte écrite à la main devient une carte (163 au 17/09). Sortie : `out/showcase.json`. |
 | `build.mjs` | `bundle.js` (esbuild, un seul script classique, React lu sur `window`) : les cartes écrites à la main, les composants homonymes de la vitrine, et `Showcase` (le rendu de chaque fiche, `COMPONENTS` étant exposé à la compilation sans toucher au fichier). `jspdf` et `html2canvas` sont neutralisés. `bundle.css` : la vraie feuille de l'app, Tailwind v4 sur tout `src/`. |
 | `build-react.mjs` | React et ReactDOM **de l'app** (19.x) en scripts classiques pour `components/lib/`. À relancer seulement si la version de React change. |
-| `gen_previews.py` | Les `preview.html` : exemples choisis pour les 28 cartes (Button et Card dans `apercus-manuels/`), et pour les fiches de la vitrine un aperçu qui rejoue `Showcase[nom]` dans un routeur mémoire. |
+| `gen_previews.py` | Les `preview.html` : exemples choisis pour les 27 cartes (Button et Card dans `apercus-manuels/`), et pour les fiches de la vitrine un aperçu qui rejoue `Showcase[nom]` dans un routeur mémoire. |
 | `dts.mjs` | Les types émis par `tsc` : un `<Nom>.d.ts` par carte écrite à la main, un seul `components/index.d.ts` pour la vitrine. |
 | `render-check.mjs` | Le rendu de contrôle : imite le cadre d'aperçu de Claude Design, sort une capture et les erreurs JS par composant. Avec `FIX_HEIGHTS=1` (défaut de `npm run check`), écrit la hauteur mesurée dans le marqueur de chaque aperçu. |
 

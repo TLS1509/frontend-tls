@@ -75,7 +75,14 @@ d'en déplacer le sens.
 | Activité | infini |
 | Table d'admin | numéroté + sélecteur de taille de page |
 
-C'est le seul arbitrage écrit sur ce choix ; `Pagination.tsx` n'a aucun JSDoc.
+C'est le seul arbitrage écrit sur ce choix, et il vaut toujours. Le numéroté
+passe aujourd'hui par la pagination intégrée de `DataTable` (tables) ou par
+`PaginatedList` (listes).
+
+> `Pagination` supprimé le 24/09/2026 (aucun usage produit : son seul
+> consommateur, le classement, était parti avec l'arbitrage n°18 sur la
+> gamification). À recréer depuis l'historique git si le besoin revient
+> (dernier état : commit `6dcf672e`, `src/components/ui/Pagination.tsx`).
 
 ### Règles à une phrase
 

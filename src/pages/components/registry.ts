@@ -274,14 +274,12 @@ export const CATALOG: Record<string, CatalogMeta> = {
   // Tabs et Breadcrumb classés en Navigation (cf. ci-dessous)
   Stepper:              { category: 'Composites', subCategory: 'Group wrappers' },
   // Steps supprimé — fusionné dans Stepper entry
-  Pagination:           { category: 'Composites', subCategory: 'Group wrappers' },
   // Phase 19 — Form composites
   RadioGroup:           { category: 'Composites', subCategory: 'Form groups' },
   CheckboxGroup:        { category: 'Composites', subCategory: 'Form groups' },
   FormSection:          { category: 'Composites', subCategory: 'Form groups' },
   InputGroup:           { category: 'Composites', subCategory: 'Form groups' },
   // Phase 19 Tier 2 — List composites
-  SimpleTable:          { category: 'Composites', subCategory: 'List composites' },
   PaginatedList:        { category: 'Composites', subCategory: 'List composites' },
   FilteredList:         { category: 'Search & Filters', subCategory: 'Filter composites' },
   // Phase 19 Tier 3 — Form/Step/Grid composites

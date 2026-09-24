@@ -189,13 +189,6 @@ add('Breadcrumb', 'Navigation', 170, "simple et navigation repliable", """
       h('div', null, Label('nav, 3 niveaux visibles'), h(Breadcrumb, { variant: 'nav', items: items, maxVisible: 3, current: 4, onNavigate: function () {} })));
   }""")
 
-add('Pagination', 'Composites', 120, "numérotée, avec voisins et état", """
-  var Pagination = DS.Pagination;
-  function App() {
-    var st = useState(4);
-    return h(Pagination, { page: st[0], totalPages: 12, onChange: st[1], info: 'Page ' + st[0] + ' sur 12' });
-  }""")
-
 add('Tabs', 'Navigation', 280, "pill, underline, boxed", """
   var Tabs = DS.Tabs;
   function App() {
