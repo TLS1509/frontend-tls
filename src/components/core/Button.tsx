@@ -268,8 +268,14 @@ const RAYON_CERCLE = 'rounded-pill';
    s'apprêtait à le presser. Foncer le porte de 5,02 à 7,08. */
 const EMPHASIS_TONE: Record<ButtonEmphasis, Record<ButtonTone, string>> = {
   /* ── solid — l'aplat. Le cran 700 est le premier à porter du blanc à 4,5:1.
-        Réservé au site marketing (36 appels), au destructif et au verre onDark :
-        l'app, elle, n'a plus d'aplat depuis le 17/09. */
+        ⚠️ Mis à jour le 2026-09-24 — arbitrage n°19 : c'est L'ACTION
+        PRINCIPALE DE L'ÉCRAN, et il y en a une au plus par écran (la page, ou
+        la modale, le tiroir, la boîte de dialogue ouverts). « Reprendre » sur
+        l'accueil, l'envoi d'un formulaire, Confirmer dans une modale — `danger`
+        pour confirmer une suppression. Un écran de pure consultation peut n'en
+        avoir aucun. La règle du 17/09 (« l'app n'a plus d'aplat ») est
+        remplacée : sa faille était que `soft` et `outline` ne différaient que
+        d'un fond au cran 50, invisible sur une carte teintée. */
   solid: {
     brand:   'bg-primary-700 text-white shadow-sm hover:bg-primary-800 hover:shadow-brand-md active:bg-primary-800 active:shadow-sm',
     warm:    'bg-secondary-700 text-white shadow-sm hover:bg-secondary-800 hover:shadow-warm-md active:bg-secondary-800 active:shadow-sm',
@@ -277,8 +283,9 @@ const EMPHASIS_TONE: Record<ButtonEmphasis, Record<ButtonTone, string>> = {
     danger:  'bg-danger-strong text-white shadow-sm hover:bg-danger-deep hover:shadow-danger-md active:bg-danger-deep active:shadow-sm',
     neutral: 'bg-ink-900 text-white shadow-sm hover:bg-ink-800 active:bg-ink-900 active:shadow-sm',
   },
-  /* ── soft — le fond doux. C'est le niveau PRINCIPAL de l'app depuis la
-        bascule. Fond opaque au cran 50, label 800, filet 600 — le filet monte
+  /* ── soft — le fond doux. L'action DE CONTEXTE (arbitrage n°19) : celle
+        d'une carte, d'une rangée, d'un panneau ; et l'outil qui a besoin d'un
+        contour. Fond opaque au cran 50, label 800, filet 600 — le filet monte
         au 700 sur l'or, seule famille dont le 600 rate le seuil de contour
         (2,89 contre les 3,0 de WCAG 1.4.11 ; le 700 donne 4,88).
         `neutral` est la pastille blanche givrée posée sur une carte teintée :
@@ -298,7 +305,9 @@ const EMPHASIS_TONE: Record<ButtonEmphasis, Record<ButtonTone, string>> = {
        boutons se lisaient comme du texte gras, pas comme des boutons. */
     neutral: 'bg-white/80 text-ink-900 border border-ink-500 backdrop-blur-glass-light shadow-sm hover:bg-white hover:border-ink-600 active:bg-white',
   },
-  /* ── outline — le filet sans fond. C'est le niveau secondaire. */
+  /* ── outline — le filet sans fond. RÉSERVÉ aux paires Annuler / Confirmer
+        (arbitrage n°19) : Annuler en `outline`, Confirmer en `solid`. Ailleurs,
+        un bouton secondaire est `soft` (contexte) ou `ghost` (tertiaire). */
   outline: {
     brand:   'bg-transparent text-primary-800 border border-primary-700 shadow-xs hover:bg-primary-50 hover:border-primary-800 hover:shadow-sm active:bg-primary-100 active:border-primary-800',
     warm:    'bg-transparent text-secondary-800 border border-secondary-700 shadow-xs hover:bg-secondary-50 hover:border-secondary-800 hover:shadow-warm-sm active:bg-secondary-100 active:border-secondary-800',
@@ -307,7 +316,8 @@ const EMPHASIS_TONE: Record<ButtonEmphasis, Record<ButtonTone, string>> = {
     neutral: 'bg-transparent text-ink-700 border border-ink-500 shadow-xs hover:bg-ink-50 hover:border-ink-600 hover:shadow-sm active:bg-ink-100 active:border-ink-600',
   },
   /* ── ghost — ni fond ni filet au repos. Le niveau le plus discret qui reste
-        une boîte ; le fond n'apparaît qu'au survol. */
+        une boîte ; le fond n'apparaît qu'au survol. Le tertiaire (« Plus
+        tard », « Voir tout », Précédent) et les outils (arbitrage n°19). */
   ghost: {
     brand:   'bg-transparent text-primary-800 hover:bg-primary-50 active:bg-primary-100',
     warm:    'bg-transparent text-secondary-800 hover:bg-secondary-50 active:bg-secondary-100',
