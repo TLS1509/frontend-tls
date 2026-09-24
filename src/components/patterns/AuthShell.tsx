@@ -7,7 +7,7 @@ import { Input } from '../core/Input';
  * AuthShell — full-bleed branded auth layout.
  *
  * Visual:
- *   - Page bg : deep teal gradient (primary-600 → primary-800)
+ *   - Page bg : deep teal gradient (primary-700 → primary-900)
  *   - Ambient diffuse blobs (blur-ambient)
  *   - Centered glass Card (max-w-[480px]) on dark — `bg-white/10` + `backdrop-blur-glass-medium`
  *   - Branded header inside card : icon bubble + brand title + subtitle (all white)
@@ -121,18 +121,27 @@ export const AuthShell: React.FC<AuthShellProps> = ({
         .filter(Boolean)
         .join(' ')}
     >
-      {/* Diffuse ambient blobs — large + heavily blurred for depth */}
+      {/* Diffuse ambient blobs — large + heavily blurred for depth.
+          Au cran 700 (2026-09-24). Ils étaient au 400, 300 et 500 : des halos
+          CLAIRS qui passent sous le formulaire et éclaircissent ce que le texte
+          blanc a besoin de sombre. Mesuré aux pixels, à l'écran, texte effacé,
+          sur les 6 pages d'auth : 38 textes sous 4,5:1 à 375 px (pire 3,26),
+          24 à 768, 19 à 1024, 13 à 1280 — seul 1440 passait. Au 700 : 0 à
+          toutes les largeurs (pire 4,57 à 375). Aucune position ne les sort de
+          la colonne du formulaire sous 1440 : le plus grand fait 640 px, le
+          troisième est centré. Ils gardent un reflet sur le bas du dégradé
+          (800 → 900), là où le texte ne vit pas. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-[10%] -left-40 w-[640px] h-[640px] rounded-pill bg-primary-400/25 blur-ambient"
+        className="pointer-events-none absolute top-[10%] -left-40 w-[640px] h-[640px] rounded-pill bg-primary-700/25 blur-ambient"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-[5%] -right-32 w-[560px] h-[560px] rounded-pill bg-primary-300/20 blur-ambient"
+        className="pointer-events-none absolute bottom-[5%] -right-32 w-[560px] h-[560px] rounded-pill bg-primary-700/20 blur-ambient"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-1/2 left-1/3 w-[400px] h-[400px] rounded-pill bg-primary-500/15 blur-ambient -translate-x-1/2 -translate-y-1/2"
+        className="pointer-events-none absolute top-1/2 left-1/3 w-[400px] h-[400px] rounded-pill bg-primary-700/15 blur-ambient -translate-x-1/2 -translate-y-1/2"
       />
 
       {/* Centered content */}
@@ -144,10 +153,13 @@ export const AuthShell: React.FC<AuthShellProps> = ({
             <AuthBackLink label={backLink.label} onClick={backLink.onClick} />
           )}
 
-          {/* Glass dark Card */}
+          {/* Glass dark Card — rayon conteneur, 20 (2026-09-24) : elle était à 14,
+              le rayon des boutons qu'elle contient. Son padding (32 / 40) reste
+              au-dessus de 20 : champs et boutons gardent leur forme (règle des
+              coins imbriqués, régime « forme fixe »). */}
           <section
             className={[
-              'relative rounded-lg px-8 py-10 sm:px-10 sm:py-12',
+              'relative rounded-xl px-8 py-10 sm:px-10 sm:py-12',
               'bg-white/10 backdrop-blur-glass-medium',
               'border border-white/20',
               'shadow-[0_20px_60px_-15px_rgba(0,0,0,0.30)]',
@@ -157,7 +169,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
             {/* Inner highlight on top edge for glass premium feel */}
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent rounded-t-lg"
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent rounded-t-xl"
             />
 
             {/* Branding */}
@@ -166,7 +178,10 @@ export const AuthShell: React.FC<AuthShellProps> = ({
                 <span className="inline-flex items-center justify-center w-16 h-16 rounded-pill bg-white/15 backdrop-blur-glass-light border border-white/25 shadow-sm">
                   {brandContent.icon}
                 </span>
-                <h1 className="font-display text-h2 font-bold text-white tracking-tight text-balance">
+                {/* Le titre de la page : h1 à 36, sur le jeton (2026-09-24). Il était
+                    dessiné en h2 (28) avec un `font-bold` et un `tracking-tight`
+                    que le jeton porte déjà — le second écrasait le -0,03em du h1. */}
+                <h1 className="font-display text-h1 text-white text-balance">
                   {brandContent.title}
                 </h1>
                 {brandContent.subtitle && (
@@ -183,7 +198,7 @@ export const AuthShell: React.FC<AuthShellProps> = ({
 
           {/* Optional aside content (e.g. recommendations on ResetPassword) */}
           {aside && (
-            <aside className="rounded-lg px-6 py-stack-md bg-white/8 backdrop-blur-glass-light border border-white/15 text-white">
+            <aside className="rounded-xl px-6 py-stack-md bg-white/8 backdrop-blur-glass-light border border-white/15 text-white">
               {aside}
             </aside>
           )}
