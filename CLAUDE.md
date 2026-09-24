@@ -376,7 +376,7 @@ L'app est une SPA réactive : les données du domaine vivent dans des stores Zus
 
 **Accessibilité** (⚠️ corrigé 2026-07-23 : l'ancien « 44px = WCAG AA » était un amalgame) :
 - Seuils réels : **WCAG 2.2 AA (SC 2.5.8) = 24×24 px** (seul minimum normatif) ; AAA / Apple HIG = 44×44. **Règle TLS** : 44 px sur les actions principales, 24 px minimum partout.
-- Hauteurs Button mesurées : `sm` 32px · `md` 44px (`h-touch`) · `lg` 48px · `xl` **52px**. `sm` passe AA mais rate 44 → contextes denses seulement (sa cible tactile est portée à 44 px par un pseudo-élément qui déborde de 6 px).
+- Hauteurs Button (arbitrage n°22, 24/09) : `sm` **36px** · `md` 44px (`h-touch`) · `lg` **52px** — la même échelle que les champs d'une même ligne. `xl` n'existe plus (alias déprécié de `lg`). `sm` passe AA mais rate 44 → contextes denses seulement (sa cible tactile est portée à 44 px par un pseudo-élément qui déborde de 4 px).
 - **Focus visible** obligatoire sur tout élément focusable custom. Le canon est l'anneau bicolore de `Button.tsx` — blanc à l'intérieur, ink-900 à l'extérieur : aucune couleur unique ne passe le 3:1 sur tous les fonds de l'app.
   ⚠️ **Arbitrage n°1 du 2026-09-23 : le contour `primary-500` reste le défaut hors `Button`**, en connaissance de cause. Il mesure 2,94:1 sur blanc et 1,71:1 sur un hero teal — **sous le 3:1 de WCAG 1.4.11**. `Button` garde l'anneau bicolore. C'est un écart de conformité assumé, pas un oubli : à rouvrir avant toute exigence d'accessibilité contractuelle (appel d'offres, RGAA).
 - Contraste : `text-ink-900` sur blanc. Texte blanc uniquement sur `primary-700+` / `secondary-700+` / `accent-700+` — ⚠️ **`primary-600` est à 3,66:1 et échoue AA** pour du texte normal.

@@ -32,8 +32,8 @@ paths:
 
   | Étage | Famille | Rayon | Pourquoi |
   |---|---|---|---|
-  | étiquette | `Badge` · `MetaPill` · `Chip` · `FilterChip` | `rounded-pill` | sous le seuil par construction (20 · 24 · 28 px) |
-  | interactif | `Button` (4 tailles) · rangées de liste | **`rounded-lg`** (14) | au-dessus du seuil |
+  | étiquette | `Badge` · `MetaPill` sm · `Chip` sm · `FilterChip` sm | `rounded-pill` | sous le seuil par construction (20 · 24 · 28 px) |
+  | interactif | `Button` (3 tailles : 36 · 44 · 52, arbitrage n°22) · `FilterChip` md · `SegmentedControl` · `QualitativeRating` · rangées de liste | **`rounded-lg`** (14) | au-dessus du seuil — ⚠️ corrigé le 2026-09-24 : `FilterChip` md fait 44 px (arbitrage n°22 : un contrôle de la ligne), la table le rangeait à tort parmi les étiquettes « sous le seuil par construction » |
   | interactif | **famille champ** (`Input` · `Select` · `Combobox` · `Search` + faits main) | **`rounded-lg`** (14) | R4 ci-dessous — 36 à 52 px de haut, donc toujours au-dessus du seuil |
   | conteneur | `Card` · `StatCard` · cartes faites main | **`rounded-xl`** (20) | l'étage le plus grand posé dans la page |
   | **surcouche** | `Modal` · modales · tiroirs · feuilles | **`rounded-2xl`** (24) | tranché le 2026-09-23 (arbitrage n°2) : plus l'objet est haut dans l'empilement, plus il est rond. Padding 24 ≥ rayon 24 : ses boutons restent des formes fixes. Material 3 va jusqu'à 28 dp, mais à 28 le padding 24 rendrait ses boutons évasés |
@@ -255,12 +255,21 @@ contradiction que ce fichier nomme déjà pour le compteur de la nav. Mesuré :
 qui descend au 500 ne peut porter aucun label blanc, quel que soit le bouton —
 c'est le fond qu'il faut remonter.
 
-**Padding horizontal** : `px-stack` (16) · `px-stack-md` (20) · `px-stack-lg`
-(24) · `px-7` (28). L'invariant qui range les crans est le rapport du padding à
-la POLICE du label — 1,23 · 1,33 · 1,50 · 1,47 — et non à la hauteur, qui dérive.
-⚠️ Le 28 de `xl` est hors échelle et c'est écrit plutôt que corrigé : 24
-donnerait 1,26 quand `lg` est à 1,50, donc le plus grand bouton paraîtrait plus
-serré que celui d'en dessous.
+**Tailles (arbitrage n°22, appliqué le 2026-09-24)** : trois crans, alignés sur
+les champs d'une même ligne.
+
+| Taille | Hauteur | Label | Padding H | Icône |
+|---|---|---|---|---|
+| `sm` | 36 (`h-9`) — cible tactile portée à 44 | 13 / 700 | 16 | 16 |
+| `md` *(défaut)* | 44 (`h-touch`) | 16 / 700 | 20 | 18 |
+| `lg` | 52 (`h-13`) | 16 / 700 | 24 | 20 |
+
+`xl` n'existe plus : il reste accepté comme alias déprécié qui rend `lg`. Le
+label de `sm` reste à 13 — testé contre 16 dans trois rangées denses réelles
+(webhooks, table des apprenants, en-tête de carte) : à 16 en 700, l'action
+pesait plus que le nom qu'elle sert. Champs (`Input`, `Select`, `Combobox`,
+`Search`) : mêmes hauteurs, et **texte saisi à 16 à toutes les tailles** (sous
+16, iOS Safari zoome la page au focus).
 
 **Navigation — l'état sélectionné, et pourquoi les deux barres ne se ressemblent pas.**
 `Sidebar` (bureau) et `BottomNav` (mobile) gardent **deux registres distincts**,

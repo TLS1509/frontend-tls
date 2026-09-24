@@ -710,29 +710,21 @@ sur des heros clairs — blanc sur blanc, action principale de vingt pages.
 
 ### Le bouton — graisse, tailles, seuils
 
-| Taille | Police | Hauteur | Padding H | Usages |
-|---|---|---|---|---:|
-| `sm` | 13 px | 32 px | **16** | **227** |
-| `md` *(défaut)* | 15 px | 44 px | 20 | 214 |
-| `lg` | 16 px | 48 px | 24 | 71 |
-| `xl` | 19 px | **52 px** | 28 | 10 |
+⚠️ **Mis à jour le 2026-09-24 — arbitrage n°22 : trois tailles alignées sur les
+champs d'une même ligne (36 · 44 · 52).** L'ancienne table (32 · 44 · 48 · 52,
+quatre crans) est périmée ; la table vivante est dans
+`.claude/rules/doctrine-design.md`, section « Le bouton ».
+
+| Taille | Police | Hauteur | Padding H |
+|---|---|---|---|
+| `sm` | 13 px | **36 px** (cible tactile 44) | 16 |
+| `md` *(défaut)* | 16 px | 44 px | 20 |
+| `lg` | 16 px | **52 px** | 24 |
 
 **Graisse : 700 sur toutes les tailles** (décidé le 09/09). Aucun tracking.
-
-**Le padding horizontal se juge au rapport à la POLICE** (1,23 · 1,33 · 1,50 ·
-1,47), pas à la hauteur, qui dérive de 0,438 à 0,538. `sm` était le seul cran
-sous 1,2 — et le plus employé ; il est passé de 14 à 16 le 17/09.
-
-⚠️ **Deux points ouverts sur cette table :**
-
-- **`sm` fait 32 px de haut et compte 227 usages.** C'est au-dessus du minimum
-  normatif de WCAG 2.2 (24 px) mais en dessous des 44 px que la règle TLS impose
-  aux **actions principales**. À auditer : combien de ces 227 portent une action
-  principale plutôt qu'une action secondaire dans une zone dense ?
-- **`xl` fait 18 px, et il manque 0,66 px** pour que la graisse 700 le fasse
-  basculer en « grand texte » au sens WCAG (seuil 18,66 px). À **19 px**, son seuil
-  de contraste tomberait de 4,5 à 3,0 — ce qui rendrait le cran 600 des couleurs de
-  marque utilisable avec un label blanc. Un pixel qui change la palette disponible.
+`xl` n'existe plus (alias déprécié de `lg`). Les deux points ouverts de
+l'ancienne table sont clos : `sm` est monté à 36 px, et le cran `xl` à 19 px a
+disparu avec lui.
 
 ### Deux interdits que le code ne respecte pas encore
 
