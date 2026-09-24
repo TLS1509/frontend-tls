@@ -115,7 +115,7 @@ au moins un doc ou une page du repo.
 
 | # | Fait | Date |
 |---|---|---|
-| D1 | Registre public : **vous**. Registre app : **tu** pour l'apprenant ; **vous** pour le pilotage (manager, entreprise, admin, CLO), l'espace du coach et les pages d'auth — précisé par l'arbitrage n°23 (banc `/_arbitrages`), conforme à la section Voice de `PRODUCT.md` | 10/06 · 24/09 |
+| D1 | Registre public : **vous**. Registre app : **tu** pour l'apprenant ; **vous** pour le pilotage (manager, entreprise, admin, CLO), l'espace du coach et les pages d'auth — précisé par l'arbitrage n°23 (banc `/_arbitrages`), conforme à la section Voice de `PRODUCT.md`. **La Veille vouvoie**, ses publications comme ses écrans (surface éditoriale, Chloé, 24/09) | 10/06 · 24/09 |
 | D2 | **SBO = Skills Based Organisation** | durable |
 | D3 | Siège social : **26 bis, rue Olivier Noyer, 75014 Paris** | 28/07 |
 | D4 | Équipe affichée : **Chloé Mimault** et **Pierre-Armand Dennery**, personne d'autre | 10/06 |

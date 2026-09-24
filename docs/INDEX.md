@@ -1,6 +1,6 @@
 # 📑 Documentation Index — The Learning Society
 
-**Last updated**: 2026-09-24 | **Total docs**: 194 fichiers suivis dans `docs/` hors `_archive/` (+ `CDC/`, local et non suivi)
+**Last updated**: 2026-09-24 | **Total docs**: 195 fichiers suivis dans `docs/` hors `_archive/` (+ `CDC/`, local et non suivi)
 
 > 🆕 **24/09** : [`_audits/PASSE-TYPOGRAPHIQUE-2026-09-24.md`](_audits/PASSE-TYPOGRAPHIQUE-2026-09-24.md)
 > — la passe typographique (arbitrages n°20-22) : bilan mesuré, décisions à valider, reste à faire.
@@ -23,7 +23,7 @@
 
 | Fichier | Description | Taille | Utiliser pour |
 |---------|---|---|---|
-| [PRODUCT.md](../PRODUCT.md) *(racine)* | Config projet, version, routes | — | Démarrer une session, setup MCP |
+| [PRODUCT.md](../PRODUCT.md) *(racine)* | Produit : état au 24/09, périmètre (SSOT), voix, cadence. **Resserré le 24/09 à ce qui est validé** ; la version de mai, générée par IA, est archivée | 24/09/2026 | Toute tâche design (injecté par la skill impeccable) |
 | [DESIGN.md](../DESIGN.md) *(racine)* | Design system Tailwind, patterns | — | Vérifier tokens, conventions styling |
 | [_canon/FACTS-CANON.md](_canon/FACTS-CANON.md) | **Faits validés TLS** — 10 interdits, décisions datées de Chloé, ce que dit le code. **Révisé le 16/09** (le pivot du 31/08, D8→D13) **puis le 24/09 : le journal des décisions Notion y entre** (D14→D22 ; D9 et D13 remplacés — ticket minimum 750 €, quatre piliers), C1 résolu, X10 toujours vivante | 24/09/2026 | **Toute session marketing / site : lire EN PREMIER** |
 | [_canon/DECISION-FONDS-ET-TEXTURES.md](_canon/DECISION-FONDS-ET-TEXTURES.md) | Les 17 fonds SVG n'entrent pas dans le DS — et pourquoi les vagues non plus | — | Avant d'ajouter un motif décoratif au design system |
@@ -239,7 +239,7 @@
 
 | Fichier | Emplacement | Purpose |
 |---------|---|---------|
-| `PRODUCT.md` | racine repo | Version, stack, routes, first steps |
+| `PRODUCT.md` | racine repo | Produit validé : état, périmètre, voix, cadence (resserré le 24/09) |
 | `DESIGN.md` | racine repo | Design system specification (colors, tokens, patterns) |
 | ⛔ `DESIGN-IMPECCABLE.md` | `_archive/` | **Archivé le 2026-09-09** — 934 l. que rien ne chargeait. Signatures visuelles et interdits remontés dans `DESIGN.md` §10-§11 ; le reste ne fait plus autorité |
 | `USER-FLOWS.md` | `docs/product/` | User journey diagrams (signup, lesson, journal) |
@@ -329,6 +329,7 @@
 - [`UX-UI-BOOTCAMP.md`](_archive/UX-UI-BOOTCAMP.md) — plan de bootcamp périmé (échéance 31/07). Archivé le 2026-09-23
 - [`brand-voice-guidelines.v1.0-archive-2026-05-28.md`](_archive/brand-voice-guidelines.v1.0-archive-2026-05-28.md) — voix de marque v1.0, remplacée par la v2.0 de `.claude/`. Sortie de `.claude/` le 2026-09-23
 - [`notion-sync-phase-17-18.md`](_archive/notion-sync-phase-17-18.md) — synchro Notion des phases 17-18 (15/05), révolue. Sortie de `.claude/` le 2026-09-23
+- [`PRODUCT-2026-05-genere-IA.md`](_archive/PRODUCT-2026-05-genere-IA.md) — la version de mai de `PRODUCT.md`, **générée par IA** (`/impeccable teach`, 26/05) : North Star, personas, doctrine IA, vision 2031, triplet de marque, anti-références, règles de copie — rien de validé. Archivée le 2026-09-24 sur décision de Chloé ; la racine ne garde que ce qui est validé
 
 ---
 
@@ -373,7 +374,7 @@ Les fichiers motion-effects datés ont été supprimés lors du nettoyage du 30/
 | **Component audit** | _audits/AUDIT-PHASE-19-2026-06-12.md |
 | **Figma sync status** | _audits/FIGMA-AUDIT-REPORT-2026-06-12.md |
 | **Motion primitives** | ⚠️ **aucune source en vigueur** — le *motion* est le volet de la direction qui reste à rejouer (29/07) ; la matière, elle, est cadrée par le brief §4. Le vocabulaire d'effets d'Until est archivé → `_archive/DESIGN-INSPO-directions-suspendues-2026-06.md` |
-| **Project setup** | [`PRODUCT.md`](../PRODUCT.md) (racine) |
+| **Produit validé (état, périmètre, voix)** | [`PRODUCT.md`](../PRODUCT.md) (racine) |
 | **Copy & messaging** | `docs/site/propositions-PAD/` (copy arbitrée) puis le code, `src/pages/marketing/*` |
 | **Pièges Tailwind / doctrine de design** | [`.claude/rules/pieges-tailwind.md`](../.claude/rules/pieges-tailwind.md) · [`.claude/rules/doctrine-design.md`](../.claude/rules/doctrine-design.md) |
 | **Refonte du site marketing** | [`site/CONTEXT-SITE-MARKETING.md`](site/CONTEXT-SITE-MARKETING.md) puis [`site/DESIGN-INSPO.md`](site/DESIGN-INSPO.md) (sa « Direction C » est suspendue depuis le 29/07) |

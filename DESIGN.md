@@ -26,7 +26,7 @@ souvenir. C'est le motif de l'archivage de `DESIGN-IMPECCABLE.md` (voir plus bas
 | Règles strictes, familles de composants, gate de build | [`CLAUDE.md`](./CLAUDE.md) | ✅ instructions projet |
 | Pièges Tailwind / cascade CSS | [`.claude/rules/pieges-tailwind.md`](./.claude/rules/pieges-tailwind.md) | ✅ dès qu'un fichier de `src/` est touché |
 | Doctrine rayons, bouton, conteneurs, cartes | [`.claude/rules/doctrine-design.md`](./.claude/rules/doctrine-design.md) | ✅ dès qu'un fichier de `src/` est touché |
-| Stratégie produit, North Star, voix, anti-références | [`PRODUCT.md`](./PRODUCT.md) | ✅ par la skill |
+| Produit : état au 24/09, périmètre (repris de la SSOT), voix, cadence — **resserré le 24/09 à ce qui est validé** (la version de mai, générée par IA, est archivée) | [`PRODUCT.md`](./PRODUCT.md) | ✅ par la skill |
 | **Composition d'interface** (ce doc) | — | ✅ par la skill |
 | Doctrine longue : altitudes, transparence IA, grammaire de pratique | [`docs/_archive/DESIGN-IMPECCABLE.md`](./docs/_archive/DESIGN-IMPECCABLE.md) | ⛔ **archivé le 2026-09-09** — ses décisions vivantes sont §10 et §11 ci-dessous |
 | **Valeurs** des tokens | `src/index.css`, bloc `@theme` | **le code fait foi** |
