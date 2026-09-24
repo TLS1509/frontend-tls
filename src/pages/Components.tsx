@@ -721,7 +721,7 @@ const PositionnementModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
     <div className="flex flex-col gap-stack-xs items-start">
-      <Button onClick={() => setOpen(true)}>🎯 Se positionner</Button>
+      <Button onClick={() => setOpen(true)} leadingIcon={<Target />}>Se positionner</Button>
       <p className="m-0 text-caption text-ink-600">
         S'ouvre avant de démarrer un parcours. 3 questions, 5 niveaux.
       </p>
@@ -734,7 +734,7 @@ const BookingModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
     <div className="flex flex-col gap-stack-xs items-start">
-      <Button onClick={() => setOpen(true)}>📅 Réserver une session</Button>
+      <Button onClick={() => setOpen(true)} leadingIcon={<Calendar />}>Réserver une session</Button>
       <p className="m-0 text-caption text-ink-600">
         Calendrier interactif + créneaux disponibles + confirmation 2 étapes.
       </p>
@@ -756,7 +756,7 @@ const ConfirmModalDemo: React.FC = () => {
     <div className="flex flex-col gap-stack-xs items-start">
       <div className="flex gap-stack-xs flex-wrap">
         {(['info', 'success', 'warning', 'danger'] as const).map((v) => (
-          <Button key={v} size="sm" variant={variant === v ? 'primary' : 'secondary'} onClick={() => { setVariant(v); setOpen(true); }}>
+          <Button key={v} size="sm" emphasis={variant === v ? 'soft' : 'ghost'} tone="neutral" onClick={() => { setVariant(v); setOpen(true); }}>
             {v}
           </Button>
         ))}
@@ -778,7 +778,7 @@ const SuccessModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
     <div className="flex gap-stack-xs items-start">
-      <Button onClick={() => setOpen(true)}>🎉 Afficher Success</Button>
+      <Button onClick={() => setOpen(true)} leadingIcon={<CheckCircle2 />}>Afficher la réussite</Button>
       <SuccessModal isOpen={open} onClose={() => setOpen(false)} title="Module complété !" message="Vous avez terminé le module avec succès. Continuez sur votre lancée !" buttonText="Continuer" />
     </div>
   );
@@ -788,7 +788,7 @@ const SessionFeedbackModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
     <div className="flex gap-stack-xs items-start">
-      <Button onClick={() => setOpen(true)}>⭐ Donner un avis</Button>
+      <Button onClick={() => setOpen(true)} leadingIcon={<Star />}>Donner un avis</Button>
       <SessionFeedbackModal
         isOpen={open}
         onClose={() => setOpen(false)}
@@ -803,7 +803,7 @@ const CancelSessionModalDemo: React.FC = () => {
   const [showBooking, setShowBooking] = useState(false);
   return (
     <div className="flex gap-stack-xs items-start flex-wrap">
-      <Button emphasis="soft" tone="warm" onClick={() => setOpen(true)}>❌ Annuler une session</Button>
+      <Button emphasis="soft" tone="warm" onClick={() => setOpen(true)}>Annuler une session</Button>
       <CancelSessionModal
         isOpen={open}
         onClose={() => setOpen(false)}
@@ -827,7 +827,7 @@ const VideoPlayerModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
     <div className="flex gap-stack-xs items-start">
-      <Button onClick={() => setOpen(true)}>▶ Lancer une vidéo</Button>
+      <Button onClick={() => setOpen(true)} leadingIcon={<Video />}>Lancer une vidéo</Button>
       <VideoPlayerModal
         isOpen={open}
         onClose={() => setOpen(false)}
@@ -1126,7 +1126,7 @@ const ModalDemo: React.FC = () => {
   const [open, setOpen] = useState(false);
   return (
     <div className="flex gap-stack-xs items-start">
-      <Button onClick={() => setOpen(true)}>Ouvrir Modal</Button>
+      <Button onClick={() => setOpen(true)}>Ouvrir la modale</Button>
       <Modal
         open={open}
         onClose={() => setOpen(false)}
@@ -1134,8 +1134,9 @@ const ModalDemo: React.FC = () => {
         description="Cette opération ne peut pas être annulée."
         actions={
           <>
-            <Button emphasis="soft" tone="warm" onClick={() => setOpen(false)}>Annuler</Button>
-            <Button emphasis="soft" onClick={() => setOpen(false)}>Confirmer</Button>
+            {/* La paire Annuler / Confirmer : outline, puis l'action principale en solid (arbitrage n°19). */}
+            <Button emphasis="outline" tone="neutral" onClick={() => setOpen(false)}>Annuler</Button>
+            <Button emphasis="solid" tone="danger" onClick={() => setOpen(false)}>Supprimer</Button>
           </>
         }
       >
@@ -1166,12 +1167,12 @@ const CelebrationModalDemo: React.FC = () => {
       <CelebrationModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        title="Parcours complété !"
-        description="Félicitations ! Vous avez terminé le parcours Prompt Engineering avec 92% de réussite."
+        title="Parcours terminé"
+        description="Tu as terminé le parcours Prompt engineering avec 92 % de réussite."
         actions={
           <>
-            <Button emphasis="soft" tone="warm" onClick={() => setOpen(false)}>Voir mon badge</Button>
-            <Button emphasis="outline" onClick={() => setOpen(false)}>Partager</Button>
+            <Button emphasis="solid" tone="warm" onClick={() => setOpen(false)}>Voir mon badge</Button>
+            <Button emphasis="ghost" onClick={() => setOpen(false)}>Partager</Button>
           </>
         }
       />
@@ -2528,96 +2529,61 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Card',
     codeName: 'Card.tsx',
     cssBase: '.card',
-    description: 'Main content unit. 13 variants: default, feature, elevated, interactive, glass, glass-brand, glass-warm, glass-dark, minimal, bordered, muted, sunken, tinted. Tone-aware hover sur variant interactive.',
-    keywords: ['container', 'surface', 'feature', 'elevated', 'interactive', 'glass', 'minimal', 'tinted', 'tone'],
+    description: "L'unité de contenu autonome — une collection, elle, se rend en rangées dans UNE carte (arbitrage n°5). Rayon 20 à toutes les tailles ; padding 24 au canon (md), 20 en dense (sm), 12 en xs, 32 en lg. Anatomie par les props : surtitre `eyebrow` 13/600 ink-600, 4 px, titre h3 20/26, 8 px, `description` 16 ink-700 à la largeur de lecture, 12 px, pied `footer` en 13 ink-600 sous un filet ; icône en tête. Onze variantes : default, feature et elevated (blanches, identiques), interactive, minimal, ink, tinted, glass, glass-brand, glass-warm, glass-dark. Aucune ombre ; au survol, le filet fonce et le fond se teinte, sans soulèvement. CardEyebrow, CardTitle, CardDesc et CardFooter portent les mêmes classes pour une composition libre, mais posés en frères le titre garde sa marge de base — 23 px sous le surtitre au lieu de 4 : préférer les props.",
+    keywords: ['container', 'surface', 'carte', 'eyebrow', 'title', 'description', 'footer', 'anatomie', 'padding', 'feature', 'interactive', 'glass', 'minimal', 'ink', 'tinted', 'tone'],
     render: () => (
-      <div className="flex flex-col gap-stack-lg">
-        <div className="grid grid-cols-2 gap-stack">
-          <Card>
-            <CardEyebrow>DEFAULT</CardEyebrow>
-            <CardTitle>Card par défaut</CardTitle>
-            <CardDesc>Bordure fine, pas d'ombre. Contenu groupé lisiblement.</CardDesc>
-          </Card>
-          <Card variant="feature">
-            <CardEyebrow>FEATURE</CardEyebrow>
-            <CardTitle>Carte mise en avant</CardTitle>
-            <CardDesc>Ombre douce, padding généreux, pas de bordure.</CardDesc>
-            <CardFooter>
-              <span className="text-caption text-ink-600">il y a 3 min</span>
-              <Button size="sm" emphasis="outline">Voir</Button>
-            </CardFooter>
-          </Card>
-          <Card variant="elevated">
-            <CardEyebrow>ELEVATED</CardEyebrow>
-            <CardTitle>Carte élevée</CardTitle>
-            <CardDesc>Ombre moyenne, profondeur accentuée.</CardDesc>
-          </Card>
-          <Card variant="minimal">
-            <CardEyebrow>MINIMAL</CardEyebrow>
-            <CardTitle>Carte minimale</CardTitle>
-            <CardDesc>Transparent + bordure légère, hover discret.</CardDesc>
-          </Card>
-        </div>
-        {/* Interactive tone-aware */}
-        <div className="grid grid-cols-3 gap-stack">
-          <Card variant="interactive" onClick={() => {}}>
-            <CardEyebrow>INTERACTIVE</CardEyebrow>
-            <CardTitle>Hover ↑</CardTitle>
-            <CardDesc>Lift + border primary au hover.</CardDesc>
-          </Card>
-          <Card variant="interactive" tone="warm" onClick={() => {}}>
-            <CardEyebrow>INTERACTIVE · WARM</CardEyebrow>
-            <CardTitle>Hover ↑</CardTitle>
-            <CardDesc>Border + shadow orange au hover.</CardDesc>
-          </Card>
-          <Card variant="interactive" tone="sun" onClick={() => {}}>
-            <CardEyebrow>INTERACTIVE · SUN</CardEyebrow>
-            <CardTitle>Hover ↑</CardTitle>
-            <CardDesc>Border + shadow jaune au hover.</CardDesc>
-          </Card>
-        </div>
-        {/* Tinted */}
-        <div className="grid grid-cols-3 gap-stack">
-          <Card variant="tinted" tone="primary">
-            <CardEyebrow>TINTED · PRIMARY</CardEyebrow>
-            <CardTitle>Gradient teal</CardTitle>
-            <CardDesc>from-primary-50/95 to-primary-100/60.</CardDesc>
-          </Card>
-          <Card variant="tinted" tone="warm">
-            <CardEyebrow>TINTED · WARM</CardEyebrow>
-            <CardTitle>Gradient orange</CardTitle>
-            <CardDesc>from-secondary-50/95 to-secondary-100/60.</CardDesc>
-          </Card>
-          <Card variant="tinted" tone="sun">
-            <CardEyebrow>TINTED · SUN</CardEyebrow>
-            <CardTitle>Gradient jaune</CardTitle>
-            <CardDesc>from-accent-50/95 to-accent-100/60.</CardDesc>
-          </Card>
-        </div>
-        {/* Glass family */}
-        <div className="grid grid-cols-3 gap-stack">
-          <div className="rounded-xl bg-gradient-to-br from-primary-100 to-primary-200 p-1">
-            <Card variant="glass">
-              <CardEyebrow>GLASS</CardEyebrow>
-              <CardTitle>Frosted</CardTitle>
-              <CardDesc>Sur fond coloré uniquement.</CardDesc>
-            </Card>
+      <div className="flex flex-col gap-section">
+        <ShowcaseBloc
+          titre="L'anatomie, par les props"
+          note="Posés par `eyebrow`, `title`, `description` et `footer`, les éléments prennent les espaces de l'anatomie : 4 px sous le surtitre, 8 sous le titre, 12 avant le pied. La carte dense (size sm) garde la même anatomie avec 20 px de padding — sa seule dérogation (arbitrage n°4)."
+        >
+          <div className="grid gap-stack [grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))]">
+            <Card
+              eyebrow="Parcours"
+              title="Concevoir une séquence"
+              description="Structurer un parcours qui tient debout, de l'objectif à l'évaluation."
+              footer={<><span>6 leçons · 45 min</span><Button emphasis="soft" size="sm">Ouvrir</Button></>}
+            />
+            <Card
+              size="sm"
+              eyebrow="Dense · padding 20"
+              title="Évaluer la pratique"
+              description="Distinguer la complétion de la maîtrise."
+            />
           </div>
-          <div className="rounded-xl bg-gradient-to-br from-primary-400 to-primary-600 p-1">
-            <Card variant="glass-brand">
-              <CardEyebrow>GLASS BRAND</CardEyebrow>
-              <CardTitle>Teal glass</CardTitle>
-              <CardDesc>Overlay primaire.</CardDesc>
-            </Card>
+        </ShowcaseBloc>
+
+        <ShowcaseBloc
+          titre="Les variantes"
+          note="Aucune ne porte d'ombre depuis le 09/09 : le filet suffit. interactive se teinte au survol selon son ton ; tinted prend le dégradé du ton ; les verres ne se posent que sur un fond coloré, et glass-dark part du cran 500 dans son coin haut gauche — n'y poser que du grand texte blanc."
+        >
+          <div className="flex flex-col gap-stack">
+            <div className="grid gap-stack [grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))]">
+              <Card title="default" description="Filet ink-200, fond blanc." />
+              <Card variant="feature" title="feature" description="Blanche, sans filet." />
+              <Card variant="minimal" title="minimal" description="Transparente, filet ink-200." />
+              <Card variant="interactive" onClick={() => {}} title="interactive" description="Survolez : le filet et le fond changent." />
+            </div>
+            <div className="grid gap-stack [grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))]">
+              <Card variant="tinted" tone="primary" title="tinted · primary" description="Dégradé du 100 au 50." />
+              <Card variant="tinted" tone="warm" title="tinted · warm" description="Dégradé du 100 au 50." />
+              <Card variant="tinted" tone="sun" title="tinted · sun" description="Dégradé du 100 au 50." />
+            </div>
+            <div className="grid gap-stack [grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))]">
+              <div className="rounded-xl bg-gradient-to-br from-primary-100 to-primary-200 p-1">
+                <Card variant="glass" title="glass" description="Verre clair, sur un fond coloré." />
+              </div>
+              <div className="rounded-xl bg-gradient-to-br from-primary-50 to-white p-1">
+                <Card variant="glass-brand" title="glass-brand" description="Voile teal, sur un fond clair." />
+              </div>
+              <div className="rounded-xl bg-gradient-to-br from-primary-800 to-primary-900 p-1">
+                <Card variant="glass-dark">
+                  <p className="font-display text-h3 text-white">glass-dark</p>
+                </Card>
+              </div>
+            </div>
           </div>
-          <div className="rounded-xl bg-gradient-to-br from-primary-800 to-primary-900 p-1">
-            <Card variant="glass-dark">
-              <CardEyebrow>GLASS DARK</CardEyebrow>
-              <CardTitle>Dark ocean</CardTitle>
-              <CardDesc>Sur fond sombre.</CardDesc>
-            </Card>
-          </div>
-        </div>
+        </ShowcaseBloc>
       </div>
     ),
   },
@@ -3041,8 +3007,8 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ProgressRing',
     codeName: 'ui/ProgressRing.tsx',
+    showcaseOnly: true,
     cssBase: 'Tailwind (no BEM)',
-    usedBy: ['Profile', 'CompetencyRadar', 'ReadingProgressRing'],
     description: "Anneau SVG de progression (0–100). 5 tons (brand/warm/sun/success/danger), dégradé interne et halo optionnel (`glow`), animation de 0 à la valeur au montage. La valeur prend un pas de l'échelle selon le diamètre : dès 160 px `stat-value`, dès 112 le h2 (28), dès 80 le h3 (20), dès 64 le corps (16/600), en dessous la légende (13/600) — elle était à `size / 4,5` px, hors échelle. `label` s'affiche sous la valeur en légende 13/600 ink-600 : on lui passe du texte simple. `size` (défaut 120) et `thickness` sont libres.",
     keywords: ['progress', 'ring', 'circle', 'circular', 'svg', 'donut', 'percentage', 'glow', 'tone', 'anneau', 'progression'],
     render: () => (
@@ -3062,7 +3028,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ActionCard',
     codeName: 'ActionCard.tsx',
     cssBase: '.tls-action-card / .tls-action-card--brand/warm/sun',
-    description: 'Carte action horizontale: icône colorée + titre + description + CTA. Tones: brand/warm/sun. Hover: translateY(-3px) + shadow-md.',
+    description: "Carte d'action horizontale : pastille de 56 px au dégradé du ton, titre h3 20, 8 px, description 16 ink-700, et l'action à droite. La colonne de texte descend de 15 px pour centrer la première ligne sur la pastille. Tons brand · warm · sun · neutral ; surfaces card · tinted · glass · frosted ; `onClick` fait de la carte un bouton. Au survol : le filet et le fond, sans soulèvement (passe motion du 17/09).",
     keywords: ['action', 'card', 'icon', 'cta', 'tone', 'brand', 'warm', 'sun', 'quick-action'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -3262,7 +3228,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'modals/ConfirmModal.tsx · modals/SuccessModal.tsx · modals/CancelSessionModal.tsx',
     cssBase: '—',
     usedBy: ['Billing', 'SubscriptionPayment'],
-    description: 'Famille de dialogs de confirmation et feedback. **ConfirmModal** : 4 variantes info/success/warning/danger. **SuccessModal** : célébration check animé + ring pulsé. **CancelSessionModal** : annulation/reprogrammation session coaching avec sélection motif.',
+    description: "Trois dialogues bâtis sur le même tronc, texte centré : pastille d'icône, titre en h2 au pas h3 (20/700), 8 px, message 16 ink-700, 24 px, actions. ConfirmModal : quatre variantes (info · success · warning · danger). SuccessModal : une réussite, avec une coche. CancelSessionModal : annuler ou reprogrammer une session, avec le choix d'un motif.",
     keywords: ['modal', 'confirm', 'dialog', 'alert', 'danger', 'warning', 'info', 'success', 'cancel', 'session'],
     render: () => (
       <div className="flex flex-col gap-section">
@@ -3495,9 +3461,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'TabsWithContent',
     codeName: 'patterns/TabsWithContent.tsx',
+    showcaseOnly: true,
     cssBase: 'Tailwind (no BEM)',
-    usedBy: ['LearningPathDetail', 'Profile', 'Coaching', 'Account'],
-    description: 'Tabs avec gestion de contenu intégrée (state actif + rendu du panel). 3 variants : **underline** (ligne sous onglet actif), **boxed** (onglet plein sur fond blanc), **pill** (toggle pill sur ink-100). Badge numérique optionnel, disabled support, onTabChange callback.',
+    description: "Onglets qui portent aussi leur contenu (onglet actif et panneau). Onglets en 16/600 (ink-600 au repos), de 46 à 48 px de haut, compteur 13/600 tabulaire, 16 px entre la liste et le panneau. Trois variantes : underline (trait primary-600, libellé 800), boxed (onglet actif en dégradé 700 → 800), pill (onglet actif blanc sur ink-100). Onglets désactivables, `onTabChange`.",
     keywords: ['tabs', 'tabbed', 'content', 'panel', 'underline', 'pill', 'boxed', 'nav', 'switch', 'state'],
     render: () => (
       <div className="flex flex-col gap-section">
@@ -3566,7 +3532,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Modal',
     codeName: 'Modal.tsx',
     cssBase: '.modal / .modal-scrim',
-    description: 'Dialog bloquant pour décisions critiques. Scrim + blur en arrière-plan. Fermeture via Escape, bouton close, ou clic scrim. Slots: title, description, actions, body.',
+    description: "Dialogue bloquant, pour une décision : voile, boîte au rayon 24 (étage surcouche), 480 px au plus, padding 24 puis 32. Titre en h2 au pas h3 (20/700), 8 px, description 16 ink-700, 16 px, le corps en 16, puis les actions à 24 px du contenu, alignées à droite. Fermeture par Échap, par le bouton-icône ou par un clic sur le voile.",
     keywords: ['modal', 'dialog', 'overlay', 'popup', 'scrim', 'interrupt'],
     render: () => <ModalDemo />,
   },
@@ -3575,7 +3541,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'modals/CelebrationModal.tsx',
     cssBase: 'Tailwind + modals.css animations',
     showcaseOnly: true,
-    description: 'Modal de célébration pour milestones (parcours complété, badge débloqué). **CelebrationModal** : confetti + badge + message court.',
+    description: "Célébration d'un jalon (parcours terminé, badge obtenu) : pastille de 80 px, titre en h2 au pas h3 (20/700) ink-900, description 16 ink-700, actions ; des étincelles animées autour, que `hideSparkles` retire.",
     keywords: ['celebration', 'modal', 'milestone', 'achievement', 'parcours', 'badge', 'reward'],
     render: () => <CelebrationModalDemo />,
   },
@@ -3877,14 +3843,14 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'IconFeatureCard',
     codeName: 'ui/IconFeatureCard.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: 'Tile card carré-arrondi (button-shape). Icônes Lucide stroke 1.75. Auto-layout CENTERED (padding visuel égal 4 côtés). Variants : `iconStyle` (plain/filled/bubble) × `iconSize` (xs/sm/md/lg/xl) × `tone` (brand/warm/sun) × `surface` (card/tinted/glass/frosted) × `square` boolean + mode display/button via présence de `onClick`. Description optionnelle. Title et padding scalent automatiquement avec iconSize. ⚠️ Utiliser dans `<CardGrid layout="square-tiles">` (patterns/CardGrid) pour les cards square (≥4 items).',
+    description: "Tuile à icône, contenu centré : l'icône (plain · filled · bubble), le titre, une description optionnelle. L'échelle des titres suit `iconSize` : xs et sm → 16/700 en League Spartan, md, lg et xl → h3 20/700 ; description 16 ink-700. Tons brand · warm · sun × surfaces card · tinted · glass · frosted ; `square` pour une tuile carrée ; `onClick` en fait un bouton. À partir de quatre tuiles, la poser dans `<CardGrid layout=\"square-tiles\">`.",
     keywords: ['feature', 'icon', 'card', 'tile', 'button', 'plain', 'filled', 'bubble', 'tone', 'quick action', 'shortcut', 'glass', 'frosted', 'tinted', 'surface', 'square', 'responsive', 'centered'],
     render: () => (
       <div className="flex flex-col gap-section">
 
         {/* ─── Usage canonique : CardGrid square-tiles + iconSize md (default) ─── */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-semibold text-ink-600 m-0">⭐ Pattern canonique · <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">&lt;CardGrid layout="square-tiles"&gt;</code> · iconSize md (défaut · 32 px)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Le motif canonique · <code className="text-caption bg-ink-50 px-1.5 py-0.5 rounded">&lt;CardGrid layout="square-tiles"&gt;</code> · iconSize md (défaut · 32 px)</p>
           <CardGrid layout="square-tiles" gapSize="md">
             <IconFeatureCard square tone="brand" iconStyle="plain" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="Coaching" onClick={() => {}} />
             <IconFeatureCard square tone="warm" iconStyle="plain" icon={<MapIcon size={32} strokeWidth={1.75} />} title="Parcours" onClick={() => {}} />
@@ -3906,7 +3872,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* ─── Avec description optionnelle ─── */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-semibold text-ink-600 m-0">Avec description (feature cards landing/marketing) · md</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">Avec description · md</p>
           <CardGrid layout="square-tiles" gapSize="md">
             <IconFeatureCard tone="brand" iconStyle="plain" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="Coaching" description="Sessions 1:1 personnalisées" onClick={() => {}} />
             <IconFeatureCard tone="warm" iconStyle="plain" icon={<MapIcon size={32} strokeWidth={1.75} />} title="Parcours" description="Apprenez à votre rythme" onClick={() => {}} />
@@ -3917,7 +3883,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* ─── iconStyle × tone (matrice compacte 3×3) ─── */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-semibold text-ink-600 m-0">iconStyle (plain / filled / bubble) × tone (brand / warm / sun) · md</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">iconStyle (plain · filled · bubble) × ton (brand · warm · sun) · md</p>
           <div className="grid grid-cols-3 gap-stack">
             <IconFeatureCard square tone="brand" iconStyle="plain" icon={<MessageSquare size={32} strokeWidth={1.75} />} title="Plain · brand" onClick={() => {}} />
             <IconFeatureCard square tone="warm" iconStyle="filled" icon={<Flame size={32} />} title="Filled · warm" onClick={() => {}} />
@@ -3927,7 +3893,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* ─── iconSize ─── */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-semibold text-ink-600 m-0">iconSize · xs 20 / sm 24 / md 32 (default) / lg 40 / xl 48 — title scale automatiquement</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">iconSize · xs 20 · sm 24 · md 32 (défaut) · lg 40 · xl 48 — le titre passe de 16 à 20 dès md</p>
           <div className="flex flex-wrap gap-stack items-start">
             <IconFeatureCard tone="brand" iconStyle="plain" iconSize="xs" icon={<MessageSquare size={20} strokeWidth={1.75} />} title="xs" onClick={() => {}} className="w-[100px]" />
             <IconFeatureCard tone="brand" iconStyle="plain" iconSize="sm" icon={<MessageSquare size={24} strokeWidth={1.75} />} title="sm" onClick={() => {}} className="w-[120px]" />
@@ -3956,7 +3922,7 @@ const COMPONENTS: ComponentEntry[] = [
 
         {/* ─── description optionnelle (sans / avec) ─── */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-semibold text-ink-600 m-0">description · optionnelle (sans = pure tile · avec = feature card)</p>
+          <p className="text-caption font-semibold text-ink-600 m-0">description optionnelle — sans, une tuile ; avec, une carte</p>
           <div className="flex flex-wrap gap-stack items-start">
             <IconFeatureCard square tone="warm" iconStyle="plain" iconSize="md" icon={<Trophy size={32} strokeWidth={1.75} />} title="Sans desc" onClick={() => {}} className="w-[140px]" />
             <IconFeatureCard tone="warm" iconStyle="plain" iconSize="md" icon={<Trophy size={32} strokeWidth={1.75} />} title="Avec desc" description="12 badges cette année" onClick={() => {}} className="w-[180px]" />
@@ -4258,7 +4224,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/IntroCallout.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['ArticleDetail (Tier 2)', 'MagazineArticle (Tier 2)', 'Dossier (Tier 2)'],
-    description: '⭐ Lead paragraph card glass tone-aware avec gradient accent bar à gauche. Optionnel : eyebrow + icon Quote. 4 tons (brand/warm/sun/neutral). Utilisé en haut d\'un article long sous le hero.',
+    description: "Le chapô d'un article long, en encart sous le hero : surtitre optionnel 13/600 ink-600, 8 px, texte au chapô 18/28 ink-900 à la largeur de lecture ; en option, une pastille ronde de 40 px avec un guillemet (`withQuoteIcon`). Rayon 14, padding 20 puis 24. Quatre tons (brand · warm · sun · neutral). La barre d'accent à gauche a été retirée le 24/09.",
     keywords: ['intro', 'callout', 'lead', 'paragraph', 'editorial', 'thesis', 'glass'],
     render: () => (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg">
@@ -4321,7 +4287,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/EditorialQuoteCallout.tsx',
     cssBase: 'Tailwind (no BEM)',
     usedBy: ['WeeklyNewsletter édito (Tier 2)', 'Magazine foreword (Tier 2)', 'Dossier intro thèse (Tier 2)'],
-    description: '⭐ Pattern signature : grand guillemet décoratif 3rem en icon-bubble tinted + texte italique multi-paragraphes + signature optionnelle (via AuthorStrip). Pour intros éditoriales hebdo, foreword magazine, intro dossier.',
+    description: "Citation éditoriale signée (édito hebdomadaire, avant-propos, thèse d'un dossier) : pastille de 56 puis 64 px avec un guillemet de 28, surtitre 13/600 ink-600, 16 px, citation en Nunito italique 18/28 ink-900 à la largeur de lecture, sur plusieurs paragraphes, 16 px, signature par AuthorStrip. Padding 24, 32 puis 40 selon la largeur.",
     keywords: ['quote', 'editorial', 'callout', 'foreword', 'intro', 'italic', 'signature'],
     render: () => (
       <EditorialQuoteCallout
@@ -4547,44 +4513,49 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/SectionHeader.tsx',
     cssBase: 'SectionHeader (canonical section heading)',
     usedBy: ['LearningPathDetail', 'Dashboard', 'Journal'],
-    description: 'En-tête de section CANONIQUE. 4 variants (default tinted bubble / solid filled bubble / minimal stroke inline / underline) × 4 sizes (xs 16 px → lg 28 px) × 5 tones (primary/warm/sun/accent/neutral). Graisse 700 partout (arbitrage n°12 : un seul poids de titre). Niveau de titre par la prop `as` (h2 par défaut, h3, h4), indépendant de la taille. Sub-title, action slot, divider optionnel. La variante `accent` (barre verticale) a été retirée le 2026-09-24 : barre d’accent à gauche = tell « AI slop », zéro usage produit. ⚠️ Ne pas mettre mb-* sur le wrapper — le parent contrôle le rythme vertical via gap-*.',
-    keywords: ['section', 'header', 'title', 'icon', 'h2', 'h3', 'h4', 'action', 'divider', 'variants', 'sizes', 'filled', 'stroke', 'tinted', 'solid', 'minimal', 'accent', 'underline', 'canonical'],
+    description: "L'en-tête de section canonique : titre, sous-titre, méta, action, pastille d'icône optionnelle. Le niveau se choisit par `as` (h2 par défaut, h3, h4), indépendamment de la taille. Tailles : md, le défaut, et lg → titre h2 28/36 (pastille de 44 ou 56 px) ; sm et xs → titre h3 20/26 (36 ou 32 px). Sous-titre 16 ink-700 à la largeur de lecture et méta en légende 13 ink-600 (`meta`, ajoutée le 24/09), chacun à 4 px ; la première ligne du titre se centre sur la pastille. Quatre variantes (default · solid · minimal · underline) × cinq tons. Aucune marge extérieure : la page pose 48 px au-dessus et 16 en dessous. `compact` est déprécié (= sm) ; la variante `accent`, une barre d'accent à gauche, a été retirée le 24/09.",
+    keywords: ['section', 'header', 'titre', 'title', 'icon', 'h2', 'h3', 'h4', 'as', 'meta', 'subtitle', 'action', 'divider', 'variants', 'sizes', 'solid', 'minimal', 'underline', 'canonical'],
     render: () => (
       <div className="flex flex-col gap-section">
-        {/* Variants showcase (size md, tone primary) */}
+        {/* Tailles : de lg à xs, pour que les niveaux ne sautent pas (h2, h2, h3, h3). */}
         <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-ink-50/50 border border-ink-200">
-          <p className="text-caption font-semibold text-ink-600 m-0">4 variants · size md · tone primary</p>
-          <SectionHeader variant="default" icon={Calendar} title="Default — tinted bubble" subtitle="bg-{tone}-50 + tone icon (legacy)" />
-          <SectionHeader variant="solid" icon={Calendar} title="Solid — filled bubble" subtitle="bg-gradient {tone}-600→700 + white icon (strong CTA)" />
-          <SectionHeader variant="minimal" icon={Calendar} title="Minimal — stroke inline" subtitle="No bubble, premium/airy" />
-          <SectionHeader variant="underline" icon={Calendar} title="Underline — accent line" subtitle="Subtle tone underline under title" />
+          <p className="text-caption font-semibold text-ink-600">Quatre tailles · variante solid · ton warm</p>
+          <SectionHeader size="lg" variant="solid" tone="warm" icon={Calendar} title="lg · h2 28, pastille de 56" />
+          <SectionHeader size="md" variant="solid" tone="warm" icon={Calendar} title="md · h2 28, le défaut" />
+          <SectionHeader size="sm" variant="solid" tone="warm" icon={Calendar} title="sm · h3 20" as="h3" />
+          <SectionHeader size="xs" variant="solid" tone="warm" icon={Calendar} title="xs · h3 20, pastille de 32" as="h3" />
         </div>
 
-        {/* Sizes showcase (variant solid, tone warm) */}
-        <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-secondary-50/30 border border-secondary-200">
-          <p className="text-caption font-semibold text-ink-600 m-0">4 sizes · variant solid · tone warm</p>
-          <SectionHeader size="xs" variant="solid" tone="warm" icon={Calendar} title="Size xs — text-body 16" as="h4" />
-          <SectionHeader size="sm" variant="solid" tone="warm" icon={Calendar} title="Size sm — text-h3 20" as="h3" />
-          <SectionHeader size="md" variant="solid" tone="warm" icon={Calendar} title="Size md — text-h3 24 (default)" as="h3" />
-          <SectionHeader size="lg" variant="solid" tone="warm" icon={Calendar} title="Size lg — text-h2 28" />
-        </div>
-
-        {/* Tones showcase (variant default, size md) */}
+        {/* Variantes (taille md, ton primary) */}
         <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-ink-50/50 border border-ink-200">
-          <p className="text-caption font-semibold text-ink-600 m-0">5 tones · variant default</p>
-          <SectionHeader variant="default" tone="primary" icon={Calendar} title="Tone primary (teal)" />
-          <SectionHeader variant="default" tone="warm" icon={Calendar} title="Tone warm (orange)" />
-          <SectionHeader variant="default" tone="sun" icon={Calendar} title="Tone sun (yellow)" />
-          <SectionHeader variant="default" tone="accent" icon={Calendar} title="Tone accent" />
-          <SectionHeader variant="default" tone="neutral" icon={Calendar} title="Tone neutral (ink)" />
+          <p className="text-caption font-semibold text-ink-600">Quatre variantes · taille md · ton primary</p>
+          <SectionHeader variant="default" icon={Calendar} title="default — pastille teintée" subtitle="Fond du ton au cran 50, icône au cran du ton." />
+          <SectionHeader variant="solid" icon={Calendar} title="solid — pastille pleine" subtitle="Dégradé du ton, icône blanche." />
+          <SectionHeader variant="minimal" icon={Calendar} title="minimal — icône seule" subtitle="Sans pastille." />
+          <SectionHeader variant="underline" icon={Calendar} title="underline — trait sous le titre" subtitle="Un trait du ton, sous la première ligne." />
         </div>
 
-        {/* Real usage examples */}
+        {/* Tons (variante default, taille sm) */}
+        <div className="flex flex-col gap-stack p-stack-md rounded-xl bg-ink-50/50 border border-ink-200">
+          <p className="text-caption font-semibold text-ink-600">Cinq tons · variante default · taille sm</p>
+          <SectionHeader size="sm" as="h3" variant="default" tone="primary" icon={Calendar} title="primary" />
+          <SectionHeader size="sm" as="h3" variant="default" tone="warm" icon={Calendar} title="warm" />
+          <SectionHeader size="sm" as="h3" variant="default" tone="sun" icon={Calendar} title="sun" />
+          <SectionHeader size="sm" as="h3" variant="default" tone="accent" icon={Calendar} title="accent" />
+          <SectionHeader size="sm" as="h3" variant="default" tone="neutral" icon={Calendar} title="neutral" />
+        </div>
+
+        {/* En situation : sous-titre, méta, action */}
         <div className="flex flex-col gap-stack">
-          <p className="text-caption font-semibold text-ink-600 m-0">Usage examples</p>
-          <SectionHeader icon={Calendar} title="Prochaine session" subtitle="Votre prochain rendez-vous de coaching" action={<button className="text-caption text-primary-700 hover:underline">Voir tout →</button>} />
-          <SectionHeader icon="⚡" title="Actions rapides" subtitle="ReactNode/emoji icon supporté" />
-          <SectionHeader title="Sans icône" subtitle="Section minimale" divider />
+          <p className="text-caption font-semibold text-ink-600">En situation · sous-titre, méta et action</p>
+          <SectionHeader
+            icon={BookOpen}
+            title="Mes parcours"
+            subtitle="Ceux que tu as commencés, du plus récent au plus ancien."
+            meta="3 en cours · 1 terminé"
+            action={<Button emphasis="ghost" size="sm" trailingIcon={<ArrowRight />}>Voir tout</Button>}
+          />
+          <SectionHeader title="Sans icône, avec un filet" subtitle="La variante la plus sobre." divider />
         </div>
       </div>
     ),
@@ -4609,7 +4580,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/PageHeader.tsx',
     cssBase: 'PageHeader (canonical page-level header)',
     showcaseOnly: true,
-    description: 'En-tête de page CANONIQUE. Eyebrow chip avec icône, titre h1 responsive (clamp), description, actions. Variants: default | tight. Align: left | center.',
+    description: "En-tête de page utilitaire, sans hero : surtitre 13/600 ink-600 avec son icône, 8 px, h1 36/44/700, 12 px, chapô 18/28 ink-700 à la largeur de lecture ; actions à droite, ou dessous en `align=\"center\"`. Il pose lui-même 40 px sous lui (32 en `tight`, la seule différence entre les deux variantes). Aucune page ne l'emploie aujourd'hui : elles ouvrent toutes par PageHero.",
     keywords: ['page', 'header', 'eyebrow', 'title', 'description', 'actions', 'h1', 'canonical'],
     render: () => (
       <div className="vstack gap-section">
@@ -4617,13 +4588,12 @@ const COMPONENTS: ComponentEntry[] = [
           eyebrow={{ icon: <GraduationCap size={14} />, text: 'Mon parcours' }}
           title="Fondamentaux du Leadership"
           description="Apprenez les principes essentiels du leadership moderne et développez votre style unique."
-          actions={<><Button emphasis="soft" tone="warm" size="sm">Partager</Button><Button emphasis="soft" size="sm">Continuer</Button></>}
+          actions={<><Button emphasis="ghost" size="sm">Partager</Button><Button emphasis="solid" size="sm">Continuer</Button></>}
         />
-        <PageHeader title="Tableau de bord" description="Bienvenue, retrouvez votre progression." />
         <PageHeader
           variant="tight"
           title="Réglages"
-          description="Compact (variant=tight) pour les pages secondaires."
+          description={'variant="tight" : 32 px sous l’en-tête au lieu de 40.'}
         />
       </div>
     ),
@@ -5581,8 +5551,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'RatingModal',
     codeName: 'patterns/RatingModal.tsx',
+    showcaseOnly: true,
     cssBase: 'Tailwind',
-    description: '⭐ Pattern de rating étoiles (1-5) avec feedback textuel. Pour évaluation session / leçon / contenu. ⚠️ Pas de similar — pattern unique. Note : pas vraiment un modal (pas de isOpen overlay), c\'est un form rating inline à wrapper dans un Modal DS si besoin.',
+    description: "Notation en cinq étoiles avec un commentaire, pour une session, une leçon ou un contenu. Malgré son nom, ce n'est pas un dialogue — ni rôle, ni voile, ni piège de focus — mais un panneau à poser dans un Modal : titre en h2 (28/36), description 16 ink-700, étoiles de 56 px, sens de la note en pastille 13, commentaire, actions.",
     keywords: ['rating', 'stars', 'feedback', 'review', 'evaluation'],
     render: () => (
       <div className="max-w-md">
@@ -5742,7 +5713,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/EditorialHero.tsx',
     cssBase: 'EditorialHero (glass hero band)',
     usedBy: ['Dashboard', 'Journal', 'LearningPaths', 'ArticleDetail', 'MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'Project', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse', 'Account'],
-    description: 'Bandeau hero éditorial plein-largeur. Tone-aware (default / brand / warm / sun) : default = teinte primary légère + texte ink ; brand = gradient primary-500→700 saturé + texte blanc (Dashboard/Journal) ; warm = gradient secondary saturé + texte blanc (LearningPaths) ; sun = gradient accent. Trailing slot pour KPIs/CTAs.',
+    description: "Alias exact de PageHero, gardé pour les surfaces réellement éditoriales (Magazine, Veille, Articles) : même anatomie — surtitre 13/600, h1 36/44, chapô 18/28, méta 13 —, mêmes tons. Les tons saturés sont au cran 700 → 800 depuis le 23/09 : le 500 ne porte pas de texte blanc.",
     keywords: ['hero', 'editorial', 'banner', 'page-header', 'tone-aware', 'brand', 'warm', 'sun', 'glass'],
     render: () => (
       <EditorialHero
@@ -5761,7 +5732,7 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/EditorialLayout.tsx',
     cssBase: 'EditorialLayout (2-col main + sticky aside)',
     usedBy: ['ArticleDetail', 'MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'Project', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse'],
-    description: 'Layout 2 colonnes (main 1.4fr + aside 0.8fr) avec aside sticky sur desktop, stack sur mobile. Slot main + slot aside. Option `asideFirst` pour inverser, `staticAside` pour désactiver le sticky.',
+    description: "Deux colonnes : le contenu (1,4 fr) et une colonne latérale (0,8 fr, 280 px au moins), 24 px entre elles dès 768 px ; la colonne latérale colle à 96 px du haut sur grand écran, et tout passe en une colonne sur mobile. `asideFirst` inverse l'ordre, `staticAside` désactive le collage.",
     keywords: ['layout', 'editorial', 'sidebar', 'sticky', 'aside', '2-column', 'content'],
     render: () => (
       <EditorialLayout
@@ -5788,21 +5759,15 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/SectionCard.tsx',
     cssBase: 'SectionCard (titled content card)',
     usedBy: ['ArticleDetail', 'MagazineArticle', 'Newsletter', 'WeeklyNewsDetail', 'Project', 'CoachingBookingFlow', 'PreCoachingQuestionnaireResponse', 'ResetPassword', 'Billing', 'SubscriptionPayment', 'Positionnement', 'OnboardingQuestionnaire'],
-    description: 'Carte de section avec header (titre + icône + description + headerAction), body (children) et footer actions séparé par une bordure. Tone configurable (passé à Card). Utilisé pour structurer les pages éditoriales et content.',
+    description: "Carte de section : titre h3 20 (son icône calée sur la première ligne), 8 px, description 16 ink-700, action d'en-tête en haut à droite ; 16 px, le contenu ; puis 12 px, un filet, 12 px, les actions. C'est une Card md : padding 24, rayon 20. Pour découper une page éditoriale ou un formulaire en blocs.",
     keywords: ['section', 'card', 'titled', 'content', 'editorial', 'layout'],
     render: () => (
       <SectionCard
         title="À retenir"
         titleIcon={<CheckCircle2 size={18} className="text-primary-600" />}
         description="Points essentiels à mémoriser pour cette section."
-        headerAction={<span className="text-caption text-ink-600">3 items</span>}
-        actions={
-          <>
-            <button type="button" className="inline-flex items-center gap-tight text-body text-primary-700 hover:text-primary-800 underline bg-transparent border-0 p-0 cursor-pointer">
-              Voir tout
-            </button>
-          </>
-        }
+        headerAction={<span className="text-caption text-ink-600">3 éléments</span>}
+        actions={<Button emphasis="link">Voir tout</Button>}
       >
         <ul className="m-0 pl-4 flex flex-col gap-stack-xs text-body text-ink-700 list-disc">
           <li>Premier point essentiel à retenir.</li>
@@ -5864,14 +5829,15 @@ const COMPONENTS: ComponentEntry[] = [
     codeName: 'patterns/ResumeLessonCard.tsx',
     cssBase: 'ResumeLessonCard (dashboard hero card)',
     usedBy: ['Dashboard'],
-    description: 'Card hero "Reprendre ta leçon" pour le Dashboard learner-centric. Glass tone-aware (warm/primary/sun) avec eyebrow "Étape X sur Y", titre h1 du parcours, description contextuelle, meta pills (niveau/durée/leçons), progress bar large + CTA pill arrondi. Hero-sized (p-stack-lg/8/10 responsive), radial glow au hover.',
+    description: "La carte « Reprendre ta leçon » du tableau de bord : pastille de 48 px, Badge « En cours » et étape en 13, titre du parcours en h2 au pas h3 (20, puis 28 quand la carte dépasse 512 px), « Prochaine leçon » en 16, données en MetaPillGroup sm ; en pied, la progression en 13 sur une barre de 6 px et un Button md. Fond blanc, rayon 20, padding 24. `description` est dépréciée : elle n'est plus rendue.",
     keywords: ['resume', 'reprendre', 'parcours', 'lesson', 'leçon', 'dashboard', 'continue', 'hero'],
     render: () => (
       <ResumeLessonCard
         id="demo-1"
-        eyebrow="Étape 2 sur 5"
         parcoursTitle="Devenir prompt designer"
-        description="Applications pratiques — Apprends à structurer tes prompts pour des cas concrets de formation. Plus que 8 minutes pour terminer la prochaine leçon."
+        nextLessonTitle="Structurer un prompt pour un cas de formation"
+        currentStep={2}
+        totalSteps={5}
         progress={40}
         tone="warm"
         duration="3h restantes"
@@ -6211,7 +6177,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'StepTutorial',
     codeName: 'patterns/StepTutorial.tsx',
     cssBase: 'StepTutorial',
-    description: 'Wizard step-by-step pour tutoriaux guidés. Progress dots tone-aware. Prev/Next/Terminer DS. Skip link. Contrôlé (externalStep) ou autonome (state interne). Module #3 Onboarding.',
+    description: "Tutoriel guidé pas à pas : filet de progression, image optionnelle, compteur « 1 / 3 » en Badge, puis une pastille d'icône avec, sur sa première ligne, le titre en h2 au pas h3 (20) et la description 16 ink-700 ; sous la carte, Précédent · Suivant · Terminer en Button md, et « Passer » en 13. Contrôlé (`currentStep`) ou autonome ; trois tons. Module 3, Onboarding.",
     keywords: ['tutorial', 'wizard', 'onboarding', 'step', 'étape', 'guide', 'tour', 'progression'],
     usedBy: ['OnboardingTutorial'],
     render: () => (
@@ -6848,9 +6814,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'StepIndicator',
     codeName: 'ui/StepIndicator.tsx',
+    showcaseOnly: true,
     cssBase: 'Tailwind (no BEM)',
     subCategory: 'Form groups',
-    usedBy: ['Onboarding', 'BookingModal', 'MultiStepForm'],
     description: "Indicateur d'étapes d'un formulaire : pastilles de 32 px (chiffre 13/600 tabulaire), l'active au cran 700, les faites avec une coche. À l'horizontale, libellé 13/600 et description en 13 ; à la verticale, libellé 16/600 et description 13. L'étape active est au cran 800 du ton. Trois tons.",
     keywords: ['steps', 'étapes', 'onboarding', 'progression', 'wizard', 'checkout', 'stepper'],
     render: () => {
@@ -6888,10 +6854,10 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'ModalForm',
     codeName: 'ui/ModalForm.tsx',
+    showcaseOnly: true,
     cssBase: 'Tailwind (no BEM)',
     subCategory: 'Form groups',
-    usedBy: ['BookingModal', 'ConfirmDeleteModal', 'ProfileEdit'],
-    description: 'Modal formulaire native `<dialog>` avec header titre + description, zone body scrollable, footer Cancel/Submit. Props : **open**, **onClose**, **onSubmit**, **title**, **submitLabel**, **submitting** (spinner), **destructiveLabel** + **onDestructive** (bouton destructif gauche), **size** (xs/sm/md/lg). Fermeture sur backdrop click ou touche Esc.',
+    description: "Formulaire en dialogue natif (`<dialog>`) au rayon 24 : en-tête — titre en h2 au pas h3 (20/700), description 16 ink-700 —, corps (24 · 20 · 16), puis les actions à 24 px, toutes en Button sm : l'action destructive à gauche, Annuler en outline et la soumission en soft à droite. Largeur xs 320 · sm 384 · md 448 · lg 512 ; fermeture par le voile ou Échap.",
     keywords: ['modal', 'dialog', 'form', 'formulaire', 'popup', 'overlay', 'submit'],
     render: () => {
       const [open, setOpen] = React.useState(false);
@@ -6904,7 +6870,7 @@ const COMPONENTS: ComponentEntry[] = [
       return (
         <div className="flex flex-wrap gap-stack">
           <Button emphasis="solid" size="sm" onClick={() => setOpen(true)}>
-            Ouvrir ModalForm
+            Ouvrir le formulaire
           </Button>
           <ModalForm
             open={open}
@@ -7093,10 +7059,10 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'WritingPromptsAside',
     codeName: 'patterns/WritingPromptsAside.tsx',
+    showcaseOnly: true,
     cssBase: 'WritingPromptsAside',
-    description: 'Panel de 3 prompts de réflexion journal (Apprentissage / Pratique pro / Coaching). SectionHeader minimal sun + grille 1/2/3 col de PromptCards + lien "Ouvrir mon journal". Défauts canoniques TLS inclus. `prompts` override optionnel. `onNavigate` + `onOpenJournal` callbacks.',
+    description: "Trois invitations à écrire dans le journal (apprentissage, pratique, coaching) : un SectionHeader minimal au ton sun (titre h2 28 et sous-titre 16), une grille de PromptCard sur une à trois colonnes, puis le lien « Ouvrir mon journal » (16/600, cran 800). `prompts` remplace les défauts ; `onNavigate` et `onOpenJournal` branchent la navigation.",
     keywords: ['journal', 'prompts', 'aside', 'writing', 'reflection', 'PromptCard', 'SectionHeader', 'dashboard'],
-    usedBy: ['Dashboard'],
     render: () => (
       <WritingPromptsAside
         onNavigate={() => {}}
@@ -7534,10 +7500,11 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'PageShell',
     codeName: 'layout/PageShell.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Conteneur canonique des pages principales : largeur, padding responsive et rythme vertical en une seule prop. `width=\"page\"` est le defaut de l'app. Evite de recopier `px-4 sm:px-6 lg:px-10` sur chaque page.",
+    description: "Le conteneur canonique des pages principales : largeur (`width`, page par défaut, 1 152 px), marges verticales (32 · 40 · 48 selon la largeur) et rythme entre sections (`gap`, 48 par défaut depuis le 24/09 — il en posait 32). Pas de padding horizontal : la gouttière vient de la mise en page. `noPadTop` retire la marge du haut.",
     keywords: ['shell', 'page', 'layout', 'conteneur', 'largeur', 'padding', 'rythme'],
     render: () => (
       <div className="rounded-xl border border-dashed border-primary-300 bg-primary-50/40">
+        {/* gap="stack" pour la démo ; le défaut entre deux sections est 48 (gap="page"). */}
         <PageShell width="content" gap="stack">
           <div className="rounded-lg bg-white border border-ink-200 p-stack text-body">Bloc 1</div>
           <div className="rounded-lg bg-white border border-ink-200 p-stack text-body">Bloc 2</div>
@@ -7550,7 +7517,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'Container',
     codeName: 'layout/Container.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Contrainte de largeur seule, sans rythme vertical. Six paliers : prose (65ch, lecture longue), content, medium, page (defaut app), wide, full.",
+    description: "Contrainte de largeur seule, sans rythme vertical, avec la gouttière de page (16 · 24 · 40 px selon la largeur). Six paliers : prose (65 caractères, la lecture longue), content 768, medium 1 024, page 1 152 (le défaut de l'app), wide 1 280, full.",
     keywords: ['container', 'largeur', 'prose', 'max-width', 'lecture', 'centrage'],
     render: () => (
       <div className="flex flex-col gap-stack-xs">
@@ -7567,8 +7534,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Grid',
     codeName: 'layout/Grid.tsx',
+    showcaseOnly: true,
     cssBase: 'Tailwind (no BEM)',
-    description: "Grille 2D. Soit un nombre de colonnes fixe (`cols`), soit une grille auto-responsive via `min` — qui rend `repeat(auto-fit, minmax(min, 1fr))` et evite d'ecrire des breakpoints.",
+    description: "Grille à deux dimensions : un nombre de colonnes fixe (`cols`, 1 à 6), ou une grille qui s'adapte seule via `min` (240 px par défaut) — elle rend `repeat(auto-fit, minmax(min, 1fr))` et dispense d'écrire des seuils. Écart par défaut : 16.",
     keywords: ['grid', 'grille', 'colonnes', 'auto-fit', 'minmax', 'responsive'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -7594,8 +7562,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Stack',
     codeName: 'layout/Stack.tsx',
+    showcaseOnly: true,
     cssBase: 'Tailwind (no BEM)',
-    description: "Empilement vertical avec un espacement semantique. Le parent possede le rythme — c'est ce qui evite le double-spacing du piege n°12 (.claude/rules/pieges-tailwind.md), ou un enfant ajoute son propre `mb-*` par-dessus le `gap` du parent.",
+    description: "Empilement vertical à écart sémantique (16 par défaut). Le parent possède le rythme : c'est ce qui évite le double espacement du piège n°12, où un enfant ajoute son `mb-*` au `gap` du parent.",
     keywords: ['stack', 'vertical', 'gap', 'espacement', 'rythme', 'flex-col'],
     render: () => (
       <div className="flex gap-section">
@@ -7615,8 +7584,9 @@ const COMPONENTS: ComponentEntry[] = [
   {
     name: 'Cluster',
     codeName: 'layout/Cluster.tsx',
+    showcaseOnly: true,
     cssBase: 'Tailwind (no BEM)',
-    description: "Groupe horizontal qui passe a la ligne. Pour les rangees de chips, de boutons ou de metadonnees. `justify=\"between\"` pour pousser le dernier element a droite.",
+    description: "Groupe horizontal qui passe à la ligne, pour les rangées de pastilles, de boutons ou de données ; écart de 8 par défaut. `justify=\"between\"` pousse le dernier élément à droite.",
     keywords: ['cluster', 'horizontal', 'wrap', 'chips', 'boutons', 'inline', 'align'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -7653,8 +7623,8 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'PageHero',
     codeName: 'patterns/EditorialHero.tsx (export canonique)',
     cssBase: 'Tailwind (no BEM)',
-    description: "Hero universel d'ouverture de page, et le plus consomme de l'app. 5 tones : `flat`, `default`, `brand` (gradient sature, texte blanc — Dashboard et Journal), `warm`, `sun`. `EditorialHero` en est un alias retrocompatible, reserve aux surfaces reellement editoriales (Magazine, Veille, Articles). Tout nouvel usage passe par `PageHero`.",
-    keywords: ['hero', 'page', 'ouverture', 'tone', 'brand', 'eyebrow', 'editorial', 'titre'],
+    description: "Le hero d'ouverture de page, universel (plus de cent pages). Anatomie : lien retour optionnel, 16 px, surtitre 13/600 — il dit le lieu, en ink-600 et sans capitales —, 8 px, h1 36/44/700, 12 px, chapô 18/28 à la largeur de lecture (ink-700), 12 px, méta en 13, puis la progression et `trailing`. Cinq tons : flat — sans fond ni padding, le choix des pages de l'app —, default (dégradé primary-50), brand, warm et sun (dégradés du cran 700 au 800, texte blanc plein). Aucune marge extérieure : c'est PageShell qui pose 48 px avant la suite. `EditorialHero` en est l'alias, réservé aux surfaces éditoriales.",
+    keywords: ['hero', 'page', 'ouverture', 'h1', 'chapô', 'surtitre', 'tone', 'flat', 'brand', 'eyebrow', 'editorial', 'titre'],
     usedBy: ['Dashboard', 'Journal', 'Passeport', 'Coaching', '100+ pages'],
     render: () => (
       <div className="flex flex-col gap-stack">
@@ -7782,7 +7752,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'ErrorPage',
     codeName: 'patterns/ErrorPage.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Pattern canonique des pages d'erreur : code, titre, description, pistes de sortie et actions. Deux tones, `default` et `danger`. Le principe : ne jamais laisser l'utilisateur sans issue — chaque erreur propose au moins un chemin.",
+    description: "La page d'erreur canonique, centrée : surtitre 13/600, code en très grand (80 à 144 px, masqué aux lecteurs d'écran), pastille de 96 px, h1 36/44, chapô 18/28 ink-700, encart optionnel, pistes de sortie en tuiles (titre 20/700, texte 16 ink-700) et actions. Tons default · danger · neutral (ajouté le 24/09). Le principe : ne jamais laisser l'utilisateur sans issue.",
     keywords: ['erreur', '404', '500', 'error', 'page', 'fallback', 'suggestions'],
     usedBy: ['Error404', 'Error500', 'MarketingError404'],
     render: () => (
@@ -7882,7 +7852,7 @@ const COMPONENTS: ComponentEntry[] = [
     name: 'CompletionModal',
     codeName: 'modals/CompletionModal.tsx',
     cssBase: 'Tailwind (no BEM)',
-    description: "Modale de fin de lecon ou de module : titre, XP gagne, et l'etape suivante. Ton calme par doctrine — pas de confetti par defaut, pas de « ! » dans la copy.",
+    description: "Fin de leçon ou de module : un bandeau au dégradé 700 → 800 — pastille, titre en h2 au pas h3 (20), titre de l'élément et description en 16, tout en blanc —, puis l'étape suivante en carte (13/600, titre 16/600, méta 13) et des Button md. Ton calme : pas de confettis par défaut, pas de « ! ». ⚠️ Elle affiche « +50 XP » par défaut (`xpEarned`), ce que l'arbitrage n°18 retire de l'app apprenant.",
     keywords: ['completion', 'modal', 'fin', 'lecon', 'xp', 'suite', 'celebration'],
     render: () => <CompletionModalDemo2 />,
   },
